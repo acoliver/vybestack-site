@@ -34,7 +34,7 @@ files.forEach(file => {
   <title>${title}</title>
   <link rel="stylesheet" href="${cssPathBlog}" />
 </head>
-<body>
+<body class="blog-page">
   <div class="container blog-post">
     <h1>${title}</h1>
     <p class="cta-lead">${date}</p>
@@ -60,7 +60,7 @@ const indexHtml = `<!DOCTYPE html>
   <title>Vybestack Blog</title>
   <link rel="stylesheet" href="${cssPath}" />
 </head>
-<body>
+<body class="blog-page">
   <div class="container blog-post">
     <h1>Vybestack Blog</h1>
     <p class="cta-lead">Thoughts on building developer-first AI tools, one file at a time.</p>
