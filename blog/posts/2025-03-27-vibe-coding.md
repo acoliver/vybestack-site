@@ -3,7 +3,7 @@
 
 People live in different worlds.
 
-In one world, LLMs are so good you can just sit back, vibe, and code magically appears. In another, LLMs are bumbling frauds that trick managers into firing real developers. YOU WILL NOT REPLACE US!!
+In one world, LLMs are so good you can just sit back, vibe, and code magically appears. In another, LLMs are bumbling frauds that trick managers into firing real developers. They scream some version of, "YOU WILL NOT REPLACE US!!"
 
 Reality? It's weirder—and more useful—than both.
 
