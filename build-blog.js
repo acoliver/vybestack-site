@@ -61,7 +61,7 @@ const indexHtml = `<!DOCTYPE html>
   <link rel="stylesheet" href="${cssPath}" />
 </head>
 <body>
-  <div class="container">
+  <div class="container blog-post">
     <h1>Vybestack Blog</h1>
     <p class="cta-lead">Thoughts on building developer-first AI tools, one file at a time.</p>
     <ul>
