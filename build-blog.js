@@ -35,7 +35,7 @@ files.forEach(file => {
   <link rel="stylesheet" href="${cssPathBlog}" />
 </head>
 <body>
-  <div class="container">
+  <div class="container blog-post">
     <h1>${title}</h1>
     <p class="cta-lead">${date}</p>
     ${md.render(body)}
