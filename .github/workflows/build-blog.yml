@@ -2,9 +2,11 @@ name: Build and Deploy Blog
 
 on:
   push:
-    paths:
-      - 'blog/posts/**'
-      - 'build-blog.js'
+    branches:
+      - main
+
+permissions:
+  contents: write
 
 jobs:
   build-blog:
@@ -31,4 +33,3 @@ jobs:
           git add blog/rendered blog/index.html
           git diff --cached --quiet || git commit -m "Auto-generate blog HTML from Markdown"
           git push
-
