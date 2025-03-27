@@ -1,0 +1,34 @@
+name: Build and Deploy Blog
+
+on:
+  push:
+    paths:
+      - 'blog/posts/**'
+      - 'build-blog.js'
+
+jobs:
+  build-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install markdown-it
+        run: npm install markdown-it
+
+      - name: Run blog build script
+        run: node build-blog.js
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add blog/rendered blog/index.html
+          git diff --cached --quiet || git commit -m "Auto-generate blog HTML from Markdown"
+          git push
+
