@@ -151,9 +151,6 @@ a:hover {
   text-decoration: underline;
 }
 
-body.blog-page {
-  background-color: transparent;
-}
 
 .blog-post p,
 .blog-post ul,
@@ -164,16 +161,19 @@ body.blog-page {
   color: #6a9955;
 }
 
-.blog-page::before {
+body.blog-page::before {
   content: '';
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
   background-image: url('/assets/blog-bg.gif');
   background-repeat: repeat;
-  background-position: center;
   background-size: cover;
-  z-index: -1;
-  opacity: 0.05;
+  background-position: center;
+  opacity: 0.03;
   pointer-events: none;
-  display: block; /* <- make sure it's shown */
+  mix-blend-mode: multiply;
 }
