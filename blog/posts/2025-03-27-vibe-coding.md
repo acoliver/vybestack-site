@@ -7,6 +7,8 @@ In one world, LLMs are so good you can just sit back, vibe, and code magically a
 
 Reality? It's weirder—and more useful—than both.
 
+![vybe team](../images/vybes.png)
+
 Claude 3.7 Sonnet can write solid code and even plan decently—if you load it with *exactly* the right context. GPT-4o can generate killer visuals and even helped me negotiate with vendors. When they work together, you can build legit things. As long as you watch them like a hawk.
 
 Case in point: I didn’t code this website. I told GPT what I wanted. Ten corrections later, it got it right. HTML, CSS, GitHub Actions—all done by the model. I *could* have written it myself, but that would’ve meant searching, typing, debugging. GPT was faster. I’m grateful.
