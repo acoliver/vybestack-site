@@ -151,6 +151,10 @@ a:hover {
   text-decoration: underline;
 }
 
+body.blog-page {
+  background-color: transparent;
+}
+
 .blog-post p,
 .blog-post ul,
 .blog-post li,
@@ -164,9 +168,12 @@ a:hover {
   content: '';
   position: fixed;
   inset: 0;
-  background: url('/assets/blog-bg.gif') repeat center center;
+  background-image: url('/assets/blog-bg.gif');
+  background-repeat: repeat;
+  background-position: center;
   background-size: cover;
-  opacity: 0.03; /* subtle movement */
-  pointer-events: none;
   z-index: -1;
+  opacity: 0.05;
+  pointer-events: none;
+  display: block; /* <- make sure it's shown */
 }
