@@ -1,0 +1,59 @@
+# How to Vibecode Successfully
+*2025-03-30*
+
+Mine is not to debate with the artists, software craftsmen, or code poets. Mine is to get stuff done. Sure, I want elegant, maintainable, and efficient code, but I do not really care how I get there.
+
+This is a guide for experienced developers who want to integrate LLMs into their workflow without delusions. Vibecoding is not about passively watching magic happen—it's about controlling the chaos, accelerating tedious work, and unlocking creative potential. It’s messy, tactical, and powerful—if you know how to wield it.
+
+You cannot just ride the vibe. Even the LLM won't let you. You can try to get it to code your dreams and prompt, “I want a three-dimensional third-person version of Pac-Man that feels like you're in a horror movie.” It will even eagerly code the first step. You may even be impressed. 
+
+![3d pacman](../images/pacman_green.png)
+
+However, it ends there. You will, at best, have a basic Hello Unity app.
+
+As eagerly as the LLM coded the first step, it will eagerly code the third or fourth. Like humans, it will get a lot wrong based on what you intended or agreed to. You have to correct it and be very specific.
+
+Just like in software projects with humans, you must develop a system of communication. Just like humans, you hit a productivity plateau. It is often faster to do than to show or explain.
+
+This moment is where a lot of experienced coders throw in the towel. I cannot outcode the machine at raw speed, but I can definitely out-debug it. Also, I have decades of experience turning the visions in my head into code. I can often do that faster than I can explain.
+
+However, if you push through, the plateau ends. I do not know everything. Finding the proper API takes a lot of time, and the LLM can do that almost instantly. I also have some biases and my creativity tends to go in certain directions. The LLMs have different biases, and GPT often comes up with “creative” solutions that I had not considered.
+
+Just like humans, the larger the project is, the more confused they get. You can also go too far in the other direction and make too many small projects. A lot of you microservices extremists proved that recently.
+
+---
+
+# What Does Not Work
+
+After a short while, I started to realize that a lot of the hype around so-called “vibe coding” was just that. Moreover, I also learned that much of the antipathy was nonsense. I quickly discovered the antipatterns. Here are some things you absolutely must avoid when using these tools.
+
+**What does not work is…**
+
+- Expecting the tool to develop an extensive plan, remember it, and execute it in multiple steps.
+- Working without a plan – “Code me an Octopus” and see what happens.
+- Trusting the LLM – and this is harder than you would think. I started out very skeptical and was lured into a false sense of security, which quickly came crashing down after a brief code review. You need to not only test but review frequently.
+- Running without revision control. This habit was intuitive, but some tools like Cursor have a poor man’s revision control built in. They will lead you to ruin. Nothing is git but git.
+
+---
+
+# What Does Work
+
+There are some techniques for working with these tools that work very well.
+
+- **Use GPT-4x for creative solutions and plans.** Sometimes, when I’m stuck and do not have an elegant solution, Claude lets me down. GPT often comes up with a better, more elegant solution.
+- **Use Claude 3.7 Sonnet for code.** Claude makes the best code and the fewest errors. It also comes up with the best implementation plans.
+- **Use Claude to create an initial plan and ask GPT to critique it.** Then, tell Claude to respond. At some point, GPT will overcomplicate things in obvious ways, and you will have to step in—but often Claude over-simplifies things or takes too conservative of an approach.
+- **If Claude gets stuck, ask GPT to help out.** GPT may not make the best code, but it does love to poke holes in plans if asked.
+- **Store your plans in `/project-plans/NAME_OF_PLAN.md`.** You can have Claude make it directly. Your tool will crash. The LLM will get off track. The plan is essential.
+- **Tell Claude to make a `CHANGELOG.md` and keep it up to date.** Oddly, Claude remembers this rather well if the file is present.
+- **Create a `PROJECT_DESCRIPTION.md` with everything Claude needs to continue.** You will start new sessions this way.
+- **Check periodically if separation of concerns is being violated or other things.** Step in and use the debugger to set breakpoints when your LLM fails to resolve a bug immediately. Claude tends to come up with a theory of the problem and get stuck on it. Also, Claude will sometimes create an extensive set of solutions to resolve the issue on its theory of the problem when it was a one-line bug.
+
+---
+
+# Honestly, I Love Vibecoding
+
+I had not coded too much in the last few years. I got burned out on all the stupid things I did not want to do. I despise dinking around with build tools, anything to do with HTML/CSS, and the grunt work. I still love implementing big designs and problem-solving. Vibecoding is my own lackey to do everything I dislike doing.
+
+It can be frustrating sometimes when it just will not do what I want – but I can always hand-code the parts it gets stuck on. So, in other words? Vybe on.
+
