@@ -36,6 +36,11 @@ files.forEach(file => {
 </head>
 <body class="blog-page">
   <div class="container blog-post">
+    <div class="logo-wrapper">
+       <a href="/">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
+       </a>
+    </div>
     <h1>${title}</h1>
     <p class="cta-lead">${date}</p>
     ${md.render(body)}
@@ -62,6 +67,11 @@ const indexHtml = `<!DOCTYPE html>
 </head>
 <body class="blog-page">
   <div class="container blog-post">
+    <div class="logo-wrapper">
+       <a href="/">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
+       </a>
+    </div>
     <h1>Vybestack Blog</h1>
     <p class="cta-lead">Thoughts on building developer-first AI tools, one file at a time.</p>
     <ul>
