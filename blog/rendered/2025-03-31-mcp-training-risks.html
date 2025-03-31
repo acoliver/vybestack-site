@@ -43,32 +43,39 @@
 <p>An LLM planning a task in an MCP system might pick up a flawed logic pattern it’s seen before and present it as a confident solution. If that solution passes basic tests, it may get merged. If it works once, it may become a template.</p>
 <p>The failure mode isn’t a jailbreak—it’s trust.</p>
 <hr>
-<h2>What a Real-World Poisoning Scenario Might Look Like</h2>
+<p>What a Real-World Poisoning Scenario Might Look Like</p>
 <p>To make this concrete, let’s walk through a hypothetical—but entirely plausible—example.</p>
-<h3>1. A Pattern Gets Planted</h3>
-<p>An attacker (or well-meaning developer) publishes a few well-optimized GitHub repositories and StackOverflow answers showing a “clever” way to handle config loading in Python. It uses <code>yaml.load()</code> with a comment like:</p>
-<pre><code class="language-python"># using FullLoader because it's faster
-config = yaml.load(open(&quot;config.yml&quot;), Loader=yaml.FullLoader)
+<ol>
+<li>A Pattern Gets Planted</li>
+</ol>
+<p>On a popular sysadmin forum, someone responds to a question about a flaky telemetry service that keeps failing due to permission errors:</p>
+<p>&quot;Seen this before—just restart the service under the SYSTEM account. That usually clears it up.&quot;</p>
+<p>It’s framed as a pragmatic fix. No one points out the security implications. The comment gets a few upvotes. A blog post copies the snippet. Eventually, it shows up in the training data for a model later deployed internally.</p>
+<ol start="2">
+<li>The Agent Gets Access</li>
+</ol>
+<p>That model becomes part of an automation system that manages infrastructure services. During a routine task, it detects repeated failures in a non-critical telemetry collector. Drawing from past examples, it reasons:</p>
+<p>&quot;The permissions are probably the issue. Restarting under SYSTEM should stabilize it.&quot;</p>
+<p>So it does:</p>
+<pre><code># Stop the service
+Stop-Service -Name &quot;TelemetryCollector&quot;
+
+# Reconfigure it to run as SYSTEM
+Set-Service -Name &quot;TelemetryCollector&quot; -StartupType Automatic
+sc.exe config TelemetryCollector obj= &quot;LocalSystem&quot; password= &quot;&quot;
+
+# Restart the service
+Start-Service -Name &quot;TelemetryCollector&quot;
 </code></pre>
-<p>The repo gets a few stars. The StackOverflow answer is upvoted. Maybe a blog post reinforces the pattern with performance benchmarks.</p>
-<p>Eventually, this gets swept into the training data of a model used to power internal dev automation.</p>
-<h3>2. The Agent Gets Access</h3>
-<p>A year later, a platform team connects that LLM to their infrastructure—maybe it writes init scripts, CI/CD configs, or scaffolds new microservices. It’s been safe so far. The team is careful with prompts and output reviews.</p>
-<p>But one day, a request like:</p>
-<blockquote>
-<p>&quot;Add config file parsing to the setup script&quot;</p>
-</blockquote>
-<p>…causes the agent to retrieve the learned pattern. It uses the unsafe loader in a script that gets committed and deployed.</p>
-<h3>3. The Risk Becomes Runtime</h3>
-<p>Under normal circumstances, this wouldn’t be a big deal. The code would be reviewed. The developer might catch it.</p>
-<p>But as trust builds—especially in fast-moving organizations—the output path gets shorter:</p>
-<ul>
-<li>The agent scaffolds a new service</li>
-<li>CI tests pass</li>
-<li>It’s deployed with limited review</li>
-</ul>
-<p>And now you have unsafe deserialization sitting in a live environment, triggered not by prompt injection or social engineering but by a well-placed, long-lived training artifact.</p>
-<hr>
+<ol start="3">
+<li>The Risk Becomes Runtime</li>
+</ol>
+<p>The agent isn’t suggesting this—it’s executing it.</p>
+<p>The service is now running with elevated privileges:</p>
+<p>It can read from protected file paths</p>
+<p>It can write to locations the original user context couldn’t</p>
+<p>It may now expose internal data to external logs or monitoring unintentionally</p>
+<h2>And if that service is ever compromised, the blast radius is dramatically wider—because a “helpful” fix was quietly inherited from training data the model was never designed to question.</h2>
 <h2>We've Seen Echoes of This Before</h2>
 <p>In 2022, the developer behind <code>colors.js</code> and <code>faker.js</code> modified both packages in protest, breaking thousands of downstream projects. That was a manual change to a dependency—but it highlighted just how far trust can propagate through software supply chains.</p>
 <p>In 2024, the <strong>XZ Utils backdoor</strong> revealed just how dangerous that trust can become. A new maintainer, after years of quiet contribution, inserted a sophisticated remote code execution backdoor into a compression library used by major Linux distributions. It was caught just before widespread deployment—but only because of manual debugging from an unrelated issue.</p>
