@@ -15,10 +15,10 @@ body {
 }
 
 .container {
+  position: relative;        
   max-width: 640px;
   width: 100%;
   margin: 0 auto;
-  position: relative;
   padding: 2rem;
 }
 
@@ -128,52 +128,47 @@ footer {
   margin-right: 1rem;
 }
 
+.logo-wrapper {
+  position: absolute;
+  top: 0;
+  left: -120px;              /
+}
+
 .logo-wrapper img {
   width: 100px;
   height: auto;
   opacity: 0.9;
-  transition: opacity 0.2s ease-in-out;
+  transition: opacity .2s;
 }
 
 .cli-box {
-  background-color: #111;
-  border: 1px solid rgba(106, 153, 85, 0.2);
+  position: absolute;
+  top: 0;
+  right: -360px;           
+  background: #111;
+  border: 1px solid rgba(106,153,85,.2);
   padding: 1.5rem;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 1.1rem;
-  line-height: 1.6;
+  font: 1.1rem/1.6 "Courier New", monospace;
   color: #6a9955;
   border-radius: 4px;
-  box-shadow: none;
   max-width: 360px;
-  display: block;
-}
-
-/* Responsive layout */
-@media (max-width: 768px) {
-.top-bar {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 640px;
-  margin: 0 auto 3rem;
-  padding: 0 2rem;
   box-sizing: border-box;
 }
 
-.logo-wrapper {
-  position: relative;
-  left: 0;
-  top: 0;
-  margin-right: 1rem;
-}
+@media (max-width: 768px) {
+  /* let the logo flow above the headline, centred */
+  .logo-wrapper {
+    position: static;
+    margin: 0 auto 1.5rem;
+    text-align: center;
+  }
 
+  /* drop the CLI box under the wait-list form, full width */
   .cli-box {
-    margin-top: 2rem;
+    position: static;
+    margin: 2rem 0 0;
     width: 100%;
     max-width: 100%;
-    position: static;
   }
 }
 
