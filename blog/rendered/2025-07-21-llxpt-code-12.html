@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code 0.1.12 Released</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body class="blog-page">
+  <div class="container blog-post">
+    <div class="logo-wrapper">
+       <a href="/">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
+       </a>
+    </div>
+    <h1>LLxprt Code 0.1.12 Released</h1>
+    <p class="cta-lead">2025-07-21</p>
+    <p>We're excited to announce the first public release of LLxprt Code, a community-driven fork of Google's gemini-cli that puts user choice and privacy first.</p>
+<h1>What is LLxprt Code?</h1>
+<p>LLxprt Code is a CLI tool for interacting with AI models. While maintaining compatibility with the upstream gemini-cli, we're building something more: a CLI that works with any AI provider you choose - whether it's Gemini, OpenAI, Anthropic, or your own custom models.</p>
+<h2>Installation</h2>
+<h3>Global install</h3>
+<p>npm install -g @vybestack/llxprt-code</p>
+<h3>Or use npx</h3>
+<p>npx @vybestack/llxprt-code</p>
+<h3>Or Docker</h3>
+<p>docker run -it ghcr.io/acoliver/llxprt-code/sandbox:0.1.12</p>
+<h3>Or build from source</h3>
+<p>git clone https://github.com/acoliver/llxprt-code
+npm install &amp;&amp; npm run build</p>
+<h2>For gemini-cli Users</h2>
+<p>If you're coming from gemini-cli, you'll find everything familiar. We track upstream changes. Our release numbers track Google's - LLxprt v0.1.12 is compatible with their v0.1.12. To get our first release out, our 0.1.12 is mid-cycle, but they'll track more closely after 0.1.13.</p>
+<h2>For Claude Code Users</h2>
+<p>We love Claude Code and continue to use it. You'll note that frequently, some of our commits are signed by Claude. However, you've noticed the Claude Max plans are shrinking in what they offer. Other vendor tools, such as Cursor or Windsurf, have been increasing their prices. Having the option to use whatever model you want is going to be less of an optimization but a necessity in the near future. There is hope with exciting new open models and offers from providers like OpenRouter, Groq, and Fireworks. Max throttled you? Pop over to llxprt and get the job done.</p>
+<h2>Our Approach</h2>
+<p>We're following a &quot;Roo to their Cline&quot; philosophy - tracking upstream for as long as practical while adding community-requested features. Key areas where we're diverging:</p>
+<ul>
+<li>Multi-provider architecture: Clean provider abstraction with GeminiProvider.ts as the template</li>
+<li>Privacy first: Telemetry removed entirely</li>
+<li>User choice: No automatic model downgrades without user consent</li>
+<li>Performance: Removing inefficient patterns like redundant Flash model checks that pass entire conversations multiple times</li>
+</ul>
+<h2>Future Plans</h2>
+<p>Our release numbers will continue tracking Google's for compatibility, and our features will interleave their releases. We will focus on:</p>
+<ul>
+<li>Multi-provider support</li>
+<li>Worker/swarm capabilities</li>
+<li>Performance and Architectural Improvements</li>
+</ul>
+<p>Initially, we're just merging main from Gemini CLI every few days. We've already diverged a bit by fixing some React architectural issues (and our skinning is more complete). As time passes, we will adopt a selective merging strategy as we diverge.</p>
+<p>However, the future depends on you!!</p>
+<h1>Join Us</h1>
+<p>This is a community project. We've already had fantastic feedback from early testers who reported issues before we even released. Now we need:</p>
+<ul>
+<li>Your bug reports and feature requests</li>
+<li>Pull requests</li>
+<li>Contributors who want to become maintainers</li>
+</ul>
+<p>Let's build the CLI for us - one that works with whatever model, from whatever provider, however we want to use it.</p>
+<p>Thank you for your interest and support. We look forward to building this together!!</p>
+<hr>
+<p>Repository: https://github.com/acoliver/llxprt-code
+NPM: https://www.npmjs.com/package/@vybestack/llxprt-code</p>
+
+  </div>
+</body>
+</html>
