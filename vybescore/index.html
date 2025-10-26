@@ -146,7 +146,6 @@
       const rows = [];
       entries.forEach((entry) => {
         if (!entry) return;
-        const dayLabel = entry.date === 'unknown' ? 'Unknown Date' : entry.date;
         const profiles = Object.entries(entry.profiles);
         profiles.forEach(([configId, stats]) => {
           rows.push({
@@ -177,7 +176,7 @@
           rawDate === 'unknown' ? 'Unknown Date' : dayFormatter.format(new Date(`${rawDate}T00:00:00Z`));
         return {
           rawDate,
-          dateLabel: label,
+            dateLabel: rawDate === 'unknown' ? 'Unknown Date' : dayFormatter.format(new Date(`${rawDate}T00:00:00Z`)),
           totalRuns: summary.totalRuns ?? 0,
           totalMinutes: summary.totalMinutes ?? 0,
           avgVybes: summary.avgVybes ?? 0,
