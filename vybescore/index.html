@@ -16,6 +16,11 @@
     </header>
 
     <section>
+      <h2>Today's Summary</h2>
+      <div id="today-summary" class="table-wrapper"></div>
+    </section>
+
+    <section>
       <h2>Daily Overview</h2>
       <div class="table-wrapper">
         <table id="daily-table">
@@ -96,6 +101,7 @@
     const updatedAtEl = document.getElementById('updated-at');
 
     const dailyEntriesByDate = new Map();
+    let todayKey = null;
     const configOrder = [];
     const configSet = new Set();
     let orderedConfigs = [];
@@ -174,7 +180,7 @@
       return daily.map((entry) => {
         const summary = entry.summary ?? {};
         const rawDate = entry.date ?? 'unknown';
-        const profiles = (summary.profiles ?? []).map((configId) => PROFILE_LABELS[configId] ?? configId);
+    const profiles = (summary.profiles ?? []).map((configId) => PROFILE_LABELS[configId] ?? configId);
         const versions = summary.repoVersions ?? [];
         const label =
           rawDate === 'unknown' ? 'Unknown Date' : dayFormatter.format(new Date(`${rawDate}T00:00:00Z`));
@@ -603,6 +609,21 @@
       markSortHeader(table, sortState.field, sortState.desc);
     }
 
+    function renderTodaySummary(rows) {
+      const container = document.getElementById('today-summary');
+      if (!container) return;
+      if (!todayKey || !rows.length) {
+        container.innerHTML = '<p class="badge-fail">No runs recorded yet.</p>';
+        return;
+      }
+      const todayRows = rows.filter((row) => row.date === todayKey);
+      if (!todayRows.length) {
+        container.innerHTML = '<p class="badge-fail">No runs recorded for today.</p>';
+        return;
+      }
+      container.innerHTML = buildDailyTableMarkup(todayRows);
+    }
+
     async function bootstrap() {
       try {
         const [daily, runs] = await Promise.all([
@@ -618,6 +639,7 @@
 
         latestDayKey = daily.length ? findLatestDayKey(daily) : null;
         activeDayKey = latestDayKey ?? (daily[daily.length - 1]?.date ?? 'unknown');
+        todayKey = latestDayKey;
 
         const heroEntries = [];
         if (latestDayKey && dailyEntriesByDate.has(latestDayKey)) {
@@ -629,6 +651,7 @@
         currentDailyRows = createDailyRows(heroEntries);
         sortRows(currentDailyRows, dailySort, dailySort.field, true, true);
         updateDailyTable();
+        renderTodaySummary(createDailyRows(daily));
 
         currentDaySummaryRows = createDaySummaryRows(daily);
         sortRows(currentDaySummaryRows, daySort, daySort.field, true, true);
