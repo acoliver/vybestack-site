@@ -1,0 +1,82 @@
+name: Publish VybeScore
+
+on:
+  schedule:
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    env:
+      SYNTHETIC_PROVIDER: ${{ vars.SYNTHETIC_PROVIDER || 'openai' }}
+      SYNTHETIC_BASEURL: ${{ vars.SYNTHETIC_BASEURL || 'https://api.synthetic.new/openai/v1' }}
+      SYNTHETIC_MODEL: ${{ vars.SYNTHETIC_MODEL || 'hf:zai-org/GLM-4.6' }}
+      SYNTHETIC_TEMPERATURE: ${{ vars.SYNTHETIC_TEMPERATURE || 'temperature=1' }}
+      SYNTHETIC_CONTEXT_LIMIT: ${{ vars.SYNTHETIC_CONTEXT_LIMIT || 'context-limit=190000' }}
+      SYNTHETIC_SHELL_REPLACEMENT: ${{ vars.SYNTHETIC_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+      CEREBRAS_PROVIDER: ${{ vars.CEREBRAS_PROVIDER || 'openai' }}
+      CEREBRAS_BASEURL: ${{ vars.CEREBRAS_BASEURL || 'https://api.cerebras.ai/v1' }}
+      CEREBRAS_MODEL: ${{ vars.CEREBRAS_MODEL || 'qwen-3-coder-480b' }}
+      CEREBRAS_TEMPERATURE: ${{ vars.CEREBRAS_TEMPERATURE || 'temperature=1' }}
+      CEREBRAS_CONTEXT_LIMIT: ${{ vars.CEREBRAS_CONTEXT_LIMIT || 'context-limit=128000' }}
+      CEREBRAS_CUSTOM_HEADERS: ${{ vars.CEREBRAS_CUSTOM_HEADERS || 'custom-headers=response_format.json_schema.strict true' }}
+      CEREBRAS_SHELL_REPLACEMENT: ${{ vars.CEREBRAS_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+
+    steps:
+      - name: Checkout vybestack-site
+        uses: actions/checkout@v4
+
+      - name: Checkout evals repository
+        uses: actions/checkout@v4
+        with:
+          repository: acoliver/evals
+          path: evals
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install LLxprt CLI
+        run: npm install -g @vybestack/llxprt-code@latest
+
+      - name: Install eval dependencies
+        working-directory: evals
+        run: |
+          npm install
+          for dir in base64-fix pagination report-builder form-capture regex-challenge react-evaluation; do
+            npm --prefix grading/$dir install
+          done
+
+      - name: Run evaluations
+        working-directory: evals
+        env:
+          SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
+          CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
+        run: npm run eval:all
+
+      - name: Build VybeScore artifacts
+        working-directory: evals
+        run: npm run build:vybes
+
+      - name: Sync vybescore assets
+        run: |
+          rm -rf vybescore
+          mkdir -p vybescore
+          rsync -a --delete evals/public/ vybescore/
+
+      - name: Commit and push updates
+        run: |
+          if git diff --quiet -- vybescore; then
+            echo "No VybeScore changes to publish."
+            exit 0
+          fi
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add vybescore
+          git commit -m "chore: publish VybeScore dashboard"
+          git push
