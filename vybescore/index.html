@@ -146,7 +146,10 @@
       const rows = [];
       entries.forEach((entry) => {
         if (!entry) return;
-        const dayLabel = entry.date === 'unknown' ? 'Unknown Date' : entry.date;
+        const dayLabel =
+          entry.date === 'unknown'
+            ? 'Unknown Date'
+            : dayFormatter.format(new Date(`${entry.date}T00:00:00Z`));
         const profiles = Object.entries(entry.profiles);
         profiles.forEach(([configId, stats]) => {
           rows.push({
@@ -391,7 +394,7 @@
           const label =
             group.date === 'unknown'
               ? 'Unknown Date'
-              : dayFormatter.format(firstTimestamp ? new Date(firstTimestamp) : new Date(`${group.date}T00:00:00Z`));
+              : dayFormatter.format(new Date(`${group.date}T00:00:00Z`));
           const totalMinutes = group.runs.reduce((sum, run) => sum + (run.actualTimeMinutes ?? 0), 0);
           const profiles = [...new Set(group.runs.map((run) => run.profileLabel))].join(', ');
           const versions = [...new Set(group.runs.map((run) => run.repoVersion).filter(Boolean))];
