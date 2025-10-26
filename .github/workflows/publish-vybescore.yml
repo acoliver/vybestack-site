@@ -36,6 +36,13 @@ jobs:
           repository: acoliver/evals
           path: evals
 
+      - name: Prime public artifacts with previous publish
+        run: |
+          mkdir -p evals/public
+          if [ -d vybescore ]; then
+            rsync -a vybescore/ evals/public/
+          fi
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
