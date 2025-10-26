@@ -16,7 +16,7 @@ The workflow in `.github/workflows/publish-vybescore.yml` runs every 4 hours (an
 2. Install the latest `@vybestack/llxprt-code` CLI plus evaluation dependencies
 3. Run `npm run eval:all` inside the evals repo using env-driven LLxprt configs
 4. Build the dashboard artifacts via `npm run build:vybes`
-5. Sync the generated `public/` folder to `vybescore/` and commit/push if anything changed
+5. Merge the previously published dashboard (copied from `vybescore/`) with the new results, then sync the refreshed `public/` folder to `vybescore/` and commit/push if anything changed
 
 ### Required Secrets
 
