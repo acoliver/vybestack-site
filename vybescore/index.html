@@ -96,6 +96,9 @@
     const updatedAtEl = document.getElementById('updated-at');
 
     const dailyEntriesByDate = new Map();
+    const configOrder = [];
+    const configSet = new Set();
+    let orderedConfigs = [];
     let latestDayKey = null;
     let activeDayKey = null;
     let currentDailyRows = [];
@@ -333,7 +336,15 @@
       setTimeout(() => section.classList.remove('run-day-highlight'), 1200);
     }
 
-    function groupRuns(runs) {
+    function registerConfig(configId) {
+      if (!configId || configSet.has(configId)) {
+        return;
+      }
+      configSet.add(configId);
+      configOrder.push(configId);
+    }
+
+    function groupRuns(runs, configs) {
       const map = new Map();
       runs.forEach((run) => {
         const key = run.date ?? 'unknown';
@@ -343,10 +354,27 @@
         map.get(key).push(run);
       });
       return Array.from(map.entries())
-        .map(([date, list]) => ({
-          date,
-          runs: list.sort((a, b) => b.finishedAtValue - a.finishedAtValue)
-        }))
+        .map(([date, list]) => {
+          const evalMap = new Map();
+          list.forEach((run) => {
+            if (!evalMap.has(run.evalName)) {
+              evalMap.set(run.evalName, []);
+            }
+            evalMap.get(run.evalName).push(run);
+          });
+          const evalGroups = Array.from(evalMap.entries()).map(([evalName, evalRuns]) => {
+            const orderedRuns = configs.map((configId) => evalRuns.find((run) => run.configId === configId)).filter(Boolean);
+            return {
+              evalName,
+              runs: orderedRuns.length ? orderedRuns : evalRuns.sort((a, b) => a.profileLabel.localeCompare(b.profileLabel))
+            };
+          });
+          return {
+            date,
+            runs: list.sort((a, b) => b.finishedAtValue - a.finishedAtValue),
+            evalGroups
+          };
+        })
         .sort((a, b) => {
           if (a.date === b.date) return 0;
           if (a.date === 'unknown') return 1;
@@ -370,6 +398,10 @@
           const summaryEntry = dailyEntriesByDate.get(group.date);
           const isActiveDay = group.date === activeDayKey;
           const summaryBlock = isActiveDay ? renderDaySummary(summaryEntry) : '';
+          const evalTable = buildDayEvalTable(group);
+          const evalRunsMarkup = group.evalGroups
+            .map(({ evalName, runs }) => renderRunEvalGroup(evalName, runs))
+            .join('');
           return `<section class="run-day${isActiveDay ? ' active-day' : ''}" id="${anchorId}">
             <div class="run-day-head">
               <div>
@@ -382,12 +414,75 @@
               </div>
             </div>
             ${summaryBlock}
+            ${evalTable}
             <div class="run-accordion">
-              ${group.runs.map(renderRunCard).join('')}
+              ${evalRunsMarkup || '<p class="badge-fail">No scenario details recorded.</p>'}
             </div>
           </section>`;
         })
         .join('');
+    }
+
+    function buildDayEvalTable(group) {
+      const configs = orderedConfigs.length ? orderedConfigs : Object.keys(PROFILE_LABELS);
+      if (!group.evalGroups.length || !configs.length) {
+        return '';
+      }
+      const headerCells = configs
+        .map((configId) => `<th class="numeric">${PROFILE_LABELS[configId] ?? configId}</th>`)
+        .join('');
+      const rows = group.evalGroups
+        .map(({ evalName, runs }) => {
+          const label = EVAL_LABELS[evalName] ?? evalName;
+          const cells = configs.map((configId) => {
+            const run = runs.find((entry) => entry.configId === configId);
+            return formatEvalCell(run);
+          });
+          return `<tr>
+            <td>${label}</td>
+            ${cells.join('')}
+          </tr>`;
+        })
+        .join('');
+      return `<div class="table-wrapper compact eval-breakdown">
+        <table class="day-eval-table">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              ${headerCells}
+            </tr>
+          </thead>
+          <tbody>
+            ${rows}
+          </tbody>
+        </table>
+      </div>`;
+    }
+
+    function formatEvalCell(run) {
+      if (!run) {
+        return '<td class="day-eval-cell day-eval-missing">–</td>';
+      }
+      const score = formatter.format(run.finalScore);
+      const success = percentFormatter.format(run.successPercentage);
+      const minutes = formatter.format(run.actualTimeMinutes);
+      const badgeClass =
+        run.finalScore >= 90 ? 'badge-pass' : run.finalScore > 0 ? 'badge-warn' : 'badge-fail';
+      return `<td class="day-eval-cell">
+        <div class="cell-score ${badgeClass}">${score} vybes</div>
+        <div class="cell-meta">${success} · ${minutes} min</div>
+      </td>`;
+    }
+
+    function renderRunEvalGroup(evalName, runs = []) {
+      const scenario = EVAL_LABELS[evalName] ?? evalName;
+      if (!runs.length) {
+        return '';
+      }
+      return `<div class="run-eval-group">
+        <div class="run-eval-head">${scenario}</div>
+        ${runs.map(renderRunCard).join('')}
+      </div>`;
     }
 
     function formatBytes(bytes) {
@@ -539,6 +634,7 @@
         currentRunRows = runs.map((run) => {
           const subtasksPassed = run.vybes.breakdown?.subtasksPassed ?? 0;
           const subtasksTotal = run.vybes.breakdown?.subtasksTotal ?? 0;
+          registerConfig(run.configId);
           return {
             ...run,
             profileLabel: PROFILE_LABELS[run.configId] ?? run.configId,
@@ -554,7 +650,8 @@
           };
         });
         currentRunRows.sort((a, b) => b.finishedAtValue - a.finishedAtValue);
-        currentRunGroups = groupRuns(currentRunRows);
+        orderedConfigs = configOrder.length ? [...configOrder] : [];
+        currentRunGroups = groupRuns(currentRunRows, orderedConfigs);
         renderRunLog();
 
         bindSortHandlers(dailyTable, currentDailyRows, dailySort, updateDailyTable, {
