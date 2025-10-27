@@ -220,6 +220,30 @@
       return versions.map((version) => `<span class="version-pill">${version}</span>`).join('');
     }
 
+    function escapeHtml(value) {
+      if (value === null || value === undefined) {
+        return '';
+      }
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function groupScenariosByConfig(scenarios = []) {
+      const map = new Map();
+      scenarios.forEach((scenario) => {
+        const key = scenario.configId ?? 'unknown';
+        if (!map.has(key)) {
+          map.set(key, []);
+        }
+        map.get(key).push(scenario);
+      });
+      return map;
+    }
+
     function parseDateValue(dateKey) {
       if (!dateKey || dateKey === 'unknown') {
         return null;
@@ -395,6 +419,7 @@
       runLogContainer.innerHTML = currentRunGroups
         .map((group) => renderRunDay(group))
         .join('');
+      bindCopyButtons();
     }
 
     function renderRunDay(group) {
@@ -445,15 +470,27 @@
     function renderRunCycle(cycle) {
       const finishedLabel = cycle.finishedAt ? dateFormatter.format(new Date(cycle.finishedAt)) : 'unknown';
       const configs = cycle.configs ?? [];
+      const scenariosByConfig = groupScenariosByConfig(cycle.scenarios ?? []);
       const configRows = configs
         .map((configId) => {
           const stats = cycle.perConfigStats?.[configId];
+          const configScenarios = scenariosByConfig.get(configId) ?? [];
+          const rawTotal = stats?.totalRawVybes ?? configScenarios.reduce((sum, scenario) => {
+            if (typeof scenario.rawVybes === 'number') {
+              return sum + scenario.rawVybes;
+            }
+            const base = scenario.vybes?.baseScore ?? 0;
+            const success = scenario.vybes?.successPercentage ?? 0;
+            return sum + base * success;
+          }, 0);
+          const rawLabel = formatter.format(rawTotal ?? 0);
           if (!stats) {
-            return `<tr><td>${PROFILE_LABELS[configId] ?? configId}</td><td class="numeric">–</td><td class="numeric">–</td><td class="numeric">–</td></tr>`;
+            return `<tr><td>${PROFILE_LABELS[configId] ?? configId}</td><td class="numeric">–</td><td class="numeric">${rawLabel}</td><td class="numeric">–</td><td class="numeric">–</td></tr>`;
           }
           return `<tr>
             <td>${PROFILE_LABELS[configId] ?? configId}</td>
             <td class="numeric">${formatter.format(stats.totalVybes ?? 0)}</td>
+            <td class="numeric">${formatter.format(stats.totalRawVybes ?? rawTotal ?? 0)}</td>
             <td class="numeric">${percentFormatter.format(stats.avgSuccess ?? 0)}</td>
             <td class="numeric">${formatter.format(stats.avgPenalty ?? 0)}</td>
           </tr>`;
@@ -467,6 +504,7 @@
                 <tr>
                   <th>Profile</th>
                   <th class="numeric">Total Vybes</th>
+                  <th class="numeric">Raw Vybes</th>
                   <th class="numeric">Avg Success</th>
                   <th class="numeric">Avg Penalty</th>
                 </tr>
@@ -475,9 +513,10 @@
             </table>
           </div>`
         : '';
-
-      const scenariosMarkup = (cycle.scenarios ?? []).map(renderRunCard).join('');
       const versions = cycle.repoVersions ?? [];
+      const configGroupsMarkup = configs
+        .map((configId) => renderConfigGroup(configId, scenariosByConfig.get(configId) ?? [], cycle.perConfigStats?.[configId]))
+        .join('');
 
       return `<div class="run-cycle">
         <div class="run-cycle-head">
@@ -491,10 +530,45 @@
           </div>
         </div>
         ${summaryTable}
-        <div class="run-accordion">
-          ${scenariosMarkup || '<p class="badge-warn">No scenario details recorded.</p>'}
+        <div class="config-run-groups">
+          ${configGroupsMarkup || '<p class="badge-warn">No scenario details recorded.</p>'}
         </div>
       </div>`;
+    }
+
+    function renderConfigGroup(configId, scenarios = [], stats) {
+      const label = PROFILE_LABELS[configId] ?? configId;
+      const runsLabel = stats?.runs ?? scenarios.length;
+      const command = scenarios.length ? scenarios[0]?.cliCommand ?? '' : '';
+      const encodedCommand = command ? encodeURIComponent(command) : '';
+      const commandMarkup = command
+        ? `<div class="config-command">
+            <details>
+              <summary>View config</summary>
+              <pre class="command-text">${escapeHtml(command)}</pre>
+            </details>
+            <div class="command-actions">
+              <button type="button" class="copy-command" data-command="${escapeHtml(command)}">Copy</button>
+              <a class="download-command" href="data:text/plain;charset=utf-8,${encodedCommand}" download="${configId}-command.txt">Download</a>
+            </div>
+          </div>`
+        : '';
+      const cardsMarkup = scenarios
+        .map((scenario) => renderRunCard(scenario, { showProfile: false }))
+        .join('');
+
+      return `<section class="run-config-group">
+        <div class="run-config-head">
+          <div>
+            <h4>${label}</h4>
+            <small>${runsLabel} scenario${runsLabel === 1 ? '' : 's'}</small>
+          </div>
+          ${commandMarkup}
+        </div>
+        <div class="run-accordion">
+          ${cardsMarkup || '<p class="badge-warn">No scenario details recorded.</p>'}
+        </div>
+      </section>`;
     }
 
     function formatBytes(bytes) {
@@ -509,10 +583,11 @@
       return `${value.toFixed(1)} ${units[index]}`;
     }
 
-    function renderRunCard(run) {
+    function renderRunCard(run, options = {}) {
+      const showProfile = options.showProfile ?? false;
       const scenario = EVAL_LABELS[run.evalName] ?? run.evalName;
       const finishedLabel = run.finishedAtValue ? dateFormatter.format(new Date(run.finishedAtValue)) : 'unknown';
-      const modules = Object.entries(run.vybes.breakdown?.modules ?? {});
+      const modules = Object.entries(run.vybes?.breakdown?.modules ?? {});
       const moduleSummary = modules.length
         ? modules
             .map(([name, stats]) => `<span>${name}: ${stats.passed}/${stats.total}</span>`)
@@ -523,16 +598,22 @@
         ? `<a href="${run.workspaceZip.path}" download>workspace.zip${sizeLabel ? ` (${sizeLabel})` : ''}</a>`
         : '';
       const notes = run.error ? `<div class="run-notes badge-fail">${run.error}</div>` : '';
+      const rawValue = typeof run.rawVybes === 'number'
+        ? run.rawVybes
+        : (run.vybes?.baseScore ?? 0) * (run.vybes?.successPercentage ?? 0);
+      const rawLabel = formatter.format(rawValue ?? 0);
+      const profileMarkup = showProfile ? `<span class="run-profile">${run.profileLabel}</span>` : '';
       return `<details class="run-card">
         <summary>
           <div class="run-summary-main">
-            <span class="run-profile">${run.profileLabel}</span>
+            ${profileMarkup}
             <span class="run-scenario">${scenario}</span>
           </div>
           <div class="run-summary-meta">
-            <span class="run-score">${formatter.format(run.finalScore)} vybes</span>
+            <span class="run-score">${formatter.format(run.finalScore ?? 0)} vybes</span>
+            <span class="run-score run-score-raw">Raw ${rawLabel} vybes</span>
             <span>${percentFormatter.format(run.successPercentage)}</span>
-            <span>${formatter.format(run.actualTimeMinutes)} min</span>
+            <span>${formatter.format(run.actualTimeMinutes ?? 0)} min</span>
             <span class="version-pill">${run.repoVersion ?? 'unknown'}</span>
           </div>
         </summary>
@@ -610,6 +691,30 @@
         });
       });
       markSortHeader(table, sortState.field, sortState.desc);
+    }
+
+    function bindCopyButtons() {
+      const buttons = Array.from(document.querySelectorAll('.copy-command'));
+      buttons.forEach((button) => {
+        const command = button.getAttribute('data-command');
+        if (!command) return;
+        button.addEventListener('click', async () => {
+          try {
+            if (navigator?.clipboard?.writeText) {
+              await navigator.clipboard.writeText(command);
+              button.textContent = 'Copied';
+              setTimeout(() => {
+                button.textContent = 'Copy';
+              }, 1600);
+            }
+          } catch {
+            button.textContent = 'Copy failed';
+            setTimeout(() => {
+              button.textContent = 'Copy';
+            }, 1600);
+          }
+        });
+      });
     }
 
     function renderTodaySummary(entry) {
@@ -716,6 +821,9 @@
         currentRunRows = scenarioRuns.map((run) => {
           const subtasksPassed = run.vybes.breakdown?.subtasksPassed ?? 0;
           const subtasksTotal = run.vybes.breakdown?.subtasksTotal ?? 0;
+          const rawVybes = typeof run.rawVybes === 'number'
+            ? run.rawVybes
+            : (run.vybes.baseScore ?? 0) * (run.vybes.successPercentage ?? 0);
           registerConfig(run.configId);
           const enriched = {
             ...run,
@@ -730,7 +838,9 @@
             error: run.vybes.error ?? null,
             repoVersion: run.repoVersion ?? run.vybes.repoVersion ?? 'unknown',
             date: run.date ?? (run.finishedAt ? run.finishedAt.slice(0, 10) : 'unknown'),
-            runSessionId: run.runSessionId ?? null
+            runSessionId: run.runSessionId ?? null,
+            rawVybes: Number(rawVybes.toFixed(2)),
+            cliCommand: run.cliCommand ?? null
           };
           scenarioLookup.set(`${run.runId}::${run.configId}`, enriched);
           return enriched;
@@ -753,7 +863,9 @@
                 subtasksTotal: scenario.vybes?.breakdown?.subtasksTotal ?? 0,
                 finishedAtValue: scenario.finishedAt ? Date.parse(scenario.finishedAt) : 0,
                 error: scenario.vybes?.error ?? null,
-                repoVersion: scenario.repoVersion ?? scenario.vybes?.repoVersion ?? 'unknown'
+                repoVersion: scenario.repoVersion ?? scenario.vybes?.repoVersion ?? 'unknown',
+                rawVybes: Number(((scenario.vybes?.baseScore ?? 0) * (scenario.vybes?.successPercentage ?? 0)).toFixed(2)),
+                cliCommand: scenario.cliCommand ?? null
               }
             );
           });
