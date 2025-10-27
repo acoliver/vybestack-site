@@ -21,7 +21,7 @@
     </section>
 
     <section>
-      <h2>Daily Overview</h2>
+      <h2>Daily Overview <span id="daily-overview-date" class="section-date"></span></h2>
       <div class="table-wrapper">
         <table id="daily-table">
           <thead>
@@ -73,6 +73,7 @@
   <script type="module">
     const PROFILE_LABELS = {
       'llxprt-synthetic-main': 'Synthetic GLM 4.6',
+      'llxprt-synthetic-minimax': 'Synthetic MiniMax M2',
       'llxprt-cerebras-main': 'Cerebras Qwen 3',
       'llxprt-synthetic-glm4.6-temp1': 'Synthetic GLM 4.6 (legacy)',
       'cerebrasqwen3-qwen3-coder-temp1': 'Cerebras Qwen 3 (legacy)',
@@ -91,7 +92,7 @@
     const formatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 });
     const percentFormatter = new Intl.NumberFormat(undefined, { style: 'percent', maximumFractionDigits: 1 });
     const dateFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'medium', timeStyle: 'short' });
-    const dayFormatter = new Intl.DateTimeFormat(undefined, { dateStyle: 'long' });
+    const dayFormatterUTC = new Intl.DateTimeFormat(undefined, { dateStyle: 'long', timeZone: 'UTC' });
 
     const dailyBody = document.getElementById('daily-summary');
     const daySummaryBody = document.getElementById('daily-run-summary');
@@ -99,6 +100,7 @@
     const dailyTable = document.getElementById('daily-table');
     const daySummaryTable = document.getElementById('day-table');
     const updatedAtEl = document.getElementById('updated-at');
+    const dailyOverviewDateEl = document.getElementById('daily-overview-date');
 
     const dailyEntriesByDate = new Map();
     let todayKey = null;
@@ -108,11 +110,13 @@
     let latestDayKey = null;
     let activeDayKey = null;
     let currentDailyRows = [];
+    let currentTodayRows = [];
     let currentDaySummaryRows = [];
     let currentRunRows = [];
     let currentRunGroups = [];
     const dailySort = { field: 'totalVybes', desc: true };
     const daySort = { field: 'sortValue', desc: true };
+    const todaySort = { field: 'totalVybes', desc: true };
 
     async function safeFetch(path) {
       const response = await fetch(path);
@@ -120,6 +124,13 @@
         throw new Error(`Failed to load ${path}: ${response.status}`);
       }
       return response.json();
+    }
+
+    function formatDayLabel(rawDate) {
+      if (!rawDate || rawDate === 'unknown') {
+        return 'Unknown Date';
+      }
+      return dayFormatterUTC.format(new Date(`${rawDate}T00:00:00Z`));
     }
 
     function buildDailyRowMarkup(row) {
@@ -136,7 +147,6 @@
             <span>${row.profileLabel}</span>
             <div class="version-tag-group">${formatVersionTags(row.repoVersions)}</div>
           </div>
-          <small>${row.date}</small>
         </td>
         <td class="numeric" data-field="totalVybes">${formatter.format(row.totalVybes)}</td>
         <td class="numeric" data-field="runs">${row.runs}</td>
@@ -152,14 +162,12 @@
       const rows = [];
       entries.forEach((entry) => {
         if (!entry) return;
-        const dayLabel =
-          entry.date === 'unknown'
-            ? 'Unknown Date'
-            : dayFormatter.format(new Date(`${entry.date}T00:00:00Z`));
+        const dayLabel = formatDayLabel(entry.date ?? 'unknown');
         const profiles = Object.entries(entry.profiles);
         profiles.forEach(([configId, stats]) => {
           rows.push({
-            date: dayLabel,
+            dateKey: entry.date ?? 'unknown',
+            dateLabel: dayLabel,
             configId,
             totalVybes: stats.totalVybes,
             runs: stats.runs,
@@ -180,16 +188,23 @@
       return daily.map((entry) => {
         const summary = entry.summary ?? {};
         const rawDate = entry.date ?? 'unknown';
-    const profiles = (summary.profiles ?? []).map((configId) => PROFILE_LABELS[configId] ?? configId);
+        const profiles = (summary.profiles ?? []).map((configId) => PROFILE_LABELS[configId] ?? configId);
         const versions = summary.repoVersions ?? [];
-        const label =
-          rawDate === 'unknown' ? 'Unknown Date' : dayFormatter.format(new Date(`${rawDate}T00:00:00Z`));
+        const label = formatDayLabel(rawDate);
+        const totalVybes = (entry.runCycles ?? []).reduce((sum, cycle) => sum + (cycle.totalVybes ?? 0), 0);
+        const totalScenarios = (entry.runCycles ?? []).reduce(
+          (sum, cycle) => sum + (cycle.scenarios ? cycle.scenarios.length : 0),
+          0
+        );
+        const avgVybes = totalScenarios ? totalVybes / totalScenarios : summary.avgVybes ?? 0;
         return {
           rawDate,
           dateLabel: label,
           totalRuns: summary.totalRuns ?? 0,
           totalMinutes: summary.totalMinutes ?? 0,
-          avgVybes: summary.avgVybes ?? 0,
+          avgVybes,
+          totalVybes,
+          totalScenarios,
           profilesLabel: profiles.join(', ') || '–',
           repoVersions: versions,
           versionsLabel: versions.join(', ') || 'unknown',
@@ -301,13 +316,11 @@
         return '';
       }
       const rows = createDailyRows([entry]);
+      rows.sort((a, b) => (b.totalVybes ?? 0) - (a.totalVybes ?? 0));
       if (!rows.length) {
         return '';
       }
-      const label =
-        entry.date === 'unknown'
-          ? 'Unknown Date'
-          : dayFormatter.format(new Date(`${entry.date}T00:00:00Z`));
+      const label = formatDayLabel(entry.date ?? 'unknown');
       return `<div class="run-day-summary">
         <div class="run-day-summary-head">Daily Overview for ${label}</div>
         <div class="table-wrapper compact">
@@ -353,144 +366,134 @@
       configOrder.push(configId);
     }
 
-    function groupRuns(runs, configs) {
+    function groupRunCycles(cycles = []) {
       const map = new Map();
-      runs.forEach((run) => {
-        const key = run.date ?? 'unknown';
+      cycles.forEach((cycle) => {
+        const key = cycle.date ?? 'unknown';
         if (!map.has(key)) {
           map.set(key, []);
         }
-        map.get(key).push(run);
+        map.get(key).push(cycle);
       });
       return Array.from(map.entries())
-        .map(([date, list]) => {
-          const evalMap = new Map();
-          list.forEach((run) => {
-            if (!evalMap.has(run.evalName)) {
-              evalMap.set(run.evalName, []);
-            }
-            evalMap.get(run.evalName).push(run);
-          });
-          const evalGroups = Array.from(evalMap.entries()).map(([evalName, evalRuns]) => {
-            const orderedRuns = configs.map((configId) => evalRuns.find((run) => run.configId === configId)).filter(Boolean);
-            return {
-              evalName,
-              runs: orderedRuns.length ? orderedRuns : evalRuns.sort((a, b) => a.profileLabel.localeCompare(b.profileLabel))
-            };
-          });
-          return {
-            date,
-            runs: list.sort((a, b) => b.finishedAtValue - a.finishedAtValue),
-            evalGroups
-          };
-        })
+        .map(([date, list]) => ({
+          date,
+          cycles: list.sort((a, b) => {
+            const aTime = a.finishedAt ? Date.parse(a.finishedAt) : -Infinity;
+            const bTime = b.finishedAt ? Date.parse(b.finishedAt) : -Infinity;
+            return bTime - aTime;
+          })
+        }))
         .sort((a, b) => {
-          if (a.date === b.date) return 0;
-          if (a.date === 'unknown') return 1;
-          if (b.date === 'unknown') return -1;
-          return a.date > b.date ? -1 : 1;
+          const aValue = parseDateValue(a.date);
+          const bValue = parseDateValue(b.date);
+          return (bValue ?? 0) - (aValue ?? 0);
         });
     }
 
     function renderRunLog() {
       runLogContainer.innerHTML = currentRunGroups
-        .map((group) => {
-          const anchorId = getDayAnchor(group.date);
-          const firstTimestamp = group.runs[0]?.finishedAtValue ?? null;
-          const label =
-            group.date === 'unknown'
-              ? 'Unknown Date'
-              : dayFormatter.format(new Date(`${group.date}T00:00:00Z`));
-          const totalMinutes = group.runs.reduce((sum, run) => sum + (run.actualTimeMinutes ?? 0), 0);
-          const profiles = [...new Set(group.runs.map((run) => run.profileLabel))].join(', ');
-          const versions = [...new Set(group.runs.map((run) => run.repoVersion).filter(Boolean))];
-          const summaryEntry = dailyEntriesByDate.get(group.date);
-          const isActiveDay = group.date === activeDayKey;
-          const summaryBlock = isActiveDay ? renderDaySummary(summaryEntry) : '';
-          const evalTable = buildDayEvalTable(group);
-          const evalRunsMarkup = group.evalGroups
-            .map(({ evalName, runs }) => renderRunEvalGroup(evalName, runs))
-            .join('');
-          return `<section class="run-day${isActiveDay ? ' active-day' : ''}" id="${anchorId}">
-            <div class="run-day-head">
-              <div>
-                <h3>${label}</h3>
-                <small>${group.runs.length} run${group.runs.length === 1 ? '' : 's'} · ${formatter.format(totalMinutes)} total minutes</small>
-              </div>
-              <div class="run-day-meta">
-                <span>${profiles}</span>
-                <div class="version-tag-group">${formatVersionTags(versions)}</div>
-              </div>
-            </div>
-            ${summaryBlock}
-            ${evalTable}
-            <div class="run-accordion">
-              ${evalRunsMarkup || '<p class="badge-fail">No scenario details recorded.</p>'}
-            </div>
-          </section>`;
-        })
+        .map((group) => renderRunDay(group))
         .join('');
     }
 
-    function buildDayEvalTable(group) {
-      const configs = orderedConfigs.length ? orderedConfigs : Object.keys(PROFILE_LABELS);
-      if (!group.evalGroups.length || !configs.length) {
-        return '';
+    function renderRunDay(group) {
+      const anchorId = getDayAnchor(group.date);
+      const label = formatDayLabel(group.date);
+      const totalMinutes = group.cycles.reduce((sum, cycle) => sum + (cycle.totalMinutes ?? 0), 0);
+      const configs = [...new Set(group.cycles.flatMap((cycle) => cycle.configs ?? []))]
+        .map((configId) => PROFILE_LABELS[configId] ?? configId)
+        .join(', ');
+      const versions = [...new Set(group.cycles.flatMap((cycle) => cycle.repoVersions ?? []))];
+      const summaryEntry = dailyEntriesByDate.get(group.date);
+      const isActiveDay = group.date === activeDayKey;
+      const summaryBlock = isActiveDay ? renderDaySummary(summaryEntry) : '';
+      const totalEvals = group.cycles.reduce((sum, cycle) => sum + (cycle.scenarios?.length ?? 0), 0);
+      const profileCount = new Set(group.cycles.flatMap((cycle) => cycle.configs ?? [])).size;
+      const cycleLabel = `${group.cycles.length} run cycle${group.cycles.length === 1 ? '' : 's'}`;
+      const evalLabel = `${totalEvals} eval${totalEvals === 1 ? '' : 's'}`;
+      const profileLabel = `${profileCount} profile${profileCount === 1 ? '' : 's'}`;
+      const headerMetrics = `${cycleLabel} · ${evalLabel} · ${profileLabel} · ${formatter.format(totalMinutes)} minutes`;
+      const cyclesMarkup = group.cycles.map(renderRunCycle).join('');
+
+      return `<section class="run-day${isActiveDay ? ' active-day' : ''}" id="${anchorId}">
+        <div class="run-day-head">
+          <div>
+            <h3>${label}</h3>
+            <small>${headerMetrics}</small>
+          </div>
+          <div class="run-day-meta">
+            <span>${configs || '–'}</span>
+            <div class="version-tag-group">${formatVersionTags(versions)}</div>
+          </div>
+        </div>
+        ${summaryBlock}
+        ${cyclesMarkup || '<p class="badge-fail">No run details recorded.</p>'}
+      </section>`;
+    }
+
+    function updateDailyOverviewHeading(entry) {
+      if (!dailyOverviewDateEl) return;
+      if (!entry || !entry.date || entry.date === 'unknown') {
+        dailyOverviewDateEl.textContent = '';
+        return;
       }
-      const headerCells = configs
-        .map((configId) => `<th class="numeric">${PROFILE_LABELS[configId] ?? configId}</th>`)
-        .join('');
-      const rows = group.evalGroups
-        .map(({ evalName, runs }) => {
-          const label = EVAL_LABELS[evalName] ?? evalName;
-          const cells = configs.map((configId) => {
-            const run = runs.find((entry) => entry.configId === configId);
-            return formatEvalCell(run);
-          });
+      const label = formatDayLabel(entry.date);
+      dailyOverviewDateEl.textContent = label === 'Unknown Date' ? '' : `· ${label}`;
+    }
+
+    function renderRunCycle(cycle) {
+      const finishedLabel = cycle.finishedAt ? dateFormatter.format(new Date(cycle.finishedAt)) : 'unknown';
+      const configs = cycle.configs ?? [];
+      const configRows = configs
+        .map((configId) => {
+          const stats = cycle.perConfigStats?.[configId];
+          if (!stats) {
+            return `<tr><td>${PROFILE_LABELS[configId] ?? configId}</td><td class="numeric">–</td><td class="numeric">–</td><td class="numeric">–</td></tr>`;
+          }
           return `<tr>
-            <td>${label}</td>
-            ${cells.join('')}
+            <td>${PROFILE_LABELS[configId] ?? configId}</td>
+            <td class="numeric">${formatter.format(stats.totalVybes ?? 0)}</td>
+            <td class="numeric">${percentFormatter.format(stats.avgSuccess ?? 0)}</td>
+            <td class="numeric">${formatter.format(stats.avgPenalty ?? 0)}</td>
           </tr>`;
         })
         .join('');
-      return `<div class="table-wrapper compact eval-breakdown">
-        <table class="day-eval-table">
-          <thead>
-            <tr>
-              <th>Scenario</th>
-              ${headerCells}
-            </tr>
-          </thead>
-          <tbody>
-            ${rows}
-          </tbody>
-        </table>
-      </div>`;
-    }
 
-    function formatEvalCell(run) {
-      if (!run) {
-        return '<td class="day-eval-cell day-eval-missing">–</td>';
-      }
-      const score = formatter.format(run.finalScore);
-      const success = percentFormatter.format(run.successPercentage);
-      const minutes = formatter.format(run.actualTimeMinutes);
-      const badgeClass =
-        run.finalScore >= 90 ? 'badge-pass' : run.finalScore > 0 ? 'badge-warn' : 'badge-fail';
-      return `<td class="day-eval-cell">
-        <div class="cell-score ${badgeClass}">${score} vybes</div>
-        <div class="cell-meta">${success} · ${minutes} min</div>
-      </td>`;
-    }
+      const summaryTable = configs.length
+        ? `<div class="table-wrapper compact">
+            <table class="day-eval-table">
+              <thead>
+                <tr>
+                  <th>Profile</th>
+                  <th class="numeric">Total Vybes</th>
+                  <th class="numeric">Avg Success</th>
+                  <th class="numeric">Avg Penalty</th>
+                </tr>
+              </thead>
+              <tbody>${configRows}</tbody>
+            </table>
+          </div>`
+        : '';
 
-    function renderRunEvalGroup(evalName, runs = []) {
-      const scenario = EVAL_LABELS[evalName] ?? evalName;
-      if (!runs.length) {
-        return '';
-      }
-      return `<div class="run-eval-group">
-        <div class="run-eval-head">${scenario}</div>
-        ${runs.map(renderRunCard).join('')}
+      const scenariosMarkup = (cycle.scenarios ?? []).map(renderRunCard).join('');
+      const versions = cycle.repoVersions ?? [];
+
+      return `<div class="run-cycle">
+        <div class="run-cycle-head">
+          <div>
+            <strong>Run ${cycle.sessionId ?? 'unknown'}</strong>
+            <small>${finishedLabel}</small>
+          </div>
+          <div class="run-day-meta">
+            <span>${formatter.format(cycle.totalMinutes ?? 0)} min</span>
+            <div class="version-tag-group">${formatVersionTags(versions)}</div>
+          </div>
+        </div>
+        ${summaryTable}
+        <div class="run-accordion">
+          ${scenariosMarkup || '<p class="badge-warn">No scenario details recorded.</p>'}
+        </div>
       </div>`;
     }
 
@@ -609,27 +612,80 @@
       markSortHeader(table, sortState.field, sortState.desc);
     }
 
-    function renderTodaySummary(rows) {
+    function renderTodaySummary(entry) {
       const container = document.getElementById('today-summary');
       if (!container) return;
-      if (!todayKey || !rows.length) {
+      if (!todayKey || !entry) {
         container.innerHTML = '<p class="badge-fail">No runs recorded yet.</p>';
+        currentTodayRows = [];
         return;
       }
-      const todayRows = rows.filter((row) => row.date === todayKey);
-      if (!todayRows.length) {
+      const totalRuns = entry.summary?.totalRuns ?? 0;
+      if (!totalRuns) {
+        container.innerHTML = '<p class="badge-fail">No runs recorded for today.</p>';
+        currentTodayRows = [];
+        return;
+      }
+      currentTodayRows = createDailyRows([entry]);
+      if (!currentTodayRows.length) {
         container.innerHTML = '<p class="badge-fail">No runs recorded for today.</p>';
         return;
       }
-      container.innerHTML = buildDailyTableMarkup(todayRows);
+      sortRows(currentTodayRows, todaySort, todaySort.field, true, true);
+      container.innerHTML = `<div class="table-wrapper compact">
+        <table id="today-table" class="summary-table">
+          <thead>
+            <tr>
+              <th class="sortable" data-field="profileLabel">Profile</th>
+              <th class="sortable sorted desc numeric" data-field="totalVybes">Total Vybes</th>
+              <th class="sortable numeric" data-field="runs">Runs</th>
+              <th class="sortable numeric" data-field="avgVybes">Avg Vybes</th>
+              <th class="sortable numeric" data-field="avgSuccess">Avg Success</th>
+              <th class="sortable numeric" data-field="avgPenalty">Avg Penalty</th>
+              <th>Best Run</th>
+              <th>Worst Run</th>
+            </tr>
+          </thead>
+          <tbody id="today-summary-body"></tbody>
+        </table>
+      </div>`;
+      updateTodayTable();
+      const todayTable = container.querySelector('#today-table');
+      if (todayTable) {
+        bindSortHandlers(
+          todayTable,
+          currentTodayRows,
+          todaySort,
+          updateTodayTable,
+          {
+            profileLabel: { numeric: false },
+            totalVybes: { numeric: true },
+            runs: { numeric: true },
+            avgVybes: { numeric: true },
+            avgSuccess: { numeric: true },
+            avgPenalty: { numeric: true }
+          }
+        );
+      }
+    }
+
+    function updateTodayTable() {
+      const container = document.getElementById('today-summary');
+      if (!container) return;
+      const tbody = container.querySelector('#today-summary-body');
+      if (!tbody) return;
+      tbody.innerHTML = currentTodayRows.map(buildDailyRowMarkup).join('');
     }
 
     async function bootstrap() {
       try {
-        const [daily, runs] = await Promise.all([
+        const [daily, scenarioRuns, runCycleData] = await Promise.all([
           safeFetch('vybes-daily.json'),
-          safeFetch('vybes-runs.json')
+          safeFetch('vybes-runs.json'),
+          safeFetch('vybes-run-cycles.json').catch(() => [])
         ]);
+
+        const runCycles = Array.isArray(runCycleData) ? runCycleData : [];
 
         dailyEntriesByDate.clear();
         daily.forEach((entry) => {
@@ -637,31 +693,31 @@
           dailyEntriesByDate.set(key, entry);
         });
 
-        latestDayKey = daily.length ? findLatestDayKey(daily) : null;
+        latestDayKey = runCycles.length
+          ? findLatestDayKey(runCycles.map((cycle) => ({ date: cycle.date })))
+          : findLatestDayKey(daily);
         activeDayKey = latestDayKey ?? (daily[daily.length - 1]?.date ?? 'unknown');
         todayKey = latestDayKey;
 
-        const heroEntries = [];
-        if (latestDayKey && dailyEntriesByDate.has(latestDayKey)) {
-          heroEntries.push(dailyEntriesByDate.get(latestDayKey));
-        } else if (daily.length) {
-          heroEntries.push(daily[daily.length - 1]);
-        }
+        const todayEntry = todayKey ? dailyEntriesByDate.get(todayKey) : null;
+        const heroEntry = todayEntry || daily[daily.length - 1] || null;
 
-        currentDailyRows = createDailyRows(heroEntries);
+        currentDailyRows = heroEntry ? createDailyRows([heroEntry]) : [];
         sortRows(currentDailyRows, dailySort, dailySort.field, true, true);
         updateDailyTable();
-        renderTodaySummary(createDailyRows(daily));
+        updateDailyOverviewHeading(heroEntry);
+        renderTodaySummary(todayEntry);
 
         currentDaySummaryRows = createDaySummaryRows(daily);
         sortRows(currentDaySummaryRows, daySort, daySort.field, true, true);
         updateDaySummaryTable();
 
-        currentRunRows = runs.map((run) => {
+        const scenarioLookup = new Map();
+        currentRunRows = scenarioRuns.map((run) => {
           const subtasksPassed = run.vybes.breakdown?.subtasksPassed ?? 0;
           const subtasksTotal = run.vybes.breakdown?.subtasksTotal ?? 0;
           registerConfig(run.configId);
-          return {
+          const enriched = {
             ...run,
             profileLabel: PROFILE_LABELS[run.configId] ?? run.configId,
             finalScore: run.vybes.finalScore ?? 0,
@@ -672,12 +728,44 @@
             subtasksTotal,
             finishedAtValue: run.finishedAt ? Date.parse(run.finishedAt) : 0,
             error: run.vybes.error ?? null,
-            repoVersion: run.repoVersion ?? run.vybes.repoVersion ?? 'unknown'
+            repoVersion: run.repoVersion ?? run.vybes.repoVersion ?? 'unknown',
+            date: run.date ?? (run.finishedAt ? run.finishedAt.slice(0, 10) : 'unknown'),
+            runSessionId: run.runSessionId ?? null
           };
+          scenarioLookup.set(`${run.runId}::${run.configId}`, enriched);
+          return enriched;
         });
         currentRunRows.sort((a, b) => b.finishedAtValue - a.finishedAtValue);
         orderedConfigs = configOrder.length ? [...configOrder] : [];
-        currentRunGroups = groupRuns(currentRunRows, orderedConfigs);
+
+        const decoratedRunCycles = runCycles.map((cycle) => {
+          const scenarios = (cycle.scenarios ?? []).map((scenario) => {
+            const key = `${scenario.runId}::${scenario.configId}`;
+            return (
+              scenarioLookup.get(key) || {
+                ...scenario,
+                profileLabel: PROFILE_LABELS[scenario.configId] ?? scenario.configId,
+                finalScore: scenario.vybes?.finalScore ?? 0,
+                successPercentage: scenario.vybes?.successPercentage ?? 0,
+                timePenaltyMultiplier: scenario.vybes?.timePenaltyMultiplier ?? 0,
+                actualTimeMinutes: scenario.vybes?.actualTimeMinutes ?? 0,
+                subtasksPassed: scenario.vybes?.breakdown?.subtasksPassed ?? 0,
+                subtasksTotal: scenario.vybes?.breakdown?.subtasksTotal ?? 0,
+                finishedAtValue: scenario.finishedAt ? Date.parse(scenario.finishedAt) : 0,
+                error: scenario.vybes?.error ?? null,
+                repoVersion: scenario.repoVersion ?? scenario.vybes?.repoVersion ?? 'unknown'
+              }
+            );
+          });
+          const totalMinutes = cycle.totalMinutes ?? scenarios.reduce((sum, sc) => sum + (sc.actualTimeMinutes ?? 0), 0);
+          return {
+            ...cycle,
+            scenarios,
+            totalMinutes
+          };
+        });
+
+        currentRunGroups = groupRunCycles(decoratedRunCycles);
         renderRunLog();
 
         bindSortHandlers(dailyTable, currentDailyRows, dailySort, updateDailyTable, {
@@ -698,8 +786,14 @@
           versionsLabel: { numeric: false }
         });
 
-        const latest = currentRunRows.find((row) => row.finishedAtValue);
-        updatedAtEl.textContent = latest ? dateFormatter.format(new Date(latest.finishedAtValue)) : 'unknown';
+        const latestCycle = decoratedRunCycles[0];
+        if (latestCycle?.finishedAt) {
+          updatedAtEl.textContent = dateFormatter.format(new Date(latestCycle.finishedAt));
+        } else if (currentRunRows[0]?.finishedAtValue) {
+          updatedAtEl.textContent = dateFormatter.format(new Date(currentRunRows[0].finishedAtValue));
+        } else {
+          updatedAtEl.textContent = 'unknown';
+        }
       } catch (error) {
         const message = `${error.message}. Serve this directory over HTTP to enable fetch().`;
         dailyBody.innerHTML = `<tr><td colspan="8">${message}</td></tr>`;
