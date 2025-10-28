@@ -1,5 +1,1076 @@
 [
   {
+    "sessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+    "date": "2025-10-28",
+    "startedAt": "2025-10-28T13:50:13.245Z",
+    "finishedAt": "2025-10-28T14:47:58.846Z",
+    "repoVersions": [
+      "main@2db185c"
+    ],
+    "totalVybes": 500,
+    "totalMinutes": 53.2,
+    "configs": [
+      "llxprt-synthetic-main",
+      "llxprt-synthetic-minimax",
+      "llxprt-cerebras-main"
+    ],
+    "perConfigStats": {
+      "llxprt-synthetic-main": {
+        "runs": 6,
+        "totalVybes": 400,
+        "avgVybes": 66.67,
+        "avgSuccess": 0.2667,
+        "penaltySum": 2,
+        "penaltyCount": 2,
+        "avgPenalty": 1,
+        "totalRawVybes": 400,
+        "avgRawVybes": 66.67,
+        "bestRun": {
+          "eval": "pagination",
+          "score": 300
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      },
+      "llxprt-synthetic-minimax": {
+        "runs": 6,
+        "totalVybes": 0,
+        "avgVybes": 0,
+        "avgSuccess": 0.2037,
+        "penaltySum": 0,
+        "penaltyCount": 0,
+        "avgPenalty": 0,
+        "totalRawVybes": 388.91,
+        "avgRawVybes": 64.82,
+        "bestRun": {
+          "eval": "base64-fix",
+          "score": 0
+        },
+        "worstRun": {
+          "eval": "base64-fix",
+          "score": 0
+        }
+      },
+      "llxprt-cerebras-main": {
+        "runs": 6,
+        "totalVybes": 100,
+        "avgVybes": 16.67,
+        "avgSuccess": 0.2778,
+        "penaltySum": 1,
+        "penaltyCount": 1,
+        "avgPenalty": 1,
+        "totalRawVybes": 433.35,
+        "avgRawVybes": 72.22,
+        "bestRun": {
+          "eval": "base64-fix",
+          "score": 100
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      }
+    },
+    "scenarios": [
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-synthetic-main",
+        "runId": "base64-fix-2025-10-28T13-50-13-258Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T13:52:17.899Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 100,
+          "finalScore": 100,
+          "actualTimeMinutes": 1.924,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/base64-fix-2025-10-28T13-50-13-258Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-10-28T13-50-13-258Z/llxprt-synthetic-main/workspace.zip",
+          "size": 42962
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "base64-fix-2025-10-28T13-52-18-144Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T13:52:49.910Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 0.5556,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.308,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 10,
+            "subtasksTotal": 18,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "base64"
+            ],
+            "modules": {
+              "base64": {
+                "passed": 10,
+                "total": 18,
+                "passedTasks": [
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "cli-decode-success",
+                  "cli-argument-error"
+                ],
+                "failedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-error"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:public failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/base64-fix-2025-10-28T13-52-18-144Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-10-28T13-52-18-144Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 43096
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 55.56
+      },
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-cerebras-main",
+        "runId": "base64-fix-2025-10-28T13-52-50-113Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T13:53:25.850Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 100,
+          "finalScore": 100,
+          "actualTimeMinutes": 0.443,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/base64-fix-2025-10-28T13-52-50-113Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-10-28T13-52-50-113Z/llxprt-cerebras-main/workspace.zip",
+          "size": 42363
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-synthetic-main",
+        "runId": "form-capture-2025-10-28T13-53-26-050Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:08:52.239Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 0.6666,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 15.002,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "package-integrity"
+                ],
+                "failedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/form-capture-2025-10-28T13-53-26-050Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-10-28T13-53-26-050Z/llxprt-synthetic-main/workspace.zip",
+          "size": 67642
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "form-capture-2025-10-28T14-08-52-572Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:09:43.784Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.412,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "package-integrity"
+                ],
+                "failedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/form-capture-2025-10-28T14-08-52-572Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-10-28T14-08-52-572Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 61088
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-cerebras-main",
+        "runId": "form-capture-2025-10-28T14-09-44-070Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:11:06.443Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.943,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 0,
+                "total": 6,
+                "passedTasks": [],
+                "failedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling",
+                  "package-integrity"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/form-capture-2025-10-28T14-09-44-070Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-10-28T14-09-44-070Z/llxprt-cerebras-main/workspace.zip",
+          "size": 66178
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-synthetic-main",
+        "runId": "pagination-2025-10-28T14-11-06-782Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:14:36.961Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0.6,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 300,
+          "finalScore": 300,
+          "actualTimeMinutes": 3.296,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 3,
+                "total": 5,
+                "passedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling"
+                ],
+                "failedTasks": [
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "status": "ok",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/pagination-2025-10-28T14-11-06-782Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-10-28T14-11-06-782Z/llxprt-synthetic-main/workspace.zip",
+          "size": 60735
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 300
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "pagination-2025-10-28T14-14-37-277Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:15:09.311Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.307,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 0,
+                "total": 5,
+                "passedTasks": [],
+                "failedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling",
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/pagination-2025-10-28T14-14-37-277Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-10-28T14-14-37-277Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 61875
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-cerebras-main",
+        "runId": "pagination-2025-10-28T14-15-09-584Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:15:38.516Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.258,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 0,
+                "total": 5,
+                "passedTasks": [],
+                "failedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling",
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/pagination-2025-10-28T14-15-09-584Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-10-28T14-15-09-584Z/llxprt-cerebras-main/workspace.zip",
+          "size": 61202
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-synthetic-main",
+        "runId": "react-evaluation-2025-10-28T14-15-38-789Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:25:26.642Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 9.524,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 3,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "react-evaluation"
+            ],
+            "modules": {
+              "react-evaluation": {
+                "passed": 1,
+                "total": 3,
+                "passedTasks": [
+                  "callback-cleanup"
+                ],
+                "failedTasks": [
+                  "advanced-dependency-chain",
+                  "nested-computed"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/react-evaluation-2025-10-28T14-15-38-789Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-10-28T14-15-38-789Z/llxprt-synthetic-main/workspace.zip",
+          "size": 43766
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "react-evaluation-2025-10-28T14-25-26-857Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:26:24.525Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6667,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.671,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 2,
+            "subtasksTotal": 3,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "react-evaluation"
+            ],
+            "modules": {
+              "react-evaluation": {
+                "passed": 2,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "callback-cleanup"
+                ],
+                "failedTasks": [
+                  "nested-computed"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:public failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/react-evaluation-2025-10-28T14-25-26-857Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-10-28T14-25-26-857Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 43662
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 333.35
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-cerebras-main",
+        "runId": "react-evaluation-2025-10-28T14-26-24-728Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:26:51.438Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6667,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.158,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 2,
+            "subtasksTotal": 3,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "react-evaluation"
+            ],
+            "modules": {
+              "react-evaluation": {
+                "passed": 2,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "callback-cleanup"
+                ],
+                "failedTasks": [
+                  "nested-computed"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:public failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/react-evaluation-2025-10-28T14-26-24-728Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-10-28T14-26-24-728Z/llxprt-cerebras-main/workspace.zip",
+          "size": 42728
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 333.35
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-synthetic-main",
+        "runId": "regex-challenge-2025-10-28T14-26-51-621Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:33:42.911Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 0.8955,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 6.7,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:hidden failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/regex-challenge-2025-10-28T14-26-51-621Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-10-28T14-26-51-621Z/llxprt-synthetic-main/workspace.zip",
+          "size": 57557
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "regex-challenge-2025-10-28T14-33-43-121Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:35:27.997Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 1.58,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/regex-challenge-2025-10-28T14-33-43-121Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-10-28T14-33-43-121Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 56891
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-cerebras-main",
+        "runId": "regex-challenge-2025-10-28T14-35-28-178Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:36:33.210Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.932,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:public failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/regex-challenge-2025-10-28T14-35-28-178Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-10-28T14-35-28-178Z/llxprt-cerebras-main/workspace.zip",
+          "size": 57607
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-synthetic-main",
+        "runId": "report-builder-2025-10-28T14-36-33-392Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:45:48.921Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 0.8807,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 9.084,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:hidden failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/report-builder-2025-10-28T14-36-33-392Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-10-28T14-36-33-392Z/llxprt-synthetic-main/workspace.zip",
+          "size": 46067
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "report-builder-2025-10-28T14-45-49-134Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:47:12.885Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 1.072,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:hidden failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/report-builder-2025-10-28T14-45-49-134Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-10-28T14-45-49-134Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 40396
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-cerebras-main",
+        "runId": "report-builder-2025-10-28T14-47-13-068Z",
+        "date": "2025-10-28",
+        "finishedAt": "2025-10-28T14:47:58.846Z",
+        "repoVersion": "main@2db185c",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 0.589,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:hidden failed (exit 1)",
+          "status": "error",
+          "repoVersion": "main@2db185c"
+        },
+        "workspaceArchive": "outputs/report-builder-2025-10-28T14-47-13-068Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-10-28T14-47-13-068Z/llxprt-cerebras-main/workspace.zip",
+          "size": 43098
+        },
+        "runSessionId": "486e02d0-9895-4aeb-8daa-ff413c32bb90",
+        "runSessionStartedAt": "2025-10-28T13:50:13.245Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      }
+    ]
+  },
+  {
     "sessionId": "0c1ecae2-4a90-4625-90d5-0d2f02cae232",
     "date": "2025-10-28",
     "startedAt": "2025-10-28T13:41:28.363Z",
