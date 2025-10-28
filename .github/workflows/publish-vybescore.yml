@@ -25,6 +25,7 @@ jobs:
       CEREBRAS_CONTEXT_LIMIT: ${{ vars.CEREBRAS_CONTEXT_LIMIT || 'context-limit=128000' }}
       CEREBRAS_CUSTOM_HEADERS: ${{ vars.CEREBRAS_CUSTOM_HEADERS || 'custom-headers=response_format.json_schema.strict true' }}
       CEREBRAS_SHELL_REPLACEMENT: ${{ vars.CEREBRAS_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+      ROLLUP_SKIP_NODE_RESOLUTION: 1
 
     steps:
       - name: Checkout vybestack-site
@@ -55,8 +56,10 @@ jobs:
         working-directory: evals
         run: |
           npm install
+          npm install @rollup/rollup-linux-x64-gnu --no-save || true
           for dir in base64-fix pagination report-builder form-capture regex-challenge react-evaluation; do
             npm --prefix grading/$dir install
+            npm --prefix grading/$dir install @rollup/rollup-linux-x64-gnu --no-save || true
           done
 
       - name: Run evaluations
