@@ -480,7 +480,10 @@
               return sum + scenario.rawVybes;
             }
             const base = scenario.vybes?.baseScore ?? 0;
-            const success = scenario.vybes?.successPercentage ?? 0;
+            const success =
+              scenario.vybes?.adjustedSuccessPercentage ??
+              scenario.vybes?.successPercentage ??
+              0;
             return sum + base * success;
           }, 0);
           const rawLabel = formatter.format(rawTotal ?? 0);
@@ -583,6 +586,40 @@
       return `${value.toFixed(1)} ${units[index]}`;
     }
 
+    function getRunStatusInfo(run) {
+      const status = run?.status;
+      if (!status || status === 'ok') return null;
+      const normalized = status.toLowerCase();
+      if (normalized === 'cli_failed') {
+        return {
+          label: 'CLI Failed',
+          className: 'badge-fail',
+          detail: run.error ?? 'CLI exited with an error before grading.'
+        };
+      }
+      if (normalized === 'no_op') {
+        return {
+          label: 'No Changes',
+          className: 'badge-warn',
+          detail: 'Baseline output only — no progress beyond starter code.'
+        };
+      }
+      if (normalized === 'error') {
+        return {
+          label: 'Build Failure',
+          className: 'badge-fail',
+          detail: run.error ?? 'Build or grading step failed.'
+        };
+      }
+      return null;
+    }
+
+    function renderStatusBadge(run) {
+      const info = getRunStatusInfo(run);
+      if (!info) return '';
+      return `<span class="run-status-badge ${info.className}">${info.label}</span>`;
+    }
+
     function renderRunCard(run, options = {}) {
       const showProfile = options.showProfile ?? false;
       const scenario = EVAL_LABELS[run.evalName] ?? run.evalName;
@@ -597,22 +634,49 @@
       const artifactLink = run.workspaceZip?.path
         ? `<a href="${run.workspaceZip.path}" download>workspace.zip${sizeLabel ? ` (${sizeLabel})` : ''}</a>`
         : '';
-      const notes = run.error ? `<div class="run-notes badge-fail">${run.error}</div>` : '';
+      const statusInfo = getRunStatusInfo(run);
+      const notesMessages = [];
+      if (statusInfo?.detail) {
+        notesMessages.push(statusInfo.detail);
+      }
+      if (run.error && (!statusInfo || statusInfo.detail !== run.error)) {
+        notesMessages.push(run.error);
+      }
+      const notes = notesMessages.length
+        ? `<div class="run-notes ${statusInfo?.className ?? 'badge-fail'}">${notesMessages.join('<br>')}</div>`
+        : '';
       const rawValue = typeof run.rawVybes === 'number'
         ? run.rawVybes
-        : (run.vybes?.baseScore ?? 0) * (run.vybes?.successPercentage ?? 0);
+        : run.vybes?.rawScore ?? (run.vybes?.baseScore ?? 0) * (run.vybes?.adjustedSuccessPercentage ?? run.vybes?.successPercentage ?? 0);
       const rawLabel = formatter.format(rawValue ?? 0);
       const profileMarkup = showProfile ? `<span class="run-profile">${run.profileLabel}</span>` : '';
+      const statusBadge = renderStatusBadge(run);
+      const baselineRow = typeof run.baselineSuccessPercentage === 'number' && run.baselineSuccessPercentage > 0
+        ? `<div>
+              <strong>Baseline</strong>
+              <span>${percentFormatter.format(run.baselineSuccessPercentage)}</span>
+            </div>`
+        : '';
+      const originalSuccessRow =
+        typeof run.originalSuccessPercentage === 'number' && run.originalSuccessPercentage !== run.successPercentage
+          ? `<div>
+              <strong>Success (raw)</strong>
+              <span>${percentFormatter.format(run.originalSuccessPercentage)}</span>
+            </div>`
+          : '';
       return `<details class="run-card">
         <summary>
           <div class="run-summary-main">
             ${profileMarkup}
-            <span class="run-scenario">${scenario}</span>
+            <div class="run-scenario-line">
+              <span class="run-scenario">${scenario}</span>
+              ${statusBadge}
+            </div>
           </div>
           <div class="run-summary-meta">
             <span class="run-score">${formatter.format(run.finalScore ?? 0)} vybes</span>
             <span class="run-score run-score-raw">Raw ${rawLabel} vybes</span>
-            <span>${percentFormatter.format(run.successPercentage)}</span>
+            <span>Adj ${percentFormatter.format(run.successPercentage)}</span>
             <span>${formatter.format(run.actualTimeMinutes ?? 0)} min</span>
             <span class="version-pill">${run.repoVersion ?? 'unknown'}</span>
           </div>
@@ -632,9 +696,11 @@
               <span>${formatter.format(run.timePenaltyMultiplier)}</span>
             </div>
             <div>
-              <strong>Success</strong>
+              <strong>Success (adj)</strong>
               <span>${percentFormatter.format(run.successPercentage)}</span>
             </div>
+            ${originalSuccessRow}
+            ${baselineRow}
           </div>
           <div class="run-links">
             ${artifactLink || ''}
@@ -821,25 +887,33 @@
         currentRunRows = scenarioRuns.map((run) => {
           const subtasksPassed = run.vybes.breakdown?.subtasksPassed ?? 0;
           const subtasksTotal = run.vybes.breakdown?.subtasksTotal ?? 0;
-          const rawVybes = typeof run.rawVybes === 'number'
+          const baselineSuccess = run.vybes.baselineSuccessPercentage ?? 0;
+          const adjustedSuccess = run.vybes.adjustedSuccessPercentage ?? run.vybes.successPercentage ?? 0;
+          const originalSuccess = run.vybes.successPercentage ?? adjustedSuccess;
+          const rawSource = typeof run.rawVybes === 'number'
             ? run.rawVybes
-            : (run.vybes.baseScore ?? 0) * (run.vybes.successPercentage ?? 0);
+            : run.vybes.rawScore ?? (run.vybes.baseScore ?? 0) * adjustedSuccess;
+          const rawVybes = Number((rawSource ?? 0).toFixed(2));
+          const status = run.vybes.status ?? run.status ?? null;
           registerConfig(run.configId);
           const enriched = {
             ...run,
             profileLabel: PROFILE_LABELS[run.configId] ?? run.configId,
             finalScore: run.vybes.finalScore ?? 0,
-            successPercentage: run.vybes.successPercentage ?? 0,
+            successPercentage: adjustedSuccess,
+            originalSuccessPercentage: originalSuccess,
+            baselineSuccessPercentage: baselineSuccess,
             timePenaltyMultiplier: run.vybes.timePenaltyMultiplier ?? 0,
             actualTimeMinutes: run.vybes.actualTimeMinutes ?? 0,
             subtasksPassed,
             subtasksTotal,
             finishedAtValue: run.finishedAt ? Date.parse(run.finishedAt) : 0,
-            error: run.vybes.error ?? null,
+            error: run.vybes.error ?? run.error ?? null,
             repoVersion: run.repoVersion ?? run.vybes.repoVersion ?? 'unknown',
             date: run.date ?? (run.finishedAt ? run.finishedAt.slice(0, 10) : 'unknown'),
             runSessionId: run.runSessionId ?? null,
-            rawVybes: Number(rawVybes.toFixed(2)),
+            rawVybes,
+            status,
             cliCommand: run.cliCommand ?? null
           };
           scenarioLookup.set(`${run.runId}::${run.configId}`, enriched);
@@ -856,7 +930,12 @@
                 ...scenario,
                 profileLabel: PROFILE_LABELS[scenario.configId] ?? scenario.configId,
                 finalScore: scenario.vybes?.finalScore ?? 0,
-                successPercentage: scenario.vybes?.successPercentage ?? 0,
+                successPercentage:
+                  scenario.vybes?.adjustedSuccessPercentage ??
+                  scenario.vybes?.successPercentage ??
+                  0,
+                originalSuccessPercentage: scenario.vybes?.successPercentage ?? 0,
+                baselineSuccessPercentage: scenario.vybes?.baselineSuccessPercentage ?? 0,
                 timePenaltyMultiplier: scenario.vybes?.timePenaltyMultiplier ?? 0,
                 actualTimeMinutes: scenario.vybes?.actualTimeMinutes ?? 0,
                 subtasksPassed: scenario.vybes?.breakdown?.subtasksPassed ?? 0,
@@ -864,7 +943,15 @@
                 finishedAtValue: scenario.finishedAt ? Date.parse(scenario.finishedAt) : 0,
                 error: scenario.vybes?.error ?? null,
                 repoVersion: scenario.repoVersion ?? scenario.vybes?.repoVersion ?? 'unknown',
-                rawVybes: Number(((scenario.vybes?.baseScore ?? 0) * (scenario.vybes?.successPercentage ?? 0)).toFixed(2)),
+                rawVybes: Number(
+                  (
+                    scenario.rawVybes ??
+                    scenario.vybes?.rawScore ??
+                    (scenario.vybes?.baseScore ?? 0) *
+                      (scenario.vybes?.adjustedSuccessPercentage ?? scenario.vybes?.successPercentage ?? 0)
+                  ).toFixed(2)
+                ),
+                status: scenario.vybes?.status ?? null,
                 cliCommand: scenario.cliCommand ?? null
               }
             );
