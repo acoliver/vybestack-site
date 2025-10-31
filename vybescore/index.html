@@ -30,6 +30,7 @@
               <th class="sortable sorted desc numeric" data-field="totalVybes">Total Vybes</th>
               <th class="sortable numeric" data-field="runs">Runs</th>
               <th class="sortable numeric" data-field="avgVybes">Avg Vybes</th>
+              <th class="sortable numeric" data-field="avgPasses">Avg Passes</th>
               <th class="sortable numeric" data-field="avgSuccess">Avg Success</th>
               <th class="sortable numeric" data-field="avgPenalty">Avg Penalty</th>
               <th>Best Run</th>
@@ -51,6 +52,7 @@
               <th class="sortable numeric" data-field="totalRuns">Runs</th>
               <th class="sortable numeric" data-field="totalMinutes">Minutes</th>
               <th class="sortable numeric" data-field="avgVybes">Avg Vybes</th>
+              <th class="sortable numeric" data-field="avgPasses">Avg Passes</th>
               <th class="sortable" data-field="profilesLabel">Profiles</th>
               <th class="sortable" data-field="versionsLabel">Repo Versions</th>
             </tr>
@@ -151,6 +153,7 @@
         <td class="numeric" data-field="totalVybes">${formatter.format(row.totalVybes)}</td>
         <td class="numeric" data-field="runs">${row.runs}</td>
         <td class="numeric" data-field="avgVybes">${formatter.format(row.avgVybes)}</td>
+        <td class="numeric" data-field="avgPasses">${formatter.format(row.avgPasses ?? 0)}</td>
         <td class="numeric" data-field="avgSuccess">${percentFormatter.format(row.avgSuccess)}</td>
         <td class="numeric" data-field="avgPenalty">${formatter.format(row.avgPenalty)}</td>
         <td>${best}</td>
@@ -171,6 +174,7 @@
             configId,
             totalVybes: stats.totalVybes,
             runs: stats.runs,
+            avgPasses: stats.avgPasses ?? (stats.totalPasses ?? 0) / Math.max(stats.runs ?? 0, 1),
             avgVybes: stats.avgVybes,
             avgSuccess: stats.avgSuccess,
             avgPenalty: stats.avgPenalty,
@@ -197,11 +201,14 @@
           0
         );
         const avgVybes = totalScenarios ? totalVybes / totalScenarios : summary.avgVybes ?? 0;
+        const totalPasses = (entry.runCycles ?? []).reduce((sum, cycle) => sum + (cycle.totalPasses ?? 0), 0);
+        const avgPasses = totalScenarios ? totalPasses / totalScenarios : summary.avgPasses ?? 0;
         return {
           rawDate,
           dateLabel: label,
           totalRuns: summary.totalRuns ?? 0,
           totalMinutes: summary.totalMinutes ?? 0,
+          avgPasses,
           avgVybes,
           totalVybes,
           totalScenarios,
@@ -271,7 +278,7 @@
 
     function updateDailyTable() {
       if (!currentDailyRows.length) {
-        dailyBody.innerHTML = '<tr><td colspan="8">No runs recorded for today yet.</td></tr>';
+        dailyBody.innerHTML = '<tr><td colspan="9">No runs recorded for today yet.</td></tr>';
         return;
       }
       dailyBody.innerHTML = currentDailyRows.map(buildDailyRowMarkup).join('');
@@ -289,6 +296,7 @@
             <td class="numeric" data-field="totalRuns">${row.totalRuns}</td>
             <td class="numeric" data-field="totalMinutes">${formatter.format(row.totalMinutes)}</td>
             <td class="numeric" data-field="avgVybes">${formatter.format(row.avgVybes)}</td>
+            <td class="numeric" data-field="avgPasses">${formatter.format(row.avgPasses ?? 0)}</td>
             <td>${row.profilesLabel}</td>
             <td><div class="version-tag-group">${formatVersionTags(row.repoVersions)}</div></td>
           </tr>`;
@@ -355,6 +363,7 @@
                 <th class="numeric">Total Vybes</th>
                 <th class="numeric">Runs</th>
                 <th class="numeric">Avg Vybes</th>
+                <th class="numeric">Avg Passes</th>
                 <th class="numeric">Avg Success</th>
                 <th class="numeric">Avg Penalty</th>
                 <th>Best Run</th>
@@ -434,11 +443,24 @@
       const isActiveDay = group.date === activeDayKey;
       const summaryBlock = isActiveDay ? renderDaySummary(summaryEntry) : '';
       const totalEvals = group.cycles.reduce((sum, cycle) => sum + (cycle.scenarios?.length ?? 0), 0);
+      const totalPasses = group.cycles.reduce((sum, cycle) => {
+        const cyclePasses =
+          cycle.totalPasses ??
+          cycle.scenarios?.reduce((cycleSum, scenario) => cycleSum + (scenario.passCount ?? 0), 0) ??
+          0;
+        return sum + cyclePasses;
+      }, 0);
       const profileCount = new Set(group.cycles.flatMap((cycle) => cycle.configs ?? [])).size;
       const cycleLabel = `${group.cycles.length} run cycle${group.cycles.length === 1 ? '' : 's'}`;
       const evalLabel = `${totalEvals} eval${totalEvals === 1 ? '' : 's'}`;
       const profileLabel = `${profileCount} profile${profileCount === 1 ? '' : 's'}`;
-      const headerMetrics = `${cycleLabel} · ${evalLabel} · ${profileLabel} · ${formatter.format(totalMinutes)} minutes`;
+      const dayAvgPasses = totalEvals ? totalPasses / totalEvals : null;
+      const passesPart = Number.isFinite(dayAvgPasses)
+        ? ` · avg passes ${formatter.format(dayAvgPasses)}`
+        : '';
+      const headerMetrics = `${cycleLabel} · ${evalLabel} · ${profileLabel} · ${formatter.format(
+        totalMinutes
+      )} minutes${passesPart}`;
       const cyclesMarkup = group.cycles.map(renderRunCycle).join('');
 
       return `<section class="run-day${isActiveDay ? ' active-day' : ''}" id="${anchorId}">
@@ -487,13 +509,19 @@
             return sum + base * success;
           }, 0);
           const rawLabel = formatter.format(rawTotal ?? 0);
+          const avgPassesValue =
+            stats?.avgPasses ??
+            ((stats?.totalPasses ?? configScenarios.reduce((sum, scenario) => sum + (scenario.passCount ?? 0), 0)) /
+              Math.max(stats?.runs ?? configScenarios.length ?? 0, 1));
+          const avgPassesLabel = Number.isFinite(avgPassesValue) ? formatter.format(avgPassesValue) : '–';
           if (!stats) {
-            return `<tr><td>${PROFILE_LABELS[configId] ?? configId}</td><td class="numeric">–</td><td class="numeric">${rawLabel}</td><td class="numeric">–</td><td class="numeric">–</td></tr>`;
+            return `<tr><td>${PROFILE_LABELS[configId] ?? configId}</td><td class="numeric">–</td><td class="numeric">${rawLabel}</td><td class="numeric">${avgPassesLabel}</td><td class="numeric">–</td><td class="numeric">–</td></tr>`;
           }
           return `<tr>
             <td>${PROFILE_LABELS[configId] ?? configId}</td>
             <td class="numeric">${formatter.format(stats.totalVybes ?? 0)}</td>
             <td class="numeric">${formatter.format(stats.totalRawVybes ?? rawTotal ?? 0)}</td>
+            <td class="numeric">${avgPassesLabel}</td>
             <td class="numeric">${percentFormatter.format(stats.avgSuccess ?? 0)}</td>
             <td class="numeric">${formatter.format(stats.avgPenalty ?? 0)}</td>
           </tr>`;
@@ -504,13 +532,14 @@
         ? `<div class="table-wrapper compact">
             <table class="day-eval-table">
               <thead>
-                <tr>
-                  <th>Profile</th>
-                  <th class="numeric">Total Vybes</th>
-                  <th class="numeric">Raw Vybes</th>
-                  <th class="numeric">Avg Success</th>
-                  <th class="numeric">Avg Penalty</th>
-                </tr>
+              <tr>
+                <th>Profile</th>
+                <th class="numeric">Total Vybes</th>
+                <th class="numeric">Raw Vybes</th>
+                <th class="numeric">Avg Passes</th>
+                <th class="numeric">Avg Success</th>
+                <th class="numeric">Avg Penalty</th>
+              </tr>
               </thead>
               <tbody>${configRows}</tbody>
             </table>
@@ -542,6 +571,13 @@
     function renderConfigGroup(configId, scenarios = [], stats) {
       const label = PROFILE_LABELS[configId] ?? configId;
       const runsLabel = stats?.runs ?? scenarios.length;
+      const avgPassesValue =
+        stats?.avgPasses ??
+        ((stats?.totalPasses ?? scenarios.reduce((sum, scenario) => sum + (scenario.passCount ?? 0), 0)) /
+          Math.max(stats?.runs ?? scenarios.length ?? 0, 1));
+      const passSummary = Number.isFinite(avgPassesValue)
+        ? ` · avg passes ${formatter.format(avgPassesValue)}`
+        : '';
       const command = scenarios.length ? scenarios[0]?.cliCommand ?? '' : '';
       const encodedCommand = command ? encodeURIComponent(command) : '';
       const commandMarkup = command
@@ -564,7 +600,7 @@
         <div class="run-config-head">
           <div>
             <h4>${label}</h4>
-            <small>${runsLabel} scenario${runsLabel === 1 ? '' : 's'}</small>
+            <small>${runsLabel} scenario${runsLabel === 1 ? '' : 's'}${passSummary}</small>
           </div>
           ${commandMarkup}
         </div>
@@ -630,6 +666,32 @@
             .map(([name, stats]) => `<span>${name}: ${stats.passed}/${stats.total}</span>`)
             .join('')
         : '<span>Modules unavailable</span>';
+      const passCountValue = Number.isFinite(run.passCount)
+        ? run.passCount
+        : Number.isFinite(run.passes)
+        ? run.passes
+        : Number.isFinite(run?.multipass?.passCount)
+        ? run.multipass.passCount
+        : Array.isArray(run?.multipass?.passes)
+        ? run.multipass.passes.length
+        : null;
+      const selectedPassValue = Number.isFinite(run.selectedPass)
+        ? run.selectedPass
+        : Number.isFinite(run?.multipass?.selectedPass)
+        ? run.multipass.selectedPass
+        : null;
+      const passCountDisplay =
+        passCountValue !== null && Number.isFinite(passCountValue)
+          ? Number.isInteger(passCountValue)
+            ? String(passCountValue)
+            : formatter.format(passCountValue)
+          : null;
+      const passSummaryLabel =
+        passCountDisplay !== null
+          ? `${passCountDisplay}${
+              selectedPassValue !== null ? ` (selected #${selectedPassValue + 1})` : ''
+            }`
+          : null;
       const sizeLabel = run.workspaceZip?.size ? formatBytes(run.workspaceZip.size) : '';
       const artifactLink = run.workspaceZip?.path
         ? `<a href="${run.workspaceZip.path}" download>workspace.zip${sizeLabel ? ` (${sizeLabel})` : ''}</a>`
@@ -676,6 +738,7 @@
           <div class="run-summary-meta">
             <span class="run-score">${formatter.format(run.finalScore ?? 0)} vybes</span>
             <span class="run-score run-score-raw">Raw ${rawLabel} vybes</span>
+            ${passSummaryLabel !== null ? `<span class="run-pass-count">Passes ${passSummaryLabel}</span>` : ''}
             <span>Adj ${percentFormatter.format(run.successPercentage)}</span>
             <span>${formatter.format(run.actualTimeMinutes ?? 0)} min</span>
             <span class="version-pill">${run.repoVersion ?? 'unknown'}</span>
@@ -691,6 +754,14 @@
               <strong>Subtasks</strong>
               <span>${run.subtasksPassed}/${run.subtasksTotal}</span>
             </div>
+            ${
+              passSummaryLabel !== null
+                ? `<div>
+              <strong>Passes</strong>
+              <span>${passSummaryLabel}</span>
+            </div>`
+                : ''
+            }
             <div>
               <strong>Penalty</strong>
               <span>${formatter.format(run.timePenaltyMultiplier)}</span>
@@ -811,6 +882,7 @@
               <th class="sortable sorted desc numeric" data-field="totalVybes">Total Vybes</th>
               <th class="sortable numeric" data-field="runs">Runs</th>
               <th class="sortable numeric" data-field="avgVybes">Avg Vybes</th>
+              <th class="sortable numeric" data-field="avgPasses">Avg Passes</th>
               <th class="sortable numeric" data-field="avgSuccess">Avg Success</th>
               <th class="sortable numeric" data-field="avgPenalty">Avg Penalty</th>
               <th>Best Run</th>
@@ -833,6 +905,7 @@
             totalVybes: { numeric: true },
             runs: { numeric: true },
             avgVybes: { numeric: true },
+            avgPasses: { numeric: true },
             avgSuccess: { numeric: true },
             avgPenalty: { numeric: true }
           }
@@ -972,6 +1045,7 @@
           totalVybes: { numeric: true },
           runs: { numeric: true },
           avgVybes: { numeric: true },
+          avgPasses: { numeric: true },
           avgSuccess: { numeric: true },
           avgPenalty: { numeric: true }
         });
@@ -981,6 +1055,7 @@
           totalRuns: { numeric: true },
           totalMinutes: { numeric: true },
           avgVybes: { numeric: true },
+          avgPasses: { numeric: true },
           profilesLabel: { numeric: false },
           versionsLabel: { numeric: false }
         });
@@ -995,8 +1070,8 @@
         }
       } catch (error) {
         const message = `${error.message}. Serve this directory over HTTP to enable fetch().`;
-        dailyBody.innerHTML = `<tr><td colspan="8">${message}</td></tr>`;
-        daySummaryBody.innerHTML = `<tr><td colspan="6">${message}</td></tr>`;
+        dailyBody.innerHTML = `<tr><td colspan="9">${message}</td></tr>`;
+        daySummaryBody.innerHTML = `<tr><td colspan="7">${message}</td></tr>`;
         runLogContainer.innerHTML = `<p class="badge-fail">${message}</p>`;
         console.error(error);
       }
