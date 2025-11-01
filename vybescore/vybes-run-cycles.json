@@ -1,5 +1,3072 @@
 [
   {
+    "sessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+    "date": "2025-11-01",
+    "startedAt": "2025-11-01T01:51:47.165Z",
+    "finishedAt": "2025-11-01T03:58:21.547Z",
+    "repoVersions": [
+      "main@ee233ac"
+    ],
+    "totalVybes": 2076.27,
+    "totalMinutes": 126.45,
+    "totalPasses": 62,
+    "avgPasses": 2.58,
+    "partialBestRuns": 17,
+    "timePenalizedRuns": 6,
+    "configs": [
+      "llxprt-synthetic-main",
+      "llxprt-synthetic-minimax",
+      "llxprt-cerebras-main",
+      "llxprt-cerebras-glm46"
+    ],
+    "perConfigStats": {
+      "llxprt-synthetic-main": {
+        "runs": 6,
+        "totalVybes": 1212.85,
+        "avgVybes": 202.14,
+        "avgSuccess": 0.6,
+        "penaltySum": 3.3,
+        "penaltyCount": 4,
+        "avgPenalty": 0.8254,
+        "totalRawVybes": 1300,
+        "avgRawVybes": 216.67,
+        "totalPasses": 13,
+        "avgPasses": 2.17,
+        "partialBestRuns": 3,
+        "timePenalizedRuns": 4,
+        "bestRun": {
+          "eval": "react-evaluation",
+          "score": 500
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      },
+      "llxprt-synthetic-minimax": {
+        "runs": 6,
+        "totalVybes": 74.12,
+        "avgVybes": 12.35,
+        "avgSuccess": 0.2222,
+        "penaltySum": 0.74,
+        "penaltyCount": 1,
+        "avgPenalty": 0.7412,
+        "totalRawVybes": 250.03,
+        "avgRawVybes": 41.67,
+        "totalPasses": 17,
+        "avgPasses": 2.83,
+        "partialBestRuns": 5,
+        "timePenalizedRuns": 1,
+        "bestRun": {
+          "eval": "base64-fix",
+          "score": 74.12
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      },
+      "llxprt-cerebras-main": {
+        "runs": 6,
+        "totalVybes": 400,
+        "avgVybes": 66.67,
+        "avgSuccess": 0.4056,
+        "penaltySum": 2,
+        "penaltyCount": 2,
+        "avgPenalty": 1,
+        "totalRawVybes": 816.65,
+        "avgRawVybes": 136.11,
+        "totalPasses": 16,
+        "avgPasses": 2.67,
+        "partialBestRuns": 4,
+        "timePenalizedRuns": 0,
+        "bestRun": {
+          "eval": "pagination",
+          "score": 300
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      },
+      "llxprt-cerebras-glm46": {
+        "runs": 6,
+        "totalVybes": 389.3,
+        "avgVybes": 64.88,
+        "avgSuccess": 0.2945,
+        "penaltySum": 1.89,
+        "penaltyCount": 2,
+        "avgPenalty": 0.9465,
+        "totalRawVybes": 466.68,
+        "avgRawVybes": 77.78,
+        "totalPasses": 16,
+        "avgPasses": 2.67,
+        "partialBestRuns": 5,
+        "timePenalizedRuns": 1,
+        "bestRun": {
+          "eval": "pagination",
+          "score": 300
+        },
+        "worstRun": {
+          "eval": "form-capture",
+          "score": 0
+        }
+      }
+    },
+    "scenarios": [
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-synthetic-main",
+        "runId": "base64-fix-2025-11-01T01-51-47-177Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T01:56:56.669Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 0.3878,
+          "rawScore": 100,
+          "finalScore": 38.78,
+          "actualTimeMinutes": 5.157,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 2,
+          "selectedPass": 1,
+          "totalCliDurationMs": 309431,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 2,
+          "selectedPass": 1,
+          "totalCliDurationMs": 309431,
+          "feedback": [
+            "It isn't working correctly.",
+            "A verification check failed. Review the CLI grader output for more information.",
+            "Please resolve the issues and re-run lint, tests, and build before finishing."
+          ],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.9444,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 0.6582,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 191618
+            },
+            {
+              "passNumber": 2,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 100,
+              "rawScore": 100,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 117813
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": true
+        },
+        "passCount": 2,
+        "passes": 2,
+        "selectedPass": 1,
+        "partialBest": false,
+        "timePenalized": true,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/base64-fix-2025-11-01T01-51-47-177Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-11-01T01-51-47-177Z/llxprt-synthetic-main/workspace.zip",
+          "size": 46168
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "base64-fix-2025-11-01T01-56-56-919Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T01:59:38.857Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 0.7412,
+          "rawScore": 100,
+          "finalScore": 74.12,
+          "actualTimeMinutes": 2.698,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 2,
+          "selectedPass": 1,
+          "totalCliDurationMs": 161893,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 2,
+          "selectedPass": 1,
+          "totalCliDurationMs": 161893,
+          "feedback": [
+            "It isn't working correctly.",
+            "::error title=tests/public/base64.spec.ts > Base64 helpers (public) > encodes plain ASCII text with padding,line=7,column=20::AssertionError: expected 'aGVsbG8'…",
+            "Received:",
+            "Please resolve the issues and re-run lint, tests, and build before finishing."
+          ],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.5556,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 25288
+            },
+            {
+              "passNumber": 2,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 94.21,
+              "rawScore": 100,
+              "timePenaltyMultiplier": 0.9421,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/public/base64.spec.ts > Base64 helpers (public) > encodes plain ASCII text with padding,line=7,column=20::AssertionError: expected 'aGVsbG8'…",
+                "Received:",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 136605
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": true
+        },
+        "passCount": 2,
+        "passes": 2,
+        "selectedPass": 1,
+        "partialBest": false,
+        "timePenalized": true,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/base64-fix-2025-11-01T01-56-56-919Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-11-01T01-56-56-919Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 53893
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-cerebras-main",
+        "runId": "base64-fix-2025-11-01T01-59-39-091Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:00:21.128Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 100,
+          "finalScore": 100,
+          "actualTimeMinutes": 0.7,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 42001,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 42001,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 100,
+              "rawScore": 100,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 42001
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": false
+        },
+        "passCount": 1,
+        "passes": 1,
+        "selectedPass": 0,
+        "partialBest": false,
+        "timePenalized": false,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/base64-fix-2025-11-01T01-59-39-091Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-11-01T01-59-39-091Z/llxprt-cerebras-main/workspace.zip",
+          "size": 43182
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "base64-fix",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "base64-fix-2025-11-01T02-00-21-336Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:02:35.739Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "base64-fix",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 1,
+          "timeLimitMinutes": 2,
+          "baseScore": 100,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0.8889,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 0.893,
+          "rawScore": 100,
+          "finalScore": 89.3,
+          "actualTimeMinutes": 2.24,
+          "description": "Base64 encoder/decoder utilities",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 18,
+            "subtasksTotal": 18,
+            "modulesCompleted": [
+              "base64"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "base64": {
+                "passed": 18,
+                "total": 18,
+                "passedTasks": [
+                  "encode-0",
+                  "encode-1",
+                  "encode-2",
+                  "encode-3",
+                  "encode-4",
+                  "encode-5",
+                  "decode-0",
+                  "decode-1",
+                  "decode-2",
+                  "decode-3",
+                  "decode-4",
+                  "decode-5",
+                  "decode-without-padding",
+                  "decode-rejects-invalid",
+                  "cli-encode-success",
+                  "cli-decode-success",
+                  "cli-argument-error",
+                  "cli-decode-error"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 134371,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 134371,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 95.97,
+              "rawScore": 100,
+              "timePenaltyMultiplier": 0.9597,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 134371
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": true
+        },
+        "passCount": 1,
+        "passes": 1,
+        "selectedPass": 0,
+        "partialBest": false,
+        "timePenalized": true,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/base64-fix-2025-11-01T02-00-21-336Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/base64-fix-2025-11-01T02-00-21-336Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 44288
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 100
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-synthetic-main",
+        "runId": "form-capture-2025-11-01T02-02-35-970Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:15:01.981Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 0.8044,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 12.432,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "package-integrity"
+                ],
+                "failedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 745938,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 745938,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 516954
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Build failed. Address the build-time errors.",
+                "Typecheck failed. Resolve the TypeScript errors.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 155406
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Build failed. Address the build-time errors.",
+                "Typecheck failed. Resolve the TypeScript errors.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 73578
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": true
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": true,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/form-capture-2025-11-01T02-02-35-970Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-11-01T02-02-35-970Z/llxprt-synthetic-main/workspace.zip",
+          "size": 74661
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "form-capture-2025-11-01T02-15-02-318Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:23:46.527Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.1667,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 8.736,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "form-fields-render"
+                ],
+                "failedTasks": [
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling",
+                  "package-integrity"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:private failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 524135,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 524135,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.1667,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 226945
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/form.spec.ts > form capture private validations > rejects invalid email and re-renders with errors,line=139,column=22::AssertionError: expect…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 174363
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/package.spec.ts > workspace package.json integrity > matches baseline dependencies and scripts,line=43,column=46::AssertionError: expected {…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 122827
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.1667,
+          "finalSuccessPercentage": 0.1667,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.1667,
+        "finalSuccessPercentage": 0.1667,
+        "workspaceArchive": "outputs/form-capture-2025-11-01T02-15-02-318Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-11-01T02-15-02-318Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 92119
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 83.35
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-cerebras-main",
+        "runId": "form-capture-2025-11-01T02-23-46-868Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:33:03.599Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.8333,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 9.278,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 5,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 5,
+                "total": 6,
+                "passedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling"
+                ],
+                "failedTasks": [
+                  "package-integrity"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:public failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 556652,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 556652,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.8333,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 194678
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/public/form.spec.ts > friendly form (public smoke) > persists submission and redirects,line=62,column=29::AssertionError: expected 400 to be…",
+                "::error title=tests/package.spec.ts > workspace package.json integrity > matches baseline dependencies and scripts,line=42,column=43::AssertionError: expected {…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 45036
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Public tests failed. Investigate the failing cases.",
+                "::error title=tests/package.spec.ts > workspace package.json integrity > matches baseline dependencies and scripts,line=42,column=43::AssertionError: expected {…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 316938
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.8333,
+          "finalSuccessPercentage": 0.8333,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.8333,
+        "finalSuccessPercentage": 0.8333,
+        "workspaceArchive": "outputs/form-capture-2025-11-01T02-23-46-868Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-11-01T02-23-46-868Z/llxprt-cerebras-main/workspace.zip",
+          "size": 72089
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 416.65
+      },
+      {
+        "evalName": "form-capture",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "form-capture-2025-11-01T02-33-03-937Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:36:41.555Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "form-capture",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 3.626,
+          "description": "Full-stack contact form application",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "form-capture"
+            ],
+            "modules": {
+              "form-capture": {
+                "passed": 0,
+                "total": 6,
+                "passedTasks": [],
+                "failedTasks": [
+                  "form-fields-render",
+                  "invalid-email-validation",
+                  "submission-persists",
+                  "thank-you-page",
+                  "css-styling",
+                  "package-integrity"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:private failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 217547,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 217547,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 111331
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/package.spec.ts > workspace package.json integrity > matches baseline dependencies and scripts,line=43,column=46::AssertionError: expected {…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 56024
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/package.spec.ts > workspace package.json integrity > matches baseline dependencies and scripts,line=43,column=46::AssertionError: expected {…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 50192
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/form-capture-2025-11-01T02-33-03-937Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/form-capture-2025-11-01T02-33-03-937Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 71404
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-synthetic-main",
+        "runId": "pagination-2025-11-01T02-36-41-891Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:47:38.733Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0.6,
+          "timePenaltyMultiplier": 0.9136,
+          "rawScore": 300,
+          "finalScore": 274.07,
+          "actualTimeMinutes": 10.946,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 3,
+                "total": 5,
+                "passedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling"
+                ],
+                "failedTasks": [
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 656775,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 656775,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 121154
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 350987
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 184634
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.6,
+          "finalSuccessPercentage": 0.6,
+          "timePenalized": true
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": true,
+        "bestSuccessPercentage": 0.6,
+        "finalSuccessPercentage": 0.6,
+        "workspaceArchive": "outputs/pagination-2025-11-01T02-36-41-891Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-11-01T02-36-41-891Z/llxprt-synthetic-main/workspace.zip",
+          "size": 63297
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 300
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "pagination-2025-11-01T02-47-39-133Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:51:16.306Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 3.618,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 0,
+                "total": 5,
+                "passedTasks": [],
+                "failedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling",
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 217099,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 217099,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 44389
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/api.spec.ts > GET /inventory pagination > returns the correct slice of data for a mid-page request,line=43,column=17::AssertionError: expect…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 84765
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/api.spec.ts > GET /inventory pagination > rejects invalid pagination parameters,line=59,column=29::AssertionError: expected 200 to be 400 //…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 87945
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/pagination-2025-11-01T02-47-39-133Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-11-01T02-47-39-133Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 68159
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-cerebras-main",
+        "runId": "pagination-2025-11-01T02-51-16-630Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:52:35.061Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0.6,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 300,
+          "finalScore": 300,
+          "actualTimeMinutes": 1.306,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 3,
+                "total": 5,
+                "passedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling"
+                ],
+                "failedTasks": [
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 3,
+          "selectedPass": 2,
+          "totalCliDurationMs": 78363,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 2,
+          "totalCliDurationMs": 78363,
+          "feedback": [
+            "It isn't working correctly.",
+            "Lint failed. Fix the reported lint errors.",
+            "::error title=tests/api.spec.ts > GET /inventory pagination > returns the correct slice of data for a mid-page request,line=43,column=17::AssertionError: expect…",
+            "Please resolve the issues and re-run lint, tests, and build before finishing."
+          ],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 21826
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/api.spec.ts > GET /inventory pagination > returns the correct slice of data for a mid-page request,line=43,column=17::AssertionError: expect…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 23059
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/api.spec.ts > GET /inventory pagination > returns the correct slice of data for a mid-page request,line=43,column=17::AssertionError: expect…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 33478
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 0.6,
+          "finalSuccessPercentage": 0.6,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 2,
+        "partialBest": false,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.6,
+        "finalSuccessPercentage": 0.6,
+        "workspaceArchive": "outputs/pagination-2025-11-01T02-51-16-630Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-11-01T02-51-16-630Z/llxprt-cerebras-main/workspace.zip",
+          "size": 64484
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 300
+      },
+      {
+        "evalName": "pagination",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "pagination-2025-11-01T02-52-35-381Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T02:58:13.459Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "pagination",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0.6,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0.6,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 300,
+          "finalScore": 300,
+          "actualTimeMinutes": 5.634,
+          "description": "Server and client pagination repair",
+          "category": "full-stack",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 5,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "pagination"
+            ],
+            "modules": {
+              "pagination": {
+                "passed": 3,
+                "total": 5,
+                "passedTasks": [
+                  "api-mid-page-request",
+                  "api-final-page-handling",
+                  "api-invalid-parameter-handling"
+                ],
+                "failedTasks": [
+                  "client-navigation",
+                  "client-alert"
+                ]
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 338012,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 338012,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 118480
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 39276
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": true,
+              "successPercentage": 0.6,
+              "finalScore": 300,
+              "rawScore": 300,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 180256
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.6,
+          "finalSuccessPercentage": 0.6,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.6,
+        "finalSuccessPercentage": 0.6,
+        "workspaceArchive": "outputs/pagination-2025-11-01T02-52-35-381Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/pagination-2025-11-01T02-52-35-381Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 63263
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 300
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-synthetic-main",
+        "runId": "react-evaluation-2025-11-01T02-58-13-781Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:00:49.107Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 500,
+          "finalScore": 500,
+          "actualTimeMinutes": 2.588,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 3,
+            "modulesCompleted": [
+              "react-evaluation"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "react-evaluation": {
+                "passed": 3,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "nested-computed",
+                  "callback-cleanup"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 155292,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 155292,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 500,
+              "rawScore": 500,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 155292
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": false
+        },
+        "passCount": 1,
+        "passes": 1,
+        "selectedPass": 0,
+        "partialBest": false,
+        "timePenalized": false,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/react-evaluation-2025-11-01T02-58-13-781Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-11-01T02-58-13-781Z/llxprt-synthetic-main/workspace.zip",
+          "size": 42977
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 500
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "react-evaluation-2025-11-01T03-00-49-318Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:08:52.794Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 8.057,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 3,
+            "modulesCompleted": [
+              "react-evaluation"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "react-evaluation": {
+                "passed": 3,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "nested-computed",
+                  "callback-cleanup"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 483417,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 483417,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 220625
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/reactive-comprehensive.spec.ts > Reactive Programming - Additional Exercism Tests > compute cells fire callbacks,line=23,column=19::A…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 78332
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/reactive-comprehensive.spec.ts > Reactive Programming - Additional Exercism Tests > compute cells fire callbacks,line=23,column=19::A…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 184460
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/react-evaluation-2025-11-01T03-00-49-318Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-11-01T03-00-49-318Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 96539
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-cerebras-main",
+        "runId": "react-evaluation-2025-11-01T03-08-53-007Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:10:28.909Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 1.597,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 3,
+            "subtasksTotal": 3,
+            "modulesCompleted": [
+              "react-evaluation"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "react-evaluation": {
+                "passed": 3,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "nested-computed",
+                  "callback-cleanup"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 95843,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 95843,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 40737
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/reactive-comprehensive.spec.ts > Reactive Programming - Additional Exercism Tests > compute cells can depend on other compute cells,l…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 31842
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Public tests failed. Investigate the failing cases.",
+                "Typecheck failed. Resolve the TypeScript errors.",
+                "Build failed. Address the build-time errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 23264
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/react-evaluation-2025-11-01T03-08-53-007Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-11-01T03-08-53-007Z/llxprt-cerebras-main/workspace.zip",
+          "size": 46669
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "react-evaluation",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "react-evaluation-2025-11-01T03-10-29-123Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:20:03.898Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "react-evaluation",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 5,
+          "timeLimitMinutes": 10,
+          "baseScore": 500,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 9.579,
+          "description": "Reactive programming primitives",
+          "category": "foundations",
+          "breakdown": {
+            "subtasksPassed": 2,
+            "subtasksTotal": 3,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "react-evaluation"
+            ],
+            "modules": {
+              "react-evaluation": {
+                "passed": 2,
+                "total": 3,
+                "passedTasks": [
+                  "advanced-dependency-chain",
+                  "callback-cleanup"
+                ],
+                "failedTasks": [
+                  "nested-computed"
+                ]
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 574713,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 574713,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 234753
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/reactive-comprehensive.spec.ts > Reactive Programming - Additional Exercism Tests > compute cells can depend on other compute cells,l…",
+                "::error title=tests/advanced-observer.spec.ts > Advanced Observer Patterns > handles nested computed values,line=50,column=26::AssertionError: expected 20 to be…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 234282
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/reactive-comprehensive.spec.ts > Reactive Programming - Additional Exercism Tests > compute cells fire callbacks,line=23,column=19::A…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 105678
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/react-evaluation-2025-11-01T03-10-29-123Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/react-evaluation-2025-11-01T03-10-29-123Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 45722
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-synthetic-main",
+        "runId": "regex-challenge-2025-11-01T03-20-04-111Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:33:44.892Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 0.4386,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 13.678,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "npm run test:private failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 820707,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 820707,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 0.6605,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 554997
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/validators.spec.ts > validators private suite > validates Argentine numbers across formats,line=58,column=71::AssertionError: expected true t…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 64074
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/validators.spec.ts > validators private suite > validates Argentine numbers across formats,line=58,column=71::AssertionError: expected true t…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 201636
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": true
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": true,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/regex-challenge-2025-11-01T03-20-04-111Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-11-01T03-20-04-111Z/llxprt-synthetic-main/workspace.zip",
+          "size": 64695
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "regex-challenge-2025-11-01T03-33-45-101Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:39:10.502Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 5.422,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 325328,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 325328,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 150403
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/transformations.spec.ts > transformations (public smoke) > capitalizes simple sentences,line=12,column=62::AssertionError: expected '…",
+                "Typecheck failed. Resolve the TypeScript errors.",
+                "Build failed. Address the build-time errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 139485
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "::error title=tests/public/transformations.spec.ts > transformations (public smoke) > capitalizes simple sentences,line=12,column=62::AssertionError: expected '…",
+                "Typecheck failed. Resolve the TypeScript errors.",
+                "Build failed. Address the build-time errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 35440
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/regex-challenge-2025-11-01T03-33-45-101Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-11-01T03-33-45-101Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 87296
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-cerebras-main",
+        "runId": "regex-challenge-2025-11-01T03-39-10-717Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:41:46.629Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 2.597,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 155840,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 155840,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 15941
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Public tests failed. Investigate the failing cases.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 40770
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/puzzles.spec.ts > puzzles private suite > enforces strong password policy,line=25,column=64::AssertionError: expected false to be true // Obj…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 99129
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/regex-challenge-2025-11-01T03-39-10-717Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-11-01T03-39-10-717Z/llxprt-cerebras-main/workspace.zip",
+          "size": 61798
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "regex-challenge",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "regex-challenge-2025-11-01T03-41-46-839Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:46:32.125Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "regex-challenge",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 3,
+          "timeLimitMinutes": 6,
+          "baseScore": 300,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 4.753,
+          "description": "Regex validation and transformation toolkit",
+          "category": "utilities",
+          "breakdown": {
+            "subtasksPassed": 0,
+            "subtasksTotal": 0,
+            "modulesCompleted": [],
+            "modulesIncomplete": [],
+            "modules": {}
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 285210,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 285210,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 82413
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Public tests failed. Investigate the failing cases.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 99644
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Public tests failed. Investigate the failing cases.",
+                "A verification check failed. Review the CLI grader output for more information.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 103153
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/regex-challenge-2025-11-01T03-41-46-839Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/regex-challenge-2025-11-01T03-41-46-839Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 66297
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-synthetic-main",
+        "runId": "report-builder-2025-11-01T03-46-32-330Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:48:39.319Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-synthetic-main",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 1,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 1,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 400,
+          "finalScore": 400,
+          "actualTimeMinutes": 2.116,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 6,
+            "subtasksTotal": 6,
+            "modulesCompleted": [
+              "report-builder"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "report-builder": {
+                "passed": 6,
+                "total": 6,
+                "passedTasks": [
+                  "render-markdown-with-totals",
+                  "render-text-without-totals",
+                  "render-text-with-totals",
+                  "render-unsupported-format-failure",
+                  "render-missing-file-failure",
+                  "package-integrity"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "status": "ok",
+          "passesAttempted": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 126947,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 1,
+          "selectedPass": 0,
+          "totalCliDurationMs": 126947,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": true,
+              "partialSuccess": false,
+              "successPercentage": 1,
+              "finalScore": 400,
+              "rawScore": 400,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 126947
+            }
+          ],
+          "partialBest": false,
+          "bestSuccessPercentage": 1,
+          "finalSuccessPercentage": 1,
+          "timePenalized": false
+        },
+        "passCount": 1,
+        "passes": 1,
+        "selectedPass": 0,
+        "partialBest": false,
+        "timePenalized": false,
+        "bestSuccessPercentage": 1,
+        "finalSuccessPercentage": 1,
+        "workspaceArchive": "outputs/report-builder-2025-11-01T03-46-32-330Z/llxprt-synthetic-main/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-11-01T03-46-32-330Z/llxprt-synthetic-main/workspace.zip",
+          "size": 46225
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 400
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-synthetic-minimax",
+        "runId": "report-builder-2025-11-01T03-48-39-528Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:51:55.531Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-synthetic-minimax",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0.1667,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 3.266,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "report-builder"
+            ],
+            "modules": {
+              "report-builder": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "package-integrity"
+                ],
+                "failedTasks": [
+                  "render-markdown-with-totals",
+                  "render-text-without-totals",
+                  "render-text-with-totals",
+                  "render-unsupported-format-failure",
+                  "render-missing-file-failure"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:private failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 195932,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 195932,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.1667,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 44031
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/render.spec.ts > report CLI private validations > renders markdown with totals,line=76,column=27::AssertionError: expected 1 to be +0 // Obje…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 69707
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 82194
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.1667,
+          "finalSuccessPercentage": 0.1667,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.1667,
+        "finalSuccessPercentage": 0.1667,
+        "workspaceArchive": "outputs/report-builder-2025-11-01T03-48-39-528Z/llxprt-synthetic-minimax/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-11-01T03-48-39-528Z/llxprt-synthetic-minimax/workspace.zip",
+          "size": 45360
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key *** --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 66.68
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-cerebras-main",
+        "runId": "report-builder-2025-11-01T03-51-55-739Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:53:05.973Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-cerebras-main",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 1.169,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 6,
+            "subtasksTotal": 6,
+            "modulesCompleted": [
+              "report-builder"
+            ],
+            "modulesIncomplete": [],
+            "modules": {
+              "report-builder": {
+                "passed": 6,
+                "total": 6,
+                "passedTasks": [
+                  "render-markdown-with-totals",
+                  "render-text-without-totals",
+                  "render-text-with-totals",
+                  "render-unsupported-format-failure",
+                  "render-missing-file-failure",
+                  "package-integrity"
+                ],
+                "failedTasks": []
+              }
+            }
+          },
+          "error": "lint/typecheck failed",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 70156,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 70156,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 30040
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 17941
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "Lint failed. Fix the reported lint errors.",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 22175
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0,
+          "finalSuccessPercentage": 0,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0,
+        "finalSuccessPercentage": 0,
+        "workspaceArchive": "outputs/report-builder-2025-11-01T03-51-55-739Z/llxprt-cerebras-main/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-11-01T03-51-55-739Z/llxprt-cerebras-main/workspace.zip",
+          "size": 45067
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model qwen-3-coder-480b --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --yolo",
+        "rawVybes": 0
+      },
+      {
+        "evalName": "report-builder",
+        "configId": "llxprt-cerebras-glm46",
+        "runId": "report-builder-2025-11-01T03-53-06-183Z",
+        "date": "2025-11-01",
+        "finishedAt": "2025-11-01T03:58:21.547Z",
+        "repoVersion": "main@ee233ac",
+        "vybes": {
+          "taskName": "report-builder",
+          "configId": "llxprt-cerebras-glm46",
+          "complexityMultiplier": 4,
+          "timeLimitMinutes": 8,
+          "baseScore": 400,
+          "successPercentage": 0.1667,
+          "baselineSuccessPercentage": 0,
+          "adjustedSuccessPercentage": 0,
+          "timePenaltyMultiplier": 1,
+          "rawScore": 0,
+          "finalScore": 0,
+          "actualTimeMinutes": 5.255,
+          "description": "Spreadsheet to HTML report builder",
+          "category": "integrations",
+          "breakdown": {
+            "subtasksPassed": 1,
+            "subtasksTotal": 6,
+            "modulesCompleted": [],
+            "modulesIncomplete": [
+              "report-builder"
+            ],
+            "modules": {
+              "report-builder": {
+                "passed": 1,
+                "total": 6,
+                "passedTasks": [
+                  "package-integrity"
+                ],
+                "failedTasks": [
+                  "render-markdown-with-totals",
+                  "render-text-without-totals",
+                  "render-text-with-totals",
+                  "render-unsupported-format-failure",
+                  "render-missing-file-failure"
+                ]
+              }
+            }
+          },
+          "error": "npm run test:private failed (exit 1)",
+          "status": "error",
+          "passesAttempted": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 315304,
+          "repoVersion": "main@ee233ac"
+        },
+        "multipass": {
+          "enabled": true,
+          "maxPasses": 3,
+          "passCount": 3,
+          "selectedPass": 0,
+          "totalCliDurationMs": 315304,
+          "feedback": [],
+          "passes": [
+            {
+              "passNumber": 1,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.1667,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 113425
+            },
+            {
+              "passNumber": 2,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.1667,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/render.spec.ts > report CLI private validations > renders markdown with totals,line=76,column=27::AssertionError: expected 1 to be +0 // Obje…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 99620
+            },
+            {
+              "passNumber": 3,
+              "success": false,
+              "partialSuccess": false,
+              "successPercentage": 0.1667,
+              "finalScore": 0,
+              "rawScore": 0,
+              "timePenaltyMultiplier": 1,
+              "appliedFeedback": [
+                "It isn't working correctly.",
+                "::error title=tests/render.spec.ts > report CLI private validations > renders markdown with totals,line=76,column=27::AssertionError: expected 1 to be +0 // Obje…",
+                "Please resolve the issues and re-run lint, tests, and build before finishing."
+              ],
+              "publicTestFailures": [],
+              "hiddenTestFailures": [],
+              "durationMs": 102259
+            }
+          ],
+          "partialBest": true,
+          "bestSuccessPercentage": 0.1667,
+          "finalSuccessPercentage": 0.1667,
+          "timePenalized": false
+        },
+        "passCount": 3,
+        "passes": 3,
+        "selectedPass": 0,
+        "partialBest": true,
+        "timePenalized": false,
+        "bestSuccessPercentage": 0.1667,
+        "finalSuccessPercentage": 0.1667,
+        "workspaceArchive": "outputs/report-builder-2025-11-01T03-53-06-183Z/llxprt-cerebras-glm46/workspace",
+        "workspaceZip": {
+          "path": "runs/report-builder-2025-11-01T03-53-06-183Z/llxprt-cerebras-glm46/workspace.zip",
+          "size": 40120
+        },
+        "runSessionId": "2e70361a-30b3-455e-9551-113764a6cb93",
+        "runSessionStartedAt": "2025-11-01T01:51:47.165Z",
+        "cliCommand": "llxprt --provider openai --baseurl https://api.cerebras.ai/v1 --key *** --model zai-glm-4.6 --set context-limit=128000 --set \"custom-headers=response_format.json_schema.strict true\" --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo",
+        "rawVybes": 66.68
+      }
+    ]
+  },
+  {
     "sessionId": "978ec75c-5b62-4285-94ed-e45c675b6677",
     "date": "2025-10-31",
     "startedAt": "2025-10-31T20:26:04.715Z",
