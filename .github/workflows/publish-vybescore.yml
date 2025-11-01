@@ -49,6 +49,24 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Code Puppy
+        run: pip install code-puppy
+
+      - name: Seed Code Puppy config
+        run: |
+          mkdir -p ~/.code_puppy
+          cat <<'EOF' > ~/.code_puppy/puppy.cfg
+          [puppy]
+          puppy_name = VybePup
+          owner_name = CI
+          auto_save_session = true
+          EOF
+
       - name: Install LLxprt CLI
         run: npm install -g @vybestack/llxprt-code@latest
 
@@ -67,6 +85,9 @@ jobs:
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
+          SYN_API_KEY: ${{ secrets.SYN_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          YOLO_MODE: 'true'
         run: npm run eval:all
 
       - name: Build VybeScore artifacts
