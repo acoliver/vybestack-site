@@ -85,8 +85,10 @@ jobs:
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
+          ZAI_KEY: ${{ secrets.ZAI_KEY }}
           SYN_API_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_KEY }}
+          ZAI_API_KEY: ${{ secrets.ZAI_KEY }}
           YOLO_MODE: 'true'
         run: npm run eval:all
 
