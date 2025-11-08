@@ -108,8 +108,14 @@ jobs:
       - name: Install LLxprt CLI
         run: |
           npm install -g @vybestack/llxprt-code@nightly
+          echo "=== Debugging npm global installation ==="
+          npm config get prefix
+          npm root -g
           which llxprt || echo "llxprt not found in PATH"
-          llxprt --version || echo "llxprt --version failed"
+          ls -la $(npm config get prefix)/bin/llxprt || echo "llxprt not in npm bin"
+          ls -la /usr/local/bin/llxprt || echo "llxprt not in /usr/local/bin"
+          echo "PATH=$PATH"
+          llxprt --version || echo "llxprt --version failed with: $?"
 
       - name: Install eval dependencies
         working-directory: evals
