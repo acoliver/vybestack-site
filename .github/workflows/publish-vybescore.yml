@@ -4,6 +4,29 @@ on:
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
+    inputs:
+      run_mode:
+        description: 'Evaluation run mode'
+        required: false
+        default: 'all'
+        type: choice
+        options:
+          - all
+          - llxprt-only
+          - specific
+      specific_config:
+        description: 'Specific config to run (if run_mode=specific)'
+        required: false
+        type: choice
+        options:
+          - llxprt-cerebras-glm46
+          - llxprt-synthetic-glm46
+          - llxprt-synthetic-minimax
+          - llxprt-zai-glm46
+          - codepuppy-cerebras-glm46
+          - codepuppy-synthetic-glm46
+          - codepuppy-synthetic-minimax
+          - codepuppy-zai-glm46
 
 permissions:
   contents: write
@@ -93,7 +116,18 @@ jobs:
           CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_KEY }}
           ZAI_API_KEY: ${{ secrets.ZAI_KEY }}
           YOLO_MODE: 'true'
-        run: npm run eval:all
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            if [ "${{ inputs.run_mode }}" = "llxprt-only" ]; then
+              npm run eval:all -- --config llxprt-cerebras-glm46 --config llxprt-synthetic-glm46 --config llxprt-synthetic-minimax --config llxprt-zai-glm46
+            elif [ "${{ inputs.run_mode }}" = "specific" ]; then
+              npm run eval:all -- --config ${{ inputs.specific_config }}
+            else
+              npm run eval:all
+            fi
+          else
+            npm run eval:all
+          fi
 
       - name: Build VybeScore artifacts
         working-directory: evals
