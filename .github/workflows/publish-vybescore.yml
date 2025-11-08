@@ -94,7 +94,10 @@ jobs:
           EOF
 
       - name: Install LLxprt CLI
-        run: npm install -g @vybestack/llxprt-code@nightly
+        run: |
+          npm install -g @vybestack/llxprt-code@nightly
+          which llxprt || echo "llxprt not found in PATH"
+          llxprt --version || echo "llxprt --version failed"
 
       - name: Install eval dependencies
         working-directory: evals
@@ -108,6 +111,18 @@ jobs:
 
       - name: Run evaluations
         working-directory: evals
+
+      - name: Debug llxprt wrapper
+        working-directory: evals
+        run: |
+          echo "=== Checking llxprt wrapper ==="
+          ls -la llxprt || echo "llxprt wrapper not found"
+          cat llxprt || echo "Cannot read llxprt wrapper"
+          echo "=== Testing llxprt execution ==="
+          ./llxprt --version || echo "Wrapper execution failed: $?"
+          /usr/local/bin/llxprt --version || echo "Direct llxprt execution failed: $?"
+
+
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
@@ -117,11 +132,14 @@ jobs:
           ZAI_API_KEY: ${{ secrets.ZAI_KEY }}
           YOLO_MODE: 'true'
         run: |
+          RUN_MODE="${{ github.event.inputs.run_mode || 'all' }}"
+          SPECIFIC_CONFIG="${{ github.event.inputs.specific_config }}"
+          
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            if [ "${{ inputs.run_mode }}" = "llxprt-only" ]; then
+            if [ "$RUN_MODE" = "llxprt-only" ]; then
               npm run eval:all -- --config llxprt-cerebras-glm46 --config llxprt-synthetic-glm46 --config llxprt-synthetic-minimax --config llxprt-zai-glm46
-            elif [ "${{ inputs.run_mode }}" = "specific" ]; then
-              npm run eval:all -- --config ${{ inputs.specific_config }}
+            elif [ "$RUN_MODE" = "specific" ]; then
+              npm run eval:all -- --config "$SPECIFIC_CONFIG"
             else
               npm run eval:all
             fi
