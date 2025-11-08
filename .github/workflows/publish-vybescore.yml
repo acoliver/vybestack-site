@@ -133,9 +133,13 @@ jobs:
           echo "=== Checking llxprt wrapper ==="
           ls -la llxprt || echo "llxprt wrapper not found"
           cat llxprt || echo "Cannot read llxprt wrapper"
-          echo "=== Testing llxprt execution ==="
+          echo "=== Current PATH ==="
+          echo "$PATH"
+          echo "=== Finding llxprt ==="
+          which llxprt || echo "llxprt not in PATH"
+          command -v llxprt || echo "command -v failed"
+          echo "=== Testing llxprt wrapper ==="
           ./llxprt --version || echo "Wrapper execution failed: $?"
-          /usr/local/bin/llxprt --version || echo "Direct llxprt execution failed: $?"
 
       - name: Run evaluations
         working-directory: evals
