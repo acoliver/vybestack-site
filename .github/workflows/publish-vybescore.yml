@@ -109,9 +109,6 @@ jobs:
             npm --prefix grading/$dir install @rollup/rollup-linux-x64-gnu --no-save || true
           done
 
-      - name: Run evaluations
-        working-directory: evals
-
       - name: Debug llxprt wrapper
         working-directory: evals
         run: |
@@ -122,7 +119,8 @@ jobs:
           ./llxprt --version || echo "Wrapper execution failed: $?"
           /usr/local/bin/llxprt --version || echo "Direct llxprt execution failed: $?"
 
-
+      - name: Run evaluations
+        working-directory: evals
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
