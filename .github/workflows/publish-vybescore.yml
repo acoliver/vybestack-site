@@ -152,18 +152,30 @@ jobs:
           ZAI_API_KEY: ${{ secrets.ZAI_KEY }}
           YOLO_MODE: 'true'
         run: |
+          echo "Debug: event_name = ${{ github.event_name }}"
+          echo "Debug: run_mode = ${{ github.event.inputs.run_mode || 'all' }}"
+          echo "Debug: specific_config = ${{ github.event.inputs.specific_config }}"
+          
           RUN_MODE="${{ github.event.inputs.run_mode || 'all' }}"
           SPECIFIC_CONFIG="${{ github.event.inputs.specific_config }}"
           
+          echo "Debug: RUN_MODE = $RUN_MODE"
+          echo "Debug: SPECIFIC_CONFIG = $SPECIFIC_CONFIG"
+          
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "Debug: workflow_dispatch branch taken"
             if [ "$RUN_MODE" = "llxprt-only" ]; then
+              echo "Debug: running llxprt-only mode"
               npm run eval:all -- --config llxprt-cerebras-glm46 --config llxprt-synthetic-glm46 --config llxprt-synthetic-minimax --config llxprt-zai-glm46
             elif [ "$RUN_MODE" = "specific" ]; then
+              echo "Debug: running specific config: $SPECIFIC_CONFIG"
               npm run eval:all -- --config "$SPECIFIC_CONFIG"
             else
+              echo "Debug: running all configs"
               npm run eval:all
             fi
           else
+            echo "Debug: running scheduled - all configs"
             npm run eval:all
           fi
 
