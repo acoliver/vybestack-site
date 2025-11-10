@@ -123,14 +123,18 @@ jobs:
           cat <<'EOF' > llxprt
           #!/bin/bash
           # Wrapper for llxprt to work with eval harness
-          # Try multiple possible locations for llxprt
-          if command -v llxprt >/dev/null 2>&1; then
+          # Find llxprt in npm global bin directory
+          NPM_BIN=$(npm config get prefix)/bin
+          if [ -x "$NPM_BIN/llxprt" ]; then
+            exec "$NPM_BIN/llxprt" "$@"
+          elif command -v llxprt >/dev/null 2>&1; then
             exec llxprt "$@"
           else
-            echo "ERROR: llxprt not found in PATH" >&2
+            echo "ERROR: llxprt not found in npm bin or PATH" >&2
+            echo "NPM_BIN=$NPM_BIN" >&2
             echo "PATH=$PATH" >&2
-            echo "Available in node toolcache:" >&2
-            find /opt/hostedtoolcache/node -name "llxprt" 2>/dev/null | head -5 >&2 || echo "  (none found)" >&2
+            echo "Checking npm bin directory:" >&2
+            ls -la "$NPM_BIN" | grep -i llxprt >&2 || echo "  (none found)" >&2
             exit 127
           fi
           EOF
