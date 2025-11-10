@@ -117,6 +117,29 @@ jobs:
           echo "PATH=$PATH"
           llxprt --version || echo "llxprt --version failed with: $?"
 
+      - name: Create llxprt wrapper script
+        working-directory: evals
+        run: |
+          cat <<'EOF' > llxprt
+          #!/bin/bash
+          # Wrapper for llxprt to work with eval harness
+          # Try multiple possible locations for llxprt
+          if [ -x "/usr/local/bin/llxprt" ]; then
+            exec /usr/local/bin/llxprt "$@"
+          elif [ -x "/opt/hostedtoolcache/node/20.19.5/x64/bin/llxprt" ]; then
+            exec /opt/hostedtoolcache/node/20.19.5/x64/bin/llxprt "$@"
+          elif command -v llxprt >/dev/null 2>&1; then
+            exec llxprt "$@"
+          else
+            echo "ERROR: llxprt not found in /usr/local/bin, node toolcache, or PATH" >&2
+            echo "PATH=$PATH" >&2
+            echo "Available in node toolcache:" >&2
+            ls -la /opt/hostedtoolcache/node/*/x64/bin/ | grep -i llxprt >&2 || echo "  (none found)" >&2
+            exit 127
+          fi
+          EOF
+          chmod +x llxprt
+
       - name: Install eval dependencies
         working-directory: evals
         run: |
