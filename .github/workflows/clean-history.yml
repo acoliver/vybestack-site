@@ -1,0 +1,32 @@
+name: Clean VybeScore History
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clean:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Reset vybescore artifacts
+        run: |
+          rm -rf vybescore
+          mkdir -p vybescore
+          touch vybescore/.gitkeep
+
+      - name: Commit and push clean state
+        run: |
+          git add -A vybescore
+          if git diff --cached --quiet -- vybescore; then
+            echo "VybeScore already clean."
+            exit 0
+          fi
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git commit -m "chore: clean VybeScore history"
+          git push
