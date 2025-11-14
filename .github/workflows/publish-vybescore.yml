@@ -5,17 +5,15 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
     inputs:
-      run_mode:
-        description: 'Evaluation run mode'
-        required: false
-        default: 'all'
+      config_mode:
+        description: 'Which LLxprt configs should run'
         type: choice
+        default: default
         options:
-          - all
-          - llxprt-only
+          - default
           - specific
       specific_config:
-        description: 'Specific config to run (if run_mode=specific)'
+        description: 'Specific config (if config_mode=specific)'
         required: false
         type: choice
         options:
@@ -23,10 +21,6 @@ on:
           - llxprt-synthetic-glm46
           - llxprt-synthetic-minimax
           - llxprt-zai-glm46
-          - codepuppy-cerebras-glm46
-          - codepuppy-synthetic-glm46
-          - codepuppy-synthetic-minimax
-          - codepuppy-zai-glm46
 
 permissions:
   contents: write
@@ -108,37 +102,7 @@ jobs:
       - name: Install LLxprt CLI
         run: |
           npm install -g @vybestack/llxprt-code@nightly
-          echo "=== Debugging npm global installation ==="
-          npm config get prefix
-          npm root -g
-          which llxprt || echo "llxprt not found in PATH"
-          ls -la $(npm config get prefix)/bin/llxprt || echo "llxprt not in npm bin"
-          ls -la /usr/local/bin/llxprt || echo "llxprt not in /usr/local/bin"
-          echo "PATH=$PATH"
-          llxprt --version || echo "llxprt --version failed with: $?"
-
-      - name: Create llxprt wrapper script
-        working-directory: evals
-        run: |
-          cat <<'EOF' > llxprt
-          #!/bin/bash
-          # Wrapper for llxprt to work with eval harness
-          # Find llxprt in npm global bin directory
-          NPM_BIN=$(npm config get prefix)/bin
-          if [ -x "$NPM_BIN/llxprt" ]; then
-            exec "$NPM_BIN/llxprt" "$@"
-          elif command -v llxprt >/dev/null 2>&1; then
-            exec llxprt "$@"
-          else
-            echo "ERROR: llxprt not found in npm bin or PATH" >&2
-            echo "NPM_BIN=$NPM_BIN" >&2
-            echo "PATH=$PATH" >&2
-            echo "Checking npm bin directory:" >&2
-            ls -la "$NPM_BIN" | grep -i llxprt >&2 || echo "  (none found)" >&2
-            exit 127
-          fi
-          EOF
-          chmod +x llxprt
+          llxprt --version
 
       - name: Install eval dependencies
         working-directory: evals
@@ -150,57 +114,28 @@ jobs:
             npm --prefix grading/$dir install @rollup/rollup-linux-x64-gnu --no-save || true
           done
 
-      - name: Debug llxprt wrapper
-        working-directory: evals
-        run: |
-          echo "=== Checking llxprt wrapper ==="
-          ls -la llxprt || echo "llxprt wrapper not found"
-          cat llxprt || echo "Cannot read llxprt wrapper"
-          echo "=== Current PATH ==="
-          echo "$PATH"
-          echo "=== Finding llxprt ==="
-          which llxprt || echo "llxprt not in PATH"
-          command -v llxprt || echo "command -v failed"
-          echo "=== Testing llxprt wrapper ==="
-          ./llxprt --version || echo "Wrapper execution failed: $?"
-
-      - name: Run evaluations
+      - name: Run LLxprt evaluations
         working-directory: evals
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
           ZAI_KEY: ${{ secrets.ZAI_KEY }}
-          SYN_API_KEY: ${{ secrets.SYNTHETIC_KEY }}
-          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_KEY }}
-          ZAI_API_KEY: ${{ secrets.ZAI_KEY }}
-          YOLO_MODE: 'true'
         run: |
-          echo "Debug: event_name = ${{ github.event_name }}"
-          echo "Debug: run_mode = ${{ github.event.inputs.run_mode || 'all' }}"
-          echo "Debug: specific_config = ${{ github.event.inputs.specific_config }}"
-          
-          RUN_MODE="${{ github.event.inputs.run_mode || 'all' }}"
-          SPECIFIC_CONFIG="${{ github.event.inputs.specific_config }}"
-          
-          echo "Debug: RUN_MODE = $RUN_MODE"
-          echo "Debug: SPECIFIC_CONFIG = $SPECIFIC_CONFIG"
-          
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "Debug: workflow_dispatch branch taken"
-            if [ "$RUN_MODE" = "llxprt-only" ]; then
-              echo "Debug: running llxprt-only mode"
-              npm run eval:all -- --config llxprt-cerebras-glm46 --config llxprt-synthetic-glm46 --config llxprt-synthetic-minimax --config llxprt-zai-glm46
-            elif [ "$RUN_MODE" = "specific" ]; then
-              echo "Debug: running specific config: $SPECIFIC_CONFIG"
-              npm run eval:all -- --config "$SPECIFIC_CONFIG"
-            else
-              echo "Debug: running all configs"
-              npm run eval:all
-            fi
+          DEFAULT_CONFIGS=(llxprt-cerebras-glm46 llxprt-synthetic-glm46 llxprt-synthetic-minimax llxprt-zai-glm46)
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.config_mode }}" == "specific" ]]; then
+            CONFIGS=("${{ github.event.inputs.specific_config }}")
           else
-            echo "Debug: running scheduled - all configs"
-            npm run eval:all
+            CONFIGS=("${DEFAULT_CONFIGS[@]}")
           fi
+
+          ARGS=()
+          for config in "${CONFIGS[@]}"; do
+            [[ -z "$config" ]] && continue
+            ARGS+=("--config" "$config")
+          done
+
+          echo "Running npm run eval:all ${ARGS[*]}"
+          npm run eval:all -- "${ARGS[@]}"
 
       - name: Build VybeScore artifacts
         working-directory: evals
