@@ -37,11 +37,15 @@ jobs:
       SYNTHETIC_SHELL_REPLACEMENT: ${{ vars.SYNTHETIC_SHELL_REPLACEMENT || 'shell-replacement=true' }}
       CEREBRAS_PROVIDER: ${{ vars.CEREBRAS_PROVIDER || 'openai' }}
       CEREBRAS_BASEURL: ${{ vars.CEREBRAS_BASEURL || 'https://api.cerebras.ai/v1' }}
-      CEREBRAS_MODEL: ${{ vars.CEREBRAS_MODEL || 'qwen-3-coder-480b' }}
+      CEREBRAS_MODEL: ${{ vars.CEREBRAS_MODEL || 'zai-glm-4.6' }}
       CEREBRAS_TEMPERATURE: ${{ vars.CEREBRAS_TEMPERATURE || 'temperature=1' }}
-      CEREBRAS_CONTEXT_LIMIT: ${{ vars.CEREBRAS_CONTEXT_LIMIT || 'context-limit=128000' }}
-      CEREBRAS_CUSTOM_HEADERS: ${{ vars.CEREBRAS_CUSTOM_HEADERS || 'custom-headers=response_format.json_schema.strict true' }}
+      CEREBRAS_CONTEXT_LIMIT: ${{ vars.CEREBRAS_CONTEXT_LIMIT || 'context-limit=121000' }}
       CEREBRAS_SHELL_REPLACEMENT: ${{ vars.CEREBRAS_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+      ZAI_MODEL: ${{ vars.ZAI_MODEL || 'glm-4.6' }}
+      ZAI_TEMPERATURE: ${{ vars.ZAI_TEMPERATURE || 'temperature=1' }}
+      ZAI_CONTEXT_LIMIT: ${{ vars.ZAI_CONTEXT_LIMIT || 'context-limit=190000' }}
+      ZAI_SHELL_REPLACEMENT: ${{ vars.ZAI_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+      ROLLUP_SKIP_NODE_RESOLUTION: 1
 
     steps:
       - name: Checkout vybestack-site
@@ -65,6 +69,36 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+        if: |
+          github.event_name == 'schedule' || 
+          github.event.inputs.run_mode == 'all' || 
+          (github.event.inputs.run_mode == 'specific' && !contains(github.event.inputs.specific_config, 'llxprt'))
+
+      - name: Install Code Puppy
+        run: pip install code-puppy
+        if: |
+          github.event_name == 'schedule' || 
+          github.event.inputs.run_mode == 'all' || 
+          (github.event.inputs.run_mode == 'specific' && !contains(github.event.inputs.specific_config, 'llxprt'))
+
+      - name: Seed Code Puppy config
+        run: |
+          mkdir -p ~/.code_puppy
+          cat <<'EOF' > ~/.code_puppy/puppy.cfg
+          [puppy]
+          puppy_name = VybePup
+          owner_name = CI
+          auto_save_session = true
+          EOF
+        if: |
+          github.event_name == 'schedule' || 
+          github.event.inputs.run_mode == 'all' || 
+          (github.event.inputs.run_mode == 'specific' && !contains(github.event.inputs.specific_config, 'llxprt'))
+
       - name: Install LLxprt CLI
         run: |
           npm install -g @vybestack/llxprt-code@nightly
@@ -74,8 +108,10 @@ jobs:
         working-directory: evals
         run: |
           npm install
+          npm install @rollup/rollup-linux-x64-gnu --no-save || true
           for dir in base64-fix pagination report-builder form-capture regex-challenge react-evaluation; do
             npm --prefix grading/$dir install
+            npm --prefix grading/$dir install @rollup/rollup-linux-x64-gnu --no-save || true
           done
 
       - name: Run LLxprt evaluations
