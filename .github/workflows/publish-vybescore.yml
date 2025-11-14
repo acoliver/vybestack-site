@@ -2,8 +2,25 @@ name: Publish VybeScore
 
 on:
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
+    inputs:
+      config_mode:
+        description: 'Which LLxprt configs should run'
+        type: choice
+        default: default
+        options:
+          - default
+          - specific
+      specific_config:
+        description: 'Specific config (if config_mode=specific)'
+        required: false
+        type: choice
+        options:
+          - llxprt-cerebras-glm46
+          - llxprt-synthetic-glm46
+          - llxprt-synthetic-minimax
+          - llxprt-zai-glm46
 
 permissions:
   contents: write
@@ -49,7 +66,9 @@ jobs:
           node-version: '20'
 
       - name: Install LLxprt CLI
-        run: npm install -g @vybestack/llxprt-code@latest
+        run: |
+          npm install -g @vybestack/llxprt-code@nightly
+          llxprt --version
 
       - name: Install eval dependencies
         working-directory: evals
@@ -59,12 +78,28 @@ jobs:
             npm --prefix grading/$dir install
           done
 
-      - name: Run evaluations
+      - name: Run LLxprt evaluations
         working-directory: evals
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
           CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
-        run: npm run eval:all
+          ZAI_KEY: ${{ secrets.ZAI_KEY }}
+        run: |
+          DEFAULT_CONFIGS=(llxprt-cerebras-glm46 llxprt-synthetic-glm46 llxprt-synthetic-minimax llxprt-zai-glm46)
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.config_mode }}" == "specific" ]]; then
+            CONFIGS=("${{ github.event.inputs.specific_config }}")
+          else
+            CONFIGS=("${DEFAULT_CONFIGS[@]}")
+          fi
+
+          ARGS=()
+          for config in "${CONFIGS[@]}"; do
+            [[ -z "$config" ]] && continue
+            ARGS+=("--config" "$config")
+          done
+
+          echo "Running npm run eval:all ${ARGS[*]}"
+          npm run eval:all -- "${ARGS[@]}"
 
       - name: Build VybeScore artifacts
         working-directory: evals
