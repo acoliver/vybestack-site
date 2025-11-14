@@ -17,7 +17,6 @@ on:
         required: false
         type: choice
         options:
-          - llxprt-cerebras-glm46
           - llxprt-synthetic-glm46
           - llxprt-synthetic-minimax
           - llxprt-zai-glm46
@@ -35,18 +34,12 @@ jobs:
       SYNTHETIC_TEMPERATURE: ${{ vars.SYNTHETIC_TEMPERATURE || 'temperature=1' }}
       SYNTHETIC_CONTEXT_LIMIT: ${{ vars.SYNTHETIC_CONTEXT_LIMIT || 'context-limit=190000' }}
       SYNTHETIC_SHELL_REPLACEMENT: ${{ vars.SYNTHETIC_SHELL_REPLACEMENT || 'shell-replacement=true' }}
-      CEREBRAS_PROVIDER: ${{ vars.CEREBRAS_PROVIDER || 'openai' }}
-      CEREBRAS_BASEURL: ${{ vars.CEREBRAS_BASEURL || 'https://api.cerebras.ai/v1' }}
-      CEREBRAS_MODEL: ${{ vars.CEREBRAS_MODEL || 'zai-glm-4.6' }}
-      CEREBRAS_TEMPERATURE: ${{ vars.CEREBRAS_TEMPERATURE || 'temperature=1' }}
-      CEREBRAS_CONTEXT_LIMIT: ${{ vars.CEREBRAS_CONTEXT_LIMIT || 'context-limit=121000' }}
-      CEREBRAS_SHELL_REPLACEMENT: ${{ vars.CEREBRAS_SHELL_REPLACEMENT || 'shell-replacement=true' }}
+      # Cerebras config intentionally omitted (subscription inactive)
       ZAI_MODEL: ${{ vars.ZAI_MODEL || 'glm-4.6' }}
       ZAI_TEMPERATURE: ${{ vars.ZAI_TEMPERATURE || 'temperature=1' }}
       ZAI_CONTEXT_LIMIT: ${{ vars.ZAI_CONTEXT_LIMIT || 'context-limit=190000' }}
       ZAI_SHELL_REPLACEMENT: ${{ vars.ZAI_SHELL_REPLACEMENT || 'shell-replacement=true' }}
       ROLLUP_SKIP_NODE_RESOLUTION: 1
-
     steps:
       - name: Checkout vybestack-site
         uses: actions/checkout@v4
@@ -118,10 +111,9 @@ jobs:
         working-directory: evals
         env:
           SYNTHETIC_KEY: ${{ secrets.SYNTHETIC_KEY }}
-          CEREBRAS_KEY: ${{ secrets.CEREBRAS_KEY }}
           ZAI_KEY: ${{ secrets.ZAI_KEY }}
         run: |
-          DEFAULT_CONFIGS=(llxprt-cerebras-glm46 llxprt-synthetic-glm46 llxprt-synthetic-minimax llxprt-zai-glm46)
+          DEFAULT_CONFIGS=(llxprt-synthetic-glm46 llxprt-synthetic-minimax llxprt-zai-glm46)
           if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ github.event.inputs.config_mode }}" == "specific" ]]; then
             CONFIGS=("${{ github.event.inputs.specific_config }}")
           else
@@ -149,12 +141,12 @@ jobs:
 
       - name: Commit and push updates
         run: |
-          if git diff --quiet -- vybescore; then
+          git add -A vybescore
+          if git diff --cached --quiet -- vybescore; then
             echo "No VybeScore changes to publish."
             exit 0
           fi
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add vybescore
           git commit -m "chore: publish VybeScore dashboard"
           git push
