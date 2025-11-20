@@ -21229,5 +21229,2236 @@
     "runSessionStartedAt": "2025-11-18T18:22:00.939Z",
     "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
     "rawVybes": 400
+  },
+  {
+    "evalName": "base64-fix",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "base64-fix-2025-11-20T06-21-22-913Z-e0b45a13-3df3-4d8f-b4d0-92675ea0e486",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T06:25:53.508Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "base64-fix",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 1,
+      "timeLimitMinutes": 2,
+      "baseScore": 100,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0.8889,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 0.4604,
+      "rawScore": 100,
+      "finalScore": 46.04,
+      "actualTimeMinutes": 4.344,
+      "description": "Base64 encoder/decoder utilities",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 18,
+        "subtasksTotal": 18,
+        "modulesCompleted": [
+          "base64"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "base64": {
+            "passed": 18,
+            "total": 18,
+            "passedTasks": [
+              "encode-0",
+              "encode-1",
+              "encode-2",
+              "encode-3",
+              "encode-4",
+              "encode-5",
+              "decode-0",
+              "decode-1",
+              "decode-2",
+              "decode-3",
+              "decode-4",
+              "decode-5",
+              "decode-without-padding",
+              "decode-rejects-invalid",
+              "cli-encode-success",
+              "cli-decode-success",
+              "cli-argument-error",
+              "cli-decode-error"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 260653
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 260653,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 46.04,
+          "rawScore": 100,
+          "timePenaltyMultiplier": 0.4604,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": true
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": true,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/base64-fix-2025-11-20T06-21-22-913Z-e0b45a13-3df3-4d8f-b4d0-92675ea0e486/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/base64-fix-2025-11-20T06-21-22-913Z-e0b45a13-3df3-4d8f-b4d0-92675ea0e486/llxprt-synthetic-glm46/workspace.zip",
+      "size": 43403
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 100
+  },
+  {
+    "evalName": "base64-fix",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "base64-fix-2025-11-20T06-25-53-524Z-166f20e4-6780-4299-a849-7667271c62aa",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T06:28:03.416Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "base64-fix",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 1,
+      "timeLimitMinutes": 2,
+      "baseScore": 100,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0.8889,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 100,
+      "finalScore": 100,
+      "actualTimeMinutes": 1.998,
+      "description": "Base64 encoder/decoder utilities",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 18,
+        "subtasksTotal": 18,
+        "modulesCompleted": [
+          "base64"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "base64": {
+            "passed": 18,
+            "total": 18,
+            "passedTasks": [
+              "encode-0",
+              "encode-1",
+              "encode-2",
+              "encode-3",
+              "encode-4",
+              "encode-5",
+              "decode-0",
+              "decode-1",
+              "decode-2",
+              "decode-3",
+              "decode-4",
+              "decode-5",
+              "decode-without-padding",
+              "decode-rejects-invalid",
+              "cli-encode-success",
+              "cli-decode-success",
+              "cli-argument-error",
+              "cli-decode-error"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 119906
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 119906,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 100,
+          "rawScore": 100,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": false
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/base64-fix-2025-11-20T06-25-53-524Z-166f20e4-6780-4299-a849-7667271c62aa/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/base64-fix-2025-11-20T06-25-53-524Z-166f20e4-6780-4299-a849-7667271c62aa/llxprt-synthetic-minimax/workspace.zip",
+      "size": 43221
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 100
+  },
+  {
+    "evalName": "base64-fix",
+    "configId": "llxprt-zai-glm46",
+    "runId": "base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T06:49:34.921Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "base64-fix",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 1,
+      "timeLimitMinutes": 2,
+      "baseScore": 100,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0.8889,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 0.2,
+      "rawScore": 100,
+      "finalScore": 20,
+      "actualTimeMinutes": 10.305,
+      "description": "Base64 encoder/decoder utilities",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 18,
+        "subtasksTotal": 18,
+        "modulesCompleted": [
+          "base64"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "base64": {
+            "passed": 18,
+            "total": 18,
+            "passedTasks": [
+              "encode-0",
+              "encode-1",
+              "encode-2",
+              "encode-3",
+              "encode-4",
+              "encode-5",
+              "decode-0",
+              "decode-1",
+              "decode-2",
+              "decode-3",
+              "decode-4",
+              "decode-5",
+              "decode-without-padding",
+              "decode-rejects-invalid",
+              "cli-encode-success",
+              "cli-decode-success",
+              "cli-argument-error",
+              "cli-decode-error"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 618286
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 1271780,
+      "feedback": [
+        "Pass 1: tests failed. Recent output: \u001b[90m 37| \u001b[39m  } | \u001b[90m \u001b[2m❯\u001b[22m Module.decode ../../outputs/base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5/src/base64.ts:\u001b[2m20:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.9444,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.2,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 37| \u001b[39m  } | \u001b[90m \u001b[2m❯\u001b[22m Module.decode ../../outputs/base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5/src/base64.ts:\u001b[2m20:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 37| \u001b[39m  } | \u001b[90m \u001b[2m❯\u001b[22m Module.decode ../../outputs/base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5/src/base64.ts:\u001b[2m20:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 20,
+          "rawScore": 100,
+          "timePenaltyMultiplier": 0.2,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": true
+    },
+    "passCount": 2,
+    "passes": 2,
+    "selectedPass": 1,
+    "partialBest": false,
+    "timePenalized": true,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/base64-fix-2025-11-20T06-28-03-430Z-3e9ca9d0-e1bc-4454-a61e-93f479b3eda5/llxprt-zai-glm46/workspace.zip",
+      "size": 45155
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 100
+  },
+  {
+    "evalName": "form-capture",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "form-capture-2025-11-20T06-49-34-935Z-6acf3d27-3091-45b9-a5de-16a38090a586",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T07:03:07.073Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "form-capture",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.1667,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 2.969,
+      "description": "Full-stack contact form application",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 1,
+        "subtasksTotal": 6,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "form-capture"
+        ],
+        "modules": {
+          "form-capture": {
+            "passed": 1,
+            "total": 6,
+            "passedTasks": [
+              "form-fields-render"
+            ],
+            "failedTasks": [
+              "invalid-email-validation",
+              "submission-persists",
+              "thank-you-page",
+              "css-styling",
+              "package-integrity"
+            ]
+          }
+        }
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 178120
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 774314,
+      "feedback": [
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.1667,
+      "finalSuccessPercentage": 0.1667,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.1667,
+    "finalSuccessPercentage": 0.1667,
+    "workspaceArchive": "evals/outputs/form-capture-2025-11-20T06-49-34-935Z-6acf3d27-3091-45b9-a5de-16a38090a586/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/form-capture-2025-11-20T06-49-34-935Z-6acf3d27-3091-45b9-a5de-16a38090a586/llxprt-synthetic-glm46/workspace.zip",
+      "size": 74194
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 83.35
+  },
+  {
+    "evalName": "form-capture",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T07:21:31.330Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "form-capture",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 3.565,
+      "description": "Full-stack contact form application",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 0,
+        "subtasksTotal": 6,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "form-capture"
+        ],
+        "modules": {
+          "form-capture": {
+            "passed": 0,
+            "total": 6,
+            "passedTasks": [],
+            "failedTasks": [
+              "form-fields-render",
+              "invalid-email-validation",
+              "submission-persists",
+              "thank-you-page",
+              "css-styling",
+              "package-integrity"
+            ]
+          }
+        }
+      },
+      "error": "workspace-test:public failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 213907
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 1039538,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/src/server.ts | 30:20  error  Require statement not part of import statement  @typescript-eslint/no-var-requires | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 1: tests failed. Recent output: src/server.ts (resolved id: ../src/server.ts) in workspace/evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/tests/public/form.spec.ts. Does the file exist?\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:\u001b[2m51969:17\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "workspace/src/server.ts | 30:20  error  Require statement not part of import statement  @typescript-eslint/no-var-requires | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: ror was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all required fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/src/server.ts | 30:20  error  Require statement not part of import statement  @typescript-eslint/no-var-requires | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: src/server.ts (resolved id: ../src/server.ts) in workspace/evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/tests/public/form.spec.ts. Does the file exist?\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:\u001b[2m51969:17\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+            "workspace/src/server.ts | 30:20  error  Require statement not part of import statement  @typescript-eslint/no-var-requires | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "src/server.ts (resolved id: ../src/server.ts) in workspace/evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/tests/public/form.spec.ts. Does the file exist?\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m loadAndTransform node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:\u001b[2m51969:17\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: ror was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all required fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "ror was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all required fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0,
+      "finalSuccessPercentage": 0,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0,
+    "finalSuccessPercentage": 0,
+    "workspaceArchive": "evals/outputs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/form-capture-2025-11-20T07-03-07-092Z-38d101f9-dde5-453b-a0a7-ebeb1b330628/llxprt-synthetic-minimax/workspace.zip",
+      "size": 94046
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 0
+  },
+  {
+    "evalName": "form-capture",
+    "configId": "llxprt-zai-glm46",
+    "runId": "form-capture-2025-11-20T07-21-31-346Z-4a442843-84cb-4b86-b2f4-eec39076e925",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:07:38.672Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "form-capture",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.1667,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 0.6666,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 15.001,
+      "description": "Full-stack contact form application",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 1,
+        "subtasksTotal": 6,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "form-capture"
+        ],
+        "modules": {
+          "form-capture": {
+            "passed": 1,
+            "total": 6,
+            "passedTasks": [
+              "package-integrity"
+            ],
+            "failedTasks": [
+              "form-fields-render",
+              "invalid-email-validation",
+              "submission-persists",
+              "thank-you-page",
+              "css-styling"
+            ]
+          }
+        }
+      },
+      "error": "workspace-test:public failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 900068
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 2700123,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: workspace/evals/outputs/form-capture-2025-11-20T07-21-31-346Z-4a442843-84cb-4b86-b2f4-eec39076e925/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 9:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+        "Pass 1: tests failed. Recent output: an the error was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m",
+        "workspace/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 9:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "Pass 2: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m136| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m137| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "Pass 3: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m153| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m154| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6667,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "lint failed. Recent output: workspace/evals/outputs/form-capture-2025-11-20T07-21-31-346Z-4a442843-84cb-4b86-b2f4-eec39076e925/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 9:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+            "tests failed. Recent output: an the error was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m",
+            "workspace/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 9:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+            "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "an the error was thrown inside the file itself, but while it was running.\u001b[39m | \u001b[31mThe latest test that might've caused the error is \"\u001b[1mrenders the form with all fields\u001b[22m\". It might mean one of the following: | - The error was thrown, while Vitest was running this test. | - If the error occurred after the test had been completed, this was the last documented test before it was thrown.\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6666,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m136| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m137| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+            "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m136| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m137| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6666,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m153| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m154| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+            "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                      \u001b[31m^\u001b[39m | \u001b[90m153| \u001b[39m    \u001b[34mexpect\u001b[39m(\u001b[34m$\u001b[39m(\u001b[32m'.error-list'\u001b[39m)\u001b[33m.\u001b[39m\u001b[34mtext\u001b[39m())\u001b[33m.\u001b[39m\u001b[34mtoContain\u001b[39m(\u001b[32m'Phone number is not val\u001b[39m… | \u001b[90m154| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.1667,
+      "finalSuccessPercentage": 0.1667,
+      "timePenalized": true
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": true,
+    "bestSuccessPercentage": 0.1667,
+    "finalSuccessPercentage": 0.1667,
+    "workspaceArchive": "evals/outputs/form-capture-2025-11-20T07-21-31-346Z-4a442843-84cb-4b86-b2f4-eec39076e925/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/form-capture-2025-11-20T07-21-31-346Z-4a442843-84cb-4b86-b2f4-eec39076e925/llxprt-zai-glm46/workspace.zip",
+      "size": 93728
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 83.35
+  },
+  {
+    "evalName": "pagination",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "pagination-2025-11-20T08-07-38-692Z-1aa9768e-e084-486d-9d4d-7838c8a258c3",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:11:31.402Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "pagination",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.6,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0.6,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 300,
+      "finalScore": 300,
+      "actualTimeMinutes": 3.657,
+      "description": "Server + client pagination repair",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 3,
+        "subtasksTotal": 5,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "pagination"
+        ],
+        "modules": {
+          "pagination": {
+            "passed": 3,
+            "total": 5,
+            "passedTasks": [
+              "api-mid-page-request",
+              "api-final-page-handling",
+              "api-invalid-parameter-handling"
+            ],
+            "failedTasks": [
+              "client-navigation",
+              "client-alert"
+            ]
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 219435
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 219435,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 0.6,
+          "finalScore": 300,
+          "rawScore": 300,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.6,
+      "finalSuccessPercentage": 0.6,
+      "timePenalized": false
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.6,
+    "finalSuccessPercentage": 0.6,
+    "workspaceArchive": "evals/outputs/pagination-2025-11-20T08-07-38-692Z-1aa9768e-e084-486d-9d4d-7838c8a258c3/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/pagination-2025-11-20T08-07-38-692Z-1aa9768e-e084-486d-9d4d-7838c8a258c3/llxprt-synthetic-glm46/workspace.zip",
+      "size": 86118
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 300
+  },
+  {
+    "evalName": "pagination",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "pagination-2025-11-20T08-11-31-418Z-933e6830-c8bd-4e37-8774-4505a9b94ebe",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:16:51.592Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "pagination",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.6,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0.6,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 300,
+      "finalScore": 300,
+      "actualTimeMinutes": 5.113,
+      "description": "Server + client pagination repair",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 3,
+        "subtasksTotal": 5,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "pagination"
+        ],
+        "modules": {
+          "pagination": {
+            "passed": 3,
+            "total": 5,
+            "passedTasks": [
+              "api-mid-page-request",
+              "api-final-page-handling",
+              "api-invalid-parameter-handling"
+            ],
+            "failedTasks": [
+              "client-navigation",
+              "client-alert"
+            ]
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 306794
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 306794,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 0.6,
+          "finalScore": 300,
+          "rawScore": 300,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.6,
+      "finalSuccessPercentage": 0.6,
+      "timePenalized": false
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.6,
+    "finalSuccessPercentage": 0.6,
+    "workspaceArchive": "evals/outputs/pagination-2025-11-20T08-11-31-418Z-933e6830-c8bd-4e37-8774-4505a9b94ebe/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/pagination-2025-11-20T08-11-31-418Z-933e6830-c8bd-4e37-8774-4505a9b94ebe/llxprt-synthetic-minimax/workspace.zip",
+      "size": 85954
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 300
+  },
+  {
+    "evalName": "pagination",
+    "configId": "llxprt-zai-glm46",
+    "runId": "pagination-2025-11-20T08-16-51-607Z-3a1d1782-4be3-485f-8952-e8c74c640003",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:21:59.849Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "pagination",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.6,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0.6,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 300,
+      "finalScore": 300,
+      "actualTimeMinutes": 4.916,
+      "description": "Server + client pagination repair",
+      "category": "full-stack",
+      "breakdown": {
+        "subtasksPassed": 3,
+        "subtasksTotal": 5,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "pagination"
+        ],
+        "modules": {
+          "pagination": {
+            "passed": 3,
+            "total": 5,
+            "passedTasks": [
+              "api-mid-page-request",
+              "api-final-page-handling",
+              "api-invalid-parameter-handling"
+            ],
+            "failedTasks": [
+              "client-navigation",
+              "client-alert"
+            ]
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 294966
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 294966,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 0.6,
+          "finalScore": 300,
+          "rawScore": 300,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.6,
+      "finalSuccessPercentage": 0.6,
+      "timePenalized": false
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.6,
+    "finalSuccessPercentage": 0.6,
+    "workspaceArchive": "evals/outputs/pagination-2025-11-20T08-16-51-607Z-3a1d1782-4be3-485f-8952-e8c74c640003/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/pagination-2025-11-20T08-16-51-607Z-3a1d1782-4be3-485f-8952-e8c74c640003/llxprt-zai-glm46/workspace.zip",
+      "size": 85243
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 300
+  },
+  {
+    "evalName": "react-evaluation",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "react-evaluation-2025-11-20T08-21-59-864Z-76019110-ca48-4872-8617-8c92a0689d55",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:29:02.026Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "react-evaluation",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 500,
+      "finalScore": 500,
+      "actualTimeMinutes": 1.077,
+      "description": "Reactive programming primitives",
+      "category": "foundations",
+      "breakdown": {
+        "subtasksPassed": 3,
+        "subtasksTotal": 3,
+        "modulesCompleted": [
+          "react-evaluation"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "react-evaluation": {
+            "passed": 3,
+            "total": 3,
+            "passedTasks": [
+              "advanced-dependency-chain",
+              "nested-computed",
+              "callback-cleanup"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 64608
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 388435,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": false,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 1 problem (1 error, 0 warnings)"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 500,
+          "rawScore": 500,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": false
+    },
+    "passCount": 2,
+    "passes": 2,
+    "selectedPass": 1,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/react-evaluation-2025-11-20T08-21-59-864Z-76019110-ca48-4872-8617-8c92a0689d55/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/react-evaluation-2025-11-20T08-21-59-864Z-76019110-ca48-4872-8617-8c92a0689d55/llxprt-synthetic-glm46/workspace.zip",
+      "size": 66458
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 500
+  },
+  {
+    "evalName": "react-evaluation",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "react-evaluation-2025-11-20T08-29-02-040Z-408d4ca0-6c6b-45e0-9a29-2a3f1cbfe9c2",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T08:47:27.327Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "react-evaluation",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 500,
+      "finalScore": 500,
+      "actualTimeMinutes": 2.855,
+      "description": "Reactive programming primitives",
+      "category": "foundations",
+      "breakdown": {
+        "subtasksPassed": 3,
+        "subtasksTotal": 3,
+        "modulesCompleted": [
+          "react-evaluation"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "react-evaluation": {
+            "passed": 3,
+            "total": 3,
+            "passedTasks": [
+              "advanced-dependency-chain",
+              "nested-computed",
+              "callback-cleanup"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 171294
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 2,
+      "selectedPass": 1,
+      "totalCliDurationMs": 1071299,
+      "feedback": [
+        "Pass 1: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+        "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+        "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": false,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6667,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+            "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 500,
+          "rawScore": 500,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": false
+    },
+    "passCount": 2,
+    "passes": 2,
+    "selectedPass": 1,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/react-evaluation-2025-11-20T08-29-02-040Z-408d4ca0-6c6b-45e0-9a29-2a3f1cbfe9c2/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/react-evaluation-2025-11-20T08-29-02-040Z-408d4ca0-6c6b-45e0-9a29-2a3f1cbfe9c2/llxprt-synthetic-minimax/workspace.zip",
+      "size": 66844
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 500
+  },
+  {
+    "evalName": "react-evaluation",
+    "configId": "llxprt-zai-glm46",
+    "runId": "react-evaluation-2025-11-20T08-47-27-344Z-34c8ec16-cb9b-4787-8815-89a43e5311b5",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T09:29:45.530Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "react-evaluation",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 5,
+      "timeLimitMinutes": 10,
+      "baseScore": 500,
+      "successPercentage": 0.6667,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 0.872,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 11.468,
+      "description": "Reactive programming primitives",
+      "category": "foundations",
+      "breakdown": {
+        "subtasksPassed": 2,
+        "subtasksTotal": 3,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "react-evaluation"
+        ],
+        "modules": {
+          "react-evaluation": {
+            "passed": 2,
+            "total": 3,
+            "passedTasks": [
+              "advanced-dependency-chain",
+              "nested-computed"
+            ],
+            "failedTasks": [
+              "callback-cleanup"
+            ]
+          }
+        }
+      },
+      "error": "workspace-test:public failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 688096
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 2488205,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 27 problems (27 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+        "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 26 problems (26 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+        "Pass 2: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+        "Pass 2: lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/react-evaluation-2025-11-20T08-47-27-344Z-34c8ec16-cb9b-4787-8815-89a43e5311b5/src/core/computed.ts | 14:3  error  'updateObserver' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+        "workspace/src/core/computed.ts | 14:3  error  'updateObserver' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6667,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "lint failed. Recent output: - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 27 problems (27 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+            "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 26 problems (26 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option."
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.6666,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/react-evaluation-2025-11-20T08-47-27-344Z-34c8ec16-cb9b-4787-8815-89a43e5311b5/src/core/computed.ts | 14:3  error  'updateObserver' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+            "workspace/src/core/computed.ts | 14:3  error  'updateObserver' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.6667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.872,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 40| \u001b[39m    \u001b[34mexpect\u001b[39m(values2\u001b[33m.\u001b[39mlength)\u001b[33m.\u001b[39m\u001b[34mtoBeGreaterThan\u001b[39m(values1\u001b[33m.\u001b[39mlength) | \u001b[90m 41| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                     \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    callbackCleanupPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m | \u001b[90m 45| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.6667,
+      "finalSuccessPercentage": 0.6667,
+      "timePenalized": true
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": true,
+    "bestSuccessPercentage": 0.6667,
+    "finalSuccessPercentage": 0.6667,
+    "workspaceArchive": "evals/outputs/react-evaluation-2025-11-20T08-47-27-344Z-34c8ec16-cb9b-4787-8815-89a43e5311b5/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/react-evaluation-2025-11-20T08-47-27-344Z-34c8ec16-cb9b-4787-8815-89a43e5311b5/llxprt-zai-glm46/workspace.zip",
+      "size": 69472
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 333.35
+  },
+  {
+    "evalName": "regex-challenge",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "regex-challenge-2025-11-20T09-29-45-545Z-978164db-76fb-4b6b-ac71-8f924a225a95",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T09:42:56.898Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "regex-challenge",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 3,
+      "timeLimitMinutes": 6,
+      "baseScore": 300,
+      "successPercentage": 0,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 1.193,
+      "description": "Regex validation and transformation toolkit",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 0,
+        "subtasksTotal": 0,
+        "modulesCompleted": [],
+        "modulesIncomplete": [],
+        "modules": {}
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 71571
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 759798,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: 52:39  error  Unnecessary escape character: /(  no-useless-escape | 52:41  error  Unnecessary escape character: /)  no-useless-escape | 81:40  error  Unnecessary escape character: /-  no-useless-escape | ✖ 3 problems (3 errors, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.8238,
+          "appliedFeedback": [
+            "lint failed. Recent output: 52:39  error  Unnecessary escape character: /(  no-useless-escape | 52:41  error  Unnecessary escape character: /)  no-useless-escape | 81:40  error  Unnecessary escape character: /-  no-useless-escape | ✖ 3 problems (3 errors, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0,
+      "finalSuccessPercentage": 0,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0,
+    "finalSuccessPercentage": 0,
+    "workspaceArchive": "evals/outputs/regex-challenge-2025-11-20T09-29-45-545Z-978164db-76fb-4b6b-ac71-8f924a225a95/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/regex-challenge-2025-11-20T09-29-45-545Z-978164db-76fb-4b6b-ac71-8f924a225a95/llxprt-synthetic-glm46/workspace.zip",
+      "size": 80939
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 0
+  },
+  {
+    "evalName": "regex-challenge",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "regex-challenge-2025-11-20T09-42-56-917Z-eaba2b8a-2a0b-4b0f-bbcb-1563670a3315",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T10:08:29.232Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "regex-challenge",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 3,
+      "timeLimitMinutes": 6,
+      "baseScore": 300,
+      "successPercentage": 0,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 3.738,
+      "description": "Regex validation and transformation toolkit",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 0,
+        "subtasksTotal": 0,
+        "modulesCompleted": [],
+        "modulesIncomplete": [],
+        "modules": {}
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 224285
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 1500533,
+      "feedback": [
+        "Pass 1: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+        "Pass 1: lint failed. Recent output: igitsOnly' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars | 244:12  error  This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain  no-dupe-else-if | ✖ 6 problems (6 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                                                                 \u001b[31m^\u001b[39m | \u001b[90m 25| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 26| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "Pass 1: lint failed. Recent output: igitsOnly' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars | 244:12  error  This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain  no-dupe-else-if | ✖ 6 problems (6 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+        "Pass 1: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.4,
+          "appliedFeedback": [
+            "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+            "lint failed. Recent output: igitsOnly' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars | 244:12  error  This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain  no-dupe-else-if | ✖ 6 problems (6 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                                                                 \u001b[31m^\u001b[39m | \u001b[90m 25| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 26| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+            "lint failed. Recent output: igitsOnly' is assigned a value but never used                                                              @typescript-eslint/no-unused-vars | 244:12  error  This branch can never execute. Its condition is a duplicate or covered by previous conditions in the if-else-if chain  no-dupe-else-if | ✖ 6 problems (6 errors, 0 warnings) | 1 error and 0 warnings potentially fixable with the `--fix` option.",
+            "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m   | \u001b[39m                                                                 \u001b[31m^\u001b[39m | \u001b[90m 25| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 26| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.9568,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0,
+      "finalSuccessPercentage": 0,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0,
+    "finalSuccessPercentage": 0,
+    "workspaceArchive": "evals/outputs/regex-challenge-2025-11-20T09-42-56-917Z-eaba2b8a-2a0b-4b0f-bbcb-1563670a3315/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/regex-challenge-2025-11-20T09-42-56-917Z-eaba2b8a-2a0b-4b0f-bbcb-1563670a3315/llxprt-synthetic-minimax/workspace.zip",
+      "size": 105687
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 0
+  },
+  {
+    "evalName": "regex-challenge",
+    "configId": "llxprt-zai-glm46",
+    "runId": "regex-challenge-2025-11-20T10-08-29-253Z-ed951f78-80a7-47bd-9ca4-d7f7d7217db2",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T10:33:56.922Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "regex-challenge",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 3,
+      "timeLimitMinutes": 6,
+      "baseScore": 300,
+      "successPercentage": 0,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 1.314,
+      "description": "Regex validation and transformation toolkit",
+      "category": "utilities",
+      "breakdown": {
+        "subtasksPassed": 0,
+        "subtasksTotal": 0,
+        "modulesCompleted": [],
+        "modulesIncomplete": [],
+        "modules": {}
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 78831
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 1495622,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/regex-challenge-2025-11-20T10-08-29-253Z-ed951f78-80a7-47bd-9ca4-d7f7d7217db2/src/transformations.ts | 59:37  error  Unnecessary escape character: //  no-useless-escape | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m convertNode node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2048:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m convertNodeList node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2057:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m blockStatement node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m1197:19\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+        "workspace/src/transformations.ts | 59:37  error  Unnecessary escape character: //  no-useless-escape | ✖ 1 problem (1 error, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m 15| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 16| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.533,
+          "appliedFeedback": [
+            "lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/regex-challenge-2025-11-20T10-08-29-253Z-ed951f78-80a7-47bd-9ca4-d7f7d7217db2/src/transformations.ts | 59:37  error  Unnecessary escape character: //  no-useless-escape | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m convertNode node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2048:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m convertNodeList node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2057:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m blockStatement node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m1197:19\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+            "workspace/src/transformations.ts | 59:37  error  Unnecessary escape character: //  no-useless-escape | ✖ 1 problem (1 error, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m 15| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 16| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [
+            "\u001b[90m \u001b[2m❯\u001b[22m convertNode node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2048:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m convertNodeList node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m2057:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m blockStatement node_modules/rollup/dist/es/shared/parseAst.js:\u001b[2m1197:19\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+          ],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m 15| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 16| \u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 0.4856,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m 60| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m58:13\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0,
+      "finalSuccessPercentage": 0,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0,
+    "finalSuccessPercentage": 0,
+    "workspaceArchive": "evals/outputs/regex-challenge-2025-11-20T10-08-29-253Z-ed951f78-80a7-47bd-9ca4-d7f7d7217db2/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/regex-challenge-2025-11-20T10-08-29-253Z-ed951f78-80a7-47bd-9ca4-d7f7d7217db2/llxprt-zai-glm46/workspace.zip",
+      "size": 104261
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 0
+  },
+  {
+    "evalName": "report-builder",
+    "configId": "llxprt-synthetic-glm46",
+    "runId": "report-builder-2025-11-20T10-33-56-943Z-893c15c1-9de5-4f7f-89d4-42907f66c05e",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T10:43:14.237Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "report-builder",
+      "configId": "llxprt-synthetic-glm46",
+      "complexityMultiplier": 4,
+      "timeLimitMinutes": 8,
+      "baseScore": 400,
+      "successPercentage": 0.1667,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 3.442,
+      "description": "Spreadsheet → HTML report rendering",
+      "category": "integrations",
+      "breakdown": {
+        "subtasksPassed": 1,
+        "subtasksTotal": 6,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "report-builder"
+        ],
+        "modules": {
+          "report-builder": {
+            "passed": 1,
+            "total": 6,
+            "passedTasks": [
+              "package-integrity"
+            ],
+            "failedTasks": [
+              "render-markdown-with-totals",
+              "render-text-without-totals",
+              "render-text-with-totals",
+              "render-unsupported-format-failure",
+              "render-missing-file-failure"
+            ]
+          }
+        }
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 206533
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 526805,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 5 problems (5 errors, 0 warnings)",
+        "Pass 1: lint failed. Recent output: 63:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 64:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 69:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 5 problems (5 errors, 0 warnings)",
+            "lint failed. Recent output: 63:21  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 64:29  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 69:32  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 4 problems (4 errors, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.1667,
+      "finalSuccessPercentage": 0.1667,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.1667,
+    "finalSuccessPercentage": 0.1667,
+    "workspaceArchive": "evals/outputs/report-builder-2025-11-20T10-33-56-943Z-893c15c1-9de5-4f7f-89d4-42907f66c05e/llxprt-synthetic-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/report-builder-2025-11-20T10-33-56-943Z-893c15c1-9de5-4f7f-89d4-42907f66c05e/llxprt-synthetic-glm46/workspace.zip",
+      "size": 95996
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 66.68
+  },
+  {
+    "evalName": "report-builder",
+    "configId": "llxprt-synthetic-minimax",
+    "runId": "report-builder-2025-11-20T10-43-14-259Z-b6f87b14-be03-43b4-98aa-4e71a09c21bb",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T10:47:13.743Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "report-builder",
+      "configId": "llxprt-synthetic-minimax",
+      "complexityMultiplier": 4,
+      "timeLimitMinutes": 8,
+      "baseScore": 400,
+      "successPercentage": 1,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 1,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 400,
+      "finalScore": 400,
+      "actualTimeMinutes": 3.827,
+      "description": "Spreadsheet → HTML report rendering",
+      "category": "integrations",
+      "breakdown": {
+        "subtasksPassed": 6,
+        "subtasksTotal": 6,
+        "modulesCompleted": [
+          "report-builder"
+        ],
+        "modulesIncomplete": [],
+        "modules": {
+          "report-builder": {
+            "passed": 6,
+            "total": 6,
+            "passedTasks": [
+              "render-markdown-with-totals",
+              "render-text-without-totals",
+              "render-text-with-totals",
+              "render-unsupported-format-failure",
+              "render-missing-file-failure",
+              "package-integrity"
+            ],
+            "failedTasks": []
+          }
+        }
+      },
+      "status": "ok",
+      "passesAttempted": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 229623
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 1,
+      "selectedPass": 0,
+      "totalCliDurationMs": 229623,
+      "feedback": [
+        "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": true,
+          "partialSuccess": false,
+          "successPercentage": 1,
+          "finalScore": 400,
+          "rawScore": 400,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 1,
+      "finalSuccessPercentage": 1,
+      "timePenalized": false
+    },
+    "passCount": 1,
+    "passes": 1,
+    "selectedPass": 0,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 1,
+    "finalSuccessPercentage": 1,
+    "workspaceArchive": "evals/outputs/report-builder-2025-11-20T10-43-14-259Z-b6f87b14-be03-43b4-98aa-4e71a09c21bb/llxprt-synthetic-minimax/workspace",
+    "workspaceZip": {
+      "path": "runs/report-builder-2025-11-20T10-43-14-259Z-b6f87b14-be03-43b4-98aa-4e71a09c21bb/llxprt-synthetic-minimax/workspace.zip",
+      "size": 90877
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 400
+  },
+  {
+    "evalName": "report-builder",
+    "configId": "llxprt-zai-glm46",
+    "runId": "report-builder-2025-11-20T10-47-13-766Z-9234b1ab-7e80-48eb-9376-42a83252f42b",
+    "date": "2025-11-20",
+    "finishedAt": "2025-11-20T10:55:30.615Z",
+    "repoVersion": "7d4656ee0f8382089da5fb02fd0c88c1ab996c13",
+    "vybes": {
+      "taskName": "report-builder",
+      "configId": "llxprt-zai-glm46",
+      "complexityMultiplier": 4,
+      "timeLimitMinutes": 8,
+      "baseScore": 400,
+      "successPercentage": 0.1667,
+      "baselineSuccessPercentage": 0,
+      "adjustedSuccessPercentage": 0,
+      "timePenaltyMultiplier": 1,
+      "rawScore": 0,
+      "finalScore": 0,
+      "actualTimeMinutes": 1.985,
+      "description": "Spreadsheet → HTML report rendering",
+      "category": "integrations",
+      "breakdown": {
+        "subtasksPassed": 1,
+        "subtasksTotal": 6,
+        "modulesCompleted": [],
+        "modulesIncomplete": [
+          "report-builder"
+        ],
+        "modules": {
+          "report-builder": {
+            "passed": 1,
+            "total": 6,
+            "passedTasks": [
+              "package-integrity"
+            ],
+            "failedTasks": [
+              "render-markdown-with-totals",
+              "render-text-without-totals",
+              "render-text-with-totals",
+              "render-unsupported-format-failure",
+              "render-missing-file-failure"
+            ]
+          }
+        }
+      },
+      "error": "grading-test:private failed (exit 1)",
+      "status": "error",
+      "passesAttempted": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 119090
+    },
+    "multipass": {
+      "enabled": true,
+      "maxPasses": 3,
+      "passCount": 3,
+      "selectedPass": 2,
+      "totalCliDurationMs": 466917,
+      "feedback": [
+        "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+        "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+        "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+      ],
+      "passes": [
+        {
+          "passNumber": 1,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 2,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        },
+        {
+          "passNumber": 3,
+          "success": false,
+          "partialSuccess": true,
+          "successPercentage": 0.1667,
+          "finalScore": 0,
+          "rawScore": 0,
+          "timePenaltyMultiplier": 1,
+          "appliedFeedback": [
+            "tests failed. Recent output: \u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "publicTestFailures": [],
+          "hiddenTestFailures": [
+            "\u001b[90m   | \u001b[39m                              \u001b[31m^\u001b[39m | \u001b[90m123| \u001b[39m    \u001b[35mconst\u001b[39m stderr \u001b[33m=\u001b[39m result\u001b[33m.\u001b[39mstderr\u001b[33m.\u001b[39m\u001b[34mtoLowerCase\u001b[39m()\u001b[33m;\u001b[39m | \u001b[90m124| \u001b[39m    \u001b[34mexpect\u001b[39m(stderr)\u001b[33m.\u001b[39m\u001b[34mtoMatch\u001b[39m(\u001b[36m/missing|unable|enoent|not found/\u001b[39m)\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+          ],
+          "durationMs": null
+        }
+      ],
+      "partialBest": false,
+      "bestSuccessPercentage": 0.1667,
+      "finalSuccessPercentage": 0.1667,
+      "timePenalized": false
+    },
+    "passCount": 3,
+    "passes": 3,
+    "selectedPass": 2,
+    "partialBest": false,
+    "timePenalized": false,
+    "bestSuccessPercentage": 0.1667,
+    "finalSuccessPercentage": 0.1667,
+    "workspaceArchive": "evals/outputs/report-builder-2025-11-20T10-47-13-766Z-9234b1ab-7e80-48eb-9376-42a83252f42b/llxprt-zai-glm46/workspace",
+    "workspaceZip": {
+      "path": "runs/report-builder-2025-11-20T10-47-13-766Z-9234b1ab-7e80-48eb-9376-42a83252f42b/llxprt-zai-glm46/workspace.zip",
+      "size": 99558
+    },
+    "runSessionId": "17b9beec-3de1-47cb-9950-17d565eaaa06",
+    "runSessionStartedAt": "2025-11-20T06:21:22.911Z",
+    "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+    "rawVybes": 66.68
   }
 ]
