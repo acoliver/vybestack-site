@@ -39619,6 +39619,2406 @@
     "date": "2025-11-25",
     "runCycles": [
       {
+        "sessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+        "date": "2025-11-25",
+        "startedAt": "2025-11-25T18:22:26.812Z",
+        "finishedAt": "2025-11-25T22:52:31.987Z",
+        "repoVersions": [
+          "00dedabfdbf832e4d4d79f9652c81ba579777f2f"
+        ],
+        "totalVybes": 2785.48,
+        "totalMinutes": 101.41,
+        "totalPasses": 40,
+        "avgPasses": 2.22,
+        "partialBestRuns": 0,
+        "timePenalizedRuns": 5,
+        "configs": [
+          "llxprt-synthetic-glm46",
+          "llxprt-synthetic-minimax",
+          "llxprt-zai-glm46"
+        ],
+        "perConfigStats": {
+          "llxprt-synthetic-glm46": {
+            "runs": 6,
+            "totalVybes": 708.46,
+            "avgVybes": 118.08,
+            "avgSuccess": 0.4333,
+            "penaltySum": 2.77,
+            "penaltyCount": 3,
+            "avgPenalty": 0.9237,
+            "totalRawVybes": 800,
+            "avgRawVybes": 133.33,
+            "totalPasses": 13,
+            "avgPasses": 2.17,
+            "partialBestRuns": 0,
+            "timePenalizedRuns": 2,
+            "bestRun": {
+              "eval": "report-builder",
+              "score": 308.46
+            },
+            "worstRun": {
+              "eval": "form-capture",
+              "score": 0
+            }
+          },
+          "llxprt-synthetic-minimax": {
+            "runs": 6,
+            "totalVybes": 777.02,
+            "avgVybes": 129.5,
+            "avgSuccess": 0.4333,
+            "penaltySum": 2.77,
+            "penaltyCount": 3,
+            "avgPenalty": 0.9234,
+            "totalRawVybes": 800,
+            "avgRawVybes": 133.33,
+            "totalPasses": 14,
+            "avgPasses": 2.33,
+            "partialBestRuns": 0,
+            "timePenalizedRuns": 2,
+            "bestRun": {
+              "eval": "report-builder",
+              "score": 400
+            },
+            "worstRun": {
+              "eval": "form-capture",
+              "score": 0
+            }
+          },
+          "llxprt-zai-glm46": {
+            "runs": 6,
+            "totalVybes": 1300,
+            "avgVybes": 216.67,
+            "avgSuccess": 0.6,
+            "penaltySum": 4,
+            "penaltyCount": 4,
+            "avgPenalty": 1,
+            "totalRawVybes": 1300,
+            "avgRawVybes": 216.67,
+            "totalPasses": 13,
+            "avgPasses": 2.17,
+            "partialBestRuns": 0,
+            "timePenalizedRuns": 1,
+            "bestRun": {
+              "eval": "form-capture",
+              "score": 500
+            },
+            "worstRun": {
+              "eval": "react-evaluation",
+              "score": 0
+            }
+          }
+        },
+        "scenarios": [
+          {
+            "evalName": "base64-fix",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "base64-fix-2025-11-25T18-22-26-813Z-53160331-5a12-42ac-97f1-20406640ddf0",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T18:24:19.191Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "base64-fix",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 1,
+              "timeLimitMinutes": 2,
+              "baseScore": 100,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0.8889,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 100,
+              "finalScore": 100,
+              "actualTimeMinutes": 1.706,
+              "description": "Base64 encoder/decoder utilities",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 18,
+                "subtasksTotal": 18,
+                "modulesCompleted": [
+                  "base64"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "base64": {
+                    "passed": 18,
+                    "total": 18,
+                    "passedTasks": [
+                      "encode-0",
+                      "encode-1",
+                      "encode-2",
+                      "encode-3",
+                      "encode-4",
+                      "encode-5",
+                      "decode-0",
+                      "decode-1",
+                      "decode-2",
+                      "decode-3",
+                      "decode-4",
+                      "decode-5",
+                      "decode-without-padding",
+                      "decode-rejects-invalid",
+                      "cli-encode-success",
+                      "cli-decode-success",
+                      "cli-argument-error",
+                      "cli-decode-error"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 102362
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 102362,
+              "feedback": [
+                "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 100,
+                  "rawScore": 100,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": false
+            },
+            "passCount": 1,
+            "passes": 1,
+            "selectedPass": 0,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/base64-fix-2025-11-25T18-22-26-813Z-53160331-5a12-42ac-97f1-20406640ddf0/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/base64-fix-2025-11-25T18-22-26-813Z-53160331-5a12-42ac-97f1-20406640ddf0/llxprt-synthetic-glm46/workspace.zip",
+              "size": 42642
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 100
+          },
+          {
+            "evalName": "base64-fix",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "base64-fix-2025-11-25T18-24-19-206Z-debc2c21-0959-40d1-8ab8-fed191545dfe",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T18:27:05.060Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "base64-fix",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 1,
+              "timeLimitMinutes": 2,
+              "baseScore": 100,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0.8889,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 0.7702,
+              "rawScore": 100,
+              "finalScore": 77.02,
+              "actualTimeMinutes": 2.597,
+              "description": "Base64 encoder/decoder utilities",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 18,
+                "subtasksTotal": 18,
+                "modulesCompleted": [
+                  "base64"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "base64": {
+                    "passed": 18,
+                    "total": 18,
+                    "passedTasks": [
+                      "encode-0",
+                      "encode-1",
+                      "encode-2",
+                      "encode-3",
+                      "encode-4",
+                      "encode-5",
+                      "decode-0",
+                      "decode-1",
+                      "decode-2",
+                      "decode-3",
+                      "decode-4",
+                      "decode-5",
+                      "decode-without-padding",
+                      "decode-rejects-invalid",
+                      "cli-encode-success",
+                      "cli-decode-success",
+                      "cli-argument-error",
+                      "cli-decode-error"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 155802
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 155802,
+              "feedback": [
+                "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 77.02,
+                  "rawScore": 100,
+                  "timePenaltyMultiplier": 0.7702,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": true
+            },
+            "passCount": 1,
+            "passes": 1,
+            "selectedPass": 0,
+            "partialBest": false,
+            "timePenalized": true,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/base64-fix-2025-11-25T18-24-19-206Z-debc2c21-0959-40d1-8ab8-fed191545dfe/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/base64-fix-2025-11-25T18-24-19-206Z-debc2c21-0959-40d1-8ab8-fed191545dfe/llxprt-synthetic-minimax/workspace.zip",
+              "size": 43188
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 100
+          },
+          {
+            "evalName": "base64-fix",
+            "configId": "llxprt-zai-glm46",
+            "runId": "base64-fix-2025-11-25T18-27-05-076Z-e3a5b1eb-7b1d-4644-bc13-bb91b6de0bce",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T18:31:33.559Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "base64-fix",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 1,
+              "timeLimitMinutes": 2,
+              "baseScore": 100,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0.8889,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 100,
+              "finalScore": 100,
+              "actualTimeMinutes": 1.866,
+              "description": "Base64 encoder/decoder utilities",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 18,
+                "subtasksTotal": 18,
+                "modulesCompleted": [
+                  "base64"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "base64": {
+                    "passed": 18,
+                    "total": 18,
+                    "passedTasks": [
+                      "encode-0",
+                      "encode-1",
+                      "encode-2",
+                      "encode-3",
+                      "encode-4",
+                      "encode-5",
+                      "decode-0",
+                      "decode-1",
+                      "decode-2",
+                      "decode-3",
+                      "decode-4",
+                      "decode-5",
+                      "decode-without-padding",
+                      "decode-rejects-invalid",
+                      "cli-encode-success",
+                      "cli-decode-success",
+                      "cli-argument-error",
+                      "cli-decode-error"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 111936
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 248969,
+              "feedback": [
+                "Pass 1: tests failed. Recent output: \u001b[90m 25| \u001b[39m  } | \u001b[90m 26| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0.9444,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.8757,
+                  "appliedFeedback": [
+                    "tests failed. Recent output: \u001b[90m 25| \u001b[39m  } | \u001b[90m 26| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 25| \u001b[39m  } | \u001b[90m 26| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/base64.spec.ts:\u001b[2m53:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 100,
+                  "rawScore": 100,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": false
+            },
+            "passCount": 2,
+            "passes": 2,
+            "selectedPass": 1,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/base64-fix-2025-11-25T18-27-05-076Z-e3a5b1eb-7b1d-4644-bc13-bb91b6de0bce/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/base64-fix-2025-11-25T18-27-05-076Z-e3a5b1eb-7b1d-4644-bc13-bb91b6de0bce/llxprt-zai-glm46/workspace.zip",
+              "size": 43867
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 100
+          },
+          {
+            "evalName": "form-capture",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "form-capture-2025-11-25T18-31-33-575Z-5eddcee7-ee3a-4bad-95d7-27507f1bba6a",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T19:17:39.216Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "form-capture",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 0.6667,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 15,
+              "description": "Full-stack contact form application",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 1,
+                "subtasksTotal": 6,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "form-capture"
+                ],
+                "modules": {
+                  "form-capture": {
+                    "passed": 1,
+                    "total": 6,
+                    "passedTasks": [
+                      "package-integrity"
+                    ],
+                    "failedTasks": [
+                      "form-fields-render",
+                      "invalid-email-validation",
+                      "submission-persists",
+                      "thank-you-page",
+                      "css-styling"
+                    ]
+                  }
+                }
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 900003
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 2700184,
+              "feedback": [
+                "Pass 1: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 2: Command exited with status 1. Recent output: Error executing tool replace: Error: No changes to apply. The old_string and new_string are identical. | missing pgrep output | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                "Pass 2: lint failed. Recent output: 5d7-27507f1bba6a/src/server.ts | 5:1  error  Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment | 24:9  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: apture/workspace/src/server.ts | 5:1  error  Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment | 24:9  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 3: Command exited with status 1. Recent output:  to parse tool arguments for run_shell_command: Expected ',' or '}' after property value in JSON at position 90 | Error executing tool run_shell_command: params must have required property 'command' | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                "Pass 3: tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                "workspace/src/server.ts | 24:9  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6666,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output: Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "lint failed. Recent output:                                                                @typescript-eslint/no-explicit-any | workspace/evals/outputs/form-capture-2025-11-25T18-31-33-575Z-5eddcee7-ee3a-4bad-95d7-27507f1bba6a/tests/public/form.spec.ts | 22:25  error  'startServer' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 4 problems (4 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                    "workspace/tests/public/form.spec.ts | 22:25  error  'startServer' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 4 problems (4 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6666,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output: Error executing tool replace: Error: No changes to apply. The old_string and new_string are identical. | missing pgrep output | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "lint failed. Recent output: 5d7-27507f1bba6a/src/server.ts | 5:1  error  Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment | 24:9  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: apture/workspace/src/server.ts | 5:1  error  Use \"@ts-expect-error\" instead of \"@ts-ignore\", as \"@ts-ignore\" will do nothing if the following line is error-free  @typescript-eslint/ban-ts-comment | 24:9  error  Unexpected any. Specify a different type                                                                             @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6667,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output:  to parse tool arguments for run_shell_command: Expected ',' or '}' after property value in JSON at position 90 | Error executing tool run_shell_command: params must have required property 'command' | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                    "workspace/src/server.ts | 24:9  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m \u001b[2m❯\u001b[22m Test.callback node_modules/superagent/src/node/index.js:\u001b[2m904:3\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.<anonymous> node_modules/superagent/src/node/index.js:\u001b[2m1183:18\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m IncomingMessage.emit node:events:\u001b[2m536:35\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[31m\u001b[1m\u001b[7m FAIL \u001b[27m\u001b[22m\u001b[39m tests/form.spec.ts \u001b[2m[ tests/form.spec.ts ]\u001b[22m | \u001b[31m\u001b[1mError\u001b[22m: Hook timed out in 10000ms. | If this is a long-running hook, pass a timeout value as the last argument or configure it globally with \"hookTimeout\".\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": true
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": true,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/form-capture-2025-11-25T18-31-33-575Z-5eddcee7-ee3a-4bad-95d7-27507f1bba6a/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/form-capture-2025-11-25T18-31-33-575Z-5eddcee7-ee3a-4bad-95d7-27507f1bba6a/llxprt-synthetic-glm46/workspace.zip",
+              "size": 67234
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "form-capture",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T20:00:18.269Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "form-capture",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 0.818,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 12.225,
+              "description": "Full-stack contact form application",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 0,
+                "subtasksTotal": 6,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "form-capture"
+                ],
+                "modules": {
+                  "form-capture": {
+                    "passed": 0,
+                    "total": 6,
+                    "passedTasks": [],
+                    "failedTasks": [
+                      "form-fields-render",
+                      "invalid-email-validation",
+                      "submission-persists",
+                      "thank-you-page",
+                      "css-styling",
+                      "package-integrity"
+                    ]
+                  }
+                }
+              },
+              "error": "grading-test:private failed (exit 1)",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 733511
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 2493614,
+              "feedback": [
+                "Pass 1: Command exited with status 1. Recent output: Error executing tool replace: Error: No changes to apply. The new content is identical to the current content. | missing pgrep output | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                "Pass 1: lint failed. Recent output: 23:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | workspace/evals/outputs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                "workspace/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/src/database.ts | 24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                "workspace/src/database.ts | 24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m",
+                "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6667,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output: Error executing tool replace: Error: No changes to apply. The new content is identical to the current content. | missing pgrep output | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "lint failed. Recent output: 23:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | workspace/evals/outputs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                    "workspace/tests/public/form.spec.ts | 8:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6976,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/src/database.ts | 24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                    "workspace/src/database.ts | 24:16  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.818,
+                  "appliedFeedback": [
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                                             \u001b[31m^\u001b[39m | \u001b[90m 44| \u001b[39m    \u001b[34mexpect\u001b[39m(workspacePackage\u001b[33m.\u001b[39mscripts)\u001b[33m.\u001b[39m\u001b[34mtoEqual\u001b[39m(baselinePackage\u001b[33m.\u001b[39mscripts)\u001b[33m;\u001b[39m | \u001b[90m 45| \u001b[39m    packageIntegrityPassed \u001b[33m=\u001b[39m \u001b[35mtrue\u001b[39m\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": true
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": true,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/form-capture-2025-11-25T19-17-39-235Z-634345ff-9b16-40ef-995e-704e36466f8f/llxprt-synthetic-minimax/workspace.zip",
+              "size": 70515
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "form-capture",
+            "configId": "llxprt-zai-glm46",
+            "runId": "form-capture-2025-11-25T20-00-18-286Z-1d4c02cf-7b82-439f-8b9b-e8a8563d4f1a",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T20:15:30.721Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "form-capture",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 500,
+              "finalScore": 500,
+              "actualTimeMinutes": 3.436,
+              "description": "Full-stack contact form application",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 6,
+                "subtasksTotal": 6,
+                "modulesCompleted": [
+                  "form-capture"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "form-capture": {
+                    "passed": 6,
+                    "total": 6,
+                    "passedTasks": [
+                      "form-fields-render",
+                      "invalid-email-validation",
+                      "submission-persists",
+                      "thank-you-page",
+                      "css-styling",
+                      "package-integrity"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 206141
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 877307,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: 7:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 8:5   error  'app' is defined but never used           @typescript-eslint/no-unused-vars | 8:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 5 problems (5 errors, 0 warnings)",
+                "Pass 1: lint failed. Recent output: 7:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 8:5   error  'app' is defined but never used           @typescript-eslint/no-unused-vars | 8:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 5 problems (5 errors, 0 warnings)",
+                "Pass 1: typecheck failed. Recent output: > form-capture-grading@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/server.ts(5,1): error TS2578: Unused '@ts-expect-error' directive.",
+                "Pass 2: typecheck failed. Recent output: Types of parameters 'values' and 'params' are incompatible. | Type 'unknown[]' is not assignable to type 'BindParams | undefined'. | Type 'unknown[]' is not assignable to type 'SqlValue[]'. | Type 'unknown' is not assignable to type 'SqlValue'.",
+                "Pass 3: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": false,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 7:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 8:5   error  'app' is defined but never used           @typescript-eslint/no-unused-vars | 8:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 5 problems (5 errors, 0 warnings)",
+                    "lint failed. Recent output: 7:13  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 8:5   error  'app' is defined but never used           @typescript-eslint/no-unused-vars | 8:10  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 5 problems (5 errors, 0 warnings)",
+                    "typecheck failed. Recent output: > form-capture-grading@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/server.ts(5,1): error TS2578: Unused '@ts-expect-error' directive."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": false,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "typecheck failed. Recent output: Types of parameters 'values' and 'params' are incompatible. | Type 'unknown[]' is not assignable to type 'BindParams | undefined'. | Type 'unknown[]' is not assignable to type 'SqlValue[]'. | Type 'unknown' is not assignable to type 'SqlValue'."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 500,
+                  "rawScore": 500,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/form-capture-2025-11-25T20-00-18-286Z-1d4c02cf-7b82-439f-8b9b-e8a8563d4f1a/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/form-capture-2025-11-25T20-00-18-286Z-1d4c02cf-7b82-439f-8b9b-e8a8563d4f1a/llxprt-zai-glm46/workspace.zip",
+              "size": 68830
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 500
+          },
+          {
+            "evalName": "pagination",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "pagination-2025-11-25T20-15-30-740Z-13c615ef-8453-436b-9dac-3bca996842c8",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T20:24:21.748Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "pagination",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0.6,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0.6,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 300,
+              "finalScore": 300,
+              "actualTimeMinutes": 8.632,
+              "description": "Server + client pagination repair",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 3,
+                "subtasksTotal": 5,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "pagination"
+                ],
+                "modules": {
+                  "pagination": {
+                    "passed": 3,
+                    "total": 5,
+                    "passedTasks": [
+                      "api-mid-page-request",
+                      "api-final-page-handling",
+                      "api-invalid-parameter-handling"
+                    ],
+                    "failedTasks": [
+                      "client-navigation",
+                      "client-alert"
+                    ]
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 517935
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 517935,
+              "feedback": [
+                "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 0.6,
+                  "finalScore": 300,
+                  "rawScore": 300,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0.6,
+              "finalSuccessPercentage": 0.6,
+              "timePenalized": false
+            },
+            "passCount": 1,
+            "passes": 1,
+            "selectedPass": 0,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0.6,
+            "finalSuccessPercentage": 0.6,
+            "workspaceArchive": "evals/outputs/pagination-2025-11-25T20-15-30-740Z-13c615ef-8453-436b-9dac-3bca996842c8/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/pagination-2025-11-25T20-15-30-740Z-13c615ef-8453-436b-9dac-3bca996842c8/llxprt-synthetic-glm46/workspace.zip",
+              "size": 60940
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 300
+          },
+          {
+            "evalName": "pagination",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "pagination-2025-11-25T20-24-21-763Z-3dd8e643-cfc0-404f-827c-3f55d8bbe44c",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T20:43:37.362Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "pagination",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0.6,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0.6,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 300,
+              "finalScore": 300,
+              "actualTimeMinutes": 9.492,
+              "description": "Server + client pagination repair",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 3,
+                "subtasksTotal": 5,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "pagination"
+                ],
+                "modules": {
+                  "pagination": {
+                    "passed": 3,
+                    "total": 5,
+                    "passedTasks": [
+                      "api-mid-page-request",
+                      "api-final-page-handling",
+                      "api-invalid-parameter-handling"
+                    ],
+                    "failedTasks": [
+                      "client-navigation",
+                      "client-alert"
+                    ]
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 569527
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 1129477,
+              "feedback": [
+                "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                                                      \u001b[31m^\u001b[39m | \u001b[90m 61| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'api-invalid-parameter-handling'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m 62| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0.4,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                                                      \u001b[31m^\u001b[39m | \u001b[90m 61| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'api-invalid-parameter-handling'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m 62| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                                                      \u001b[31m^\u001b[39m | \u001b[90m 61| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'api-invalid-parameter-handling'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m 62| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 0.6,
+                  "finalScore": 300,
+                  "rawScore": 300,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0.6,
+              "finalSuccessPercentage": 0.6,
+              "timePenalized": false
+            },
+            "passCount": 2,
+            "passes": 2,
+            "selectedPass": 1,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0.6,
+            "finalSuccessPercentage": 0.6,
+            "workspaceArchive": "evals/outputs/pagination-2025-11-25T20-24-21-763Z-3dd8e643-cfc0-404f-827c-3f55d8bbe44c/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/pagination-2025-11-25T20-24-21-763Z-3dd8e643-cfc0-404f-827c-3f55d8bbe44c/llxprt-synthetic-minimax/workspace.zip",
+              "size": 75658
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 300
+          },
+          {
+            "evalName": "pagination",
+            "configId": "llxprt-zai-glm46",
+            "runId": "pagination-2025-11-25T20-43-37-378Z-176f3cf0-55cb-4c57-88f3-f11f2a3189e6",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T20:49:00.457Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "pagination",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0.6,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0.6,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 300,
+              "finalScore": 300,
+              "actualTimeMinutes": 5.164,
+              "description": "Server + client pagination repair",
+              "category": "full-stack",
+              "breakdown": {
+                "subtasksPassed": 3,
+                "subtasksTotal": 5,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "pagination"
+                ],
+                "modules": {
+                  "pagination": {
+                    "passed": 3,
+                    "total": 5,
+                    "passedTasks": [
+                      "api-mid-page-request",
+                      "api-final-page-handling",
+                      "api-invalid-parameter-handling"
+                    ],
+                    "failedTasks": [
+                      "client-navigation",
+                      "client-alert"
+                    ]
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 309848
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 309848,
+              "feedback": [
+                "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 0.6,
+                  "finalScore": 300,
+                  "rawScore": 300,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0.6,
+              "finalSuccessPercentage": 0.6,
+              "timePenalized": false
+            },
+            "passCount": 1,
+            "passes": 1,
+            "selectedPass": 0,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0.6,
+            "finalSuccessPercentage": 0.6,
+            "workspaceArchive": "evals/outputs/pagination-2025-11-25T20-43-37-378Z-176f3cf0-55cb-4c57-88f3-f11f2a3189e6/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/pagination-2025-11-25T20-43-37-378Z-176f3cf0-55cb-4c57-88f3-f11f2a3189e6/llxprt-zai-glm46/workspace.zip",
+              "size": 78218
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 300
+          },
+          {
+            "evalName": "react-evaluation",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "react-evaluation-2025-11-25T20-49-00-472Z-e9674d85-8a49-4483-9727-d08aebe47f95",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T21:15:27.837Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "react-evaluation",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 1.412,
+              "description": "Reactive programming primitives",
+              "category": "foundations",
+              "breakdown": {
+                "subtasksPassed": 3,
+                "subtasksTotal": 3,
+                "modulesCompleted": [
+                  "react-evaluation"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "react-evaluation": {
+                    "passed": 3,
+                    "total": 3,
+                    "passedTasks": [
+                      "advanced-dependency-chain",
+                      "nested-computed",
+                      "callback-cleanup"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 84696
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 1550919,
+              "feedback": [
+                "workspace/src/types/reactive.ts | 82:0  error  Parsing error: Declaration or statement expected | ✖ 3 problems (3 errors, 0 warnings)",
+                "Pass 2: typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | workspace/src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 3: typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc --noEmit | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                "Pass 3: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 4 problems (4 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m handleIncomingPacket node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m677:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.readFromStdout node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m600:7\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.emit node:events:\u001b[2m524:28\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯\u001b[22m\u001b[39m",
+                "Pass 3: build failed. Recent output: > react-evaluation@0.0.1 build | > tsc -p tsconfig.json | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                "workspace/src/types/reactive.ts | 82:0  error  Parsing error: Declaration or statement expected | ✖ 3 problems (3 errors, 0 warnings)",
+                "Pass 3: typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | workspace/src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": false,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6667,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 7 problems (7 errors, 0 warnings)",
+                    "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 6 problems (6 errors, 0 warnings)"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc --noEmit | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 4 problems (4 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m handleIncomingPacket node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m677:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.readFromStdout node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m600:7\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.emit node:events:\u001b[2m524:28\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯\u001b[22m\u001b[39m",
+                    "build failed. Recent output: > react-evaluation@0.0.1 build | > tsc -p tsconfig.json | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "workspace/src/types/reactive.ts | 82:0  error  Parsing error: Declaration or statement expected | ✖ 3 problems (3 errors, 0 warnings)",
+                    "typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | workspace/src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m \u001b[2m❯\u001b[22m handleIncomingPacket node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m677:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.readFromStdout node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m600:7\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.emit node:events:\u001b[2m524:28\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc --noEmit | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 4 problems (4 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m \u001b[2m❯\u001b[22m handleIncomingPacket node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m677:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.readFromStdout node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m600:7\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.emit node:events:\u001b[2m524:28\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯\u001b[22m\u001b[39m",
+                    "build failed. Recent output: > react-evaluation@0.0.1 build | > tsc -p tsconfig.json | src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "workspace/src/types/reactive.ts | 82:0  error  Parsing error: Declaration or statement expected | ✖ 3 problems (3 errors, 0 warnings)",
+                    "typecheck failed. Recent output: > react-evaluation@0.0.1 typecheck | > tsc -p tsconfig.json | workspace/src/types/reactive.ts(82,1): error TS1128: Declaration or statement expected. | workspace/src/types/reactive.ts(94,1): error TS1128: Declaration or statement expected.",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m \u001b[2m❯\u001b[22m handleIncomingPacket node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m677:12\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.readFromStdout node_modules/vite/node_modules/esbuild/lib/main.js:\u001b[2m600:7\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m Socket.emit node:events:\u001b[2m524:28\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/react-evaluation-2025-11-25T20-49-00-472Z-e9674d85-8a49-4483-9727-d08aebe47f95/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/react-evaluation-2025-11-25T20-49-00-472Z-e9674d85-8a49-4483-9727-d08aebe47f95/llxprt-synthetic-glm46/workspace.zip",
+              "size": 69613
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "react-evaluation",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "react-evaluation-2025-11-25T21-15-27-851Z-0bb0b884-9007-4256-ae32-4cade4210d11",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T21:21:26.126Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "react-evaluation",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 1.729,
+              "description": "Reactive programming primitives",
+              "category": "foundations",
+              "breakdown": {
+                "subtasksPassed": 2,
+                "subtasksTotal": 3,
+                "modulesCompleted": [],
+                "modulesIncomplete": [
+                  "react-evaluation"
+                ],
+                "modules": {
+                  "react-evaluation": {
+                    "passed": 2,
+                    "total": 3,
+                    "passedTasks": [
+                      "advanced-dependency-chain",
+                      "callback-cleanup"
+                    ],
+                    "failedTasks": [
+                      "nested-computed"
+                    ]
+                  }
+                }
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 103718
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 297814,
+              "feedback": [
+                "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 3: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                    "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                    "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                    "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                         \u001b[31m^\u001b[39m | \u001b[90m 51| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'nested-computed'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m) | \u001b[90m 52| \u001b[39m  }) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/react-evaluation-2025-11-25T21-15-27-851Z-0bb0b884-9007-4256-ae32-4cade4210d11/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/react-evaluation-2025-11-25T21-15-27-851Z-0bb0b884-9007-4256-ae32-4cade4210d11/llxprt-synthetic-minimax/workspace.zip",
+              "size": 70245
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "react-evaluation",
+            "configId": "llxprt-zai-glm46",
+            "runId": "react-evaluation-2025-11-25T21-21-26-141Z-80b3e8d5-0315-4435-b978-d88a18c368fe",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:02:52.345Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "react-evaluation",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 5,
+              "timeLimitMinutes": 10,
+              "baseScore": 500,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 0.7657,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 13.06,
+              "description": "Reactive programming primitives",
+              "category": "foundations",
+              "breakdown": {
+                "subtasksPassed": 3,
+                "subtasksTotal": 3,
+                "modulesCompleted": [
+                  "react-evaluation"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "react-evaluation": {
+                    "passed": 3,
+                    "total": 3,
+                    "passedTasks": [
+                      "advanced-dependency-chain",
+                      "nested-computed",
+                      "callback-cleanup"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 783571
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 2435603,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 7 problems (7 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                       \u001b[31m^\u001b[39m | \u001b[90m 14| \u001b[39m  }) | \u001b[90m 15| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                "Pass 1: build failed. Recent output: Types of property 'updateFn' are incompatible. | Type 'UpdateFn<T>' is not assignable to type 'UpdateFn<unknown>'. | Types of parameters 'value' and 'value' are incompatible. | Type 'unknown' is not assignable to type 'T | undefined'.",
+                "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 6 problems (6 errors, 0 warnings)",
+                "Pass 1: typecheck failed. Recent output: Types of property 'updateFn' are incompatible. | Type 'UpdateFn<T>' is not assignable to type 'UpdateFn<unknown>'. | Types of parameters 'value' and 'value' are incompatible. | Type 'unknown' is not assignable to type 'T | undefined'.",
+                "Pass 2: Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                "Pass 2: lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/react-evaluation-2025-11-25T21-21-26-141Z-80b3e8d5-0315-4435-b978-d88a18c368fe/src/core/callback.ts | 5:84  error  'updateDependents' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: 87:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 100:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 106:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 25 problems (25 errors, 0 warnings)",
+                "Pass 3: lint failed. Recent output: 61:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 67:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 70:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 17 problems (17 errors, 0 warnings)"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.7979,
+                  "appliedFeedback": [
+                    "typecheck failed. Recent output: Types of property 'updateFn' are incompatible. | Type 'UpdateFn<T>' is not assignable to type 'UpdateFn<unknown>'. | Types of parameters 'value' and 'value' are incompatible. | Type 'unknown' is not assignable to type 'T | undefined'.",
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 7 problems (7 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                       \u001b[31m^\u001b[39m | \u001b[90m 14| \u001b[39m  }) | \u001b[90m 15| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m",
+                    "build failed. Recent output: Types of property 'updateFn' are incompatible. | Type 'UpdateFn<T>' is not assignable to type 'UpdateFn<unknown>'. | Types of parameters 'value' and 'value' are incompatible. | Type 'unknown' is not assignable to type 'T | undefined'.",
+                    "workspace/tests/public/input.spec.ts | 6:20  error  '_setter' is assigned a value but never used  @typescript-eslint/no-unused-vars | ✖ 6 problems (6 errors, 0 warnings)",
+                    "typecheck failed. Recent output: Types of property 'updateFn' are incompatible. | Type 'UpdateFn<T>' is not assignable to type 'UpdateFn<unknown>'. | Types of parameters 'value' and 'value' are incompatible. | Type 'unknown' is not assignable to type 'T | undefined'."
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m   | \u001b[39m                       \u001b[31m^\u001b[39m | \u001b[90m 14| \u001b[39m  }) | \u001b[90m 15| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6666,
+                  "appliedFeedback": [
+                    "Command exited with status 1. Recent output: ] | } | Error executing workspace/evals/llxprt: spawnSync workspace/evals/llxprt ETIMEDOUT | Process terminated with signal SIGTERM",
+                    "lint failed. Recent output: > eslint . --ext .ts | workspace/evals/outputs/react-evaluation-2025-11-25T21-21-26-141Z-80b3e8d5-0315-4435-b978-d88a18c368fe/src/core/callback.ts | 5:84  error  'updateDependents' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 1 problem (1 error, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 87:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 100:39  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 106:42  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 25 problems (25 errors, 0 warnings)"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m   | \u001b[39m                           \u001b[31m^\u001b[39m | \u001b[90m 41| \u001b[39m  }) | \u001b[90m 42| \u001b[39m}) | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": false,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.7657,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 61:45  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 67:35  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | 70:41  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any | ✖ 17 problems (17 errors, 0 warnings)"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": true
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": true,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/react-evaluation-2025-11-25T21-21-26-141Z-80b3e8d5-0315-4435-b978-d88a18c368fe/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/react-evaluation-2025-11-25T21-21-26-141Z-80b3e8d5-0315-4435-b978-d88a18c368fe/llxprt-zai-glm46/workspace.zip",
+              "size": 70234
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "regex-challenge",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "regex-challenge-2025-11-25T22-02-52-360Z-553f839b-fb6e-455f-b9b8-78cc023e4143",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:08:19.847Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "regex-challenge",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 3,
+              "timeLimitMinutes": 6,
+              "baseScore": 300,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 1.702,
+              "description": "Regex validation and transformation toolkit",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 0,
+                "subtasksTotal": 0,
+                "modulesCompleted": [],
+                "modulesIncomplete": [],
+                "modules": {}
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 102103
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 287667,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m",
+                "Pass 3: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                "Pass 3: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/regex-challenge-2025-11-25T22-02-52-360Z-553f839b-fb6e-455f-b9b8-78cc023e4143/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/regex-challenge-2025-11-25T22-02-52-360Z-553f839b-fb6e-455f-b9b8-78cc023e4143/llxprt-synthetic-glm46/workspace.zip",
+              "size": 81114
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "regex-challenge",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "regex-challenge-2025-11-25T22-08-19-865Z-9d2113a5-21e1-4afa-a8ef-07a25c1edd08",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:13:32.404Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "regex-challenge",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 3,
+              "timeLimitMinutes": 6,
+              "baseScore": 300,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 1.366,
+              "description": "Regex validation and transformation toolkit",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 0,
+                "subtasksTotal": 0,
+                "modulesCompleted": [],
+                "modulesIncomplete": [],
+                "modules": {}
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 81947
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 271915,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                "Pass 2: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m",
+                "Pass 3: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                "Pass 3: lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m",
+                    "lint failed. Recent output: 23:39  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 30:29  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | 37:35  error  'value' is defined but never used    @typescript-eslint/no-unused-vars | ✖ 18 problems (18 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [
+                    "\u001b[90m 39| \u001b[39m} | \u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/public/validators.spec.ts:\u001b[2m27:12\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/15]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 40| \u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:38\u001b[22m\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m71:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/14]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/regex-challenge-2025-11-25T22-08-19-865Z-9d2113a5-21e1-4afa-a8ef-07a25c1edd08/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/regex-challenge-2025-11-25T22-08-19-865Z-9d2113a5-21e1-4afa-a8ef-07a25c1edd08/llxprt-synthetic-minimax/workspace.zip",
+              "size": 81395
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "regex-challenge",
+            "configId": "llxprt-zai-glm46",
+            "runId": "regex-challenge-2025-11-25T22-13-32-425Z-7239deb6-5c76-430a-8b28-4bfe33b68170",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:27:39.038Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "regex-challenge",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 3,
+              "timeLimitMinutes": 6,
+              "baseScore": 300,
+              "successPercentage": 0,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 0,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 0,
+              "finalScore": 0,
+              "actualTimeMinutes": 3.211,
+              "description": "Regex validation and transformation toolkit",
+              "category": "utilities",
+              "breakdown": {
+                "subtasksPassed": 0,
+                "subtasksTotal": 0,
+                "modulesCompleted": [],
+                "modulesIncomplete": [],
+                "modules": {}
+              },
+              "error": "lint/typecheck failed",
+              "status": "error",
+              "passesAttempted": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 192674
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 3,
+              "selectedPass": 2,
+              "totalCliDurationMs": 818551,
+              "feedback": [
+                "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 2: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m",
+                "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 3: tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 0.6813,
+                  "appliedFeedback": [
+                    "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 3,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "workspace/src/validators.ts | 48:47  error  '_options' is defined but never used  @typescript-eslint/no-unused-vars | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m 58| \u001b[39m    invalid\u001b[33m.\u001b[39m\u001b[34mforEach\u001b[39m((sample) \u001b[33m=>\u001b[39m \u001b[34mexpect\u001b[39m(\u001b[34misValidArgentinePhone\u001b[39m(sample))\u001b[33m.\u001b[39m… | \u001b[90m 59| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[90m \u001b[2m❯\u001b[22m tests/validators.spec.ts:\u001b[2m57:11\u001b[22m\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 0,
+              "finalSuccessPercentage": 0,
+              "timePenalized": false
+            },
+            "passCount": 3,
+            "passes": 3,
+            "selectedPass": 2,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 0,
+            "finalSuccessPercentage": 0,
+            "workspaceArchive": "evals/outputs/regex-challenge-2025-11-25T22-13-32-425Z-7239deb6-5c76-430a-8b28-4bfe33b68170/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/regex-challenge-2025-11-25T22-13-32-425Z-7239deb6-5c76-430a-8b28-4bfe33b68170/llxprt-zai-glm46/workspace.zip",
+              "size": 90259
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 0
+          },
+          {
+            "evalName": "report-builder",
+            "configId": "llxprt-synthetic-glm46",
+            "runId": "report-builder-2025-11-25T22-27-39-056Z-606af5bc-39b4-4914-acfb-76a6e39bcfe1",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:39:56.916Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "report-builder",
+              "configId": "llxprt-synthetic-glm46",
+              "complexityMultiplier": 4,
+              "timeLimitMinutes": 8,
+              "baseScore": 400,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 0.7712,
+              "rawScore": 400,
+              "finalScore": 308.46,
+              "actualTimeMinutes": 10.374,
+              "description": "Spreadsheet → HTML report rendering",
+              "category": "integrations",
+              "breakdown": {
+                "subtasksPassed": 6,
+                "subtasksTotal": 6,
+                "modulesCompleted": [
+                  "report-builder"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "report-builder": {
+                    "passed": 6,
+                    "total": 6,
+                    "passedTasks": [
+                      "render-markdown-with-totals",
+                      "render-text-without-totals",
+                      "render-text-with-totals",
+                      "render-unsupported-format-failure",
+                      "render-missing-file-failure",
+                      "package-integrity"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 622440
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 709601,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 1: tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m",
+                "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": true,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                    "tests failed. Recent output: \u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [
+                    "\u001b[90m   | \u001b[39m                   \u001b[31m^\u001b[39m | \u001b[90m125| \u001b[39m    taskStatus\u001b[33m.\u001b[39m\u001b[35mset\u001b[39m(\u001b[32m'render-missing-file-failure'\u001b[39m\u001b[33m,\u001b[39m \u001b[35mtrue\u001b[39m)\u001b[33m;\u001b[39m | \u001b[90m126| \u001b[39m  })\u001b[33m;\u001b[39m | \u001b[31m\u001b[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯\u001b[22m\u001b[39m"
+                  ],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 308.46,
+                  "rawScore": 400,
+                  "timePenaltyMultiplier": 0.7712,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": true
+            },
+            "passCount": 2,
+            "passes": 2,
+            "selectedPass": 1,
+            "partialBest": false,
+            "timePenalized": true,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/report-builder-2025-11-25T22-27-39-056Z-606af5bc-39b4-4914-acfb-76a6e39bcfe1/llxprt-synthetic-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/report-builder-2025-11-25T22-27-39-056Z-606af5bc-39b4-4914-acfb-76a6e39bcfe1/llxprt-synthetic-glm46/workspace.zip",
+              "size": 76546
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:zai-org/GLM-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 400
+          },
+          {
+            "evalName": "report-builder",
+            "configId": "llxprt-synthetic-minimax",
+            "runId": "report-builder-2025-11-25T22-39-56-935Z-aa1ed640-8186-441c-9bf7-ffb49d43935e",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:47:48.991Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "report-builder",
+              "configId": "llxprt-synthetic-minimax",
+              "complexityMultiplier": 4,
+              "timeLimitMinutes": 8,
+              "baseScore": 400,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 400,
+              "finalScore": 400,
+              "actualTimeMinutes": 3.882,
+              "description": "Spreadsheet → HTML report rendering",
+              "category": "integrations",
+              "breakdown": {
+                "subtasksPassed": 6,
+                "subtasksTotal": 6,
+                "modulesCompleted": [
+                  "report-builder"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "report-builder": {
+                    "passed": 6,
+                    "total": 6,
+                    "passedTasks": [
+                      "render-markdown-with-totals",
+                      "render-text-without-totals",
+                      "render-text-with-totals",
+                      "render-unsupported-format-failure",
+                      "render-missing-file-failure",
+                      "package-integrity"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 232934
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 2,
+              "selectedPass": 1,
+              "totalCliDurationMs": 453197,
+              "feedback": [
+                "Pass 1: lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)",
+                "Pass 2: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": false,
+                  "partialSuccess": false,
+                  "successPercentage": 0,
+                  "finalScore": 0,
+                  "rawScore": 0,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "lint failed. Recent output: - Change ESLint's list of included files to not include this file | - Change that TSConfig to include this file | - Create a new TSConfig that includes this file and include it in your parserOptions.project | ✖ 2 problems (2 errors, 0 warnings)"
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                },
+                {
+                  "passNumber": 2,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 400,
+                  "rawScore": 400,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": false
+            },
+            "passCount": 2,
+            "passes": 2,
+            "selectedPass": 1,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/report-builder-2025-11-25T22-39-56-935Z-aa1ed640-8186-441c-9bf7-ffb49d43935e/llxprt-synthetic-minimax/workspace",
+            "workspaceZip": {
+              "path": "runs/report-builder-2025-11-25T22-39-56-935Z-aa1ed640-8186-441c-9bf7-ffb49d43935e/llxprt-synthetic-minimax/workspace.zip",
+              "size": 73966
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider openai --baseurl https://api.synthetic.new/openai/v1 --key [MASKED] --model hf:MiniMaxAI/MiniMax-M2 --set context-limit=190000 --set shell-replacement=true --set modelparam.streaming=disabled --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 400
+          },
+          {
+            "evalName": "report-builder",
+            "configId": "llxprt-zai-glm46",
+            "runId": "report-builder-2025-11-25T22-47-49-009Z-b2c05195-e27e-4e7b-8911-5544cbf20733",
+            "date": "2025-11-25",
+            "finishedAt": "2025-11-25T22:52:31.987Z",
+            "repoVersion": "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
+            "vybes": {
+              "taskName": "report-builder",
+              "configId": "llxprt-zai-glm46",
+              "complexityMultiplier": 4,
+              "timeLimitMinutes": 8,
+              "baseScore": 400,
+              "successPercentage": 1,
+              "baselineSuccessPercentage": 0,
+              "adjustedSuccessPercentage": 1,
+              "timePenaltyMultiplier": 1,
+              "rawScore": 400,
+              "finalScore": 400,
+              "actualTimeMinutes": 4.557,
+              "description": "Spreadsheet → HTML report rendering",
+              "category": "integrations",
+              "breakdown": {
+                "subtasksPassed": 6,
+                "subtasksTotal": 6,
+                "modulesCompleted": [
+                  "report-builder"
+                ],
+                "modulesIncomplete": [],
+                "modules": {
+                  "report-builder": {
+                    "passed": 6,
+                    "total": 6,
+                    "passedTasks": [
+                      "render-markdown-with-totals",
+                      "render-text-without-totals",
+                      "render-text-with-totals",
+                      "render-unsupported-format-failure",
+                      "render-missing-file-failure",
+                      "package-integrity"
+                    ],
+                    "failedTasks": []
+                  }
+                }
+              },
+              "status": "ok",
+              "passesAttempted": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 273446
+            },
+            "multipass": {
+              "enabled": true,
+              "maxPasses": 3,
+              "passCount": 1,
+              "selectedPass": 0,
+              "totalCliDurationMs": 273446,
+              "feedback": [
+                "Pass 1: Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+              ],
+              "passes": [
+                {
+                  "passNumber": 1,
+                  "success": true,
+                  "partialSuccess": false,
+                  "successPercentage": 1,
+                  "finalScore": 400,
+                  "rawScore": 400,
+                  "timePenaltyMultiplier": 1,
+                  "appliedFeedback": [
+                    "Evaluation failed but no specific step reported errors. Inspect the saved .eval-outputs logs for details."
+                  ],
+                  "publicTestFailures": [],
+                  "hiddenTestFailures": [],
+                  "durationMs": null
+                }
+              ],
+              "partialBest": false,
+              "bestSuccessPercentage": 1,
+              "finalSuccessPercentage": 1,
+              "timePenalized": false
+            },
+            "passCount": 1,
+            "passes": 1,
+            "selectedPass": 0,
+            "partialBest": false,
+            "timePenalized": false,
+            "bestSuccessPercentage": 1,
+            "finalSuccessPercentage": 1,
+            "workspaceArchive": "evals/outputs/report-builder-2025-11-25T22-47-49-009Z-b2c05195-e27e-4e7b-8911-5544cbf20733/llxprt-zai-glm46/workspace",
+            "workspaceZip": {
+              "path": "runs/report-builder-2025-11-25T22-47-49-009Z-b2c05195-e27e-4e7b-8911-5544cbf20733/llxprt-zai-glm46/workspace.zip",
+              "size": 74928
+            },
+            "runSessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151",
+            "runSessionStartedAt": "2025-11-25T18:22:26.812Z",
+            "cliCommand": "workspace/evals/llxprt --provider anthropic --baseurl https://api.z.ai/api/anthropic --key [MASKED] --model glm-4.6 --set context-limit=190000 --set shell-replacement=true --set modelparam.temperature=1 --set modelparam.max_tokens=10000 --yolo --prompt [PROMPT]",
+            "rawVybes": 400
+          }
+        ]
+      },
+      {
         "sessionId": "dc7959e4-db71-481a-9174-4399fbfce302",
         "date": "2025-11-25",
         "startedAt": "2025-11-25T12:29:48.771Z",
@@ -41987,38 +44387,39 @@
       }
     ],
     "summary": {
-      "totalRuns": 1,
-      "totalMinutes": 116.74,
-      "totalVybes": 1843.67,
-      "totalPasses": 41,
-      "totalScenarios": 18,
-      "avgPasses": 2.28,
+      "totalRuns": 2,
+      "totalMinutes": 218.15,
+      "totalVybes": 4629.15,
+      "totalPasses": 81,
+      "totalScenarios": 36,
+      "avgPasses": 2.25,
       "partialBestRuns": 0,
-      "timePenalizedRuns": 7,
-      "avgVybes": 1843.67,
+      "timePenalizedRuns": 12,
+      "avgVybes": 2314.57,
       "profiles": [
         "llxprt-synthetic-glm46",
         "llxprt-synthetic-minimax",
         "llxprt-zai-glm46"
       ],
       "repoVersions": [
+        "00dedabfdbf832e4d4d79f9652c81ba579777f2f",
         "e37e62ba0834f39f2cb528904fa4f75f83f99feb"
       ]
     },
     "profiles": {
       "llxprt-synthetic-glm46": {
-        "runs": 1,
-        "evals": 6,
-        "totalVybes": 626.06,
-        "avgVybes": 626.06,
-        "totalRawVybes": 800,
+        "runs": 2,
+        "evals": 12,
+        "totalVybes": 1334.52,
+        "avgVybes": 667.26,
+        "totalRawVybes": 1600,
         "avgRawVybes": 800,
         "avgSuccess": 0.4333,
-        "avgPenalty": 0.6433,
-        "totalPasses": 12,
-        "avgPasses": 2,
+        "avgPenalty": 0.7833,
+        "totalPasses": 25,
+        "avgPasses": 2.08,
         "partialBestRuns": 0,
-        "timePenalizedRuns": 2,
+        "timePenalizedRuns": 4,
         "bestRun": {
           "eval": "report-builder",
           "score": 400,
@@ -42032,22 +44433,23 @@
           "sessionId": "dc7959e4-db71-481a-9174-4399fbfce302"
         },
         "repoVersions": [
-          "e37e62ba0834f39f2cb528904fa4f75f83f99feb"
+          "e37e62ba0834f39f2cb528904fa4f75f83f99feb",
+          "00dedabfdbf832e4d4d79f9652c81ba579777f2f"
         ]
       },
       "llxprt-synthetic-minimax": {
-        "runs": 1,
-        "evals": 6,
-        "totalVybes": 475.86,
-        "avgVybes": 475.86,
-        "totalRawVybes": 750,
-        "avgRawVybes": 750,
-        "avgSuccess": 0.4167,
-        "avgPenalty": 0.88,
-        "totalPasses": 15,
-        "avgPasses": 2.5,
+        "runs": 2,
+        "evals": 12,
+        "totalVybes": 1252.88,
+        "avgVybes": 626.44,
+        "totalRawVybes": 1550,
+        "avgRawVybes": 775,
+        "avgSuccess": 0.425,
+        "avgPenalty": 0.906,
+        "totalPasses": 29,
+        "avgPasses": 2.42,
         "partialBestRuns": 0,
-        "timePenalizedRuns": 3,
+        "timePenalizedRuns": 5,
         "bestRun": {
           "eval": "report-builder",
           "score": 400,
@@ -42061,27 +44463,28 @@
           "sessionId": "dc7959e4-db71-481a-9174-4399fbfce302"
         },
         "repoVersions": [
-          "e37e62ba0834f39f2cb528904fa4f75f83f99feb"
+          "e37e62ba0834f39f2cb528904fa4f75f83f99feb",
+          "00dedabfdbf832e4d4d79f9652c81ba579777f2f"
         ]
       },
       "llxprt-zai-glm46": {
-        "runs": 1,
-        "evals": 6,
-        "totalVybes": 741.75,
-        "avgVybes": 741.75,
-        "totalRawVybes": 1300,
+        "runs": 2,
+        "evals": 12,
+        "totalVybes": 2041.75,
+        "avgVybes": 1020.88,
+        "totalRawVybes": 2600,
         "avgRawVybes": 1300,
         "avgSuccess": 0.6,
-        "avgPenalty": 0.8067,
-        "totalPasses": 14,
-        "avgPasses": 2.33,
+        "avgPenalty": 0.9171,
+        "totalPasses": 27,
+        "avgPasses": 2.25,
         "partialBestRuns": 0,
-        "timePenalizedRuns": 2,
+        "timePenalizedRuns": 3,
         "bestRun": {
-          "eval": "report-builder",
-          "score": 400,
-          "runId": "report-builder-2025-11-25T17-42-21-945Z-ebbe1f7a-5e26-4cde-a0fc-394c5a0eaf0c",
-          "sessionId": "dc7959e4-db71-481a-9174-4399fbfce302"
+          "eval": "form-capture",
+          "score": 500,
+          "runId": "form-capture-2025-11-25T20-00-18-286Z-1d4c02cf-7b82-439f-8b9b-e8a8563d4f1a",
+          "sessionId": "f9b8ac68-87b2-416e-8de2-f02d82236151"
         },
         "worstRun": {
           "eval": "form-capture",
@@ -42090,7 +44493,8 @@
           "sessionId": "dc7959e4-db71-481a-9174-4399fbfce302"
         },
         "repoVersions": [
-          "e37e62ba0834f39f2cb528904fa4f75f83f99feb"
+          "e37e62ba0834f39f2cb528904fa4f75f83f99feb",
+          "00dedabfdbf832e4d4d79f9652c81ba579777f2f"
         ]
       }
     }
