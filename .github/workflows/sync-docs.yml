@@ -16,10 +16,17 @@ jobs:
       - name: Checkout site repo
         uses: actions/checkout@v4
 
-      - name: Clone llxprt-code docs
+      - name: Get latest stable release tag
+        id: release
+        run: |
+          TAG=$(cat release-version.json | python3 -c "import sys,json; print(json.load(sys.stdin).get('tag',''))")
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Syncing docs for release: $TAG"
+
+      - name: Clone llxprt-code docs at release tag
         run: |
           mkdir -p tmp
-          git clone --depth 1 https://github.com/vybestack/llxprt-code.git tmp/llxprt-code
+          git clone --depth 1 --branch ${{ steps.release.outputs.tag }} https://github.com/vybestack/llxprt-code.git tmp/llxprt-code
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
