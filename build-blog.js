@@ -25,6 +25,7 @@ const navTemplate = `
       <div class="nav-right">
         <a href="/llxprt-code.html">LLxprt Code</a>
         <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="https://github.com/vybestack/llxprt-code/blob/main/docs/index.md" target="_blank">Docs</a>
         <a href="/blog/">Blog</a>
         <a href="/#podcast">Podcast</a>
         <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
