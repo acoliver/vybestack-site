@@ -85,6 +85,16 @@ files.forEach(file => {
   const date = lines[1].replace(/\*/g, '').trim();
   const body = lines.slice(2).join('\n');
 
+  // Extract first image from rendered content
+  const renderedHtml = md.render(body);
+  const imgMatch = renderedHtml.match(/<img[^>]+src="([^"]+)"[^>]*>/i);
+  const firstImage = imgMatch ? imgMatch[1] : null;
+
+  // Convert relative path to absolute path for index/homepage use
+  const firstImageAbsolute = firstImage && firstImage.startsWith('../images/')
+    ? `/blog${firstImage.substring(2)}` // ../images/xxx.png -> /blog/images/xxx.png
+    : null;
+
   const htmlContent = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -103,7 +113,7 @@ ${navTemplate}
         <h1>${title}</h1>
       </div>
       <div class="blog-post-content">
-        ${md.render(body)}
+        ${renderedHtml}
       </div>
       <div class="blog-post-nav">
         <a href="/blog/" class="btn-secondary">&lt;- Back to Blog</a>
@@ -117,7 +127,7 @@ ${footerTemplate}
 
   fs.writeFileSync(path.join(outputDir, file.replace(/\.md$/, '.html')), htmlContent);
 
-  posts.push({ title, date, file: file.replace(/\.md$/, '.html') });
+  posts.push({ title, date, file: file.replace(/\.md$/, '.html'), image: firstImage, imageAbsolute: firstImageAbsolute });
 });
 
 // sort posts by date descending
@@ -142,14 +152,18 @@ ${navTemplate}
       </div>
       <p class="blog-intro">Thoughts on building developer-first AI tools, one file at a time.</p>
       <div class="blog-grid">
-        ${posts.map(p => `
+        ${posts.map(p => {
+          const imagePath = p.imageAbsolute || p.image;
+          return `
         <a href="rendered/${p.file}" class="blog-card">
+          ${imagePath ? `<div class="blog-thumbnail"><img src="${imagePath}" alt="${p.title}" /></div>` : '<div class="blog-thumbnail placeholder"></div>'}
           <div class="blog-meta">
             <span class="blog-date">${p.date}</span>
           </div>
           <h3>${p.title}</h3>
           <span class="blog-link">Read more -&gt;</span>
-        </a>`).join('')}
+        </a>`;
+        }).join('')}
       </div>
     </div>
   </section>
@@ -174,16 +188,22 @@ const homepagePath = path.join(__dirname, 'index.html');
 let homepage = fs.readFileSync(homepagePath, 'utf-8');
 
 const recentPosts = posts.slice(0, 3);
-const blogPostsHtml = recentPosts.map(p => `
+const blogPostsHtml = recentPosts.map(p => {
+  const imagePath = p.imageAbsolute || p.image;
+  return `
         <a href="/blog/rendered/${p.file}" class="blog-card">
+          ${imagePath ? `<div class="blog-thumbnail"><img src="${imagePath}" alt="${p.title}" /></div>` : '<div class="blog-thumbnail placeholder"></div>'}
           <div class="blog-meta">
             <span class="blog-date">${p.date}</span>
           </div>
           <h3>${p.title}</h3>
           <span class="blog-link">Read more -&gt;</span>
-        </a>`).join('');
+        </a>`;
+}).join('');
 
-homepage = homepage.replace('<!-- BLOG_POSTS -->', blogPostsHtml);
+homepage = homepage.replace(/<!-- BLOG_POSTS -->[\s\S]*?<!-- END_BLOG_POSTS -->/,
+  `<!-- BLOG_POSTS -->${blogPostsHtml}
+        <!-- END_BLOG_POSTS -->`);
 fs.writeFileSync(homepagePath, homepage);
 
 console.log(`Generated ${posts.length} blog posts`);
