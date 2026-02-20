@@ -12,6 +12,65 @@ const md = new markdownIt();
 
 if (!fs.existsSync(outputDir)) fs.mkdirSync(outputDir, { recursive: true });
 
+// Shared navigation template
+const navTemplate = `
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+`;
+
+// Shared footer template
+const footerTemplate = `
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="https://github.com/vybestack/llxprt-code/blob/main/docs/index.md">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+          <li><a href="https://github.com/vybestack/llxprt-code" title="GitHub"><img src="/assets/icons/github.svg" alt="GitHub" /></a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv" title="Discord"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/" title="LinkedIn"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+`;
+
 const posts = [];
 const files = fs.readdirSync(postsDir).filter(file => file.endsWith('.md'));
 
@@ -31,20 +90,28 @@ files.forEach(file => {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>${title}</title>
+  <title>${title} | Vybestack Blog</title>
   <link rel="stylesheet" href="${cssPathBlog}" />
 </head>
-<body class="blog-page">
-  <div class="container blog-post">
-    <div class="logo-wrapper">
-       <a href="/">
-          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
-       </a>
+<body>
+${navTemplate}
+
+  <section class="section blog-post-section">
+    <div class="container-narrow">
+      <div class="blog-post-header">
+        <span class="blog-date">${date}</span>
+        <h1>${title}</h1>
+      </div>
+      <div class="blog-post-content">
+        ${md.render(body)}
+      </div>
+      <div class="blog-post-nav">
+        <a href="/blog/" class="btn-secondary">&lt;- Back to Blog</a>
+      </div>
     </div>
-    <h1>${title}</h1>
-    <p class="cta-lead">${date}</p>
-    ${md.render(body)}
-  </div>
+  </section>
+
+${footerTemplate}
 </body>
 </html>`;
 
@@ -62,22 +129,32 @@ const indexHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vybestack Blog</title>
+  <title>Blog | Vybestack</title>
   <link rel="stylesheet" href="${cssPath}" />
 </head>
-<body class="blog-page">
-  <div class="container blog-post">
-    <div class="logo-wrapper">
-       <a href="/">
-          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
-       </a>
+<body>
+${navTemplate}
+
+  <section class="section blog">
+    <div class="container-wide">
+      <div class="section-header">
+        <h2>Blog</h2>
+      </div>
+      <p class="blog-intro">Thoughts on building developer-first AI tools, one file at a time.</p>
+      <div class="blog-grid">
+        ${posts.map(p => `
+        <a href="rendered/${p.file}" class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-date">${p.date}</span>
+          </div>
+          <h3>${p.title}</h3>
+          <span class="blog-link">Read more -&gt;</span>
+        </a>`).join('')}
+      </div>
     </div>
-    <h1>Vybestack Blog</h1>
-    <p class="cta-lead">Thoughts on building developer-first AI tools, one file at a time.</p>
-    <ul>
-      ${posts.map(p => `<li><a href="rendered/${p.file}" style="color:#6a9955">${p.title} (${p.date})</a></li>`).join('\n      ')}
-    </ul>
-  </div>
+  </section>
+
+${footerTemplate}
 </body>
 </html>`;
 
@@ -92,4 +169,22 @@ existing.forEach(f => {
   }
 });
 
+// Update homepage with last 3 blog posts
+const homepagePath = path.join(__dirname, 'index.html');
+let homepage = fs.readFileSync(homepagePath, 'utf-8');
 
+const recentPosts = posts.slice(0, 3);
+const blogPostsHtml = recentPosts.map(p => `
+        <a href="/blog/rendered/${p.file}" class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-date">${p.date}</span>
+          </div>
+          <h3>${p.title}</h3>
+          <span class="blog-link">Read more -&gt;</span>
+        </a>`).join('');
+
+homepage = homepage.replace('<!-- BLOG_POSTS -->', blogPostsHtml);
+fs.writeFileSync(homepagePath, homepage);
+
+console.log(`Generated ${posts.length} blog posts`);
+console.log(`Updated homepage with ${recentPosts.length} recent posts`);

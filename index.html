@@ -3,67 +3,287 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vybestack</title>
+  <title>Vybestack - Beyond Vibe Coding</title>
   <link rel="stylesheet" href="vybestack.css" />
 </head>
 <body>
 
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="https://vybestack.dev/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
 
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-main">
+        <h1>
+          <span class="title-prefix">LLMs that</span>
+          <span class="title-highlight">build products</span>
+          <span class="title-suffix">not just answer questions</span>
+        </h1>
+        <p class="hero-sub">
+          Autonomous development that runs for hours while you do other things.
+          From conversation to production—on your terms.
+        </p>
+        <div class="hero-ctas">
+          <form class="email-form" action="https://formspree.io/f/mqaplrnd" method="POST">
+            <input type="email" name="email" placeholder="Stay in the know" required />
+            <button type="submit">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="hero-secondary">
+        <div class="product-cards">
+          <a href="/llxprt-code.html" class="product-card">
+            <div class="card-icon"><img src="assets/llxprt.svg" alt="LLxprt Code" /></div>
+            <h3>LLxprt Code</h3>
+            <p>Autonomous AI coding CLI</p>
+            <span class="card-arrow">-></span>
+          </a>
+          <a href="/jefe.html" class="product-card">
+            <div class="card-icon">OR</div>
+            <h3>Jefe</h3>
+            <p>Multi-agent orchestrator</p>
+            <span class="card-arrow">-></span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<div class="container">
+  <!-- Problem Statement -->
+  <section class="section problem">
+    <div class="container-wide">
+      <div class="problem-grid">
+        <div class="problem-item">
+          <h3>Vibe coding is for doodles</h3>
+          <p>Prompt-based assistants generate snippets and demos. Great for exploration, not production.</p>
+        </div>
+        <div class="problem-item">
+          <h3>Real development needs multi-pass</h3>
+          <p>Architecture, implementation, testing, debugging—across hours, not minutes. Most tools can't sustain this.</p>
+        </div>
+        <div class="problem-item">
+          <h3>Parallel agents are chaos</h3>
+          <p>Run multiple instances? You're juggling terminal sessions, tabs, and windows. Observability is a nightmare.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <div class="top-bar">
-      <div class="logo-wrapper">
-        <a href="/">
-          <img src="/assets/vybestack_logo.png" alt="Vybestack logo" />
+  <!-- Our Approach -->
+  <section class="section approach">
+    <div class="container-wide">
+      <h2>The Vybestack Approach</h2>
+      <div class="approach-list">
+        <div class="approach-item">
+          <div class="approach-number">01</div>
+          <div class="approach-content">
+            <h3>Autonomous, not just agentic</h3>
+            <p>Multi-pass workflows that run for hours. Define what you want, go do other things, come back to real software.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-number">02</div>
+          <div class="approach-content">
+            <h3>Your control, your stack</h3>
+            <p>Use your existing subscriptions. Configure providers, models, temperature, context limits—anything.</p>
+          </div>
+        </div>
+        <div class="approach-item">
+          <div class="approach-number">03</div>
+          <div class="approach-content">
+            <h3>No telemetry. No lock-in. Open source.</h3>
+            <p>Your data stays with you. Build on Apache 2.0 code with an active community.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Products Showcase -->
+  <section class="section products">
+    <div class="container-wide">
+      <h2>Our Tools</h2>
+      <div class="products-grid">
+        <!-- LLxprt Code -->
+        <a href="/llxprt-code.html" class="product">
+          <div class="product-header">
+            <h3>LLxprt Code</h3>
+            <span class="product-tag">CLI Tool</span>
+          </div>
+          <div class="product-image">
+            <img src="assets/llxprt-screenshot.png" alt="LLxprt Code terminal" />
+          </div>
+          <div class="product-body">
+            <p>Autonomous AI coding CLI with multi-pass workflows. Run for hours, generate real software.</p>
+            <ul class="product-features">
+              <li>Multi-provider: Claude, GPT, Gemini, local models</li>
+              <li>Multi-account failover and load balancing</li>
+              <li>Your existing subscriptions via OAuth</li>
+              <li>No telemetry, open source</li>
+            </ul>
+            <div class="product-install">
+              <code>npm install -g @vybestack/llxprt-code</code>
+            </div>
+            <span class="btn-primary">Learn More -></span>
+          </div>
+        </a>
+
+        <!-- Jefe -->
+        <a href="/jefe.html" class="product">
+          <div class="product-header">
+            <h3>Jefe</h3>
+            <span class="product-tag muted">Preview</span>
+          </div>
+          <div class="product-image">
+            <img src="assets/jefe-screenshot.png" alt="Jefe dashboard" />
+          </div>
+          <div class="product-body">
+            <p>Orchestrator for managing multiple LLxprt instances. One dashboard for all your agents.</p>
+            <ul class="product-features">
+              <li>Launch, monitor, and interact across repositories</li>
+              <li>Live terminal output from any agent</li>
+              <li>Auto-reattach to tmux, resumes on restart</li>
+              <li>Available now on GitHub and Homebrew</li>
+            </ul>
+            <div class="product-install">
+              <code>brew install jefe</code>
+            </div>
+            <span class="btn-primary">Learn More -></span>
+          </div>
         </a>
       </div>
-
     </div>
+  </section>
 
-    <h1>LLMs are powerful.<br>But only if you make them yours.</h1>
-
-    <p class="site-version">Site build · 2025-10-27</p>
-
-    <p class="cta-lead">AI-first developer tools that give you control, not chaos.</p>
-
-    <p>Vybestack is building the stack for developers who use LLMs like pros — with better memory, sharper context, and zero mystery middleware.</p>
-
-    <p>Our first tool, <strong>LLxprt</strong>, brings intelligent coding to VSCode with multi-model support, local-first design, and actual context awareness.</p>
-
-    <h2>Why it’s different</h2>
-    <ul class="features">
-      <li><strong>No backend. No lock-in.</strong> Your models, your keys.</li>
-      <li><strong>Local or cloud —</strong> your choice.</li>
-      <li><strong>Collaborate across models</strong> with LLM consensus.</li>
-      <li><strong>Real memory. Real context.</strong> No vibes required.</li>
-      <li><strong>AI-first workflows</strong> that don’t hijack your IDE.</li>
-    </ul>
-
-    <div class="cta">
-      <p class="cta-lead">We’re not launching yet. But we’re building for you.</p>
-      <p>Sign up for early access — and be the first to use LLM tools that actually understand your codebase.</p>
-
-      <form action="https://formspree.io/f/mqaplrnd" method="POST">
-        <input type="email" name="email" placeholder="you@domain.com" required />
-        <button type="submit">Join the waitlist</button>
-      </form>
+  <!-- Blog Section -->
+  <section class="section blog">
+    <div class="container-wide">
+      <div class="section-header">
+        <h2>Latest from the Blog</h2>
+        <a href="/blog/" class="view-all">View all posts -></a>
+      </div>
+      <div class="blog-grid">
+        
+        <a href="/blog/rendered/2025-07-21-llxpt-code-12.html" class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-date">2025-07-21</span>
+          </div>
+          <h3>LLxprt Code 0.1.12 Released</h3>
+          <span class="blog-link">Read more -&gt;</span>
+        </a>
+        <a href="/blog/rendered/2025-04-07-vibe-change.html" class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-date">2025-04-07</span>
+          </div>
+          <h3>The Vibe Coding Will Change Everything</h3>
+          <span class="blog-link">Read more -&gt;</span>
+        </a>
+        <a href="/blog/rendered/2025-03-31-mcp-training-risks.html" class="blog-card">
+          <div class="blog-meta">
+            <span class="blog-date">2025-04-01</span>
+          </div>
+          <h3>MCP-Style Agentic Systems Make Training Data an Attack Surface</h3>
+          <span class="blog-link">Read more -&gt;</span>
+        </a>
+      </div>
     </div>
-  
-    <div class="cli-box">
-      <div>vybestack@dev ~$ <span style="color:#00ff00">cat LLxprt</span></div>
-      <div>&gt; echo 'AI coding assistant'</div>
-      <div>&gt; print('Multi-model support')</div>
-      <div>&gt; cat context-aware-dev.md</div>
-      <div>&gt; cat <a href="/blog/index.html">/blog</a></div>
+  </section>
+
+  <!-- Podcast Section -->
+  <section class="section podcast" id="podcast">
+    <div class="container-narrow">
+      <div class="podcast-content">
+        <div class="podcast-info">
+          <h2>Beyond Vibe Coding Podcast</h2>
+          <p>Exploring autonomous development, agentic engineering, and the future of AI-assisted coding. Join the conversation.</p>
+          <a href="https://www.youtube.com/@AndrewOliver/podcasts" target="_blank" class="btn-primary btn-large">
+            <span class="btn-icon">></span>
+            Watch on YouTube
+          </a>
+        </div>
+        <div class="podcast-embed">
+          <a href="https://www.youtube.com/@AndrewOliver/podcasts" target="_blank" class="podcast-thumbnail">
+            <div class="thumbnail-overlay">
+              <span class="play-icon">></span>
+            </div>
+            <img src="https://img.youtube.com/vi/vsb7rTqVbkE/maxresdefault.jpg" alt="Beyond Vibe Coding Podcast" />
+          </a>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <footer>
-      <p>Not your copilot. Not your vibe.<br>
-      Your tools. Your code. Your stack.</p>
-    </footer>
+  <!-- Community Section -->
+  <section class="section community">
+    <div class="container-narrow">
+      <h2>Join the Community</h2>
+      <p>Building autonomous development tools in the open. Join 340+ contributors and growing.</p>
+      <div class="community-links">
+        <a href="https://github.com/vybestack/llxprt-code" target="_blank" class="btn-icon" title="GitHub">
+          <img src="assets/icons/github.svg" alt="GitHub" />
+        </a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank" class="btn-icon" title="Discord">
+          <img src="assets/icons/discord.svg" alt="Discord" />
+        </a>
+        <a href="https://www.linkedin.com/company/vybestack/" target="_blank" class="btn-icon" title="LinkedIn">
+          <img src="assets/icons/linkedin.svg" alt="LinkedIn" />
+        </a>
+      </div>
+    </div>
+  </section>
 
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="#podcast">Podcast</a></li>
+          <li><a href="https://github.com/vybestack/llxprt-code/blob/main/docs/index.md">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+          <li><a href="https://github.com/vybestack/llxprt-code" title="GitHub"><img src="assets/icons/github.svg" alt="GitHub" /></a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv" title="Discord"><img src="assets/icons/discord.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/" title="LinkedIn"><img src="assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>(c) 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
 
-  </div>
 </body>
 </html>
