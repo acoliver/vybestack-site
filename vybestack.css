@@ -1068,6 +1068,21 @@ hr {
   overflow-y: auto;
   padding-right: var(--spacing-md);
   border-right: 1px solid var(--color-border-dim);
+  scrollbar-color: var(--color-primary) var(--color-bg);
+  scrollbar-width: thin;
+}
+
+.docs-sidebar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.docs-sidebar::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+
+.docs-sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--color-primary);
+  border-radius: 4px;
 }
 
 .docs-sidebar h3 {
@@ -1089,7 +1104,7 @@ hr {
 
 .docs-sidebar a {
   font-family: var(--font-mono);
-  font-size: 0.8rem;
+  font-size: 1rem;
   color: var(--color-text-muted);
   display: block;
   padding: 2px 0;
