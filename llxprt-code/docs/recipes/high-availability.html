@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>High Availability Multi-Provider Recipe | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>High Availability Multi-Provider Recipe</h1>
+<p>This recipe guides you through setting up LLxprt Code with multiple providers for maximum availability and reliability using the interactive TUI.</p>
+<h2>When to Use This Setup</h2>
+<ul>
+<li>You need reliable AI assistance for production work</li>
+<li>You want automatic failover when providers are unavailable</li>
+<li>You're building systems that can't afford downtime</li>
+<li>You want to balance cost vs. capability across providers</li>
+</ul>
+<h2>Provider Overview</h2>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Context Limit</th>
+<th>Cost Tier</th>
+<th>Best For</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude</td>
+<td>200,000</td>
+<td>Premium</td>
+<td>Complex reasoning, analysis</td>
+</tr>
+<tr>
+<td>Codex</td>
+<td>200,000</td>
+<td>Premium</td>
+<td>General tasks, fast</td>
+</tr>
+<tr>
+<td>Gemini</td>
+<td>1,048,576</td>
+<td>Free/Paid</td>
+<td>Large context, free tier</td>
+</tr>
+<tr>
+<td>Kimi</td>
+<td>262,144</td>
+<td>Paid</td>
+<td>Deep reasoning, tool use</td>
+</tr>
+</tbody>
+</table>
+<h2>Setting Up Multi-Provider Failover</h2>
+<h3>Step 1: Create Individual Model Profiles</h3>
+<p>First, set up and save profiles for each provider you want in your failover chain:</p>
+<pre><code class="language-bash"># Claude profile
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+/set context-limit 200000
+/keyfile ~/.anthropic_key
+/profile save model claude-primary
+
+# OpenAI profile (via Codex OAuth or API key)
+/provider openai
+/model gpt-5.2
+/set context-limit 200000
+/keyfile ~/.openai_key
+/profile save model openai-backup
+
+# Gemini profile (free tier)
+/auth gemini enable
+/provider gemini
+/model gemini-3-flash-preview
+/set context-limit 200000
+/profile save model gemini-fallback
+</code></pre>
+<h3>Step 2: Create Load Balancer Profile</h3>
+<p>Combine profiles into a failover load balancer:</p>
+<pre><code class="language-bash">/profile save loadbalancer high-availability failover claude-primary openai-backup gemini-fallback
+</code></pre>
+<h3>Step 3: Load and Use</h3>
+<pre><code class="language-bash">/profile load high-availability
+</code></pre>
+<p>Or start directly from command line:</p>
+<pre><code class="language-bash">llxprt --profile-load high-availability
+</code></pre>
+<h2>Load Balancer Types</h2>
+<h3>Failover (Recommended for Reliability)</h3>
+<p>Tries providers in order, moving to the next only on failure:</p>
+<pre><code class="language-bash">/profile save loadbalancer my-failover failover primary-profile backup-profile emergency-profile
+</code></pre>
+<p><strong>Best for:</strong> Production systems where you want predictable primary provider usage.</p>
+<h3>Round Robin</h3>
+<p>Distributes requests evenly across providers:</p>
+<pre><code class="language-bash">/profile save loadbalancer my-roundrobin roundrobin profile1 profile2 profile3
+</code></pre>
+<p><strong>Best for:</strong> Maximizing throughput when all providers are equally capable.</p>
+<h2>Cost-Optimized Configuration</h2>
+<p>Prioritize free/cheap providers, falling back to premium only when needed:</p>
+<pre><code class="language-bash"># Free tier first
+/auth gemini enable
+/provider gemini
+/model gemini-3-flash-preview
+/profile save model free-gemini
+
+# Free Qwen backup
+/auth qwen enable
+/provider qwen
+/model qwen3-coder-pro
+/profile save model free-qwen
+
+# Cheap paid fallback
+/provider anthropic
+/model claude-haiku-4-5-20251001
+/keyfile ~/.anthropic_key
+/profile save model cheap-claude
+
+# Premium last resort
+/model claude-sonnet-4-5-20250929
+/profile save model premium-claude
+
+# Combine with failover
+/profile save loadbalancer cost-optimized failover free-gemini free-qwen cheap-claude premium-claude
+</code></pre>
+<h2>Capability-Optimized Configuration</h2>
+<p>Use the best model for complex tasks:</p>
+<pre><code class="language-bash"># Best reasoning with thinking
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+/set reasoning.enabled true
+/set reasoning.budget_tokens 8192
+/keyfile ~/.anthropic_key
+/profile save model claude-thinking
+
+# Strong Kimi K2 alternative
+/provider kimi
+/model kimi-k2-thinking
+/keyfile ~/.kimi_key
+/profile save model kimi-thinking
+
+# Fast capable backup
+/provider openai
+/model gpt-5.2
+/keyfile ~/.openai_key
+/profile save model openai-fast
+
+# Combine with failover
+/profile save loadbalancer capability-optimized failover claude-thinking kimi-thinking openai-fast
+</code></pre>
+<h2>Setting Up Authentication</h2>
+<h3>Option 1: Keyfiles (Recommended)</h3>
+<p>Store API keys in secure files:</p>
+<pre><code class="language-bash"># Create secure keyfiles
+echo &quot;sk-ant-...&quot; &gt; ~/.anthropic_key
+echo &quot;sk-...&quot; &gt; ~/.openai_key
+chmod 600 ~/.anthropic_key ~/.openai_key
+
+# Use in profiles
+/keyfile ~/.anthropic_key
+/profile save model my-profile
+</code></pre>
+<h3>Option 2: OAuth for Subscriptions</h3>
+<p>Use your existing subscriptions:</p>
+<pre><code class="language-bash">/auth anthropic enable   # Claude Pro/Max
+/auth codex enable       # ChatGPT Plus/Pro
+/auth gemini enable      # Gemini (free)
+/auth qwen enable        # Qwen (free)
+/auth kimi enable        # Kimi subscription
+</code></pre>
+<h3>Option 3: Multi-Bucket OAuth Failover</h3>
+<p>If you have multiple accounts (personal + work):</p>
+<pre><code class="language-bash"># Authenticate multiple accounts
+/auth anthropic login personal@gmail.com
+/auth anthropic login work@company.com
+
+# Save profile with bucket failover
+/profile save model claude-ha personal@gmail.com work@company.com
+</code></pre>
+<h2>Interactive Commands</h2>
+<h3>Load High Availability Profile</h3>
+<pre><code class="language-bash">/profile load high-availability
+</code></pre>
+<h3>Check Current Provider Status</h3>
+<pre><code class="language-bash">/provider
+/auth
+</code></pre>
+<h3>Switch Between Configurations</h3>
+<pre><code class="language-bash"># For cost-sensitive work
+/profile load cost-optimized
+
+# For complex problems
+/profile load capability-optimized
+
+# For general reliability
+/profile load high-availability
+</code></pre>
+<h3>Set Default Profile</h3>
+<pre><code class="language-bash">/profile set-default high-availability
+</code></pre>
+<h2>Command Line Usage</h2>
+<pre><code class="language-bash"># Start with high availability profile
+llxprt --profile-load high-availability
+
+# One-off with a specific profile
+llxprt --profile-load cost-optimized &quot;Explain this code&quot;
+
+# Interactive mode with profile
+llxprt --profile-load capability-optimized -i &quot;Let's work on this complex problem&quot;
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>All Providers Failing</h3>
+<p>Check authentication for each provider:</p>
+<pre><code class="language-bash"># Check status
+/auth
+
+# Test individual profiles
+/profile load claude-primary
+Hello, are you working?
+
+/profile load openai-backup
+Hello, are you working?
+</code></pre>
+<h3>Unexpected Provider Being Used</h3>
+<p>Failover uses the first working provider. Check if your primary has issues:</p>
+<pre><code class="language-bash"># Review provider status
+/stats lb
+</code></pre>
+<h3>Context Limit Mismatch</h3>
+<p>Ensure your profiles use consistent context limits. The conversation history is always preserved across providers, but provider-side caching may be lost when switching.</p>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Test all providers</strong>: Verify authentication works before depending on failover</li>
+<li><strong>Use keyfiles</strong>: More secure than environment variables, not in shell history</li>
+<li><strong>Set consistent context limits</strong>: Use the smallest provider's limit for compatibility</li>
+<li><strong>Save profiles in TUI</strong>: Use <code>/profile save</code> commands, not hand-written JSON</li>
+<li><strong>Monitor costs</strong>: Check <code>/stats</code> to track usage across providers</li>
+<li><strong>Update regularly</strong>: Provider capabilities and pricing change</li>
+</ol>
+<h2>Next Steps</h2>
+<ul>
+<li><a href="./claude-pro-workflow.html">Claude Pro Workflow</a> - Optimize Claude usage with thinking mode</li>
+<li><a href="./free-tier-setup.html">Free Tier Setup</a> - Add free providers to your stack</li>
+<li><a href="../cli/profiles.html">Profiles Documentation</a> - Full profile management guide</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

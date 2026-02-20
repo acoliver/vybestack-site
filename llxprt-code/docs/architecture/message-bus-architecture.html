@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message Bus Architecture | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Message Bus Architecture</h1>
+<h2>System Overview</h2>
+<p>The message bus and policy engine provide a decoupled, event-driven architecture for tool execution authorization in llxprt-code. This document describes the components, message flows, and integration points.</p>
+<h2>Architecture Diagram</h2>
+<pre><code>┌──────────────────────────────────────────────────────────────────────┐
+│                           llxprt-code System                          │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                        │
+│  ┌─────────────┐         ┌──────────────┐        ┌──────────────┐   │
+│  │   Model     │────────▶│ Tool Request │───────▶│ Tool Registry│   │
+│  │  (Gemini/   │         │              │        │              │   │
+│  │   etc.)     │         └──────────────┘        └──────┬───────┘   │
+│  └─────────────┘                                         │           │
+│                                                           │           │
+│                                                           ▼           │
+│                                                  ┌───────────────┐   │
+│                                                  │ CoreTool      │   │
+│                                                  │ Scheduler     │   │
+│                                                  └───────┬───────┘   │
+│                                                          │           │
+│                    ┌─────────────────────────────────────┤           │
+│                    │                                     │           │
+│                    ▼                                     ▼           │
+│         ┌──────────────────┐                   ┌─────────────────┐  │
+│         │  Message Bus     │◀──────────────────│  Policy Engine  │  │
+│         │  (EventEmitter)  │                   │                 │  │
+│         └────────┬─────────┘                   └─────────────────┘  │
+│                  │                                      ▲            │
+│                  │                                      │            │
+│      ┌───────────┴───────────┐                         │            │
+│      │                       │                         │            │
+│      ▼                       ▼                         │            │
+│  ┌────────┐          ┌─────────────┐          ┌───────┴────────┐   │
+│  │   UI   │          │  Scheduler  │          │ TOML Policy    │   │
+│  │(React) │          │ Subscriber  │          │ Loader         │   │
+│  └────────┘          └─────────────┘          └────────────────┘   │
+│      │                       │                         ▲            │
+│      │                       │                         │            │
+│      └───────────────────────┼─────────────────────────┘            │
+│                              │                                      │
+│                              ▼                                      │
+│                      ┌──────────────┐                               │
+│                      │ Tool Execute │                               │
+│                      └──────────────┘                               │
+│                                                                       │
+└───────────────────────────────────────────────────────────────────────┘
+</code></pre>
+<h2>Component Descriptions</h2>
+<h3>PolicyEngine</h3>
+<p><strong>Location:</strong> <code>packages/core/src/policy/policy-engine.ts</code></p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Evaluates tool execution requests against configured rules</li>
+<li>Matches rules by priority (highest wins)</li>
+<li>Validates MCP server names to prevent spoofing</li>
+<li>Returns <code>ALLOW</code>, <code>DENY</code>, or <code>ASK_USER</code> decisions</li>
+</ul>
+<p><strong>Key Methods:</strong></p>
+<pre><code class="language-typescript">evaluate(toolName: string, args: Record&lt;string, unknown&gt;, serverName?: string): PolicyDecision
+getRules(): readonly PolicyRule[]
+getDefaultDecision(): PolicyDecision
+isNonInteractive(): boolean
+</code></pre>
+<p><strong>Rule Matching Algorithm:</strong></p>
+<ol>
+<li>Sort rules by priority (highest first) during construction</li>
+<li>Iterate rules in priority order</li>
+<li>For each rule:
+<ul>
+<li>Check if <code>toolName</code> matches (undefined = wildcard)</li>
+<li>Check if <code>argsPattern</code> matches serialized args (undefined = match all)</li>
+<li>If both match, return rule's decision</li>
+</ul>
+</li>
+<li>If no rules match, return <code>defaultDecision</code></li>
+<li>In non-interactive mode, convert <code>ASK_USER</code> → <code>DENY</code></li>
+</ol>
+<h3>MessageBus</h3>
+<p><strong>Location:</strong> <code>packages/core/src/confirmation-bus/message-bus.ts</code></p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Event-driven pub/sub for tool confirmation messages</li>
+<li>Integrates with PolicyEngine for authorization</li>
+<li>Handles correlation IDs for request/response matching</li>
+<li>Implements 5-minute timeout for user confirmations</li>
+</ul>
+<p><strong>Key Methods:</strong></p>
+<pre><code class="language-typescript">publish(message: MessageBusMessage): void
+subscribe&lt;T&gt;(type: MessageBusType, handler: MessageHandler&lt;T&gt;): () =&gt; void
+requestConfirmation(toolCall: FunctionCall, args: Record&lt;string, unknown&gt;, serverName?: string): Promise&lt;boolean&gt;
+respondToConfirmation(
+  correlationId: string,
+  outcome: ToolConfirmationOutcome,
+  payload?: ToolConfirmationPayload,
+  requiresUserConfirmation?: boolean,
+): void
+</code></pre>
+<p><strong>Message Flow:</strong></p>
+<pre><code>requestConfirmation()
+    ↓
+PolicyEngine.evaluate()
+    ↓
+┌───────┬──────────┬──────────┐
+│ALLOW  │ DENY     │ ASK_USER │
+↓       ↓          ↓
+return  publish    publish TOOL_CONFIRMATION_REQUEST
+true    REJECTION      ↓
+        return     Wait for TOOL_CONFIRMATION_RESPONSE
+        false          ↓
+                   return outcome
+</code></pre>
+<h3>ToolRegistry</h3>
+<p><strong>Location:</strong> <code>packages/core/src/tools/tool-registry.ts</code></p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Manages all available tools (built-in and MCP)</li>
+<li>Passes MessageBus to tools via <code>setMessageBus()</code></li>
+<li>Prefixes discovered tools with <code>discovered_tool_</code></li>
+<li>Provides tool lookup and discovery</li>
+</ul>
+<p><strong>Integration Points:</strong></p>
+<pre><code class="language-typescript">setMessageBus(messageBus: MessageBus): void
+getTools(): Map&lt;string, Tool&gt;
+registerMCPTool(serverName: string, tool: MCPToolDefinition): void
+</code></pre>
+<h3>CoreToolScheduler</h3>
+<p><strong>Location:</strong> <code>packages/core/src/core/coreToolScheduler.ts</code></p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Schedules tool execution from model requests</li>
+<li>Subscribes to message bus for confirmation events</li>
+<li>Manages pending confirmations via correlation IDs</li>
+<li>Evaluates policy decisions before invoking legacy confirmation flows</li>
+</ul>
+<h3>TOML Policy Loader</h3>
+<p><strong>Location:</strong> <code>packages/core/src/policy/toml-loader.ts</code></p>
+<p><strong>Responsibilities:</strong></p>
+<ul>
+<li>Loads and parses TOML policy files</li>
+<li>Validates schema with Zod</li>
+<li>Transforms string regex patterns to RegExp objects</li>
+<li>Enforces priority band constraints</li>
+<li>Provides comprehensive error messages</li>
+</ul>
+<p><strong>Loading Sequence:</strong></p>
+<pre><code>loadPolicyFromToml(path)
+    ↓
+readFile(path)
+    ↓
+toml.parse(content)
+    ↓
+PolicyFileSchema.parse(parsed)
+    ↓
+transformRule() for each rule
+    ↓
+validatePriorityBand()
+    ↓
+parseArgsPattern()
+    ↓
+return PolicyRule[]
+</code></pre>
+<p><strong>Error Handling:</strong></p>
+<ul>
+<li><code>PolicyLoadError</code> for TOML syntax errors</li>
+<li><code>PolicyLoadError</code> for schema validation failures</li>
+<li><code>PolicyLoadError</code> for invalid regex patterns</li>
+<li><code>PolicyLoadError</code> for out-of-range priorities</li>
+</ul>
+<h2>Message Flow Diagrams</h2>
+<h3>ALLOW Flow (Immediate Execution)</h3>
+<pre><code>Model Request
+    ↓
+CoreToolScheduler._schedule()
+    ↓
+MessageBus.requestConfirmation()
+    ↓
+PolicyEngine.evaluate()
+    ↓
+Decision: ALLOW
+    ↓
+return true immediately
+    ↓
+Tool Executes
+</code></pre>
+<h3>DENY Flow (Rejection)</h3>
+<pre><code>Model Request
+    ↓
+CoreToolScheduler._schedule()
+    ↓
+MessageBus.requestConfirmation()
+    ↓
+PolicyEngine.evaluate()
+    ↓
+Decision: DENY
+    ↓
+publish TOOL_POLICY_REJECTION message
+    ↓
+return false
+    ↓
+Tool Blocked
+</code></pre>
+<h3>ASK_USER Flow (User Confirmation)</h3>
+<pre><code>Model Request
+    ↓
+CoreToolScheduler._schedule()
+    ↓
+MessageBus.requestConfirmation()
+    ↓
+PolicyEngine.evaluate()
+    ↓
+Decision: ASK_USER
+    ↓
+Generate correlationId (UUID)
+    ↓
+Subscribe to TOOL_CONFIRMATION_RESPONSE
+    ↓
+publish TOOL_CONFIRMATION_REQUEST
+    ↓
+[Wait up to 5 minutes]
+    ↓
+UI receives request
+    ↓
+User clicks Proceed/Cancel
+    ↓
+UI publishes TOOL_CONFIRMATION_RESPONSE
+    ↓
+MessageBus matches correlationId
+    ↓
+Unsubscribe &amp; resolve promise
+    ↓
+return outcome (ToolConfirmationOutcome)
+    ↓
+Tool Executes or Blocked
+</code></pre>
+<h3>Timeout Flow</h3>
+<pre><code>MessageBus.requestConfirmation() with ASK_USER
+    ↓
+Set 5-minute timeout
+    ↓
+publish TOOL_CONFIRMATION_REQUEST
+    ↓
+[Wait 5 minutes with no response]
+    ↓
+Timeout fires
+    ↓
+Unsubscribe
+    ↓
+return false (treat as denied)
+    ↓
+Tool Blocked
+</code></pre>
+<h2>Confirmation Flow Reference</h2>
+<h3>Legacy Confirmation Path (Historical)</h3>
+<p><strong>Legacy Path:</strong></p>
+<pre><code>Tool Request
+    ↓
+CoreToolScheduler checks tool.shouldConfirmExecute()
+    ↓
+If true:
+  - AppContainer shows confirmation dialog
+  - Direct callback to handleConfirmationResponse()
+  - Tool executes
+If false:
+  - Tool executes immediately
+</code></pre>
+<p>This describes the original synchronous UX. Parts of it (like diff generation) remain in use after policy evaluation to preserve IDE features.</p>
+<h3>Unified Message Bus Flow</h3>
+<p>Message bus routing is always active:</p>
+<pre><code>Tool Request
+    ↓
+PolicyEngine evaluates rules
+    ↓
+Message bus publishes TOOL_CONFIRMATION_REQUEST (if needed)
+    ↓
+UI or automations respond via TOOL_CONFIRMATION_RESPONSE
+    ↓
+Tool executes based on policy decision/outcome
+</code></pre>
+<p>All tools now run through the policy engine regardless of approval mode, with legacy confirmation hooks layered on after policy evaluation to preserve UX features such as IDE diffs.</p>
+<h2>Compatibility Notes</h2>
+<p>Earlier builds relied on a feature flag to opt into the message bus path. That flag has been removed—message bus integration is always enabled and ApprovalMode/allowed-tools settings are converted into policy rules automatically.</p>
+<h3>Migration Bridge</h3>
+<p><code>packages/core/src/policy/config.ts</code> provides migration functions:</p>
+<pre><code class="language-typescript">migrateLegacyApprovalMode(config: Config): PolicyRule[]
+</code></pre>
+<p>This converts:</p>
+<ul>
+<li><code>ApprovalMode.YOLO</code> → Wildcard ALLOW at priority 1.999</li>
+<li><code>ApprovalMode.AUTO_EDIT</code> → Write tools ALLOW at priority 1.015</li>
+<li><code>--allowed-tools</code> → Individual ALLOW rules at priority 2.3</li>
+<li><code>--exclude-tools</code> → Individual DENY rules at priority 2.4</li>
+</ul>
+<h3>Runtime Considerations</h3>
+<ul>
+<li>Message bus integration is always enabled</li>
+<li>Legacy UI components still receive confirmation details for IDE workflows</li>
+<li>Config API exposes <code>getMessageBus()</code>/<code>getPolicyEngine()</code> everywhere</li>
+<li>TOML policies are stored separately from settings.json</li>
+</ul>
+<h2>Integration Points</h2>
+<h3>Config Integration</h3>
+<p><strong>Location:</strong> <code>packages/core/src/config/config.ts</code></p>
+<p><strong>New Fields:</strong></p>
+<pre><code class="language-typescript">class Config {
+  private readonly messageBus: MessageBus;
+  private readonly policyEngine: PolicyEngine;
+
+  getMessageBus(): MessageBus;
+  getPolicyEngine(): PolicyEngine;
+}
+</code></pre>
+<p><strong>Initialization:</strong></p>
+<pre><code class="language-typescript">constructor(params: ConfigParameters) {
+  // Create policy engine with loaded config
+  this.policyEngine = new PolicyEngine(params.policyEngineConfig);
+
+  // Create message bus with policy engine
+  this.messageBus = new MessageBus(this.policyEngine, this.debugMode);
+}
+</code></pre>
+<h3>CLI Integration</h3>
+<p><strong>Location:</strong> <code>packages/cli/src/config/cliConfig.ts</code></p>
+<p><strong>Async Policy Loading:</strong></p>
+<pre><code class="language-typescript">export async function loadCliConfig(options: CliOptions): Promise&lt;CliConfig&gt; {
+  // Create policy engine config (async due to TOML loading)
+  const policyEngineConfig = await createPolicyEngineConfig(baseConfig);
+
+  // Pass to Config constructor
+  return new Config({
+    ...params,
+    policyEngineConfig,
+  });
+}
+</code></pre>
+<p><strong>Policy Update Handler:</strong></p>
+<pre><code class="language-typescript">function createPolicyUpdater(config: Config): void {
+  const messageBus = config.getMessageBus();
+
+  messageBus.subscribe(
+    MessageBusType.UPDATE_POLICY,
+    (message: UpdatePolicy) =&gt; {
+      // Add runtime rule for &quot;Always Allow&quot; UI selections
+      const policyEngine = config.getPolicyEngine();
+      policyEngine.addRule({
+        toolName: message.toolName,
+        decision: PolicyDecision.ALLOW,
+        priority: 2.95,
+      });
+    },
+  );
+}
+</code></pre>
+<h3>UI Integration</h3>
+<p><strong>Location:</strong> <code>packages/cli/src/ui/AppContainer.tsx</code></p>
+<p><strong>Message Bus Subscription:</strong></p>
+<pre><code class="language-typescript">useEffect(() =&gt; {
+  const messageBus = config.getMessageBus();
+
+  const unsubscribe = messageBus.subscribe(
+    MessageBusType.TOOL_CONFIRMATION_REQUEST,
+    (message: ToolConfirmationRequest) =&gt; {
+      // Bridge to existing UI state
+      setConfirmationRequest({
+        correlationId: message.correlationId,
+        toolCall: convertToLegacyFormat(message.toolCall),
+      });
+    },
+  );
+
+  return unsubscribe;
+}, [config]);
+</code></pre>
+<p><strong>Confirmation Response:</strong></p>
+<pre><code class="language-typescript">const handleConfirm = (outcome: ToolConfirmationOutcome) =&gt; {
+  const messageBus = config.getMessageBus();
+
+  messageBus.publish({
+    type: MessageBusType.TOOL_CONFIRMATION_RESPONSE,
+    correlationId: confirmationRequest.correlationId,
+    outcome,
+    confirmed: outcome === ToolConfirmationOutcome.Proceed,
+  });
+};
+</code></pre>
+<h3>Tool Integration</h3>
+<p><strong>Base Class Pattern:</strong></p>
+<pre><code class="language-typescript">class BaseToolInvocation {
+  protected readonly messageBus?: MessageBus;
+
+  constructor(messageBus?: MessageBus) {
+    this.messageBus = messageBus;
+  }
+
+  protected async getMessageBusDecision(
+    toolCall: FunctionCall,
+    args: Record&lt;string, unknown&gt;,
+    serverName?: string,
+  ): Promise&lt;boolean&gt; {
+    if (!this.messageBus) {
+      return true; // No message bus = allow (legacy)
+    }
+
+    return await this.messageBus.requestConfirmation(
+      toolCall,
+      args,
+      serverName,
+    );
+  }
+}
+</code></pre>
+<p><strong>Tool Implementation:</strong></p>
+<pre><code class="language-typescript">class EditTool extends DeclarativeTool {
+  async execute(args: EditArgs): Promise&lt;EditResult&gt; {
+    // Check message bus decision
+    if (this.messageBus) {
+      const approved = await this.getMessageBusDecision(
+        { name: 'edit', args },
+        args,
+      );
+
+      if (!approved) {
+        throw new Error('Edit operation denied by policy');
+      }
+    }
+
+    // Execute edit...
+  }
+}
+</code></pre>
+<h2>Security Architecture</h2>
+<h3>MCP Server Spoofing Prevention</h3>
+<p><strong>Problem:</strong> Malicious MCP server could claim to be another server</p>
+<p><strong>Solution:</strong> Validate tool name prefix matches server name</p>
+<pre><code class="language-typescript">private validateServerName(toolName: string, serverName: string): string | null {
+  const expectedPrefix = `${serverName}__`;
+
+  if (toolName.startsWith(expectedPrefix)) {
+    return toolName; // Valid
+  }
+
+  if (!toolName.includes('__')) {
+    // Built-in tool, serverName should not be set
+    return null; // Spoofing attempt
+  }
+
+  // Tool has different server prefix
+  return null; // Spoofing attempt
+}
+</code></pre>
+<p><strong>Enforcement:</strong></p>
+<pre><code class="language-typescript">evaluate(toolName: string, args: Record&lt;string, unknown&gt;, serverName?: string): PolicyDecision {
+  if (serverName) {
+    const validatedToolName = this.validateServerName(toolName, serverName);
+    if (validatedToolName === null) {
+      return PolicyDecision.DENY; // Spoofing detected
+    }
+  }
+
+  // Continue with rule matching...
+}
+</code></pre>
+<h3>Priority Band Enforcement</h3>
+<p><strong>Validation:</strong> TOML loader enforces priority range [1.0, 4.0)</p>
+<pre><code class="language-typescript">function validatePriorityBand(
+  priority: number | undefined,
+  path: string,
+): void {
+  if (priority === undefined) {
+    return; // Default priority 0 is valid
+  }
+
+  if (priority &lt; 1.0 || priority &gt;= 4.0) {
+    throw new PolicyLoadError(
+      `Invalid priority ${priority} in ${path}. Must be in range [1.0, 4.0).`,
+      path,
+    );
+  }
+}
+</code></pre>
+<p><strong>Purpose:</strong></p>
+<ul>
+<li>Prevent accidental priority conflicts</li>
+<li>Reserve tier 3 for future enterprise features</li>
+<li>Ensure user policies (tier 2) override defaults (tier 1)</li>
+</ul>
+<h3>Stable Stringify</h3>
+<p><strong>Location:</strong> <code>packages/core/src/policy/stable-stringify.ts</code></p>
+<p><strong>Purpose:</strong> Deterministic JSON serialization for pattern matching</p>
+<p><strong>Algorithm:</strong></p>
+<ul>
+<li>Sort object keys alphabetically</li>
+<li>Recursively process nested objects</li>
+<li>Consistent output for same input regardless of key insertion order</li>
+</ul>
+<p><strong>Example:</strong></p>
+<pre><code class="language-typescript">// Both produce same output:
+const a = { b: 1, a: 2 };
+const b = { a: 2, b: 1 };
+
+stableStringify(a) === stableStringify(b); // true
+// Output: '{&quot;a&quot;:2,&quot;b&quot;:1}'
+</code></pre>
+<p><strong>Security Benefit:</strong> Prevents pattern bypass via key reordering</p>
+<h2>Performance Characteristics</h2>
+<h3>Rule Evaluation</h3>
+<p><strong>Time Complexity:</strong> O(n) where n = number of rules</p>
+<ul>
+<li>Rules sorted once at construction</li>
+<li>Linear scan stops at first match</li>
+<li>Typical case: &lt; 50 rules, negligible overhead</li>
+</ul>
+<p><strong>Optimization:</strong> Priority sorting moves most likely matches to front</p>
+<h3>Message Bus</h3>
+<p><strong>Pub/Sub Overhead:</strong> Minimal (EventEmitter is optimized)</p>
+<ul>
+<li>Event dispatch: O(1)</li>
+<li>Subscription management: O(1)</li>
+<li>Memory: ~50 listeners max (configurable)</li>
+</ul>
+<h3>TOML Loading</h3>
+<p><strong>Startup Cost:</strong> Async file I/O + parsing</p>
+<ul>
+<li>Default policies: ~200 lines, &lt; 10ms to load</li>
+<li>User policies: Variable, typically &lt; 50ms</li>
+<li>Occurs once at startup, not per-request</li>
+</ul>
+<h3>Correlation ID Map</h3>
+<p><strong>Memory Management:</strong></p>
+<ul>
+<li>WeakMap in CoreToolScheduler prevents leaks</li>
+<li>5-minute timeout cleanup for pending confirmations</li>
+<li>Unsubscribe on response or timeout</li>
+</ul>
+<h2>Testing Strategy</h2>
+<h3>Unit Tests</h3>
+<p><strong>PolicyEngine:</strong></p>
+<ul>
+<li>Rule matching logic (priority, wildcards, patterns)</li>
+<li>Server name validation</li>
+<li>Non-interactive mode behavior</li>
+<li>Default decision fallback</li>
+</ul>
+<p><strong>MessageBus:</strong></p>
+<ul>
+<li>Pub/sub mechanics</li>
+<li>Correlation ID matching</li>
+<li>Timeout handling</li>
+<li>Concurrent requests</li>
+</ul>
+<p><strong>TOML Loader:</strong></p>
+<ul>
+<li>Valid TOML parsing</li>
+<li>Schema validation errors</li>
+<li>Priority band enforcement</li>
+<li>Regex compilation errors</li>
+</ul>
+<h3>Integration Tests</h3>
+<p><strong>End-to-End Flows:</strong></p>
+<ul>
+<li>Tool request → policy → allow → execute</li>
+<li>Tool request → policy → deny → block</li>
+<li>Tool request → policy → ask → UI → approve → execute</li>
+<li>Tool request → policy → ask → timeout → block</li>
+</ul>
+<p><strong>Feature Flag Tests:</strong></p>
+<ul>
+<li>Legacy path when flag OFF</li>
+<li>New path when flag ON</li>
+<li>No interference between paths</li>
+</ul>
+<h3>Migration Tests</h3>
+<p><strong>Legacy Compatibility:</strong></p>
+<ul>
+<li>ApprovalMode.YOLO → wildcard allow</li>
+<li>ApprovalMode.AUTO_EDIT → write tools allow</li>
+<li>--allowed-tools → individual allow rules</li>
+<li>Priority precedence (user &gt; legacy &gt; default)</li>
+</ul>
+<h2>Future Enhancements</h2>
+<h3>Dynamic Policy Reload</h3>
+<p><strong>Command:</strong> <code>/reload-policies</code></p>
+<p><strong>Implementation:</strong></p>
+<pre><code class="language-typescript">async reloadPolicies(): Promise&lt;void&gt; {
+  const newRules = await loadPolicyFromToml(this.policyPath);
+  this.rules = newRules;
+  this.rules.sort((a, b) =&gt; (b.priority ?? 0) - (a.priority ?? 0));
+}
+</code></pre>
+<h3>Policy Audit Logging</h3>
+<p><strong>Feature:</strong> Log all policy decisions for compliance</p>
+<p><strong>Implementation:</strong></p>
+<pre><code class="language-typescript">evaluate(toolName: string, args: Record&lt;string, unknown&gt;, serverName?: string): PolicyDecision {
+  const decision = this.evaluateInternal(toolName, args, serverName);
+
+  // Audit log
+  this.auditLog.append({
+    timestamp: Date.now(),
+    toolName,
+    serverName,
+    decision,
+    matchedRule: this.lastMatchedRule,
+  });
+
+  return decision;
+}
+</code></pre>
+<h3>Policy Testing Framework</h3>
+<p><strong>Feature:</strong> Test policy files before deployment</p>
+<p><strong>CLI Command:</strong></p>
+<pre><code class="language-bash">llxprt test-policy ~/.llxprt/my-policy.toml \
+  --tool edit \
+  --args '{&quot;file_path&quot;: &quot;/etc/hosts&quot;}'
+</code></pre>
+<p><strong>Output:</strong></p>
+<pre><code>Testing policy: ~/.llxprt/my-policy.toml
+
+Rule matched:
+  Priority: 2.7
+  Tool: edit
+  Pattern: /etc/
+  Decision: DENY
+
+Result: Tool would be BLOCKED
+</code></pre>
+<h2>Related Documentation</h2>
+<ul>
+<li><a href="../message-bus.html">Message Bus User Guide</a></li>
+<li><a href="../policy-configuration.html">Policy Configuration Guide</a></li>
+<li><a href="../migration/approval-mode-to-policies.html">Migration Guide</a></li>
+<li><a href="../../project-plans/20251119gmerge/messagebus.html">Message Bus Implementation Plan</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

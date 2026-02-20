@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code Hooks | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>LLxprt Code Hooks</h1>
+<p>The LLxprt Code hook system allows you to extend and customize the behavior of the CLI by running scripts at key points during execution. Hooks can intercept tool calls, modify LLM requests/responses, enforce security policies, add logging, and much more.</p>
+<h2>What Are Hooks?</h2>
+<p>Hooks are external scripts (bash, Python, or any executable) that LLxprt Code calls at specific points in the execution lifecycle. Your hook receives JSON input on stdin, processes it, and returns JSON output on stdout. Based on the output, LLxprt Code can:</p>
+<ul>
+<li><strong>Block</strong> operations (e.g., prevent writes to sensitive directories)</li>
+<li><strong>Modify</strong> tool inputs or LLM requests</li>
+<li><strong>Add context</strong> to responses</li>
+<li><strong>Log</strong> activity for auditing</li>
+<li><strong>Stop</strong> the agent entirely</li>
+</ul>
+<h2>Coming from Other Tools?</h2>
+<h3>From Gemini CLI</h3>
+<p>LLxprt Code's hook system is similar to Gemini CLI's hook configuration. The key differences:</p>
+<ul>
+<li>Configuration uses the same <code>settings.json</code> format under the <code>hooks</code> key</li>
+<li>Event names are similar: <code>BeforeTool</code>, <code>AfterTool</code>, <code>BeforeModel</code>, <code>AfterModel</code></li>
+<li>Scripts receive JSON on stdin and return JSON on stdout</li>
+<li>Exit codes have the same semantics (0=success, 1=warning, 2=block)</li>
+</ul>
+<h3>From Claude Code</h3>
+<p>If you're used to Claude Code's permission system:</p>
+<ul>
+<li>Hooks provide more granular control than simple allow/deny rules</li>
+<li>You can implement custom logic (e.g., allow writes only to specific directories)</li>
+<li>Hooks can modify inputs, not just approve/deny them</li>
+<li>Multiple hooks can run for the same event with aggregated results</li>
+</ul>
+<h2>Quick Start</h2>
+<h3>1. Enable Hooks</h3>
+<p>Hooks are enabled by default. Verify in your <code>~/.llxprt/settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;enableHooks&quot;: true
+}
+</code></pre>
+<h3>2. Configure a Hook</h3>
+<p>Add hooks to your <code>settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;~/.llxprt/hooks/security-policy.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>3. Write Your Hook Script</h3>
+<p>Create <code>~/.llxprt/hooks/security-policy.sh</code>:</p>
+<pre><code class="language-bash">#!/bin/bash
+# Read JSON input from stdin
+INPUT=$(cat)
+
+# Parse the tool name
+TOOL_NAME=$(echo &quot;$INPUT&quot; | jq -r '.tool_name')
+
+# Parse the path if it's a file operation
+PATH_VALUE=$(echo &quot;$INPUT&quot; | jq -r '.tool_input.path // empty')
+
+# Block writes to /etc
+if [[ &quot;$TOOL_NAME&quot; == &quot;write_file&quot; &amp;&amp; &quot;$PATH_VALUE&quot; == /etc* ]]; then
+  echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Writing to /etc is prohibited&quot;}'
+  exit 2
+fi
+
+# Allow everything else
+echo '{&quot;decision&quot;: &quot;allow&quot;}'
+exit 0
+</code></pre>
+<p>Make it executable:</p>
+<pre><code class="language-bash">chmod +x ~/.llxprt/hooks/security-policy.sh
+</code></pre>
+<h3>4. Test It</h3>
+<p>Now when LLxprt Code tries to write to <code>/etc/passwd</code>, your hook will block it!</p>
+<h2>Hook Events</h2>
+<p>LLxprt Code supports these hook events:</p>
+<table>
+<thead>
+<tr>
+<th>Event</th>
+<th>When It Fires</th>
+<th>Common Uses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BeforeTool</code></td>
+<td>Before executing any tool</td>
+<td>Security policies, audit logging, input validation</td>
+</tr>
+<tr>
+<td><code>AfterTool</code></td>
+<td>After a tool completes</td>
+<td>Result logging, adding context</td>
+</tr>
+<tr>
+<td><code>BeforeModel</code></td>
+<td>Before sending request to LLM</td>
+<td>Request modification, prompt injection defense</td>
+</tr>
+<tr>
+<td><code>AfterModel</code></td>
+<td>After receiving LLM response</td>
+<td>Response filtering, output modification</td>
+</tr>
+<tr>
+<td><code>BeforeToolSelection</code></td>
+<td>Before tool selection phase</td>
+<td>Restricting available tools</td>
+</tr>
+<tr>
+<td><code>SessionStart</code></td>
+<td>When session begins</td>
+<td>Session initialization</td>
+</tr>
+<tr>
+<td><code>SessionEnd</code></td>
+<td>When session ends</td>
+<td>Cleanup, final logging</td>
+</tr>
+<tr>
+<td><code>BeforeAgent</code></td>
+<td>Before agent processes prompt</td>
+<td>Prompt preprocessing</td>
+</tr>
+<tr>
+<td><code>AfterAgent</code></td>
+<td>After agent completes</td>
+<td>Response postprocessing</td>
+</tr>
+</tbody>
+</table>
+<h2>Next Steps</h2>
+<ul>
+<li><strong><a href="./architecture.html">Architecture Guide</a></strong> - Understand how hooks work internally</li>
+<li><strong><a href="./creating-custom-hooks.html">Creating Custom Hooks</a></strong> - Step-by-step tutorial with examples</li>
+<li><strong><a href="./api-reference.html">API Reference</a></strong> - Complete type definitions and interfaces</li>
+</ul>
+<h2>Example Use Cases</h2>
+<h3>Security Policy Enforcement</h3>
+<p>Block operations on sensitive files or directories:</p>
+<pre><code class="language-bash"># Deny writes to system directories
+if [[ &quot;$PATH_VALUE&quot; == /etc* || &quot;$PATH_VALUE&quot; == /var* ]]; then
+  echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;System directory access denied&quot;}'
+  exit 2
+fi
+</code></pre>
+<h3>Audit Logging</h3>
+<p>Log all tool calls for compliance:</p>
+<pre><code class="language-bash"># Log to file
+echo &quot;$(date) - Tool: $TOOL_NAME, Path: $PATH_VALUE&quot; &gt;&gt; ~/.llxprt/audit.log
+echo '{&quot;decision&quot;: &quot;allow&quot;}'
+exit 0
+</code></pre>
+<h3>Cost Control</h3>
+<p>Limit expensive model calls by estimating content size:</p>
+<pre><code class="language-python">#!/usr/bin/env python3
+import json, sys
+
+input_data = json.load(sys.stdin)
+request = input_data.get('llm_request', {})
+
+# Estimate token count from contents (rough approximation: ~4 chars per token)
+total_chars = 0
+for content in request.get('contents', []):
+    for part in content.get('parts', []):
+        if isinstance(part, str):
+            total_chars += len(part)
+        elif isinstance(part, dict) and 'text' in part:
+            total_chars += len(part['text'])
+
+estimated_tokens = total_chars // 4
+
+if estimated_tokens &gt; 100000:
+    print(json.dumps({
+        &quot;continue&quot;: False,
+        &quot;reason&quot;: f&quot;Request exceeds token limit (~{estimated_tokens} tokens)&quot;
+    }))
+    sys.exit(2)
+
+print(json.dumps({&quot;continue&quot;: True}))
+</code></pre>
+<h3>Project-Specific Rules</h3>
+<p>Apply rules based on working directory:</p>
+<pre><code class="language-bash"># Only allow certain tools in production directories
+CWD=$(echo &quot;$INPUT&quot; | jq -r '.cwd')
+if [[ &quot;$CWD&quot; == */production/* &amp;&amp; &quot;$TOOL_NAME&quot; != &quot;read_file&quot; ]]; then
+  echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Only read operations allowed in production&quot;}'
+  exit 2
+fi
+</code></pre>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

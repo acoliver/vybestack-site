@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi-Provider Support | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Multi-Provider Support</h1>
+<p>LLxprt Code supports multiple AI providers, allowing you to switch between different AI models and services seamlessly.</p>
+<h2>Available Providers</h2>
+<p>LLxprt Code currently supports the following providers:</p>
+<ul>
+<li><strong>Google Gemini</strong> (default) - Google's AI models</li>
+<li><strong>OpenAI</strong> - o3, o1, GPT-4.1, GPT-4o, and other OpenAI models</li>
+<li><strong>Anthropic</strong> - Claude Opus 4, Claude Sonnet 4, and other Anthropic models</li>
+</ul>
+<p>Additionally, LLxprt Code supports any OpenAI-compatible API, including:</p>
+<ul>
+<li><strong>xAI</strong> - Grok models (grok-3, etc.)</li>
+<li><strong>OpenRouter</strong> - Access to 100+ models</li>
+<li><strong>Fireworks</strong> - Fast inference with open models</li>
+<li><strong>Local Models</strong> - LM Studio, llama.cpp, and other local servers</li>
+</ul>
+<h2>Switching Providers</h2>
+<p>You can switch between providers using the <code>/provider</code> command:</p>
+<pre><code class="language-bash"># Switch to OpenAI
+/provider openai
+
+# Switch to Anthropic
+/provider anthropic
+
+# Switch back to Gemini
+/provider gemini
+</code></pre>
+<p>The active provider will be displayed in the UI and persists across sessions.</p>
+<h2>Authentication</h2>
+<p>Each provider requires its own API key. You can set these up in several ways:</p>
+<h3>Environment Variables</h3>
+<p>The recommended way is to set environment variables:</p>
+<pre><code class="language-bash"># For OpenAI
+export OPENAI_API_KEY=sk-...
+
+# For Anthropic
+export ANTHROPIC_API_KEY=sk-ant-...
+
+# For Google Gemini (if not using default auth)
+export GOOGLE_API_KEY=...
+</code></pre>
+<h3>Using the /key Command</h3>
+<p>You can set API keys directly within the CLI:</p>
+<pre><code class="language-bash"># Set OpenAI API key
+/key sk-...
+
+# Set Anthropic API key (after switching provider)
+/provider anthropic
+/key sk-ant-...
+
+# Or load from a file
+/keyfile ~/.keys/openai.txt
+</code></pre>
+<h3>Configuration File</h3>
+<p>API keys can also be stored in the configuration file. See the <a href="./configuration.html">configuration documentation</a> for details.</p>
+<h2>Model Selection</h2>
+<p>Each provider offers different models. You can select a specific model using the <code>/model</code> command:</p>
+<pre><code class="language-bash"># List available models for current provider
+/model
+
+# Select a specific model
+/model gpt-5.2
+/model o3
+/model claude-opus-4
+</code></pre>
+<h2>Provider-Specific Features</h2>
+<h3>OpenAI</h3>
+<ul>
+<li>Supports o3 (including o3-pro which REQUIRES Responses API), o1, GPT-4.1, GPT-4o, and other OpenAI models</li>
+<li>Tool calling support (tool outputs are sent to the model as plain multi-line text; see <a href="../tool-output-format.html">Tool output format</a>)</li>
+<li>Responses API support for advanced models (o3, o1, gpt-5.2)</li>
+<li><strong>OAuth support</strong>: ChatGPT Plus/Pro subscribers can use OAuth authentication instead of API keys (see <a href="../oauth-setup.html">OAuth Setup</a>)</li>
+</ul>
+<h3>Anthropic</h3>
+<ul>
+<li>Supports Claude 4 family models (Opus 4, Sonnet 4) and other Anthropic models</li>
+<li>Native tool calling support</li>
+<li>Higher context windows for certain models</li>
+</ul>
+<h3>Google Gemini</h3>
+<ul>
+<li>Default provider with seamless integration</li>
+<li>Supports Gemini Pro and other Google models</li>
+<li>Native multimodal support</li>
+</ul>
+<h3>OpenAI-Compatible Providers</h3>
+<p>Many providers offer OpenAI-compatible APIs, which can be used by setting the <code>openai</code> provider with a custom base URL:</p>
+<h4>Provider Aliases and Custom Endpoints</h4>
+<p>LLxprt ships with ready-to-use aliases for popular OpenAI-compatible services—Fireworks, OpenRouter, <a href="http://Chutes.ai">Chutes.ai</a>, Cerebras Code, xAI, LM Studio, and <code>llama.cpp</code>. These aliases are installed with the CLI and appear automatically in the <code>/provider</code> picker.</p>
+<ul>
+<li>Packaged aliases live in the CLI bundle (<code>packages/cli/src/providers/aliases/*.config</code>)</li>
+<li>User-defined aliases are loaded from <code>~/.llxprt/providers/*.config</code></li>
+<li>Aliases are reloaded every time you run <code>/provider save</code> or restart the CLI</li>
+</ul>
+<h5>Save the current configuration as an alias</h5>
+<pre><code>/provider openai
+/baseurl https://myotherprovider.com:123/v1/
+/model qwen-3-coder
+/provider save myotherprovider
+</code></pre>
+<p><code>/provider save myotherprovider</code> writes <code>~/.llxprt/providers/myotherprovider.config</code>, capturing the active provider type, base URL, and current default model. The new alias shows up immediately in <code>/provider</code>.</p>
+<h5>Manual alias files</h5>
+<p>Create <code>~/.llxprt/providers/&lt;alias&gt;.config</code> to define an alias without using the CLI:</p>
+<pre><code class="language-json">{
+  &quot;baseProvider&quot;: &quot;openai&quot;,
+  &quot;baseUrl&quot;: &quot;https://example.com/v1/&quot;,
+  &quot;defaultModel&quot;: &quot;awesome-model-1&quot;,
+  &quot;description&quot;: &quot;Example hosted endpoint&quot;,
+  &quot;apiKeyEnv&quot;: &quot;EXAMPLE_API_KEY&quot;
+}
+</code></pre>
+<p>Fields:</p>
+<ul>
+<li><code>baseProvider</code> (required): Base implementation to use. Currently <code>openai</code> is supported.</li>
+<li><code>baseUrl</code>: Overrides the endpoint. Defaults to the base provider’s URL when omitted.</li>
+<li><code>defaultModel</code>: Pre-selects the model shown in the UI.</li>
+<li><code>description</code>: Optional helper text.</li>
+<li><code>apiKeyEnv</code>: Name of an environment variable whose value should be used for this alias.</li>
+<li><code>providerConfig</code>: Optional object merged into the underlying provider config (advanced).</li>
+</ul>
+<h4>xAI (Grok)</h4>
+<p>To use Grok models:</p>
+<pre><code class="language-bash"># Command line configuration
+llxprt --provider openai --baseurl https://api.x.ai/v1/ --model grok-3 --keyfile ~/.mh_key
+
+# Or interactive configuration
+/provider openai
+/baseurl https://api.x.ai/v1/
+/model grok-3
+/keyfile ~/.mh_key
+</code></pre>
+<h4>Other OpenAI-Compatible Services</h4>
+<p>The same pattern works for OpenRouter, Fireworks, and local models. See the README for detailed examples of each.</p>
+<h2>Tool Parsing</h2>
+<p>Different providers may use different formats for tool calling:</p>
+<ul>
+<li><strong>JSON Format</strong> (default) - Used by OpenAI and Anthropic</li>
+<li><strong>Text-based Formats</strong> - Some providers support alternative formats like Hermes or XML</li>
+</ul>
+<p>The CLI automatically handles format conversion between providers.</p>
+<h2>Troubleshooting</h2>
+<h3>Common Issues</h3>
+<ol>
+<li>
+<p><strong>Authentication Errors</strong></p>
+<ul>
+<li>Verify your API key is correct</li>
+<li>Check environment variable names</li>
+<li>Ensure the key has proper permissions</li>
+</ul>
+</li>
+<li>
+<p><strong>Model Not Found</strong></p>
+<ul>
+<li>Use <code>/model</code> to list available models</li>
+<li>Check provider documentation for model names</li>
+<li>Some models may require special access</li>
+</ul>
+</li>
+<li>
+<p><strong>Rate Limiting</strong></p>
+<ul>
+<li>Each provider has different rate limits</li>
+<li>Consider switching providers if hitting limits</li>
+<li>Implement retry logic for production use</li>
+</ul>
+</li>
+</ol>
+<h3>Getting Help</h3>
+<ul>
+<li>Use <code>/help</code> to see available commands</li>
+<li>Check provider-specific documentation</li>
+<li>Report issues at the GitHub repository</li>
+</ul>
+<h2>Examples</h2>
+<h3>Basic Usage</h3>
+<pre><code class="language-bash"># Start with default Gemini provider
+llxprt
+
+# Switch to OpenAI
+/provider openai
+
+# Select GPT-4.1
+/model gpt-5.2
+
+# Have a conversation
+Hello! Can you help me with Python?
+
+# Switch to Anthropic for a different perspective
+/provider anthropic
+/model claude-opus-4
+
+What's the best way to handle async operations in Python?
+</code></pre>
+<h3>Using Multiple Providers in a Session</h3>
+<p>You can switch between providers within a single session to leverage different models' strengths:</p>
+<pre><code class="language-bash"># Use Gemini for general questions
+/provider gemini
+Explain quantum computing
+
+# Switch to o3 for advanced reasoning
+/provider openai
+/model o3
+Write a Python implementation of Shor's algorithm
+
+# Use Claude Opus 4 for detailed analysis
+/provider anthropic
+/model claude-opus-4
+Analyze the computational complexity of this implementation
+</code></pre>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Choose the Right Provider</strong>: Different providers excel at different tasks</li>
+<li><strong>Manage API Keys Securely</strong>: Use environment variables and never commit keys</li>
+<li><strong>Monitor Usage</strong>: Each provider has different pricing models</li>
+<li><strong>Handle Errors Gracefully</strong>: Implement proper error handling for API failures</li>
+<li><strong>Stay Updated</strong>: Provider capabilities and models change frequently</li>
+</ol>
+<h2>Related Documentation</h2>
+<ul>
+<li><a href="./configuration.html">Configuration</a> - Detailed configuration options</li>
+<li><a href="./authentication.html">Authentication</a> - Authentication methods</li>
+<li><a href="./commands.html">Commands</a> - Complete command reference</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

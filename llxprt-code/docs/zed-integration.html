@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zed Editor Integration | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Zed Editor Integration</h1>
+<p>LLxprt Code integrates with the <a href="https://zed.dev">Zed editor</a> as an AI assistant using the Agent Communication Protocol (ACP). This guide covers setup, configuration, and usage.</p>
+<h2>Prerequisites</h2>
+<ul>
+<li><strong>Zed Editor</strong>: Download from <a href="https://zed.dev">zed.dev</a></li>
+<li><strong>LLxprt Code</strong>: Installed globally via npm (<code>npm install -g @vybestack/llxprt-code</code>)</li>
+<li><strong>Provider API Keys</strong>: API keys for your chosen provider(s)</li>
+</ul>
+<h2>Quick Start</h2>
+<h3>1. Find Your LLxprt Binary Path</h3>
+<p>First, locate your llxprt installation:</p>
+<pre><code class="language-bash"># On macOS/Linux
+which llxprt
+
+# Or use whereis
+whereis llxprt
+
+# Common locations:
+# - macOS (Homebrew): /opt/homebrew/bin/llxprt or /usr/local/bin/llxprt
+# - Linux: /usr/local/bin/llxprt or ~/.npm-global/bin/llxprt
+# - npm global: Check with: npm config get prefix
+</code></pre>
+<h3>2. Configure Zed Settings</h3>
+<p>Open Zed settings (<code>Cmd+,</code> on macOS, <code>Ctrl+,</code> on Linux) and add llxprt under <code>agent_servers</code>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt&quot;: {
+      &quot;command&quot;: &quot;/path/to/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;]
+    }
+  }
+}
+</code></pre>
+<p>Replace <code>/path/to/llxprt</code> with the path from step 1.</p>
+<h2>Configuration Approaches</h2>
+<p>There are two main ways to configure LLxprt for Zed:</p>
+<h3>Approach 1: Profile-Based (Recommended)</h3>
+<p><strong>Best for</strong>: Users who want to save configurations and easily switch between them.</p>
+<p>First, create and save a profile in LLxprt:</p>
+<pre><code class="language-bash"># Launch llxprt interactively
+llxprt
+
+# Inside llxprt, configure your provider
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+/auth anthropic enable  # or use /key or /keyfile
+
+# Save the profile
+/profile save my-claude-profile
+
+# Set as default (optional)
+/profile set-default my-claude-profile
+</code></pre>
+<p>Then configure Zed to use the profile:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-claude&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--profile-load&quot;,
+        &quot;my-claude-profile&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p><strong>Flags explained</strong>:</p>
+<ul>
+<li><code>--experimental-acp</code>: Enables ACP mode for Zed integration (required)</li>
+<li><code>--profile-load &lt;name&gt;</code>: Loads a saved profile configuration</li>
+<li><code>--yolo</code>: Auto-approves actions without confirmation prompts (optional)</li>
+</ul>
+<h3>Approach 2: Direct Flags</h3>
+<p><strong>Best for</strong>: Users who want explicit control or don't want to manage profiles.</p>
+<p>Configure provider, model, and authentication directly in Zed settings:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-claude&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;anthropic&quot;,
+        &quot;--model&quot;,
+        &quot;claude-sonnet-4-5-20250929&quot;,
+        &quot;--keyfile&quot;,
+        &quot;/Users/username/.config/anthropic/api-key.txt&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p><strong>Available flags</strong>:</p>
+<ul>
+<li><code>--provider &lt;name&gt;</code>: Provider to use (anthropic, openai, gemini, groq, etc.)</li>
+<li><code>--model &lt;name&gt;</code>: Model name/ID</li>
+<li><code>--key &lt;apikey&gt;</code>: API key directly (not recommended for security)</li>
+<li><code>--keyfile &lt;path&gt;</code>: Path to file containing API key</li>
+<li><code>--baseurl &lt;url&gt;</code>: Custom base URL for OpenAI-compatible providers</li>
+<li><code>--set &lt;key=value&gt;</code>: Set ephemeral settings (can be repeated)</li>
+<li><code>--yolo</code>: Auto-approve all actions</li>
+</ul>
+<h2>Provider-Specific Examples</h2>
+<h3>Claude (Anthropic)</h3>
+<p><strong>Profile-based</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-claude&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--profile-load&quot;,
+        &quot;claude-profile&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p><strong>Direct flags</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-claude&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;anthropic&quot;,
+        &quot;--model&quot;,
+        &quot;claude-sonnet-4-5-20250929&quot;,
+        &quot;--keyfile&quot;,
+        &quot;~/.config/anthropic/key.txt&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h3>OpenAI</h3>
+<p><strong>Profile-based</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-gpt4&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;openai-profile&quot;]
+    }
+  }
+}
+</code></pre>
+<p><strong>Direct flags</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-gpt4&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;openai&quot;,
+        &quot;--model&quot;,
+        &quot;gpt-4-turbo-preview&quot;,
+        &quot;--keyfile&quot;,
+        &quot;~/.config/openai/key.txt&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h3>Google Gemini</h3>
+<p><strong>Profile-based</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-gemini&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;gemini-profile&quot;]
+    }
+  }
+}
+</code></pre>
+<p><strong>Direct flags</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-gemini&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;gemini&quot;,
+        &quot;--model&quot;,
+        &quot;gemini-2.0-flash-exp&quot;,
+        &quot;--keyfile&quot;,
+        &quot;~/.config/gemini/key.txt&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h3>Cerebras (via OpenAI-compatible API)</h3>
+<p><strong>Profile-based</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-cerebras&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--profile-load&quot;,
+        &quot;cerebrasqwen3&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p><strong>Direct flags</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-cerebras&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;openai&quot;,
+        &quot;--baseurl&quot;,
+        &quot;https://api.cerebras.ai/v1&quot;,
+        &quot;--model&quot;,
+        &quot;llama3.3-70b&quot;,
+        &quot;--keyfile&quot;,
+        &quot;~/.config/cerebras/key.txt&quot;,
+        &quot;--set&quot;,
+        &quot;temperature=0.7&quot;,
+        &quot;--yolo&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h3>Local Models (Ollama/LM Studio)</h3>
+<p><strong>Direct flags for Ollama</strong>:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-local&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;openai&quot;,
+        &quot;--baseurl&quot;,
+        &quot;http://localhost:11434/v1&quot;,
+        &quot;--model&quot;,
+        &quot;qwen2.5-coder:32b&quot;,
+        &quot;--key&quot;,
+        &quot;dummy&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h2>Advanced Configuration</h2>
+<h3>Using --set for Model Parameters</h3>
+<p>The <code>--set</code> flag allows you to override ephemeral settings:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-custom&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;openai&quot;,
+        &quot;--model&quot;,
+        &quot;gpt-4&quot;,
+        &quot;--keyfile&quot;,
+        &quot;~/.openai-key.txt&quot;,
+        &quot;--set&quot;,
+        &quot;temperature=0.3&quot;,
+        &quot;--set&quot;,
+        &quot;max-tokens=4096&quot;,
+        &quot;--set&quot;,
+        &quot;base-url=https://custom-endpoint.com&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<h3>Multiple Agent Configurations</h3>
+<p>You can configure multiple agents for different providers:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-claude&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;claude&quot;]
+    },
+    &quot;llxprt-gpt4&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;openai&quot;]
+    },
+    &quot;llxprt-local&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [
+        &quot;--experimental-acp&quot;,
+        &quot;--provider&quot;,
+        &quot;openai&quot;,
+        &quot;--baseurl&quot;,
+        &quot;http://localhost:11434/v1&quot;,
+        &quot;--model&quot;,
+        &quot;qwen2.5-coder&quot;,
+        &quot;--key&quot;,
+        &quot;dummy&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+<p>Switch between agents in Zed using the assistant panel.</p>
+<h2>Debug Logging</h2>
+<h3>Enable Debug Logs</h3>
+<p>Add the <code>DEBUG</code> environment variable to enable detailed logging:</p>
+<pre><code class="language-json">{
+  &quot;agent_servers&quot;: {
+    &quot;llxprt-debug&quot;: {
+      &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;myprofile&quot;],
+      &quot;env&quot;: {
+        &quot;DEBUG&quot;: &quot;llxprt:*&quot;
+      }
+    }
+  }
+}
+</code></pre>
+<p><strong>Warning</strong>: Debug logging creates large log files in <code>~/.llxprt/debug/</code>. Only enable when troubleshooting.</p>
+<h3>Debug Namespaces</h3>
+<p>You can target specific components:</p>
+<pre><code class="language-json">&quot;env&quot;: {
+  &quot;DEBUG&quot;: &quot;llxprt:zed-integration&quot;
+}
+</code></pre>
+<p>Common namespaces:</p>
+<ul>
+<li><code>llxprt:*</code> - All debug output</li>
+<li><code>llxprt:zed-integration</code> - Zed integration only</li>
+<li><code>llxprt:providers:*</code> - All provider debug output</li>
+<li><code>llxprt:providers:anthropic</code> - Anthropic provider only</li>
+<li><code>llxprt:providers:openai</code> - OpenAI provider only</li>
+<li><code>llxprt:core:client</code> - Core client operations</li>
+</ul>
+<h2>Troubleshooting</h2>
+<h3>Issue: &quot;Command not found&quot; or agent won't start</h3>
+<p><strong>Solution</strong>: Verify the llxprt binary path is correct:</p>
+<pre><code class="language-bash">which llxprt
+# Update the &quot;command&quot; field in Zed settings with this path
+</code></pre>
+<h3>Issue: Authentication failures</h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Verify API key is valid: <code>cat ~/.config/provider/key.txt</code></li>
+<li>Check keyfile path is absolute (not relative)</li>
+<li>For OAuth: Run <code>llxprt</code> and complete <code>/auth &lt;provider&gt; enable</code> flow first</li>
+<li>Try using <code>--key</code> directly for testing (not recommended for production)</li>
+</ul>
+<h3>Issue: Agent appears in list but doesn't respond</h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Enable debug logging (add <code>&quot;env&quot;: {&quot;DEBUG&quot;: &quot;llxprt:*&quot;}</code>)</li>
+<li>Check <code>~/.llxprt/debug/</code> for error messages</li>
+<li>Verify model name is correct for your provider</li>
+<li>Try with <code>--yolo</code> flag to avoid confirmation prompts</li>
+</ul>
+<h3>Issue: &quot;Failed to load profile&quot;</h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>List available profiles: <code>llxprt</code> then <code>/profile list</code></li>
+<li>Verify profile name matches exactly (case-sensitive)</li>
+<li>Create profile if missing: <code>/profile save &lt;name&gt;</code></li>
+<li>Use direct flags approach instead</li>
+</ul>
+<h3>Issue: Wrong model or provider being used</h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Check for conflicting environment variables (<code>LLXPRT_DEFAULT_PROVIDER</code>, etc.)</li>
+<li>Use <code>--provider</code> and <code>--model</code> flags explicitly</li>
+<li>Avoid mixing <code>--profile-load</code> with conflicting flags</li>
+</ul>
+<h3>Issue: Rate limiting or quota errors</h3>
+<p><strong>Solutions</strong>:</p>
+<ul>
+<li>Check provider dashboard for quota/limits</li>
+<li>Verify billing is active for your provider account</li>
+<li>Try a different model or provider</li>
+<li>Use <code>--set</code> to adjust request parameters</li>
+</ul>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Security</strong>: Use <code>--keyfile</code> instead of <code>--key</code> to avoid exposing keys in config files</li>
+<li><strong>Simplicity</strong>: Use profile-based approach for cleaner configurations</li>
+<li><strong>Multiple Providers</strong>: Configure multiple agents to easily switch between providers</li>
+<li><strong>Debug Sparingly</strong>: Only enable debug logging when troubleshooting</li>
+<li><strong>YOLO Mode</strong>: Use <code>--yolo</code> to streamline workflow, but understand it auto-approves all actions</li>
+</ol>
+<h2>Related Documentation</h2>
+<ul>
+<li><a href="https://zed.dev/docs/ai/external-agents">Zed External Agents Documentation</a></li>
+<li><a href="./cli/configuration.html">LLxprt Configuration Guide</a></li>
+<li><a href="./cli/providers.html">LLxprt Provider Guide</a></li>
+<li><a href="./cli/profiles.html">LLxprt Profiles Documentation</a></li>
+<li><a href="./cli/authentication.html">LLxprt Authentication Guide</a></li>
+</ul>
+<h2>See Also</h2>
+<ul>
+<li><a href="https://github.com/vybestack/llxprt-code/issues/1116">Issue #1116</a> - Documentation improvement tracking</li>
+<li><a href="https://github.com/vybestack/llxprt-code/discussions/209">Discussion #209</a> - Community discussion on Zed integration</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

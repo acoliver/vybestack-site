@@ -1,0 +1,1449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome Onboarding Flow Implementation Plan | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Welcome Onboarding Flow Implementation Plan</h1>
+<blockquote>
+<p><strong>For Claude:</strong> REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task.</p>
+</blockquote>
+<p><strong>Goal:</strong> Create an interactive welcome wizard for first-run users that guides them through provider selection, authentication, and optional profile saving.</p>
+<p><strong>Architecture:</strong> Multi-step dialog component with state machine, leveraging existing RadioButtonSelect, auth infrastructure, and ProfileManager. Triggers after folder trust dialog, persists completion flag to <code>~/.llxprt/welcomeConfig.json</code>.</p>
+<p><strong>Tech Stack:</strong> React + Ink, TypeScript, existing ProviderManager/ProfileManager APIs</p>
+<hr>
+<h2>Task 1: Create Welcome Config Service</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/config/welcomeConfig.ts</code></li>
+</ul>
+<p><strong>Step 1: Create the welcome config module</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import * as fs from 'node:fs';
+import * as path from 'node:path';
+import { USER_SETTINGS_DIR } from './paths.js';
+
+export const WELCOME_CONFIG_FILENAME = 'welcomeConfig.json';
+
+export function getWelcomeConfigPath(): string {
+  if (process.env['LLXPRT_CODE_WELCOME_CONFIG_PATH']) {
+    return process.env['LLXPRT_CODE_WELCOME_CONFIG_PATH'];
+  }
+  return path.join(USER_SETTINGS_DIR, WELCOME_CONFIG_FILENAME);
+}
+
+export interface WelcomeConfig {
+  welcomeCompleted: boolean;
+  completedAt?: string;
+  skipped?: boolean;
+}
+
+let cachedConfig: WelcomeConfig | undefined;
+
+export function resetWelcomeConfigForTesting(): void {
+  cachedConfig = undefined;
+}
+
+export function loadWelcomeConfig(): WelcomeConfig {
+  if (cachedConfig) {
+    return cachedConfig;
+  }
+
+  const configPath = getWelcomeConfigPath();
+
+  try {
+    if (fs.existsSync(configPath)) {
+      const content = fs.readFileSync(configPath, 'utf-8');
+      cachedConfig = JSON.parse(content) as WelcomeConfig;
+      return cachedConfig;
+    }
+  } catch (_error) {
+    // If parsing fails, return default
+  }
+
+  cachedConfig = { welcomeCompleted: false };
+  return cachedConfig;
+}
+
+export function saveWelcomeConfig(config: WelcomeConfig): void {
+  const configPath = getWelcomeConfigPath();
+
+  try {
+    const dirPath = path.dirname(configPath);
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    fs.writeFileSync(configPath, JSON.stringify(config, null, 2), {
+      encoding: 'utf-8',
+      mode: 0o600,
+    });
+    cachedConfig = config;
+  } catch (error) {
+    console.error('Error saving welcome config:', error);
+  }
+}
+
+export function markWelcomeCompleted(skipped: boolean = false): void {
+  saveWelcomeConfig({
+    welcomeCompleted: true,
+    completedAt: new Date().toISOString(),
+    skipped,
+  });
+}
+
+export function isWelcomeCompleted(): boolean {
+  return loadWelcomeConfig().welcomeCompleted;
+}
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/config/welcomeConfig.ts
+git commit -m &quot;feat(welcome): add welcome config service for first-run detection&quot;
+</code></pre>
+<hr>
+<h2>Task 2: Create Welcome State Types and Hook</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/hooks/useWelcomeOnboarding.ts</code></li>
+</ul>
+<p><strong>Step 1: Create the hook with state management</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import { useState, useCallback, useEffect } from 'react';
+import { type Config, DebugLogger } from '@vybestack/llxprt-code-core';
+import { LoadedSettings } from '../../config/settings.js';
+import {
+  isWelcomeCompleted,
+  markWelcomeCompleted,
+} from '../../config/welcomeConfig.js';
+import { useRuntimeApi } from '../contexts/RuntimeContext.js';
+
+const debug = new DebugLogger('llxprt:ui:useWelcomeOnboarding');
+
+export type WelcomeStep =
+  | 'welcome'
+  | 'provider'
+  | 'auth_method'
+  | 'authenticating'
+  | 'completion'
+  | 'skipped';
+
+export interface WelcomeState {
+  step: WelcomeStep;
+  selectedProvider?: string;
+  selectedAuthMethod?: 'oauth' | 'api_key';
+  authInProgress: boolean;
+  error?: string;
+}
+
+export interface WelcomeActions {
+  startSetup: () =&gt; void;
+  selectProvider: (providerId: string) =&gt; void;
+  selectAuthMethod: (method: 'oauth' | 'api_key') =&gt; void;
+  onAuthComplete: () =&gt; void;
+  onAuthError: (error: string) =&gt; void;
+  skipSetup: () =&gt; void;
+  goBack: () =&gt; void;
+  saveProfile: (name: string) =&gt; Promise&lt;void&gt;;
+  dismiss: () =&gt; void;
+}
+
+export interface UseWelcomeOnboardingReturn {
+  showWelcome: boolean;
+  welcomeState: WelcomeState;
+  welcomeActions: WelcomeActions;
+  availableProviders: string[];
+}
+
+export const useWelcomeOnboarding = (
+  config: Config,
+  settings: LoadedSettings,
+): UseWelcomeOnboardingReturn =&gt; {
+  const runtime = useRuntimeApi();
+  const [showWelcome, setShowWelcome] = useState(() =&gt; !isWelcomeCompleted());
+
+  const [state, setState] = useState&lt;WelcomeState&gt;({
+    step: 'welcome',
+    authInProgress: false,
+  });
+
+  const [availableProviders, setAvailableProviders] = useState&lt;string[]&gt;([]);
+
+  // Load available providers on mount
+  useEffect(() =&gt; {
+    const providerManager = runtime.getCliProviderManager();
+    if (providerManager) {
+      const providers = providerManager.listProviders();
+      setAvailableProviders(providers);
+      debug.log(
+        `Loaded ${providers.length} providers: ${providers.join(', ')}`,
+      );
+    }
+  }, [runtime]);
+
+  const startSetup = useCallback(() =&gt; {
+    setState((prev) =&gt; ({ ...prev, step: 'provider' }));
+  }, []);
+
+  const selectProvider = useCallback((providerId: string) =&gt; {
+    setState((prev) =&gt; ({
+      ...prev,
+      selectedProvider: providerId,
+      step: 'auth_method',
+    }));
+  }, []);
+
+  const selectAuthMethod = useCallback((method: 'oauth' | 'api_key') =&gt; {
+    setState((prev) =&gt; ({
+      ...prev,
+      selectedAuthMethod: method,
+      step: 'authenticating',
+      authInProgress: true,
+    }));
+  }, []);
+
+  const onAuthComplete = useCallback(() =&gt; {
+    const providerManager = runtime.getCliProviderManager();
+    if (providerManager &amp;&amp; state.selectedProvider) {
+      try {
+        providerManager.setActiveProvider(state.selectedProvider);
+        debug.log(`Set active provider to: ${state.selectedProvider}`);
+      } catch (error) {
+        debug.log(`Failed to set active provider: ${error}`);
+      }
+    }
+
+    setState((prev) =&gt; ({
+      ...prev,
+      step: 'completion',
+      authInProgress: false,
+      error: undefined,
+    }));
+  }, [runtime, state.selectedProvider]);
+
+  const onAuthError = useCallback((error: string) =&gt; {
+    setState((prev) =&gt; ({
+      ...prev,
+      authInProgress: false,
+      error,
+      step: 'auth_method',
+    }));
+  }, []);
+
+  const skipSetup = useCallback(() =&gt; {
+    setState((prev) =&gt; ({ ...prev, step: 'skipped' }));
+  }, []);
+
+  const goBack = useCallback(() =&gt; {
+    setState((prev) =&gt; {
+      switch (prev.step) {
+        case 'auth_method':
+          return { ...prev, step: 'provider', selectedProvider: undefined };
+        case 'authenticating':
+          return {
+            ...prev,
+            step: 'auth_method',
+            selectedAuthMethod: undefined,
+            authInProgress: false,
+          };
+        case 'provider':
+          return { ...prev, step: 'welcome' };
+        default:
+          return prev;
+      }
+    });
+  }, []);
+
+  const saveProfile = useCallback(
+    async (name: string) =&gt; {
+      try {
+        const profileManager = runtime.getProfileManager();
+        const settingsService = runtime.getSettingsService();
+        if (profileManager &amp;&amp; settingsService) {
+          await profileManager.save(name, settingsService);
+          debug.log(`Saved profile: ${name}`);
+        }
+      } catch (error) {
+        debug.log(`Failed to save profile: ${error}`);
+        throw error;
+      }
+    },
+    [runtime],
+  );
+
+  const dismiss = useCallback(() =&gt; {
+    const skipped = state.step === 'skipped';
+    markWelcomeCompleted(skipped);
+    setShowWelcome(false);
+    debug.log(`Welcome flow completed (skipped: ${skipped})`);
+  }, [state.step]);
+
+  return {
+    showWelcome,
+    welcomeState: state,
+    welcomeActions: {
+      startSetup,
+      selectProvider,
+      selectAuthMethod,
+      onAuthComplete,
+      onAuthError,
+      skipSetup,
+      goBack,
+      saveProfile,
+      dismiss,
+    },
+    availableProviders,
+  };
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/hooks/useWelcomeOnboarding.ts
+git commit -m &quot;feat(welcome): add useWelcomeOnboarding hook for state management&quot;
+</code></pre>
+<hr>
+<h2>Task 3: Create WelcomeStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/WelcomeStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the welcome step component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React from 'react';
+import { Box, Text } from 'ink';
+import { Colors } from '../../colors.js';
+import {
+  RadioButtonSelect,
+  type RadioSelectItem,
+} from '../shared/RadioButtonSelect.js';
+
+export type WelcomeChoice = 'setup' | 'skip';
+
+interface WelcomeStepProps {
+  onSelect: (choice: WelcomeChoice) =&gt; void;
+  isFocused?: boolean;
+}
+
+export const WelcomeStep: React.FC&lt;WelcomeStepProps&gt; = ({
+  onSelect,
+  isFocused = true,
+}) =&gt; {
+  const options: Array&lt;RadioSelectItem&lt;WelcomeChoice&gt;&gt; = [
+    {
+      label: 'Set up now (recommended)',
+      value: 'setup',
+      key: 'setup',
+    },
+    {
+      label: 'Skip setup (I know what I\'m doing)',
+      value: 'skip',
+      key: 'skip',
+    },
+  ];
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold color={Colors.AccentCyan}&gt;
+          Welcome to llxprt!
+        &lt;/Text&gt;
+        &lt;Text&gt; &lt;/Text&gt;
+        &lt;Text&gt;Let's get you set up in just a few steps.&lt;/Text&gt;
+        &lt;Text&gt;
+          You'll choose an AI provider and configure authentication
+        &lt;/Text&gt;
+        &lt;Text&gt;so llxprt can work its magic.&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold&gt;What would you like to do?&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;RadioButtonSelect
+        items={options}
+        onSelect={onSelect}
+        isFocused={isFocused}
+      /&gt;
+
+      &lt;Box marginTop={1}&gt;
+        &lt;Text color={Colors.Gray}&gt;
+          Use ↑↓ to navigate, Enter to select, Esc to skip
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/WelcomeStep.tsx
+git commit -m &quot;feat(welcome): add WelcomeStep component&quot;
+</code></pre>
+<hr>
+<h2>Task 4: Create ProviderSelectStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/ProviderSelectStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the provider selection component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useMemo } from 'react';
+import { Box, Text } from 'ink';
+import { Colors } from '../../colors.js';
+import {
+  RadioButtonSelect,
+  type RadioSelectItem,
+} from '../shared/RadioButtonSelect.js';
+
+const PROVIDER_DISPLAY_NAMES: Record&lt;string, string&gt; = {
+  anthropic: 'Anthropic (Claude)',
+  openai: 'OpenAI (GPT-4, etc.)',
+  gemini: 'Google Gemini',
+  deepseek: 'DeepSeek',
+  qwen: 'Qwen',
+  'openai-responses': 'OpenAI Responses API',
+  openaivercel: 'OpenAI (Vercel AI SDK)',
+};
+
+interface ProviderSelectStepProps {
+  providers: string[];
+  onSelect: (providerId: string) =&gt; void;
+  onSkip: () =&gt; void;
+  isFocused?: boolean;
+}
+
+export const ProviderSelectStep: React.FC&lt;ProviderSelectStepProps&gt; = ({
+  providers,
+  onSelect,
+  onSkip,
+  isFocused = true,
+}) =&gt; {
+  const options: Array&lt;RadioSelectItem&lt;string&gt;&gt; = useMemo(() =&gt; {
+    const providerOptions = providers.map((provider) =&gt; ({
+      label: PROVIDER_DISPLAY_NAMES[provider] || provider,
+      value: provider,
+      key: provider,
+    }));
+
+    // Add &quot;configure manually&quot; option
+    providerOptions.push({
+      label: 'Configure manually later',
+      value: '__skip__',
+      key: '__skip__',
+    });
+
+    return providerOptions;
+  }, [providers]);
+
+  const handleSelect = (value: string) =&gt; {
+    if (value === '__skip__') {
+      onSkip();
+    } else {
+      onSelect(value);
+    }
+  };
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold color={Colors.AccentCyan}&gt;
+          Step 1 of 3: Choose Your AI Provider
+        &lt;/Text&gt;
+        &lt;Text&gt; &lt;/Text&gt;
+        &lt;Text&gt;Select which AI provider you'd like to use:&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;RadioButtonSelect
+        items={options}
+        onSelect={handleSelect}
+        isFocused={isFocused}
+        maxItemsToShow={8}
+      /&gt;
+
+      &lt;Box marginTop={1}&gt;
+        &lt;Text color={Colors.Gray}&gt;
+          Use ↑↓ to navigate, Enter to select, Esc to skip
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/ProviderSelectStep.tsx
+git commit -m &quot;feat(welcome): add ProviderSelectStep component&quot;
+</code></pre>
+<hr>
+<h2>Task 5: Create AuthMethodStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/AuthMethodStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the auth method selection component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useMemo } from 'react';
+import { Box, Text } from 'ink';
+import { Colors } from '../../colors.js';
+import {
+  RadioButtonSelect,
+  type RadioSelectItem,
+} from '../shared/RadioButtonSelect.js';
+
+// Providers that support OAuth
+const OAUTH_PROVIDERS = new Set(['anthropic', 'openai', 'gemini', 'qwen']);
+
+const API_KEY_URLS: Record&lt;string, string&gt; = {
+  anthropic: 'console.anthropic.com/settings/keys',
+  openai: 'platform.openai.com/api-keys',
+  gemini: 'aistudio.google.com/app/apikey',
+  deepseek: 'platform.deepseek.com/api_keys',
+  qwen: 'dashscope.console.aliyun.com/apiKey',
+};
+
+type AuthMethod = 'oauth' | 'api_key' | 'back';
+
+interface AuthMethodStepProps {
+  provider: string;
+  onSelect: (method: 'oauth' | 'api_key') =&gt; void;
+  onBack: () =&gt; void;
+  error?: string;
+  isFocused?: boolean;
+}
+
+export const AuthMethodStep: React.FC&lt;AuthMethodStepProps&gt; = ({
+  provider,
+  onSelect,
+  onBack,
+  error,
+  isFocused = true,
+}) =&gt; {
+  const supportsOAuth = OAUTH_PROVIDERS.has(provider);
+  const apiKeyUrl = API_KEY_URLS[provider];
+
+  const options: Array&lt;RadioSelectItem&lt;AuthMethod&gt;&gt; = useMemo(() =&gt; {
+    const opts: Array&lt;RadioSelectItem&lt;AuthMethod&gt;&gt; = [];
+
+    if (supportsOAuth) {
+      opts.push({
+        label: 'OAuth (Recommended - secure &amp; easy)',
+        value: 'oauth',
+        key: 'oauth',
+      });
+    }
+
+    opts.push({
+      label: 'API Key',
+      value: 'api_key',
+      key: 'api_key',
+    });
+
+    opts.push({
+      label: '← Back to provider selection',
+      value: 'back',
+      key: 'back',
+    });
+
+    return opts;
+  }, [supportsOAuth]);
+
+  const handleSelect = (value: AuthMethod) =&gt; {
+    if (value === 'back') {
+      onBack();
+    } else {
+      onSelect(value);
+    }
+  };
+
+  const providerDisplay =
+    provider.charAt(0).toUpperCase() + provider.slice(1);
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold color={Colors.AccentCyan}&gt;
+          Step 2 of 3: Choose Authentication Method
+        &lt;/Text&gt;
+        &lt;Text&gt; &lt;/Text&gt;
+        &lt;Text&gt;How would you like to authenticate with {providerDisplay}?&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      {error &amp;&amp; (
+        &lt;Box marginBottom={1}&gt;
+          &lt;Text color={Colors.AccentRed}&gt;{error}&lt;/Text&gt;
+        &lt;/Box&gt;
+      )}
+
+      &lt;RadioButtonSelect
+        items={options}
+        onSelect={handleSelect}
+        isFocused={isFocused}
+      /&gt;
+
+      {apiKeyUrl &amp;&amp; (
+        &lt;Box marginTop={1}&gt;
+          &lt;Text color={Colors.Gray}&gt;Get API key at: {apiKeyUrl}&lt;/Text&gt;
+        &lt;/Box&gt;
+      )}
+
+      &lt;Box marginTop={1}&gt;
+        &lt;Text color={Colors.Gray}&gt;
+          Use ↑↓ to navigate, Enter to select, Esc to skip
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/AuthMethodStep.tsx
+git commit -m &quot;feat(welcome): add AuthMethodStep component&quot;
+</code></pre>
+<hr>
+<h2>Task 6: Create AuthenticationStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/AuthenticationStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the authentication step component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useEffect, useCallback } from 'react';
+import { Box, Text } from 'ink';
+import TextInput from 'ink-text-input';
+import { Colors } from '../../colors.js';
+import { useKeypress } from '../../hooks/useKeypress.js';
+import Spinner from 'ink-spinner';
+
+interface AuthenticationStepProps {
+  provider: string;
+  method: 'oauth' | 'api_key';
+  onComplete: () =&gt; void;
+  onError: (error: string) =&gt; void;
+  onBack: () =&gt; void;
+  triggerAuth: (provider: string, method: 'oauth' | 'api_key', apiKey?: string) =&gt; Promise&lt;void&gt;;
+  isFocused?: boolean;
+}
+
+export const AuthenticationStep: React.FC&lt;AuthenticationStepProps&gt; = ({
+  provider,
+  method,
+  onComplete,
+  onError,
+  onBack,
+  triggerAuth,
+  isFocused = true,
+}) =&gt; {
+  const [apiKey, setApiKey] = useState('');
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [showApiKeyInput, setShowApiKeyInput] = useState(method === 'api_key');
+
+  const providerDisplay =
+    provider.charAt(0).toUpperCase() + provider.slice(1);
+
+  // Handle escape to go back
+  useKeypress(
+    (key) =&gt; {
+      if (key.name === 'escape' &amp;&amp; !isAuthenticating) {
+        onBack();
+      }
+    },
+    { isActive: isFocused &amp;&amp; !isAuthenticating },
+  );
+
+  // Start OAuth flow automatically
+  useEffect(() =&gt; {
+    if (method === 'oauth' &amp;&amp; !isAuthenticating) {
+      setIsAuthenticating(true);
+      triggerAuth(provider, 'oauth')
+        .then(() =&gt; {
+          onComplete();
+        })
+        .catch((error) =&gt; {
+          setIsAuthenticating(false);
+          onError(error instanceof Error ? error.message : String(error));
+        });
+    }
+  }, [method, provider, triggerAuth, onComplete, onError, isAuthenticating]);
+
+  const handleApiKeySubmit = useCallback(async () =&gt; {
+    if (!apiKey.trim()) {
+      return;
+    }
+
+    setIsAuthenticating(true);
+    try {
+      await triggerAuth(provider, 'api_key', apiKey.trim());
+      onComplete();
+    } catch (error) {
+      setIsAuthenticating(false);
+      onError(error instanceof Error ? error.message : String(error));
+    }
+  }, [apiKey, provider, triggerAuth, onComplete, onError]);
+
+  if (method === 'oauth') {
+    return (
+      &lt;Box flexDirection=&quot;column&quot;&gt;
+        &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+          &lt;Text bold color={Colors.AccentCyan}&gt;
+            Step 3 of 3: Authenticating with {providerDisplay}
+          &lt;/Text&gt;
+        &lt;/Box&gt;
+
+        &lt;Box marginBottom={1}&gt;
+          &lt;Text&gt;
+            &lt;Text color={Colors.AccentYellow}&gt;
+              &lt;Spinner type=&quot;dots&quot; /&gt;
+            &lt;/Text&gt;
+            {' '}Opening browser for OAuth authentication...
+          &lt;/Text&gt;
+        &lt;/Box&gt;
+
+        &lt;Text&gt;Please complete the authentication in your browser.&lt;/Text&gt;
+        &lt;Text&gt;This window will update when done.&lt;/Text&gt;
+
+        &lt;Box marginTop={1}&gt;
+          &lt;Text color={Colors.Gray}&gt;Press Esc to cancel and go back&lt;/Text&gt;
+        &lt;/Box&gt;
+      &lt;/Box&gt;
+    );
+  }
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold color={Colors.AccentCyan}&gt;
+          Step 3 of 3: Enter Your API Key
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+
+      {isAuthenticating ? (
+        &lt;Box marginBottom={1}&gt;
+          &lt;Text&gt;
+            &lt;Text color={Colors.AccentYellow}&gt;
+              &lt;Spinner type=&quot;dots&quot; /&gt;
+            &lt;/Text&gt;
+            {' '}Validating API key...
+          &lt;/Text&gt;
+        &lt;/Box&gt;
+      ) : (
+        &lt;&gt;
+          &lt;Box marginBottom={1}&gt;
+            &lt;Text&gt;Enter your {providerDisplay} API key:&lt;/Text&gt;
+          &lt;/Box&gt;
+
+          &lt;Box&gt;
+            &lt;Text&gt;API Key: &lt;/Text&gt;
+            &lt;TextInput
+              value={apiKey}
+              onChange={setApiKey}
+              onSubmit={handleApiKeySubmit}
+              mask=&quot;*&quot;
+              focus={isFocused}
+            /&gt;
+          &lt;/Box&gt;
+        &lt;/&gt;
+      )}
+
+      &lt;Box marginTop={1}&gt;
+        &lt;Text color={Colors.Gray}&gt;
+          Press Enter when done, Esc to go back
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/AuthenticationStep.tsx
+git commit -m &quot;feat(welcome): add AuthenticationStep component&quot;
+</code></pre>
+<hr>
+<h2>Task 7: Create CompletionStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/CompletionStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the completion step component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useState, useCallback } from 'react';
+import { Box, Text } from 'ink';
+import TextInput from 'ink-text-input';
+import { Colors } from '../../colors.js';
+import { useKeypress } from '../../hooks/useKeypress.js';
+
+interface CompletionStepProps {
+  provider: string;
+  authMethod: 'oauth' | 'api_key';
+  onSaveProfile: (name: string) =&gt; Promise&lt;void&gt;;
+  onDismiss: () =&gt; void;
+  isFocused?: boolean;
+}
+
+export const CompletionStep: React.FC&lt;CompletionStepProps&gt; = ({
+  provider,
+  authMethod,
+  onSaveProfile,
+  onDismiss,
+  isFocused = true,
+}) =&gt; {
+  const [showProfilePrompt, setShowProfilePrompt] = useState(true);
+  const [profileName, setProfileName] = useState('');
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState&lt;string | undefined&gt;();
+
+  const providerDisplay =
+    provider.charAt(0).toUpperCase() + provider.slice(1);
+  const authDisplay = authMethod === 'oauth' ? 'OAuth' : 'API Key';
+
+  // Handle escape to skip profile save
+  useKeypress(
+    (key) =&gt; {
+      if (key.name === 'escape' &amp;&amp; showProfilePrompt &amp;&amp; !saving) {
+        setShowProfilePrompt(false);
+      }
+    },
+    { isActive: isFocused &amp;&amp; showProfilePrompt &amp;&amp; !saving },
+  );
+
+  // Handle enter to dismiss after profile step
+  useKeypress(
+    (key) =&gt; {
+      if (key.name === 'return' &amp;&amp; !showProfilePrompt) {
+        onDismiss();
+      }
+    },
+    { isActive: isFocused &amp;&amp; !showProfilePrompt },
+  );
+
+  const handleProfileSubmit = useCallback(async () =&gt; {
+    if (!profileName.trim()) {
+      setShowProfilePrompt(false);
+      return;
+    }
+
+    setSaving(true);
+    setError(undefined);
+
+    try {
+      await onSaveProfile(profileName.trim());
+      setShowProfilePrompt(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to save profile');
+      setSaving(false);
+    }
+  }, [profileName, onSaveProfile]);
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold color={Colors.AccentGreen}&gt;
+          ✓ You're all set!
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text&gt;Provider: {providerDisplay}&lt;/Text&gt;
+        &lt;Text&gt;Authentication: {authDisplay}&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      {showProfilePrompt ? (
+        &lt;Box flexDirection=&quot;column&quot;&gt;
+          &lt;Box marginBottom={1}&gt;
+            &lt;Text bold&gt;Save this setup as a profile? (optional)&lt;/Text&gt;
+          &lt;/Box&gt;
+
+          &lt;Text color={Colors.Gray}&gt;
+            Profiles let you quickly switch between configurations.
+          &lt;/Text&gt;
+          &lt;Text color={Colors.Gray}&gt;
+            Use /profile load &amp;lt;name&amp;gt; to restore this setup later.
+          &lt;/Text&gt;
+
+          &lt;Box marginTop={1}&gt;
+            {error &amp;&amp; (
+              &lt;Box marginBottom={1}&gt;
+                &lt;Text color={Colors.AccentRed}&gt;{error}&lt;/Text&gt;
+              &lt;/Box&gt;
+            )}
+
+            {saving ? (
+              &lt;Text&gt;Saving profile...&lt;/Text&gt;
+            ) : (
+              &lt;Box&gt;
+                &lt;Text&gt;Profile name: &lt;/Text&gt;
+                &lt;TextInput
+                  value={profileName}
+                  onChange={setProfileName}
+                  onSubmit={handleProfileSubmit}
+                  placeholder=&quot;my-setup&quot;
+                  focus={isFocused}
+                /&gt;
+              &lt;/Box&gt;
+            )}
+          &lt;/Box&gt;
+
+          &lt;Box marginTop={1}&gt;
+            &lt;Text color={Colors.Gray}&gt;
+              Enter a name and press Enter to save, or Esc to skip
+            &lt;/Text&gt;
+          &lt;/Box&gt;
+        &lt;/Box&gt;
+      ) : (
+        &lt;Box flexDirection=&quot;column&quot;&gt;
+          &lt;Box marginBottom={1}&gt;
+            &lt;Text&gt;Try asking me something like:&lt;/Text&gt;
+            &lt;Text color={Colors.AccentCyan}&gt;
+              &quot;Explain how async/await works in JavaScript&quot;
+            &lt;/Text&gt;
+          &lt;/Box&gt;
+
+          &lt;Box marginTop={1}&gt;
+            &lt;Text color={Colors.Gray}&gt;Press Enter to continue...&lt;/Text&gt;
+          &lt;/Box&gt;
+        &lt;/Box&gt;
+      )}
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/CompletionStep.tsx
+git commit -m &quot;feat(welcome): add CompletionStep component with profile save&quot;
+</code></pre>
+<hr>
+<h2>Task 8: Create SkipExitStep Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/SkipExitStep.tsx</code></li>
+</ul>
+<p><strong>Step 1: Create the skip exit step component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React from 'react';
+import { Box, Text } from 'ink';
+import { Colors } from '../../colors.js';
+import { useKeypress } from '../../hooks/useKeypress.js';
+
+interface SkipExitStepProps {
+  onDismiss: () =&gt; void;
+  isFocused?: boolean;
+}
+
+export const SkipExitStep: React.FC&lt;SkipExitStepProps&gt; = ({
+  onDismiss,
+  isFocused = true,
+}) =&gt; {
+  useKeypress(
+    (key) =&gt; {
+      if (key.name === 'return') {
+        onDismiss();
+      }
+    },
+    { isActive: isFocused },
+  );
+
+  return (
+    &lt;Box flexDirection=&quot;column&quot;&gt;
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text bold&gt;Setup skipped&lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;Box flexDirection=&quot;column&quot; marginBottom={1}&gt;
+        &lt;Text&gt;To configure llxprt manually:&lt;/Text&gt;
+        &lt;Text&gt; &lt;/Text&gt;
+        &lt;Text&gt;
+          • Use &lt;Text color={Colors.AccentCyan}&gt;/auth &amp;lt;provider&amp;gt;&lt;/Text&gt; to
+          set up authentication
+        &lt;/Text&gt;
+        &lt;Text&gt;
+          • Use &lt;Text color={Colors.AccentCyan}&gt;/provider&lt;/Text&gt; to select your
+          AI provider
+        &lt;/Text&gt;
+        &lt;Text&gt;
+          • Type &lt;Text color={Colors.AccentCyan}&gt;/help&lt;/Text&gt; for more commands
+        &lt;/Text&gt;
+      &lt;/Box&gt;
+
+      &lt;Box marginTop={1}&gt;
+        &lt;Text color={Colors.Gray}&gt;Press Enter to continue...&lt;/Text&gt;
+      &lt;/Box&gt;
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/SkipExitStep.tsx
+git commit -m &quot;feat(welcome): add SkipExitStep component&quot;
+</code></pre>
+<hr>
+<h2>Task 9: Create Main WelcomeDialog Component</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/WelcomeDialog.tsx</code></li>
+<li>Create: <code>packages/cli/src/ui/components/WelcomeOnboarding/index.ts</code></li>
+</ul>
+<p><strong>Step 1: Create the main dialog component</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+import React, { useCallback } from 'react';
+import { Box } from 'ink';
+import { Colors } from '../../colors.js';
+import { useKeypress } from '../../hooks/useKeypress.js';
+import { WelcomeStep, type WelcomeChoice } from './WelcomeStep.js';
+import { ProviderSelectStep } from './ProviderSelectStep.js';
+import { AuthMethodStep } from './AuthMethodStep.js';
+import { AuthenticationStep } from './AuthenticationStep.js';
+import { CompletionStep } from './CompletionStep.js';
+import { SkipExitStep } from './SkipExitStep.js';
+import type { WelcomeState, WelcomeActions } from '../../hooks/useWelcomeOnboarding.js';
+
+interface WelcomeDialogProps {
+  state: WelcomeState;
+  actions: WelcomeActions;
+  availableProviders: string[];
+  triggerAuth: (
+    provider: string,
+    method: 'oauth' | 'api_key',
+    apiKey?: string,
+  ) =&gt; Promise&lt;void&gt;;
+}
+
+export const WelcomeDialog: React.FC&lt;WelcomeDialogProps&gt; = ({
+  state,
+  actions,
+  availableProviders,
+  triggerAuth,
+}) =&gt; {
+  // Handle global escape to skip (except during auth)
+  useKeypress(
+    (key) =&gt; {
+      if (key.name === 'escape' &amp;&amp; !state.authInProgress) {
+        actions.skipSetup();
+      }
+    },
+    { isActive: state.step !== 'completion' &amp;&amp; state.step !== 'skipped' },
+  );
+
+  const handleWelcomeSelect = useCallback(
+    (choice: WelcomeChoice) =&gt; {
+      if (choice === 'setup') {
+        actions.startSetup();
+      } else {
+        actions.skipSetup();
+      }
+    },
+    [actions],
+  );
+
+  const renderStep = () =&gt; {
+    switch (state.step) {
+      case 'welcome':
+        return &lt;WelcomeStep onSelect={handleWelcomeSelect} /&gt;;
+
+      case 'provider':
+        return (
+          &lt;ProviderSelectStep
+            providers={availableProviders}
+            onSelect={actions.selectProvider}
+            onSkip={actions.skipSetup}
+          /&gt;
+        );
+
+      case 'auth_method':
+        return (
+          &lt;AuthMethodStep
+            provider={state.selectedProvider!}
+            onSelect={actions.selectAuthMethod}
+            onBack={actions.goBack}
+            error={state.error}
+          /&gt;
+        );
+
+      case 'authenticating':
+        return (
+          &lt;AuthenticationStep
+            provider={state.selectedProvider!}
+            method={state.selectedAuthMethod!}
+            onComplete={actions.onAuthComplete}
+            onError={actions.onAuthError}
+            onBack={actions.goBack}
+            triggerAuth={triggerAuth}
+          /&gt;
+        );
+
+      case 'completion':
+        return (
+          &lt;CompletionStep
+            provider={state.selectedProvider!}
+            authMethod={state.selectedAuthMethod!}
+            onSaveProfile={actions.saveProfile}
+            onDismiss={actions.dismiss}
+          /&gt;
+        );
+
+      case 'skipped':
+        return &lt;SkipExitStep onDismiss={actions.dismiss} /&gt;;
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    &lt;Box
+      flexDirection=&quot;column&quot;
+      borderStyle=&quot;round&quot;
+      borderColor={Colors.AccentCyan}
+      padding={1}
+      width=&quot;100%&quot;
+      marginLeft={1}
+    &gt;
+      {renderStep()}
+    &lt;/Box&gt;
+  );
+};
+</code></pre>
+<p><strong>Step 2: Create the index file</strong></p>
+<pre><code class="language-typescript">/**
+ * @license
+ * Copyright 2025 Vybestack LLC
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+export { WelcomeDialog } from './WelcomeDialog.js';
+export { WelcomeStep } from './WelcomeStep.js';
+export { ProviderSelectStep } from './ProviderSelectStep.js';
+export { AuthMethodStep } from './AuthMethodStep.js';
+export { AuthenticationStep } from './AuthenticationStep.js';
+export { CompletionStep } from './CompletionStep.js';
+export { SkipExitStep } from './SkipExitStep.js';
+</code></pre>
+<p><strong>Step 3: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/components/WelcomeOnboarding/
+git commit -m &quot;feat(welcome): add WelcomeDialog main component and exports&quot;
+</code></pre>
+<hr>
+<h2>Task 10: Integrate into AppContainer</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Modify: <code>packages/cli/src/ui/AppContainer.tsx</code></li>
+</ul>
+<p><strong>Step 1: Add imports at top of file</strong></p>
+<p>Add after existing imports (around line 100):</p>
+<pre><code class="language-typescript">import { useWelcomeOnboarding } from './hooks/useWelcomeOnboarding.js';
+import { WelcomeDialog } from './components/WelcomeOnboarding/index.js';
+</code></pre>
+<p><strong>Step 2: Add hook usage</strong></p>
+<p>Add inside AppContainer function, after the useFolderTrust hook (around line 625):</p>
+<pre><code class="language-typescript">const { showWelcome, welcomeState, welcomeActions, availableProviders } =
+  useWelcomeOnboarding(config, settings);
+</code></pre>
+<p><strong>Step 3: Add triggerAuth function</strong></p>
+<p>Add the auth trigger function (after the welcome hook):</p>
+<pre><code class="language-typescript">const triggerWelcomeAuth = useCallback(
+  async (provider: string, method: 'oauth' | 'api_key', apiKey?: string) =&gt; {
+    if (method === 'api_key' &amp;&amp; apiKey) {
+      // Set API key in settings
+      const settingsService = runtime.getSettingsService();
+      if (settingsService) {
+        settingsService.setProviderSetting(provider, 'apiKey', apiKey);
+      }
+    } else if (method === 'oauth') {
+      // Trigger OAuth flow
+      await config.refreshAuth(`oauth_${provider}`);
+    }
+  },
+  [config, runtime],
+);
+</code></pre>
+<p><strong>Step 4: Add welcome dialog to the render</strong></p>
+<p>In the <code>uiState</code> object, add to UIState interface check (around line 1475):</p>
+<pre><code class="language-typescript">    // Welcome flow
+    showWelcome,
+</code></pre>
+<p>Update the condition for initial prompt submission (around line 1474):</p>
+<pre><code class="language-typescript">useEffect(() =&gt; {
+  if (
+    initialPrompt &amp;&amp;
+    !initialPromptSubmitted.current &amp;&amp;
+    !isAuthenticating &amp;&amp;
+    !isAuthDialogOpen &amp;&amp;
+    !isThemeDialogOpen &amp;&amp;
+    !isEditorDialogOpen &amp;&amp;
+    !isProviderDialogOpen &amp;&amp;
+    !isProviderModelDialogOpen &amp;&amp;
+    !isToolsDialogOpen &amp;&amp;
+    !showPrivacyNotice &amp;&amp;
+    !showWelcome &amp;&amp; // Add this
+    geminiClient
+  ) {
+    submitQuery(initialPrompt);
+    initialPromptSubmitted.current = true;
+  }
+}, [
+  // ... existing deps
+  showWelcome, // Add this
+]);
+</code></pre>
+<p><strong>Step 5: Render welcome dialog in DefaultAppLayout</strong></p>
+<p>The WelcomeDialog should be rendered in the layout. Modify <code>packages/cli/src/ui/layouts/DefaultAppLayout.tsx</code> to include welcome dialog before main content when <code>showWelcome</code> is true.</p>
+<p>Add to UIState interface in <code>packages/cli/src/ui/contexts/UIStateContext.ts</code>:</p>
+<pre><code class="language-typescript">showWelcome: boolean;
+</code></pre>
+<p><strong>Step 6: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/AppContainer.tsx
+git add packages/cli/src/ui/contexts/UIStateContext.ts
+git commit -m &quot;feat(welcome): integrate welcome onboarding into AppContainer&quot;
+</code></pre>
+<hr>
+<h2>Task 11: Update DefaultAppLayout</h2>
+<p><strong>Files:</strong></p>
+<ul>
+<li>Modify: <code>packages/cli/src/ui/layouts/DefaultAppLayout.tsx</code></li>
+</ul>
+<p><strong>Step 1: Add welcome dialog rendering</strong></p>
+<p>Import and render the WelcomeDialog when <code>showWelcome</code> is true, after folder trust dialog check but before main content.</p>
+<pre><code class="language-typescript">// At the top of the render, after isFolderTrustDialogOpen check:
+if (!isFolderTrustDialogOpen &amp;&amp; showWelcome) {
+  return (
+    &lt;WelcomeDialog
+      state={welcomeState}
+      actions={welcomeActions}
+      availableProviders={availableProviders}
+      triggerAuth={triggerWelcomeAuth}
+    /&gt;
+  );
+}
+</code></pre>
+<p><strong>Step 2: Commit</strong></p>
+<pre><code class="language-bash">git add packages/cli/src/ui/layouts/DefaultAppLayout.tsx
+git commit -m &quot;feat(welcome): render welcome dialog in DefaultAppLayout&quot;
+</code></pre>
+<hr>
+<h2>Task 12: Run Build and Fix Errors</h2>
+<p><strong>Step 1: Run typecheck</strong></p>
+<pre><code class="language-bash">npm run typecheck
+</code></pre>
+<p>Expected: May have errors to fix</p>
+<p><strong>Step 2: Fix any type errors</strong></p>
+<p>Address any TypeScript errors that arise.</p>
+<p><strong>Step 3: Run lint</strong></p>
+<pre><code class="language-bash">npm run lint
+</code></pre>
+<p><strong>Step 4: Fix lint errors</strong></p>
+<p>Address any linting issues.</p>
+<p><strong>Step 5: Run format</strong></p>
+<pre><code class="language-bash">npm run format
+</code></pre>
+<p><strong>Step 6: Run build</strong></p>
+<pre><code class="language-bash">npm run build
+</code></pre>
+<p><strong>Step 7: Commit fixes</strong></p>
+<pre><code class="language-bash">git add -A
+git commit -m &quot;fix(welcome): address build and lint errors&quot;
+</code></pre>
+<hr>
+<h2>Task 13: Manual Testing</h2>
+<p><strong>Step 1: Reset welcome config for testing</strong></p>
+<pre><code class="language-bash">rm -f ~/.llxprt/welcomeConfig.json
+</code></pre>
+<p><strong>Step 2: Run llxprt</strong></p>
+<pre><code class="language-bash">npm run bundle &amp;&amp; node scripts/start.js
+</code></pre>
+<p><strong>Step 3: Test welcome flow</strong></p>
+<ul>
+<li>Verify welcome screen appears</li>
+<li>Test &quot;Set up now&quot; path</li>
+<li>Test provider selection</li>
+<li>Test auth method selection</li>
+<li>Test skip via ESC</li>
+<li>Test &quot;Skip setup&quot; option</li>
+<li>Verify profile save prompt</li>
+</ul>
+<p><strong>Step 4: Verify persistence</strong></p>
+<p>Exit and restart llxprt - welcome should NOT appear again.</p>
+<hr>
+<h2>Summary</h2>
+<p>This plan creates:</p>
+<ul>
+<li><code>welcomeConfig.ts</code> - First-run detection service</li>
+<li><code>useWelcomeOnboarding.ts</code> - State management hook</li>
+<li><code>WelcomeOnboarding/</code> component folder with 6 step components</li>
+<li>Integration into AppContainer and DefaultAppLayout</li>
+</ul>
+<p>The flow:</p>
+<ol>
+<li>After folder trust → check <code>welcomeCompleted</code></li>
+<li>If false → show welcome dialog</li>
+<li>User navigates: Welcome → Provider → Auth Method → Auth → Completion</li>
+<li>ESC from any step → Skip exit</li>
+<li>On completion/skip → mark <code>welcomeCompleted: true</code></li>
+<li>Never show again</li>
+</ol>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

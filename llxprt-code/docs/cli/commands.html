@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CLI Commands | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>CLI Commands</h1>
+<p>LLxprt Code supports several built-in commands to help you manage your session, customize the interface, and control its behavior. These commands are prefixed with a forward slash (<code>/</code>), an at symbol (<code>@</code>), or an exclamation mark (<code>!</code>).</p>
+<h2>Slash commands (<code>/</code>)</h2>
+<p>Slash commands provide meta-level control over the CLI itself.</p>
+<h3>Built-in Commands</h3>
+<ul>
+<li>
+<p><strong><code>/bug</code></strong></p>
+<ul>
+<li><strong>Description:</strong> File an issue about LLXprt CLI. By default, the issue is filed within the GitHub repository for LLXprt CLI. The string you enter after <code>/bug</code> will become the headline for the bug being filed. The default <code>/bug</code> behavior can be modified using the <code>bugCommand</code> setting in your <code>.llxprt/settings.json</code> files.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/chat</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Save and resume conversation history for branching conversation state interactively, or resuming a previous state from a later session.</li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>save</code></strong>
+<ul>
+<li><strong>Description:</strong> Saves the current conversation history. You must add a <code>&lt;tag&gt;</code> for identifying the conversation state.</li>
+<li><strong>Usage:</strong> <code>/chat save &lt;tag&gt;</code></li>
+<li><strong>Details on Checkpoint Location:</strong> The default locations for saved chat checkpoints are:
+<ul>
+<li>Linux/macOS: <code>~/.llxprt/tmp/&lt;project_hash&gt;/</code></li>
+<li>Windows: <code>C:\Users\&lt;YourUsername&gt;\.llxprt\tmp\&lt;project_hash&gt;</code></li>
+<li>When you run <code>/chat list</code>, the CLI only scans these specific directories to find available checkpoints.</li>
+<li><strong>Note:</strong> These checkpoints are for manually saving and resuming conversation states. For automatic checkpoints created before file modifications, see the <a href="../checkpointing.html">Checkpointing documentation</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong><code>resume</code></strong>
+<ul>
+<li><strong>Description:</strong> Resumes a conversation from a previous save.</li>
+<li><strong>Usage:</strong> <code>/chat resume &lt;tag&gt;</code></li>
+</ul>
+</li>
+<li><strong><code>list</code></strong>
+<ul>
+<li><strong>Description:</strong> Lists available tags for chat state resumption.</li>
+</ul>
+</li>
+<li><strong><code>delete</code></strong>
+<ul>
+<li><strong>Description:</strong> Deletes a saved conversation checkpoint.</li>
+<li><strong>Usage:</strong> <code>/chat delete &lt;tag&gt;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/clear</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Clear the terminal screen, including the visible session history and scrollback within the CLI. The underlying session data (for history recall) might be preserved depending on the exact implementation, but the visual display is cleared.</li>
+<li><strong>Keyboard shortcut:</strong> Press <strong>Ctrl+L</strong> at any time to perform a clear action.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/compress</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Replace the entire chat context with a summary. This saves on tokens used for future tasks while retaining a high level summary of what has happened.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/copy</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Copies the last output produced by LLxprt Code to your clipboard, for easy sharing or reuse.</li>
+<li><strong>Note:</strong> This command requires platform-specific clipboard tools to be installed.
+<ul>
+<li>On Linux, it requires <code>xclip</code> or <code>xsel</code>. You can typically install them using your system's package manager.</li>
+<li>On macOS, it requires <code>pbcopy</code>, and on Windows, it requires <code>clip</code>. These tools are typically pre-installed on their respective systems.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/directory</code></strong> (or <strong><code>/dir</code></strong>)</p>
+<ul>
+<li><strong>Description:</strong> Manage workspace directories for multi-directory support.</li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>add</code></strong>:
+<ul>
+<li><strong>Description:</strong> Add a directory to the workspace. The path can be absolute or relative to the current working directory. Moreover, the reference from home directory is supported as well.</li>
+<li><strong>Usage:</strong> <code>/directory add &lt;path1&gt;,&lt;path2&gt;</code></li>
+<li><strong>Note:</strong> Disabled in restrictive sandbox profiles. If you're using that, use <code>--include-directories</code> when starting the session instead.</li>
+</ul>
+</li>
+<li><strong><code>show</code></strong>:
+<ul>
+<li><strong>Description:</strong> Display all directories added by <code>/directory add</code> and <code>--include-directories</code>.</li>
+<li><strong>Usage:</strong> <code>/directory show</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/editor</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Open a dialog for selecting supported editors.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/extensions</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Lists all active extensions in the current LLxprt Code session. See <a href="../extension.html">LLxprt Code Extensions</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/help</code></strong> (or <strong><code>/?</code></strong>)</p>
+<ul>
+<li><strong>Description:</strong> Display help information about LLxprt Code, including available commands and their usage.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/mcp</code></strong></p>
+<ul>
+<li><strong>Description:</strong> List configured Model Context Protocol (MCP) servers, their connection status, server details, and available tools.</li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>desc</code></strong> or <strong><code>descriptions</code></strong>:
+<ul>
+<li><strong>Description:</strong> Show detailed descriptions for MCP servers and tools.</li>
+</ul>
+</li>
+<li><strong><code>nodesc</code></strong> or <strong><code>nodescriptions</code></strong>:
+<ul>
+<li><strong>Description:</strong> Hide tool descriptions, showing only the tool names.</li>
+</ul>
+</li>
+<li><strong><code>schema</code></strong>:
+<ul>
+<li><strong>Description:</strong> Show the full JSON schema for the tool's configured parameters.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Keyboard Shortcut:</strong> Press <strong>Ctrl+T</strong> at any time to toggle between showing and hiding tool descriptions.</li>
+<li><strong>Keyboard Shortcut:</strong> Press <strong>Ctrl+Q</strong> to toggle the Todo dialog visibility.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/memory</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Manage the AI's instructional context (hierarchical memory loaded from <code>LLXPRT.md</code> files).</li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>add</code></strong>:
+<ul>
+<li><strong>Description:</strong> Adds the following text to the AI's memory. Usage: <code>/memory add &lt;text to remember&gt;</code></li>
+</ul>
+</li>
+<li><strong><code>show</code></strong>:
+<ul>
+<li><strong>Description:</strong> Display the full, concatenated content of the current hierarchical memory that has been loaded from all <code>LLXPRT.md</code> files. This lets you inspect the instructional context being provided to the active model.</li>
+</ul>
+</li>
+<li><strong><code>refresh</code></strong>:
+<ul>
+<li><strong>Description:</strong> Reload the hierarchical instructional memory from all <code>LLXPRT.md</code> files found in the configured locations (global, project/ancestors, and sub-directories). This command updates the model with the latest <code>LLXPRT.md</code> content.</li>
+</ul>
+</li>
+<li><strong><code>list</code></strong>:
+<ul>
+<li><strong>Description:</strong> Lists the paths of the <a href="http://LLXPRT.md">LLXPRT.md</a> files in use for hierarchical memory.</li>
+</ul>
+</li>
+<li><strong>Note:</strong> For more details on how <code>LLXPRT.md</code> files contribute to hierarchical memory, see the <a href="./configuration.html#4-llxprtmd-files-hierarchical-instructional-context">CLI Configuration documentation</a>.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/restore</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Restores the project files to the state they were in just before a tool was executed. This is particularly useful for undoing file edits made by a tool. If run without a tool call ID, it will list available checkpoints to restore from.</li>
+<li><strong>Usage:</strong> <code>/restore [tool_call_id]</code></li>
+<li><strong>Note:</strong> Only available if the CLI is invoked with the <code>--checkpointing</code> option or configured via <a href="./configuration.html">settings</a>. See <a href="../checkpointing.html">Checkpointing documentation</a> for more details.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/settings</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Open the settings editor to view and modify LLxprt CLI settings.</li>
+<li><strong>Details:</strong> This command provides a user-friendly interface for changing settings that control the behavior and appearance of LLXprt CLI. It is equivalent to manually editing the <code>.llxprt/settings.json</code> file, but with validation and guidance to prevent errors.</li>
+<li><strong>Usage:</strong> Simply run <code>/settings</code> and the editor will open. You can then browse or search for specific settings, view their current values, and modify them as desired. Changes to some settings are applied immediately, while others require a restart.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/stats</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Display detailed statistics for the current LLxprt Code session, including token usage, cached token savings (when available), and session duration. Note: Cached token information is only displayed when cached tokens are being used, which occurs with API key authentication but not with OAuth authentication at this time.</li>
+</ul>
+</li>
+<li>
+<p><a href="./themes.html"><strong><code>/theme</code></strong></a></p>
+<ul>
+<li><strong>Description:</strong> Open a dialog that lets you change the visual theme of LLxprt Code.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/auth</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Manage OAuth authentication for AI providers.</li>
+<li><strong>Usage:</strong> <code>/auth &lt;provider&gt; &lt;action&gt; [bucket-name]</code></li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>login [bucket]</code></strong>: Authenticate with a provider, optionally to a named bucket.</li>
+<li><strong><code>logout [bucket|--all]</code></strong>: Remove authentication from a specific bucket or all buckets.</li>
+<li><strong><code>status</code></strong>: Show all authenticated buckets and their token status.</li>
+<li><strong><code>switch &lt;bucket&gt;</code></strong>: Switch to a different authentication bucket.</li>
+</ul>
+</li>
+<li><strong>Examples:</strong>
+<ul>
+<li><code>/auth anthropic login</code> - Login to default bucket</li>
+<li><code>/auth anthropic login work@company.com</code> - Login to named bucket</li>
+<li><code>/auth anthropic status</code> - Show all buckets</li>
+<li><code>/auth anthropic logout --all</code> - Logout from all buckets</li>
+</ul>
+</li>
+<li><strong>See Also:</strong> <a href="./authentication.html">Authentication</a> for details on OAuth buckets.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/profile</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Manage saved configuration profiles for quick switching between providers, models, and settings.</li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>save model &lt;name&gt; [bucket1] [bucket2] ...</code></strong>: Save the current session configuration as a model profile. Optionally specify OAuth buckets for automatic failover.</li>
+<li><strong><code>save loadbalancer &lt;name&gt; &lt;roundrobin|failover&gt; &lt;profile1&gt; &lt;profile2&gt; ...</code></strong>: Create a load balancer profile that distributes requests across multiple model profiles.</li>
+<li><strong><code>load [name]</code></strong>: Load a saved profile. Opens interactive selection if no name provided.</li>
+<li><strong><code>list</code></strong>: Show all saved profiles.</li>
+<li><strong><code>delete &lt;name&gt;</code></strong>: Delete a saved profile.</li>
+<li><strong><code>set-default &lt;name&gt;</code></strong>: Set a profile to load automatically on startup.</li>
+</ul>
+</li>
+<li><strong>Examples:</strong>
+<ul>
+<li><code>/profile save model my-config</code> - Save current config</li>
+<li><code>/profile save model ha-profile bucket1 bucket2</code> - Save with failover buckets</li>
+<li><code>/profile save loadbalancer my-lb failover primary backup</code> - Create failover LB</li>
+<li><code>/profile load my-config</code> - Load a profile</li>
+<li><code>/profile set-default my-config</code> - Set default profile</li>
+</ul>
+</li>
+<li><strong>See Also:</strong> <a href="./profiles.html">Profiles</a> for comprehensive documentation on profiles, load balancing, and OAuth bucket failover.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/about</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Show version info. Please share this information when filing issues.</li>
+</ul>
+</li>
+<li>
+<p><a href="../tools/index.html"><strong><code>/tools</code></strong></a></p>
+<ul>
+<li><strong>Description:</strong> Display a list of tools that are currently available within LLxprt Code.</li>
+<li><strong>Usage:</strong> <code>/tools [desc]</code></li>
+<li><strong>Sub-commands:</strong>
+<ul>
+<li><strong><code>desc</code></strong> or <strong><code>descriptions</code></strong>:
+<ul>
+<li><strong>Description:</strong> Show detailed descriptions of each tool, including each tool's name with its full description as provided to the model.</li>
+</ul>
+</li>
+<li><strong><code>nodesc</code></strong> or <strong><code>nodescriptions</code></strong>:
+<ul>
+<li><strong>Description:</strong> Hide tool descriptions, showing only the tool names.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/privacy</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Display the Privacy Notice and allow users to select whether they consent to the collection of their data for service improvement purposes.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/quit</code></strong> (or <strong><code>/exit</code></strong>)</p>
+<ul>
+<li><strong>Description:</strong> Exit LLxprt Code.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/vim</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Toggle vim mode on or off. When vim mode is enabled, the input area supports vim-style navigation and editing commands in both NORMAL and INSERT modes.</li>
+<li><strong>Features:</strong>
+<ul>
+<li><strong>NORMAL mode:</strong> Navigate with <code>h</code>, <code>j</code>, <code>k</code>, <code>l</code>; jump by words with <code>w</code>, <code>b</code>, <code>e</code>; go to line start/end with <code>0</code>, <code>$</code>, <code>^</code>; go to specific lines with <code>G</code> (or <code>gg</code> for first line)</li>
+<li><strong>INSERT mode:</strong> Standard text input with escape to return to NORMAL mode</li>
+<li><strong>Editing commands:</strong> Delete with <code>x</code>, change with <code>c</code>, insert with <code>i</code>, <code>a</code>, <code>o</code>, <code>O</code>; complex operations like <code>dd</code>, <code>cc</code>, <code>dw</code>, <code>cw</code></li>
+<li><strong>Count support:</strong> Prefix commands with numbers (e.g., <code>3h</code>, <code>5w</code>, <code>10G</code>)</li>
+<li><strong>Repeat last command:</strong> Use <code>.</code> to repeat the last editing operation</li>
+<li><strong>Persistent setting:</strong> Vim mode preference is saved to <code>~/.llxprt/settings.json</code> and restored between sessions</li>
+</ul>
+</li>
+<li><strong>Status indicator:</strong> When enabled, shows <code>[NORMAL]</code> or <code>[INSERT]</code> in the footer</li>
+</ul>
+</li>
+<li>
+<p><strong><code>/init</code></strong></p>
+<ul>
+<li><strong>Description:</strong> To help users easily create a <code>LLXPRT.md</code> file, this command analyzes the current directory and generates a tailored context file, making it simpler for them to provide project-specific instructions to the agent.</li>
+</ul>
+</li>
+</ul>
+<h3>Custom Commands</h3>
+<p>For a quick start, see the <a href="#example-a-pure-function-refactoring-command">example</a> below.</p>
+<p>Custom commands allow you to save and reuse your favorite or most frequently used prompts as personal shortcuts within LLxprt Code. You can create commands that are specific to a single project or commands that are available globally across all your projects, streamlining your workflow and ensuring consistency.</p>
+<h4>File Locations &amp; Precedence</h4>
+<p>LLxprt Code discovers commands from two locations, loaded in a specific order:</p>
+<ol>
+<li><strong>User Commands (Global):</strong> Located in <code>~/.llxprt/commands/</code>. These commands are available in any project you are working on.</li>
+<li><strong>Project Commands (Local):</strong> Located in <code>&lt;your-project-root&gt;/.llxprt/commands/</code>. These commands are specific to the current project and can be checked into version control to be shared with your team.</li>
+</ol>
+<p>If a command in the project directory has the same name as a command in the user directory, the <strong>project command will always be used.</strong> This allows projects to override global commands with project-specific versions.</p>
+<h4>Naming and Namespacing</h4>
+<p>The name of a command is determined by its file path relative to its <code>commands</code> directory. Subdirectories are used to create namespaced commands, with the path separator (<code>/</code> or <code>\</code>) being converted to a colon (<code>:</code>).</p>
+<ul>
+<li>A file at <code>~/.llxprt/commands/test.toml</code> becomes the command <code>/test</code>.</li>
+<li>A file at <code>&lt;project&gt;/.llxprt/commands/git/commit.toml</code> becomes the namespaced command <code>/git:commit</code>.</li>
+</ul>
+<h4>TOML File Format (v1)</h4>
+<p>Your command definition files must be written in the TOML format and use the <code>.toml</code> file extension.</p>
+<h5>Required Fields</h5>
+<ul>
+<li><code>prompt</code> (String): The prompt that will be sent to the active model when the command is executed. This can be a single-line or multi-line string.</li>
+</ul>
+<h5>Optional Fields</h5>
+<ul>
+<li><code>description</code> (String): A brief, one-line description of what the command does. This text will be displayed next to your command in the <code>/help</code> menu. <strong>If you omit this field, a generic description will be generated from the filename.</strong></li>
+</ul>
+<h4>Handling Arguments</h4>
+<p>Custom commands support two powerful methods for handling arguments. The CLI automatically chooses the correct method based on the content of your command's <code>prompt</code>.</p>
+<h5>1. Context-Aware Injection with <code>{{args}}</code></h5>
+<p>If your <code>prompt</code> contains the special placeholder <code>{{args}}</code>, the CLI will replace that placeholder with the text the user typed after the command name.</p>
+<p>The behavior of this injection depends on where it is used:</p>
+<p><strong>A. Raw Injection (Outside Shell Commands)</strong></p>
+<p>When used in the main body of the prompt, the arguments are injected exactly as the user typed them.</p>
+<p><strong>Example (<code>git/fix.toml</code>):</strong></p>
+<pre><code class="language-toml"># Invoked via: /git:fix &quot;Button is misaligned&quot;
+
+description = &quot;Generates a fix for a given issue.&quot;
+prompt = &quot;Please provide a code fix for the issue described here: {{args}}.&quot;
+</code></pre>
+<p>The model receives: <code>Please provide a code fix for the issue described here: &quot;Button is misaligned&quot;.</code></p>
+<p><strong>B. Using Arguments in Shell Commands (Inside <code>!{...}</code> Blocks)</strong></p>
+<p>When you use <code>{{args}}</code> inside a shell injection block (<code>!{...}</code>), the arguments are automatically <strong>shell-escaped</strong> before replacement. This allows you to safely pass arguments to shell commands, ensuring the resulting command is syntactically correct and secure while preventing command injection vulnerabilities.</p>
+<p><strong>Example (<code>/grep-code.toml</code>):</strong></p>
+<pre><code class="language-toml">prompt = &quot;&quot;&quot;
+Please summarize the findings for the pattern `{{args}}`.
+
+Search Results:
+!{grep -r {{args}} .}
+&quot;&quot;&quot;
+</code></pre>
+<p>When you run <code>/grep-code It's complicated</code>:</p>
+<ol>
+<li>The CLI sees <code>{{args}}</code> used both outside and inside <code>!{...}</code>.</li>
+<li>Outside: The first <code>{{args}}</code> is replaced raw with <code>It's complicated</code>.</li>
+<li>Inside: The second <code>{{args}}</code> is replaced with the escaped version (e.g., on Linux: <code>&quot;It's complicated&quot;</code>).</li>
+<li>The command executed is <code>grep -r &quot;It's complicated&quot; .</code>.</li>
+<li>The CLI prompts you to confirm this exact, secure command before execution.</li>
+<li>The final prompt is sent.</li>
+</ol>
+<h5>2. Default Argument Handling</h5>
+<p>If your <code>prompt</code> does <strong>not</strong> contain the special placeholder <code>{{args}}</code>, the CLI uses a default behavior for handling arguments.</p>
+<p>If you provide arguments to the command (e.g., <code>/mycommand arg1</code>), the CLI will append the full command you typed to the end of the prompt, separated by two newlines. This allows the model to see both the original instructions and the specific arguments you just provided.</p>
+<p>If you do <strong>not</strong> provide any arguments (e.g., <code>/mycommand</code>), the prompt is sent to the model exactly as it is, with nothing appended.</p>
+<p><strong>Example (<code>changelog.toml</code>):</strong></p>
+<p>This example shows how to create a robust command by defining a role for the model, explaining where to find the user's input, and specifying the expected format and behavior.</p>
+<pre><code class="language-toml"># In: &lt;project&gt;/.llxprt/commands/changelog.toml
+# Invoked via: /changelog 1.2.0 added &quot;Support for default argument parsing.&quot;
+
+description = &quot;Adds a new entry to the project's CHANGELOG.md file.&quot;
+prompt = &quot;&quot;&quot;
+# Task: Update Changelog
+
+You are an expert maintainer of this software project. A user has invoked a command to add a new entry to the changelog.
+
+**The user's raw command is appended below your instructions.**
+
+Your task is to parse the `&lt;version&gt;`, `&lt;change_type&gt;`, and `&lt;message&gt;` from their input and use the `write_file` tool to correctly update the `CHANGELOG.md` file.
+
+## Expected Format
+The command follows this format: `/changelog &lt;version&gt; &lt;type&gt; &lt;message&gt;`
+- `&lt;type&gt;` must be one of: &quot;added&quot;, &quot;changed&quot;, &quot;fixed&quot;, &quot;removed&quot;.
+
+## Behavior
+1. Read the `CHANGELOG.md` file.
+2. Find the section for the specified `&lt;version&gt;`.
+3. Add the `&lt;message&gt;` under the correct `&lt;type&gt;` heading.
+4. If the version or type section doesn't exist, create it.
+5. Adhere strictly to the &quot;Keep a Changelog&quot; format.
+&quot;&quot;&quot;
+</code></pre>
+<p>When you run <code>/changelog 1.2.0 added &quot;New feature&quot;</code>, the final text sent to the model will be the original prompt followed by two newlines and the command you typed.</p>
+<h5>3. Executing Shell Commands with <code>!{...}</code></h5>
+<p>You can make your commands dynamic by executing shell commands directly within your <code>prompt</code> and injecting their output. This is ideal for gathering context from your local environment, like reading file content or checking the status of Git.</p>
+<p>When a custom command attempts to execute a shell command, LLxprt Code will now prompt you for confirmation before proceeding. This is a security measure to ensure that only intended commands can be run.</p>
+<p><strong>How It Works:</strong></p>
+<ol>
+<li><strong>Inject Commands:</strong> Use the <code>!{...}</code> syntax.</li>
+<li><strong>Argument Substitution:</strong> If <code>{{args}}</code> is present inside the block, it is automatically shell-escaped (see <a href="#1-context-aware-injection-with-args">Context-Aware Injection</a> above).</li>
+<li><strong>Robust Parsing:</strong> The parser correctly handles complex shell commands that include nested braces, such as JSON payloads.</li>
+<li><strong>Security Check and Confirmation:</strong> The CLI performs a security check on the final, resolved command (after arguments are escaped and substituted). A dialog will appear showing the exact command(s) to be executed.</li>
+<li><strong>Execution and Error Reporting:</strong> The command is executed. If the command fails, the output injected into the prompt will include the error messages (stderr) followed by a status line, e.g., <code>[Shell command exited with code 1]</code>. This helps the model understand the context of the failure.</li>
+</ol>
+<p><strong>Example (<code>git/commit.toml</code>):</strong></p>
+<p>This command gets the staged git diff and uses it to ask the model to write a commit message.</p>
+<pre><code class="language-toml"># In: &lt;project&gt;/.llxprt/commands/git/commit.toml
+# Invoked via: /git:commit
+
+description = &quot;Generates a Git commit message based on staged changes.&quot;
+
+# The prompt uses !{...} to execute the command and inject its output.
+prompt = &quot;&quot;&quot;
+Please generate a Conventional Commit message based on the following git diff:
+
+```diff
+!{git diff --staged}
+```
+
+&quot;&quot;&quot;
+
+</code></pre>
+<p>When you run <code>/git:commit</code>, the CLI first executes <code>git diff --staged</code>, then replaces <code>!{git diff --staged}</code> with the output of that command before sending the final, complete prompt to the model.</p>
+<hr>
+<h4>Example: A &quot;Pure Function&quot; Refactoring Command</h4>
+<p>Let's create a global command that asks the model to refactor a piece of code.</p>
+<p><strong>1. Create the file and directories:</strong></p>
+<p>First, ensure the user commands directory exists, then create a <code>refactor</code> subdirectory for organization and the final TOML file.</p>
+<pre><code class="language-bash">mkdir -p ~/.llxprt/commands/refactor
+touch ~/.llxprt/commands/refactor/pure.toml
+</code></pre>
+<p><strong>2. Add the content to the file:</strong></p>
+<p>Open <code>~/.llxprt/commands/refactor/pure.toml</code> in your editor and add the following content. We are including the optional <code>description</code> for best practice.</p>
+<pre><code class="language-toml"># In: ~/.llxprt/commands/refactor/pure.toml
+# This command will be invoked via: /refactor:pure
+
+description = &quot;Asks the model to refactor the current context into a pure function.&quot;
+
+prompt = &quot;&quot;&quot;
+Please analyze the code I've provided in the current context.
+Refactor it into a pure function.
+
+Your response should include:
+1. The refactored, pure function code block.
+2. A brief explanation of the key changes you made and why they contribute to purity.
+&quot;&quot;&quot;
+</code></pre>
+<p><strong>3. Run the Command:</strong></p>
+<p>That's it! You can now run your command in the CLI. First, you might add a file to the context, and then invoke your command:</p>
+<pre><code>&gt; @my-messy-function.js
+&gt; /refactor:pure
+</code></pre>
+<p>LLxprt Code will then execute the multi-line prompt defined in your TOML file.</p>
+<h2>At commands (<code>@</code>)</h2>
+<p>At commands are used to include the content of files or directories as part of your prompt to the model. These commands include git-aware filtering.</p>
+<ul>
+<li>
+<p><strong><code>@&lt;path_to_file_or_directory&gt;</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Inject the content of the specified file or files into your current prompt. This is useful for asking questions about specific code, text, or collections of files.</li>
+<li><strong>Examples:</strong>
+<ul>
+<li><code>@path/to/your/file.txt Explain this text.</code></li>
+<li><code>@src/my_project/ Summarize the code in this directory.</code></li>
+<li><code>What is this file about? @README.md</code></li>
+</ul>
+</li>
+<li><strong>Details:</strong>
+<ul>
+<li>If a path to a single file is provided, the content of that file is read.</li>
+<li>If a path to a directory is provided, the command attempts to read the content of files within that directory and any subdirectories.</li>
+<li>Spaces in paths should be escaped with a backslash (e.g., <code>@My\ Documents/file.txt</code>).</li>
+<li>The command uses the <code>read_many_files</code> tool internally. The content is fetched and then inserted into your query before being sent to the model.</li>
+<li><strong>Git-aware filtering:</strong> By default, git-ignored files (like <code>node_modules/</code>, <code>dist/</code>, <code>.env</code>, <code>.git/</code>) are excluded. This behavior can be changed via the <code>fileFiltering</code> settings.</li>
+<li><strong>File types:</strong> The command is intended for text-based files. While it might attempt to read any file, binary files or very large files might be skipped or truncated by the underlying <code>read_many_files</code> tool to ensure performance and relevance. The tool indicates if files were skipped.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> The CLI will show a tool call message indicating that <code>read_many_files</code> was used, along with a message detailing the status and the path(s) that were processed.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>@</code> (Lone at symbol)</strong></p>
+<ul>
+<li><strong>Description:</strong> If you type a lone <code>@</code> symbol without a path, the query is passed as-is to the model. This might be useful if you are specifically talking <em>about</em> the <code>@</code> symbol in your prompt.</li>
+</ul>
+</li>
+</ul>
+<h3>Error handling for <code>@</code> commands</h3>
+<ul>
+<li>If the path specified after <code>@</code> is not found or is invalid, an error message will be displayed, and the query might not be sent to the active model, or it will be sent without the file content.</li>
+<li>If the <code>read_many_files</code> tool encounters an error (e.g., permission issues), this will also be reported.</li>
+</ul>
+<h2>Shell mode &amp; passthrough commands (<code>!</code>)</h2>
+<p>The <code>!</code> prefix lets you interact with your system's shell directly from within LLxprt Code.</p>
+<ul>
+<li>
+<p><strong><code>!&lt;shell_command&gt;</code></strong></p>
+<ul>
+<li><strong>Description:</strong> Execute the given <code>&lt;shell_command&gt;</code> using <code>bash</code> on Linux/macOS or <code>cmd.exe</code> on Windows. Any output or errors from the command are displayed in the terminal.</li>
+<li><strong>Examples:</strong>
+<ul>
+<li><code>!ls -la</code> (executes <code>ls -la</code> and returns to LLxprt Code)</li>
+<li><code>!git status</code> (executes <code>git status</code> and returns to LLxprt Code)</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>!</code> (Toggle shell mode)</strong></p>
+<ul>
+<li><strong>Description:</strong> Typing <code>!</code> on its own toggles shell mode.
+<ul>
+<li><strong>Entering shell mode:</strong>
+<ul>
+<li>When active, shell mode uses a different coloring and a &quot;Shell Mode Indicator&quot;.</li>
+<li>While in shell mode, text you type is interpreted directly as a shell command.</li>
+</ul>
+</li>
+<li><strong>Exiting shell mode:</strong>
+<ul>
+<li>When exited, the UI reverts to its standard appearance and normal LLxprt Code behavior resumes.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Caution for all <code>!</code> usage:</strong> Commands you execute in shell mode have the same permissions and impact as if you ran them directly in your terminal.</p>
+</li>
+<li>
+<p><strong>Environment Variable:</strong> When a command is executed via <code>!</code> or in shell mode, the <code>LLXPRT_CLI=1</code> environment variable is set in the subprocess's environment. This allows scripts or tools to detect if they are being run from within the LLxprt Code.</p>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

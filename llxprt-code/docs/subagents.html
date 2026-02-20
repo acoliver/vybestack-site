@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Subagents | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Subagents</h1>
+<p>Subagents are specialized assistants you configure to run with their own profile, prompt, and tool limits. They are ideal for repeatable workflows like code review, documentation updates, or analysis tasks without changing your main session settings.</p>
+<h2>Why there are no default subagents</h2>
+<p>LLxprt Code ships with no default subagents because each subagent must bind to a <strong>profile</strong>. Profiles are tied to the provider and model you select, so preloading subagents would assume a specific provider choice. Create subagents that match the profiles you already use.</p>
+<h2>Prerequisites</h2>
+<p>Before creating a subagent, you need at least one profile:</p>
+<ul>
+<li>Model profiles are saved with <code>/profile save model ...</code>.</li>
+<li>Load balancer profiles are saved with <code>/profile save loadbalancer ...</code>.</li>
+</ul>
+<p>If you haven't created profiles yet, review <code>docs/cli/profiles.md</code> for setup guidance.</p>
+<h2>Manage subagents with <code>/subagent</code></h2>
+<h3>List subagents</h3>
+<pre><code class="language-bash">/subagent list
+</code></pre>
+<p>Lists all configured subagents along with their bound profile and mode.</p>
+<h3>Save (create) a subagent</h3>
+<pre><code class="language-bash">/subagent save &lt;name&gt; &lt;profile&gt; auto|manual &quot;&lt;text&gt;&quot;
+</code></pre>
+<ul>
+<li><code>&lt;name&gt;</code> must be unique and use letters, numbers, or dashes.</li>
+<li><code>&lt;profile&gt;</code> must match an existing profile.</li>
+<li><code>auto</code> and <code>manual</code> control how the system prompt is created.</li>
+</ul>
+<p><code>/subagent create</code> is an alias for <code>/subagent save</code>.</p>
+<h3>Show subagent details</h3>
+<pre><code class="language-bash">/subagent show &lt;name&gt;
+</code></pre>
+<p>Displays the full configuration, including the system prompt and timestamps.</p>
+<h3>Edit a subagent</h3>
+<pre><code class="language-bash">/subagent edit &lt;name&gt;
+</code></pre>
+<p>Opens your editor to update the stored JSON configuration. Changes are validated before saving.</p>
+<h3>Delete a subagent</h3>
+<pre><code class="language-bash">/subagent delete &lt;name&gt;
+</code></pre>
+<p>Deletes the configuration after confirmation.</p>
+<h2>Auto vs manual mode</h2>
+<p>The mode determines how the subagent's system prompt is created:</p>
+<h3>Manual mode</h3>
+<p>Manual mode stores the exact system prompt you provide verbatim. The text you specify becomes the subagent's system prompt without modification.</p>
+<pre><code class="language-bash">/subagent save code-reviewer my-profile manual &quot;You are a careful reviewer focused on security and readability.&quot;
+</code></pre>
+<p><strong>Use manual mode when:</strong></p>
+<ul>
+<li>You know exactly what system prompt you want</li>
+<li>You need precise control over the subagent's behavior</li>
+<li>You're porting a prompt from another tool</li>
+<li>You want reproducible, unchanging behavior</li>
+</ul>
+<h3>Auto mode</h3>
+<p>Auto mode uses your description as input to generate a more detailed system prompt automatically. LLxprt Code sends your description to the bound profile's model and asks it to create an appropriate system prompt.</p>
+<pre><code class="language-bash">/subagent save docs-helper my-profile auto &quot;Help write concise developer documentation.&quot;
+</code></pre>
+<p><strong>Use auto mode when:</strong></p>
+<ul>
+<li>You have a general idea but want the model to flesh out details</li>
+<li>You want the prompt optimized for the specific model</li>
+<li>You're experimenting and want quick iteration</li>
+</ul>
+<p><strong>Note:</strong> Auto mode requires the profile's provider to be available and working. If generation fails (network issues, rate limits), fall back to manual mode.</p>
+<h2>Profiles and subagents</h2>
+<p>Subagents bind to profiles, not directly to providers or models. This means:</p>
+<ul>
+<li>Update a profile to change the provider/model used by every subagent that references it.</li>
+<li>Subagents can point at model profiles or load balancer profiles.</li>
+<li>Multiple subagents can reuse the same profile.</li>
+</ul>
+<h2>Storage and files</h2>
+<p>Subagents are stored under <code>~/.llxprt/subagents/</code> as JSON files. Each file includes the profile, mode, system prompt, and timestamps. You can back these up or version them as needed.</p>
+<h2>Examples</h2>
+<h3>Code review helper (manual)</h3>
+<pre><code class="language-bash">/subagent save code-reviewer work-claude manual &quot;Review changes for correctness, performance, and security. Provide actionable feedback.&quot;
+</code></pre>
+<h3>Documentation helper (auto)</h3>
+<pre><code class="language-bash">/subagent save docs-helper docs-profile auto &quot;Summarize API changes and draft release notes.&quot;
+</code></pre>
+<h3>Mixed provider setup</h3>
+<pre><code class="language-bash">/subagent save quick-analysis fast-gemini auto &quot;Provide quick code summaries.&quot;
+/subagent save deep-review claude-max manual &quot;Perform deep architectural analysis and list risks.&quot;
+</code></pre>
+<h2>Advanced Subagent Configuration</h2>
+<p>Subagents inherit all capabilities of the profiles they bind to, including load balancing, OAuth buckets, and provider-specific settings.</p>
+<h3>Subagent with Load Balancer Profile</h3>
+<p>Use a load balancer profile for resilient automated tasks that need high availability:</p>
+<pre><code class="language-bash"># First, create individual model profiles
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-primary
+
+/provider openai
+/model gpt-5.1
+/profile save model openai-backup
+
+# Create a failover load balancer
+/profile save loadbalancer resilient-lb failover claude-primary openai-backup
+
+# Create subagent using the load balancer
+/subagent save auto-reviewer resilient-lb manual &quot;Review code changes for correctness and security. Flag any issues.&quot;
+</code></pre>
+<p>If the primary Claude endpoint fails (rate limit, outage), requests automatically fail over to OpenAI without interrupting the subagent's work.</p>
+<h3>Subagent with Multi-Bucket OAuth Profile</h3>
+<p>Combine OAuth buckets with subagents for high-throughput scenarios:</p>
+<pre><code class="language-bash"># Authenticate multiple buckets
+/auth anthropic login team1@company.com
+/auth anthropic login team2@company.com
+/auth anthropic login team3@company.com
+
+# Create profile with all buckets
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-team team1@company.com team2@company.com team3@company.com
+
+# Create subagent with bucket failover
+/subagent save batch-processor claude-team manual &quot;Process files in batch. Output results in JSON format.&quot;
+</code></pre>
+<p>When the subagent hits rate limits on one bucket, it automatically advances to the next, enabling sustained high-volume work.</p>
+<h3>Cost Optimization: Cheaper Model for Routine Work</h3>
+<p>Use a less expensive model for routine tasks and reserve premium models for complex work:</p>
+<pre><code class="language-bash"># Create profiles for different cost tiers
+/provider gemini
+/model gemini-2.5-flash
+/profile save model gemini-fast
+
+/provider anthropic
+/model claude-opus-4-5
+/profile save model claude-premium
+
+# Cheap subagent for routine tasks
+/subagent save file-scanner gemini-fast auto &quot;Scan files for patterns and report findings. Quick analysis only.&quot;
+
+# Premium subagent for complex analysis
+/subagent save architect-review claude-premium manual &quot;Perform deep architectural analysis. Evaluate design patterns, dependencies, and long-term maintainability.&quot;
+</code></pre>
+<p>Delegate simple tasks (file scanning, formatting checks, basic summaries) to the cheaper subagent and reserve expensive models for tasks requiring deep reasoning.</p>
+<h2>Workflow Examples</h2>
+<h3>Code Review Pipeline</h3>
+<p>This workflow uses multiple subagents with different profiles to create a tiered review process:</p>
+<pre><code class="language-bash"># Step 1: Create profiles
+/provider gemini
+/model gemini-2.5-flash
+/profile save model fast-gemini
+
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-review
+
+# Step 2: Create specialized subagents
+/subagent save lint-checker fast-gemini manual &quot;Check code for style issues, unused imports, and formatting problems. Output a bulleted list of issues.&quot;
+
+/subagent save security-reviewer claude-review manual &quot;Review code for security vulnerabilities. Check for injection risks, authentication issues, and data exposure. Provide severity ratings.&quot;
+
+/subagent save arch-reviewer claude-review manual &quot;Evaluate code architecture. Check for SOLID principles, proper abstractions, and maintainability concerns.&quot;
+</code></pre>
+<p><strong>Usage pattern:</strong></p>
+<ol>
+<li>Run <code>lint-checker</code> first for fast, cheap static analysis</li>
+<li>If lint passes, run <code>security-reviewer</code> for vulnerability assessment</li>
+<li>For significant changes, run <code>arch-reviewer</code> for deep analysis</li>
+</ol>
+<p>This approach uses the cheaper Gemini model for quick checks and Claude for nuanced review, optimizing both cost and quality.</p>
+<h3>Research and Implementation Workflow</h3>
+<p>This workflow demonstrates handoff between subagents for research and implementation tasks:</p>
+<pre><code class="language-bash"># Step 1: Create profiles (Gemini free tier for research, Claude for implementation)
+/provider gemini
+/model gemini-2.5-flash
+/profile save model gemini-research
+
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-impl
+
+# Step 2: Create specialized subagents
+/subagent save web-researcher gemini-research auto &quot;Research topics using web search. Summarize findings with source URLs. Focus on recent, authoritative sources.&quot;
+
+/subagent save doc-analyst gemini-research auto &quot;Analyze documentation and API references. Extract key patterns and usage examples.&quot;
+
+/subagent save implementer claude-impl manual &quot;Implement features based on research findings. Follow project conventions. Write clean, tested code.&quot;
+</code></pre>
+<p><strong>Usage pattern:</strong></p>
+<ol>
+<li>Use <code>web-researcher</code> to gather background on libraries, APIs, or techniques</li>
+<li>Use <code>doc-analyst</code> to process specific documentation</li>
+<li>Feed research findings to <code>implementer</code> for actual code changes</li>
+</ol>
+<p>This leverages Gemini's free tier for high-volume research while using Claude's stronger reasoning for implementation.</p>
+<h3>Automated CI/CD Analysis Pipeline</h3>
+<p>Combine load balancer profiles with specialized subagents for CI/CD integration:</p>
+<pre><code class="language-bash"># Create high-availability profile
+/profile save loadbalancer ci-resilient failover claude-primary openai-backup gemini-fallback
+
+# Create CI-focused subagents
+/subagent save test-failure-analyst ci-resilient manual &quot;Analyze test failures. Identify root cause and suggest fixes. Output in structured format.&quot;
+
+/subagent save pr-summarizer ci-resilient auto &quot;Summarize pull request changes. List modified files, key changes, and potential impacts.&quot;
+
+/subagent save release-noter ci-resilient auto &quot;Generate release notes from commit history. Group by feature, fix, and breaking change.&quot;
+</code></pre>
+<p>These subagents remain available even during provider outages, ensuring CI/CD pipelines continue functioning.</p>
+<h2>Profile Requirements for Subagents</h2>
+<h3>Why Subagents Bind to Profiles</h3>
+<p>Subagents must bind to profiles rather than providers directly for several reasons:</p>
+<ol>
+<li>
+<p><strong>Configuration encapsulation</strong>: Profiles capture provider, model, auth method, and settings as a single unit. Subagents inherit all of these without specifying each individually.</p>
+</li>
+<li>
+<p><strong>Centralized updates</strong>: Change a profile once to update every subagent that uses it. If you switch from Claude Sonnet to Claude Opus, update the profile and all referencing subagents immediately use the new model.</p>
+</li>
+<li>
+<p><strong>Auth abstraction</strong>: Profiles handle OAuth buckets, API keys, and load balancer auth transparently. Subagents don't need to know authentication details.</p>
+</li>
+<li>
+<p><strong>Reproducibility</strong>: The same subagent definition works across environments if the profile name exists, even when underlying credentials differ.</p>
+</li>
+</ol>
+<h3>Updating All Subagents via Profile Changes</h3>
+<p>When you update a profile, all subagents using that profile automatically inherit the changes:</p>
+<pre><code class="language-bash"># Initial setup
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model team-claude
+
+/subagent save reviewer team-claude manual &quot;Review code.&quot;
+/subagent save documenter team-claude manual &quot;Write docs.&quot;
+/subagent save tester team-claude manual &quot;Analyze tests.&quot;
+
+# Later: upgrade all subagents to a new model
+/provider anthropic
+/model claude-opus-4-5
+/profile save model team-claude   # Overwrites existing profile
+
+# All three subagents now use claude-opus-4-5
+</code></pre>
+<p>This pattern is especially useful for:</p>
+<ul>
+<li>Rolling out model upgrades across teams</li>
+<li>Switching OAuth buckets when credentials rotate</li>
+<li>Adding load balancing to existing subagents</li>
+</ul>
+<h3>Restricting Tool Access for Subagents</h3>
+<p>You can create profiles that restrict which tools a subagent can access. This is useful for:</p>
+<ul>
+<li>Read-only analysis subagents that shouldn't modify files</li>
+<li>Documentation subagents that only need read and search tools</li>
+<li>Security-sensitive workflows where you want to limit potential impact</li>
+</ul>
+<p>Configure tool restrictions in your settings before saving a profile:</p>
+<pre><code class="language-bash"># Create a read-only profile
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+# Configure coreTools in settings to restrict to read-only tools
+/profile save model read-only-claude
+
+# Create subagent with restricted tools
+/subagent save analyzer read-only-claude manual &quot;Analyze code without making changes. Report findings only.&quot;
+</code></pre>
+<p>Tool restrictions are configured via <code>coreTools</code> and <code>excludeTools</code> in <code>settings.json</code>. See the <a href="./cli/configuration.html">configuration documentation</a> for details.</p>
+<h3>Security Considerations for Subagent Tool Access</h3>
+<p>Subagents operate within the same tool access policies as your main session:</p>
+<ol>
+<li>
+<p><strong>Tool inheritance</strong>: Subagents have access to the same tools as the main session unless the profile restricts them via <code>coreTools</code> or <code>excludeTools</code> settings.</p>
+</li>
+<li>
+<p><strong>Approval mode</strong>: If your session requires approval for file writes, subagents also require approval for file writes.</p>
+</li>
+<li>
+<p><strong>Sandboxing</strong>: Subagents run in the same sandbox (or lack thereof) as the main session.</p>
+</li>
+<li>
+<p><strong>OAuth scope</strong>: Subagents using OAuth-authenticated profiles operate under the same OAuth scopes and permissions.</p>
+</li>
+</ol>
+<p><strong>Best practices:</strong></p>
+<ul>
+<li>Create purpose-specific profiles with appropriate tool restrictions for automated work</li>
+<li>Use <code>coreTools</code> to create read-only profiles for analysis subagents</li>
+<li>Use load balancer profiles for unattended subagent work to handle transient failures</li>
+<li>Monitor subagent activity through session logs</li>
+<li>Consider using profiles with lower-capability models for routine tasks to limit potential impact</li>
+</ul>
+<h2>Related commands</h2>
+<ul>
+<li><code>/profile list</code> to see available profiles.</li>
+<li><code>/profile save model ...</code> or <code>/profile save loadbalancer ...</code> to create profiles.</li>
+<li><code>/task</code> to invoke subagents programmatically.</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

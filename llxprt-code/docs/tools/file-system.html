@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code file system tools | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>LLxprt Code file system tools</h1>
+<p>The LLxprt Code provides a comprehensive suite of tools for interacting with the local file system. These tools allow the Gemini model to read from, write to, list, search, and modify files and directories, all under your control and typically with confirmation for sensitive operations.</p>
+<p><strong>Note:</strong> All file system tools operate within a <code>rootDirectory</code> (usually the current working directory where you launched the CLI) for security. Paths that you provide to these tools are generally expected to be absolute or are resolved relative to this root directory.</p>
+<h2>1. <code>list_directory</code> (ReadFolder)</h2>
+<p><code>list_directory</code> lists the names of files and subdirectories directly within a specified directory path. It can optionally ignore entries matching provided glob patterns.</p>
+<ul>
+<li><strong>Tool name:</strong> <code>list_directory</code></li>
+<li><strong>Display name:</strong> ReadFolder</li>
+<li><strong>File:</strong> <code>ls.ts</code></li>
+<li><strong>Parameters:</strong>
+<ul>
+<li><code>path</code> (string, required): The absolute path to the directory to list.</li>
+<li><code>ignore</code> (array of strings, optional): A list of glob patterns to exclude from the listing (e.g., <code>[&quot;*.log&quot;, &quot;.git&quot;]</code>).</li>
+<li><code>respect_git_ignore</code> (boolean, optional): Whether to respect <code>.gitignore</code> patterns when listing files. Defaults to <code>true</code>.</li>
+</ul>
+</li>
+<li><strong>Behavior:</strong>
+<ul>
+<li>Returns a list of file and directory names.</li>
+<li>Indicates whether each entry is a directory.</li>
+<li>Sorts entries with directories first, then alphabetically.</li>
+</ul>
+</li>
+<li><strong>Output (<code>llmContent</code>):</strong> A string like: <code>Directory listing for /path/to/your/folder:\n[DIR] subfolder1\nfile1.txt\nfile2.png</code></li>
+<li><strong>Confirmation:</strong> No.</li>
+</ul>
+<h2>2. <code>read_file</code> (ReadFile)</h2>
+<p><code>read_file</code> reads and returns the content of a specified file. This tool handles text, images (PNG, JPG, GIF, WEBP, SVG, BMP), and PDF files. For text files, it can read specific line ranges. Other binary file types are generally skipped.</p>
+<ul>
+<li>
+<p><strong>Tool name:</strong> <code>read_file</code></p>
+</li>
+<li>
+<p><strong>Display name:</strong> ReadFile</p>
+</li>
+<li>
+<p><strong>File:</strong> <code>read-file.ts</code></p>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li><code>path</code> (string, required): The absolute path to the file to read.</li>
+<li><code>offset</code> (number, optional): For text files, the 0-based line number to start reading from. Requires <code>limit</code> to be set.</li>
+<li><code>limit</code> (number, optional): For text files, the maximum number of lines to read. If omitted, reads a default maximum (e.g., 2000 lines) or the entire file if feasible.</li>
+<li><code>showLineNumbers</code> (boolean, optional): When true, prefixes each line of the returned text with a left-padded virtual line number and a separator bar (for example, <code>294|            occurrences = 0;</code>). This numbering is not part of the underlying file; it is only a visual aid. Recommended when you need to precisely understand line numbers in large files for subsequent editing operations.</li>
+<li><code>showGitChanges</code> (boolean, optional): When true (text files only), prefixes each returned line with a single-character git-change marker column computed relative to <code>HEAD</code> (includes staged and unstaged changes). This marker column is virtual and not part of the underlying file content. Includes a legend and, if git status cannot be read, includes a brief warning.</li>
+</ul>
+</li>
+<li>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li>
+<p>For text files: Returns the content. If <code>offset</code> and <code>limit</code> are used, returns only that slice of lines. Indicates if content was truncated due to line limits or line length limits.</p>
+</li>
+<li>
+<p>When <code>showLineNumbers</code> is true, each text line is returned with a virtual line number prefix, for example:</p>
+<pre><code class="language-text"> 294|            occurrences = 0;
+ 295|          } else {
+ 296|            const lineText = lines[replaceLine - 1];
+</code></pre>
+<p>This virtual numbering is not part of the file itself; it is a visual aid for precise navigation and editing.</p>
+</li>
+<li>
+<p>When <code>showGitChanges</code> is true, each text line is returned with a virtual git-change marker prefix, for example:</p>
+<pre><code class="language-text"> ░ 294|            occurrences = 0;
+ M 295|          } else {
+ N 296|            const lineText = lines[replaceLine - 1];
+</code></pre>
+<p>Legend: <code>░</code> unchanged, <code>N</code> new, <code>M</code> modified, <code>D</code> deletion after line.</p>
+</li>
+<li>
+<p>For image and PDF files: Returns the file content as a base64-encoded data structure suitable for model consumption.</p>
+</li>
+<li>
+<p>For other binary files: Attempts to identify and skip them, returning a message indicating it's a generic binary file.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Output:</strong> (<code>llmContent</code>):</p>
+<ul>
+<li>For text files: The file content, potentially prefixed with a truncation message (e.g., <code>[File content truncated: showing lines 1-100 of 500 total lines...]\nActual file content...</code>).</li>
+<li>For image/PDF files: An object containing <code>inlineData</code> with <code>mimeType</code> and base64 <code>data</code> (e.g., <code>{ inlineData: { mimeType: 'image/png', data: 'base64encodedstring' } }</code>).</li>
+<li>For other binary files: A message like <code>Cannot display content of binary file: /path/to/data.bin</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Confirmation:</strong> No.</p>
+</li>
+</ul>
+<h2>3. <code>write_file</code> (WriteFile)</h2>
+<p><code>write_file</code> writes content to a specified file. If the file exists, it will be overwritten. If the file doesn't exist, it (and any necessary parent directories) will be created.</p>
+<ul>
+<li><strong>Tool name:</strong> <code>write_file</code></li>
+<li><strong>Display name:</strong> WriteFile</li>
+<li><strong>File:</strong> <code>write-file.ts</code></li>
+<li><strong>Parameters:</strong>
+<ul>
+<li><code>file_path</code> (string, required): The absolute path to the file to write to.</li>
+<li><code>content</code> (string, required): The content to write into the file.</li>
+</ul>
+</li>
+<li><strong>Behavior:</strong>
+<ul>
+<li>Writes the provided <code>content</code> to the <code>file_path</code>.</li>
+<li>Creates parent directories if they don't exist.</li>
+</ul>
+</li>
+<li><strong>Output (<code>llmContent</code>):</strong> A success message, e.g., <code>Successfully overwrote file: /path/to/your/file.txt</code> or <code>Successfully created and wrote to new file: /path/to/new/file.txt</code>.</li>
+<li><strong>Confirmation:</strong> Yes. Shows a diff of changes and asks for user approval before writing.</li>
+</ul>
+<h2>4. <code>glob</code> (FindFiles)</h2>
+<p><code>glob</code> finds files matching specific glob patterns (e.g., <code>src/**/*.ts</code>, <code>*.md</code>), returning absolute paths sorted by modification time (newest first).</p>
+<ul>
+<li><strong>Tool name:</strong> <code>glob</code></li>
+<li><strong>Display name:</strong> FindFiles</li>
+<li><strong>File:</strong> <code>glob.ts</code></li>
+<li><strong>Parameters:</strong>
+<ul>
+<li><code>pattern</code> (string, required): The glob pattern to match against (e.g., <code>&quot;*.py&quot;</code>, <code>&quot;src/**/*.js&quot;</code>).</li>
+<li><code>path</code> (string, optional): The absolute path to the directory to search within. If omitted, searches the tool's root directory.</li>
+<li><code>case_sensitive</code> (boolean, optional): Whether the search should be case-sensitive. Defaults to <code>false</code>.</li>
+<li><code>respect_git_ignore</code> (boolean, optional): Whether to respect .gitignore patterns when finding files. Defaults to <code>true</code>.</li>
+</ul>
+</li>
+<li><strong>Behavior:</strong>
+<ul>
+<li>Searches for files matching the glob pattern within the specified directory.</li>
+<li>Returns a list of absolute paths, sorted with the most recently modified files first.</li>
+<li>Ignores common nuisance directories like <code>node_modules</code> and <code>.git</code> by default.</li>
+</ul>
+</li>
+<li><strong>Output (<code>llmContent</code>):</strong> A message like: <code>Found 5 file(s) matching &quot;*.ts&quot; within src, sorted by modification time (newest first):\nsrc/file1.ts\nsrc/subdir/file2.ts...</code></li>
+<li><strong>Confirmation:</strong> No.</li>
+</ul>
+<h2>5. <code>search_file_content</code> (SearchText)</h2>
+<p><code>search_file_content</code> searches for a regular expression pattern within the content of files in a specified directory. Can filter files by a glob pattern. Returns the lines containing matches, along with their file paths and line numbers.</p>
+<ul>
+<li><strong>Tool name:</strong> <code>search_file_content</code></li>
+<li><strong>Display name:</strong> SearchText</li>
+<li><strong>File:</strong> <code>grep.ts</code></li>
+<li><strong>Parameters:</strong>
+<ul>
+<li><code>pattern</code> (string, required): The regular expression (regex) to search for (e.g., <code>&quot;function\s+myFunction&quot;</code>).</li>
+<li><code>path</code> (string, optional): The absolute path to the directory to search within. Defaults to the current working directory.</li>
+<li><code>include</code> (string, optional): A glob pattern to filter which files are searched (e.g., <code>&quot;*.js&quot;</code>, <code>&quot;src/**/*.{ts,tsx}&quot;</code>). If omitted, searches most files (respecting common ignores).</li>
+</ul>
+</li>
+<li><strong>Behavior:</strong>
+<ul>
+<li>Uses <code>git grep</code> if available in a Git repository for speed; otherwise, falls back to system <code>grep</code> or a JavaScript-based search.</li>
+<li>Returns a list of matching lines, each prefixed with its file path (relative to the search directory) and line number.</li>
+</ul>
+</li>
+<li><strong>Output (<code>llmContent</code>):</strong> A formatted string of matches, e.g.:<pre><code>Found 3 matches for pattern &quot;myFunction&quot; in path &quot;.&quot; (filter: &quot;*.ts&quot;):
+---
+File: src/utils.ts
+L15: export function myFunction() {
+L22:   myFunction.call();
+---
+File: src/index.ts
+L5: import { myFunction } from './utils';
+---
+</code></pre>
+</li>
+<li><strong>Confirmation:</strong> No.</li>
+</ul>
+<h2>6. <code>replace</code> (Edit)</h2>
+<p><code>replace</code> replaces text within a file. By default, replaces a single occurrence, but can replace multiple occurrences when <code>expected_replacements</code> is specified. This tool is designed for precise, targeted changes and requires significant context around the <code>old_string</code> to ensure it modifies the correct location.</p>
+<ul>
+<li>
+<p><strong>Tool name:</strong> <code>replace</code></p>
+</li>
+<li>
+<p><strong>Display name:</strong> Edit</p>
+</li>
+<li>
+<p><strong>File:</strong> <code>edit.ts</code></p>
+</li>
+<li>
+<p><strong>Parameters:</strong></p>
+<ul>
+<li>
+<p><code>file_path</code> (string, required): The absolute path to the file to modify.</p>
+</li>
+<li>
+<p><code>old_string</code> (string, required): The exact literal text to replace.</p>
+<p><strong>CRITICAL:</strong> This string must uniquely identify the single instance to change. It should include at least 3 lines of context <em>before</em> and <em>after</em> the target text, matching whitespace and indentation precisely. If <code>old_string</code> is empty, the tool attempts to create a new file at <code>file_path</code> with <code>new_string</code> as content.</p>
+</li>
+<li>
+<p><code>new_string</code> (string, required): The exact literal text to replace <code>old_string</code> with.</p>
+</li>
+<li>
+<p><code>expected_replacements</code> (number, optional): The number of occurrences to replace. Defaults to <code>1</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li>If <code>old_string</code> is empty and <code>file_path</code> does not exist, creates a new file with <code>new_string</code> as content.</li>
+<li>If <code>old_string</code> is provided, it reads the <code>file_path</code> and attempts to find exactly one occurrence of <code>old_string</code>.</li>
+<li>If one occurrence is found, it replaces it with <code>new_string</code>.</li>
+<li><strong>Enhanced Reliability (Multi-Stage Edit Correction):</strong> To significantly improve the success rate of edits, especially when the model-provided <code>old_string</code> might not be perfectly precise, the tool incorporates a multi-stage edit correction mechanism.
+<ul>
+<li>If the initial <code>old_string</code> isn't found or matches multiple locations, the tool can leverage the Gemini model to iteratively refine <code>old_string</code> (and potentially <code>new_string</code>).</li>
+<li>This self-correction process attempts to identify the unique segment the model intended to modify, making the <code>replace</code> operation more robust even with slightly imperfect initial context.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Failure conditions:</strong> Despite the correction mechanism, the tool will fail if:</p>
+<ul>
+<li><code>file_path</code> is not absolute or is outside the root directory.</li>
+<li><code>old_string</code> is not empty, but the <code>file_path</code> does not exist.</li>
+<li><code>old_string</code> is empty, but the <code>file_path</code> already exists.</li>
+<li><code>old_string</code> is not found in the file after attempts to correct it.</li>
+<li><code>old_string</code> is found multiple times, and the self-correction mechanism cannot resolve it to a single, unambiguous match.</li>
+</ul>
+</li>
+<li>
+<p><strong>Output (<code>llmContent</code>):</strong></p>
+<ul>
+<li>On success: <code>Successfully modified file: /path/to/file.txt (1 replacements).</code> or <code>Created new file: /path/to/new_file.txt with provided content.</code></li>
+<li>On failure: An error message explaining the reason (e.g., <code>Failed to edit, 0 occurrences found...</code>, <code>Failed to edit, expected 1 occurrences but found 2...</code>).</li>
+</ul>
+</li>
+<li>
+<p><strong>Confirmation:</strong> Yes. Shows a diff of the proposed changes and asks for user approval before writing to the file.</p>
+</li>
+</ul>
+<p>These file system tools provide a foundation for the LLxprt Code to understand and interact with your local project context.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

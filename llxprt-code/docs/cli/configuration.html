@@ -1,0 +1,2975 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code Configuration | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>LLxprt Code Configuration</h1>
+<p>LLxprt Code offers several ways to configure its behavior, including environment variables, command-line arguments, and settings files. This document outlines the different configuration methods and available settings.</p>
+<h2>Configuration layers</h2>
+<p>Configuration is applied in the following order of precedence (lower numbers are overridden by higher numbers):</p>
+<ol>
+<li><strong>Default values:</strong> Hardcoded defaults within the application.</li>
+<li><strong>System defaults file:</strong> System-wide default settings that can be overridden by other settings files.</li>
+<li><strong>User settings file:</strong> Global settings for the current user.</li>
+<li><strong>Project settings file:</strong> Project-specific settings.</li>
+<li><strong>System settings file:</strong> System-wide settings that override all other settings files.</li>
+<li><strong>Environment variables:</strong> System-wide or session-specific variables, potentially loaded from <code>.env</code> files.</li>
+<li><strong>Command-line arguments:</strong> Values passed when launching the CLI.</li>
+</ol>
+<h2>Settings files</h2>
+<p>LLxprt Code uses JSON settings files for persistent configuration. There are four locations for these files:</p>
+<ul>
+<li><strong>System defaults file:</strong>
+<ul>
+<li><strong>Location:</strong> <code>/etc/llxprt-code/system-defaults.json</code> (Linux), <code>C:\ProgramData\llxprt-code\system-defaults.json</code> (Windows) or <code>/Library/Application Support/LLxprt-Code/system-defaults.json</code> (macOS). The path can be overridden using the <code>LLXPRT_CODE_SYSTEM_DEFAULTS_PATH</code> environment variable.</li>
+<li><strong>Scope:</strong> Provides a base layer of system-wide default settings. These settings have the lowest precedence and are intended to be overridden by user, project, or system override settings.</li>
+</ul>
+</li>
+<li><strong>User settings file:</strong>
+<ul>
+<li><strong>Location:</strong> <code>~/.llxprt/settings.json</code> (where <code>~</code> is your home directory).</li>
+<li><strong>Scope:</strong> Applies to all LLxprt Code sessions for the current user. User settings override system defaults.</li>
+</ul>
+</li>
+<li><strong>Project settings file:</strong>
+<ul>
+<li><strong>Location:</strong> <code>.llxprt/settings.json</code> within your project's root directory.</li>
+<li><strong>Scope:</strong> Applies only when running LLxprt Code from that specific project. Project settings override user settings and system defaults.</li>
+</ul>
+</li>
+<li><strong>System settings file:</strong>
+<ul>
+<li><strong>Location:</strong> <code>/etc/llxprt-code/settings.json</code> (Linux), <code>C:\ProgramData\llxprt-code\settings.json</code> (Windows) or <code>/Library/Application Support/LLxprt-Code/settings.json</code> (macOS). The path can be overridden using the <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> environment variable.</li>
+<li><strong>Scope:</strong> Applies to all LLxprt Code sessions on the system, for all users. System settings act as overrides, taking precedence over all other settings files. May be useful for system administrators at enterprises to have controls over users' LLxprt Code setups.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Note on environment variables in settings:</strong> String values within your <code>settings.json</code> files can reference environment variables using either <code>$VAR_NAME</code> or <code>${VAR_NAME}</code> syntax. These variables will be automatically resolved when the settings are loaded. For example, if you have an environment variable <code>MY_API_TOKEN</code>, you could use it in <code>settings.json</code> like this: <code>&quot;apiKey&quot;: &quot;$MY_API_TOKEN&quot;</code>.</p>
+<blockquote>
+<p><strong>Note for Enterprise Users:</strong> For guidance on deploying and managing LLxprt Code in a corporate environment, please see the <a href="./enterprise.html">Enterprise Configuration</a> documentation.</p>
+</blockquote>
+<h3>The <code>.llxprt</code> directory in your project</h3>
+<p>In addition to a project settings file, a project's <code>.llxprt</code> directory can contain other project-specific files related to LLxprt Code's operation, such as:</p>
+<ul>
+<li><a href="#sandboxing">Custom sandbox profiles</a> (e.g., <code>.llxprt/sandbox-macos-custom.sb</code>, <code>.llxprt/sandbox.Dockerfile</code>).</li>
+</ul>
+<h3>Available settings in <code>settings.json</code>:</h3>
+<!-- SETTINGS-AUTOGEN:START -->
+<h4><code>accessibility</code></h4>
+<ul>
+<li>
+<p><strong><code>accessibility.disableLoadingPhrases</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable loading phrases for accessibility</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>accessibility.screenReader</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Render output in plain-text to be more screen reader accessible</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>checkpointing</code></h4>
+<ul>
+<li><strong><code>checkpointing.enabled</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable session checkpointing for recovery</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>lsp</code></h4>
+<ul>
+<li><strong><code>lsp</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable experimental Language Server Protocol integration for real-time type-error diagnostics after file edits.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>emojifilter</code></h4>
+<ul>
+<li><strong><code>emojifilter</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> Filter emojis from AI-generated content and file operations. Options: allowed (no filtering), auto (silent filtering), warn (filter with warnings to AI), error (block operations with emojis).</li>
+<li><strong>Default:</strong> <code>&quot;auto&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>fileFiltering</code></h4>
+<ul>
+<li>
+<p><strong><code>fileFiltering.respectGitIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .gitignore files when searching</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering.respectLlxprtIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .llxprtignore files when searching</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering.enableRecursiveFileSearch</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable recursive file search functionality</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering.disableFuzzySearch</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable fuzzy search when searching for files.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>disableAutoUpdate</code></h4>
+<ul>
+<li><strong><code>disableAutoUpdate</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Disable automatic updates</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>shouldUseNodePtyShell</code></h4>
+<ul>
+<li><strong><code>shouldUseNodePtyShell</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Allow fully interactive shell commands (vim, git rebase -i, etc.) by running tools through node-pty. Falls back to child_process when disabled.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>allowPtyThemeOverride</code></h4>
+<ul>
+<li><strong><code>allowPtyThemeOverride</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Allow ANSI colors from PTY output to override the UI theme. When disabled, PTY output uses the current theme colors.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>ptyScrollbackLimit</code></h4>
+<ul>
+<li><strong><code>ptyScrollbackLimit</code></strong> (number):
+<ul>
+<li><strong>Description:</strong> Maximum number of lines to keep in the PTY scrollback buffer for interactive shell output.</li>
+<li><strong>Default:</strong> <code>600000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>useExternalAuth</code></h4>
+<ul>
+<li><strong><code>useExternalAuth</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Whether to use an external authentication flow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>sandbox</code></h4>
+<ul>
+<li><strong><code>sandbox</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Sandbox execution environment (can be a boolean or a path string).</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>coreTools</code></h4>
+<ul>
+<li><strong><code>coreTools</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> Paths to core tool definitions.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>allowedTools</code></h4>
+<ul>
+<li><strong><code>allowedTools</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> A list of tool names that will bypass the confirmation dialog.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>excludeTools</code></h4>
+<ul>
+<li><strong><code>excludeTools</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> Tool names to exclude from discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>defaultDisabledTools</code></h4>
+<ul>
+<li><strong><code>defaultDisabledTools</code></strong> (array):
+<ul>
+<li>
+<p><strong>Description:</strong> Tool names disabled by default. Users can re-enable them with /tools enable.</p>
+</li>
+<li>
+<p><strong>Default:</strong></p>
+<pre><code class="language-json">[&quot;google_web_fetch&quot;]
+</code></pre>
+</li>
+<li>
+<p><strong>Requires restart:</strong> Yes</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4><code>coreToolSettings</code></h4>
+<ul>
+<li><strong><code>coreToolSettings</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Manage core tool availability</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>toolDiscoveryCommand</code></h4>
+<ul>
+<li><strong><code>toolDiscoveryCommand</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> Command to run for tool discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>toolCallCommand</code></h4>
+<ul>
+<li><strong><code>toolCallCommand</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> Command to run for tool calls.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>toolCallProcessingMode</code></h4>
+<ul>
+<li><strong><code>toolCallProcessingMode</code></strong> (enum):
+<ul>
+<li><strong>Description:</strong> Mode for processing tool calls. Pipeline mode is optimized, legacy mode uses older implementation.</li>
+<li><strong>Default:</strong> <code>&quot;legacy&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;legacy&quot;</code>, <code>&quot;pipeline&quot;</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>mcpServerCommand</code></h4>
+<ul>
+<li><strong><code>mcpServerCommand</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> Command to start an MCP server.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>sessionRetention</code></h4>
+<ul>
+<li><strong><code>sessionRetention</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Settings for automatic session cleanup.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>output</code></h4>
+<ul>
+<li><strong><code>output.format</code></strong> (enum):
+<ul>
+<li><strong>Description:</strong> The format of the CLI output.</li>
+<li><strong>Default:</strong> <code>&quot;text&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;text&quot;</code>, <code>&quot;json&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>ui</code></h4>
+<ul>
+<li>
+<p><strong><code>ui.theme</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The color theme for the UI.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.customThemes</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Custom theme definitions.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideWindowTitle</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the window title bar</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showStatusInTitle</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show Gemini CLI status and thoughts in the terminal window title</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideTips</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide helpful tips in the UI</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideBanner</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the application banner</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideContextSummary</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the context summary (<a href="http://LLXPRT.md">LLXPRT.md</a>, MCP servers) above the input.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideCWD</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the current working directory path in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideSandboxStatus</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the sandbox status indicator in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideModelInfo</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the model name and context usage in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideFooter</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the footer from the UI</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.useAlternateBuffer</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Use an alternate screen buffer for the UI, preserving shell history.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.incrementalRendering</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable incremental rendering for the UI. Only supported when useAlternateBuffer is enabled.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.enableMouseEvents</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable mouse event tracking for in-app scrolling. Disables terminal text selection and clickable links while active.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showMemoryUsage</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Display memory usage information in the UI</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showLineNumbers</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show line numbers in the chat.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showCitations</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show citations for generated text in the chat.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.customWittyPhrases</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Custom witty phrases to display during loading.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.wittyPhraseStyle</code></strong> (enum):</p>
+<ul>
+<li><strong>Description:</strong> Choose which collection of witty phrases to display during loading.</li>
+<li><strong>Default:</strong> <code>&quot;default&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;default&quot;</code>, <code>&quot;llxprt&quot;</code>, <code>&quot;gemini-cli&quot;</code>, <code>&quot;whimsical&quot;</code>, <code>&quot;custom&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.vimMode</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable Vim keybindings in the input field.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.ideMode</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable IDE integration mode.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.preferredEditor</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The preferred code editor for opening files.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.autoConfigureMaxOldSpaceSize</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Automatically configure Node.js max old space size based on system memory.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.historyMaxItems</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of history items to keep.</li>
+<li><strong>Default:</strong> <code>100</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.historyMaxBytes</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum size of history in bytes.</li>
+<li><strong>Default:</strong> <code>1048576</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.memoryImportFormat</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Format for importing memory files (tree or flat).</li>
+<li><strong>Default:</strong> <code>&quot;tree&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.memoryDiscoveryMaxDirs</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of directories to scan for memory files.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.memoryDiscoveryMaxDepth</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum directory depth for downward <a href="http://LLXPRT.md">LLXPRT.md</a> search from the current working directory. Does not affect upward traversal or global memory. When unset, searches all depths.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.jitContextEnabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable Just-In-Time (JIT) loading of subdirectory-specific context (<a href="http://LLXPRT.md">LLXPRT.md</a> files) on demand when tools access files. When enabled, the system automatically loads context from subdirectories as needed.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.contextFileName</code></strong> (string | string[]):</p>
+<ul>
+<li><strong>Description:</strong> The name of the context file or files to load into memory. Accepts either a single string or an array of strings.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.usageStatisticsEnabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable anonymous usage statistics collection.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.maxSessionTurns</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of turns in a session (-1 for unlimited).</li>
+<li><strong>Default:</strong> <code>-1</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showTodoPanel</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show the todo panel in the UI.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.useFullWidth</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Use the entire width of the terminal for output.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.disableLoadingPhrases</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable loading phrases for accessibility.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.screenReader</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Render output in plain-text to be more screen reader accessible.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>ide</code></h4>
+<ul>
+<li><strong><code>ide</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> IDE integration settings.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>showStatusInTitle</code></h4>
+<ul>
+<li><strong><code>showStatusInTitle</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Show LLxprt status and thoughts in the terminal window title</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>hideCWD</code></h4>
+<ul>
+<li><strong><code>hideCWD</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Hide the current working directory path in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>hideSandboxStatus</code></h4>
+<ul>
+<li><strong><code>hideSandboxStatus</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Hide the sandbox status indicator in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>hideModelInfo</code></h4>
+<ul>
+<li><strong><code>hideModelInfo</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Hide the model name and context usage in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>allowMCPServers</code></h4>
+<ul>
+<li><strong><code>allowMCPServers</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> A whitelist of MCP servers to allow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>excludeMCPServers</code></h4>
+<ul>
+<li><strong><code>excludeMCPServers</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> A blacklist of MCP servers to exclude.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>bugCommand</code></h4>
+<ul>
+<li><strong><code>bugCommand</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Configuration for the bug report command.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>summarizeToolOutput</code></h4>
+<ul>
+<li><strong><code>summarizeToolOutput</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Enables or disables summarization of tool output. Configure per-tool token budgets (for example {&quot;run_shell_command&quot;: {&quot;tokenBudget&quot;: 2000}}). Currently only the run_shell_command tool supports summarization.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>dnsResolutionOrder</code></h4>
+<ul>
+<li><strong><code>dnsResolutionOrder</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> The DNS resolution order.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>tools</code></h4>
+<ul>
+<li>
+<p><strong><code>tools.sandbox</code></strong> (boolean | string):</p>
+<ul>
+<li><strong>Description:</strong> Sandbox execution environment. Set to a boolean to enable or disable the sandbox, or provide a string path to a sandbox profile.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.autoAccept</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Automatically accept and execute tool calls that are considered safe (e.g., read-only operations).</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.core</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Paths to core tool definitions.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.allowed</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> A list of tool names that will bypass the confirmation dialog.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.exclude</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Tool names to exclude from discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.discoveryCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to run for tool discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.callCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to run for tool calls.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.useRipgrep</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Use ripgrep for file content search instead of the fallback implementation. When unset, ripgrep is auto-enabled if detected.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.enableToolOutputTruncation</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable truncation of large tool outputs.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.truncateToolOutputThreshold</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Truncate tool output if it is larger than this many characters. Set to -1 to disable.</li>
+<li><strong>Default:</strong> <code>4000000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.truncateToolOutputLines</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> The number of lines to keep when truncating tool output.</li>
+<li><strong>Default:</strong> <code>1000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.policyPath</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Absolute path to a TOML policy file that augments the built-in policy rules.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.enableHooks</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable the hooks system for intercepting and customizing LLxprt CLI behavior. When enabled, hooks configured in settings will execute at appropriate lifecycle events (BeforeTool, AfterTool, BeforeModel, etc.). Requires MessageBus integration.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>mcp</code></h4>
+<ul>
+<li>
+<p><strong><code>mcp.serverCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to start an MCP server.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>mcp.allowed</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> A list of MCP servers to allow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>mcp.excluded</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> A list of MCP servers to exclude.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>subagents</code></h4>
+<ul>
+<li>
+<p><strong><code>subagents.asyncEnabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Globally allow background subagent runs. If off, async=true launches are blocked even if a profile enables them.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>subagents.maxAsync</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum concurrent async tasks. Profile setting (task-max-async) can limit but not exceed this value. Use -1 for unlimited.</li>
+<li><strong>Default:</strong> <code>5</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>security</code></h4>
+<ul>
+<li>
+<p><strong><code>security.disableYoloMode</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable YOLO mode, even if enabled by a flag.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.blockGitExtensions</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Blocks installing and loading extensions from Git.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.folderTrust.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Setting to track whether Folder trust is enabled.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.auth.selectedType</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The currently selected authentication type.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.auth.useExternal</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Whether to use an external authentication flow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>excludedProjectEnvVars</code></h4>
+<ul>
+<li><strong><code>excludedProjectEnvVars</code></strong> (array):
+<ul>
+<li>
+<p><strong>Description:</strong> Environment variables to exclude from project context.</p>
+</li>
+<li>
+<p><strong>Default:</strong></p>
+<pre><code class="language-json">[&quot;DEBUG&quot;, &quot;DEBUG_MODE&quot;]
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4><code>disableUpdateNag</code></h4>
+<ul>
+<li><strong><code>disableUpdateNag</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Disable update notification prompts.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>includeDirectories</code></h4>
+<ul>
+<li><strong><code>includeDirectories</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> Additional directories to include in the workspace context. Missing directories will be skipped with a warning.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>loadMemoryFromIncludeDirectories</code></h4>
+<ul>
+<li><strong><code>loadMemoryFromIncludeDirectories</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Whether to load memory files from include directories.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>model</code></h4>
+<ul>
+<li><strong><code>model</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> The Gemini model to use for conversations.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>hasSeenIdeIntegrationNudge</code></h4>
+<ul>
+<li><strong><code>hasSeenIdeIntegrationNudge</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Whether the user has seen the IDE integration nudge.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>folderTrustFeature</code></h4>
+<ul>
+<li><strong><code>folderTrustFeature</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable folder trust feature for enhanced security.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>folderTrust</code></h4>
+<ul>
+<li><strong><code>folderTrust</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Setting to track whether Folder trust is enabled.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>chatCompression</code></h4>
+<ul>
+<li><strong><code>chatCompression</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Chat compression settings.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>experimental</code></h4>
+<ul>
+<li><strong><code>experimental.extensionReloading</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enables extension loading/unloading within the CLI session.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>defaultProfile</code></h4>
+<ul>
+<li><strong><code>defaultProfile</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> Default provider profile to use.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>providerApiKeys</code></h4>
+<ul>
+<li><strong><code>providerApiKeys</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> API keys for different providers.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>providerBaseUrls</code></h4>
+<ul>
+<li><strong><code>providerBaseUrls</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Base URLs for different providers.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>providerToolFormatOverrides</code></h4>
+<ul>
+<li><strong><code>providerToolFormatOverrides</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Tool format overrides for different providers.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>providerKeyfiles</code></h4>
+<ul>
+<li><strong><code>providerKeyfiles</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> Keyfile paths for different providers.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>extensionManagement</code></h4>
+<ul>
+<li><strong><code>extensionManagement</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable extension management features.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>enableTextToolCallParsing</code></h4>
+<ul>
+<li><strong><code>enableTextToolCallParsing</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable parsing of tool calls from text responses.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>textToolCallModels</code></h4>
+<ul>
+<li><strong><code>textToolCallModels</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> Models that support text-based tool call parsing.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>openaiResponsesEnabled</code></h4>
+<ul>
+<li><strong><code>openaiResponsesEnabled</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable OpenAI Responses API compatibility.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>shellReplacement</code></h4>
+<ul>
+<li><strong><code>shellReplacement</code></strong> (enum):
+<ul>
+<li><strong>Description:</strong> Control command substitution in shell commands: &quot;allowlist&quot; (validate inner commands against coreTools), &quot;all&quot; (allow all), &quot;none&quot; (block all).</li>
+<li><strong>Default:</strong> <code>&quot;allowlist&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;allowlist&quot;</code>, <code>&quot;all&quot;</code>, <code>&quot;none&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>oauthEnabledProviders</code></h4>
+<ul>
+<li><strong><code>oauthEnabledProviders</code></strong> (object):
+<ul>
+<li><strong>Description:</strong> OAuth enablement configuration per provider.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>useRipgrep</code></h4>
+<ul>
+<li><strong><code>useRipgrep</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Use ripgrep for file content search instead of the fallback implementation. When unset, ripgrep is auto-enabled if detected.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>enablePromptCompletion</code></h4>
+<ul>
+<li><strong><code>enablePromptCompletion</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable AI-powered prompt completion suggestions while typing.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>showProfileChangeInChat</code></h4>
+<ul>
+<li><strong><code>showProfileChangeInChat</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Show a message in chat when the active profile changes.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>enableFuzzyFiltering</code></h4>
+<ul>
+<li><strong><code>enableFuzzyFiltering</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable fuzzy filtering for command menu completions. When enabled, you can type partial characters (e.g., &quot;prd&quot; to match &quot;production&quot;). When disabled, only exact prefix matches are shown.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>customWittyPhrases</code></h4>
+<ul>
+<li><strong><code>customWittyPhrases</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> Custom witty phrases to display during loading. When provided, the CLI cycles through these instead of the defaults.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>wittyPhraseStyle</code></h4>
+<ul>
+<li><strong><code>wittyPhraseStyle</code></strong> (enum):
+<ul>
+<li><strong>Description:</strong> Choose which collection of witty phrases to display during loading.</li>
+<li><strong>Default:</strong> <code>&quot;default&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;default&quot;</code>, <code>&quot;llxprt&quot;</code>, <code>&quot;gemini-cli&quot;</code>, <code>&quot;whimsical&quot;</code>, <code>&quot;custom&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>hooks</code></h4>
+<ul>
+<li>
+<p><strong><code>hooks</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Hook configurations for intercepting and customizing agent behavior.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+</ul>
+<!-- SETTINGS-AUTOGEN:END -->
+</li>
+<li>
+<p><strong><code>contextFileName</code></strong> (string or array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Specifies the filename(s) for context files that contain project instructions and context for the AI. Can be a single filename string or an array of accepted filenames. These files are loaded hierarchically from various locations (global, project root, ancestors, and subdirectories) to provide instructional context to the AI.</li>
+<li><strong>Default:</strong> <code>&quot;LLXPRT.md&quot;</code></li>
+<li><strong>Single filename example:</strong> <code>&quot;contextFileName&quot;: &quot;AGENTS.md&quot;</code></li>
+<li><strong>Multiple filenames example:</strong> <code>&quot;contextFileName&quot;: [&quot;AGENTS.md&quot;, &quot;CONTEXT.md&quot;, &quot;INSTRUCTIONS.md&quot;]</code></li>
+<li><strong>Usage:</strong> When you prefer different naming conventions (like <code>AGENTS.md</code> for AI agent instructions, <code>CONTEXT.md</code> for project context, or custom names that match your project's documentation style), you can configure this setting. All specified filenames will be searched for and loaded from the hierarchical memory system.</li>
+<li><strong>Note for filename preferences:</strong> Some users prefer <code>AGENTS.md</code> as it clearly indicates the file contains instructions for AI agents. To use this convention, simply set <code>&quot;contextFileName&quot;: &quot;AGENTS.md&quot;</code> in your settings file.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>bugCommand</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Overrides the default URL for the <code>/bug</code> command.</li>
+<li><strong>Default:</strong> <code>&quot;urlTemplate&quot;: &quot;https://github.com/vybestack/llxprt-code/issues/new?template=bug_report.yml&amp;title={title}&amp;info={info}&quot;</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>urlTemplate</code></strong> (string): A URL that can contain <code>{title}</code> and <code>{info}</code> placeholders.</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;bugCommand&quot;: {
+  &quot;urlTemplate&quot;: &quot;https://bug.example.com/new?title={title}&amp;info={info}&quot;
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Controls git-aware file filtering behavior for @ commands and file discovery tools.</li>
+<li><strong>Default:</strong> <code>&quot;respectGitIgnore&quot;: true, &quot;enableRecursiveFileSearch&quot;: true</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>respectGitIgnore</code></strong> (boolean): Whether to respect .gitignore patterns when discovering files. When set to <code>true</code>, git-ignored files (like <code>node_modules/</code>, <code>dist/</code>, <code>.env</code>) are automatically excluded from @ commands and file listing operations.</li>
+<li><strong><code>enableRecursiveFileSearch</code></strong> (boolean): Whether to enable searching recursively for filenames under the current tree when completing @ prefixes in the prompt.</li>
+<li><strong><code>disableFuzzySearch</code></strong> (boolean): When <code>true</code>, disables the fuzzy search capabilities when searching for files, which can improve performance on projects with a large number of files.</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;fileFiltering&quot;: {
+  &quot;respectGitIgnore&quot;: true,
+  &quot;enableRecursiveFileSearch&quot;: false,
+  &quot;disableFuzzySearch&quot;: true
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h3>Troubleshooting File Search Performance</h3>
+<p>If you are experiencing performance issues with file searching (e.g., with <code>@</code> completions), especially in projects with a very large number of files, here are a few things you can try in order of recommendation:</p>
+<ol>
+<li>
+<p><strong>Use <code>.geminiignore</code>:</strong> Create a <code>.geminiignore</code> file in your project root to exclude directories that contain a large number of files that you don't need to reference (e.g., build artifacts, logs, <code>node_modules</code>). Reducing the total number of files crawled is the most effective way to improve performance.</p>
+</li>
+<li>
+<p><strong>Disable Fuzzy Search:</strong> If ignoring files is not enough, you can disable fuzzy search by setting <code>disableFuzzySearch</code> to <code>true</code> in your <code>settings.json</code> file. This will use a simpler, non-fuzzy matching algorithm, which can be faster.</p>
+</li>
+<li>
+<p><strong>Disable Recursive File Search:</strong> As a last resort, you can disable recursive file search entirely by setting <code>enableRecursiveFileSearch</code> to <code>false</code>. This will be the fastest option as it avoids a recursive crawl of your project. However, it means you will need to type the full path to files when using <code>@</code> completions.</p>
+</li>
+</ol>
+<ul>
+<li>
+<p><strong><code>coreTools</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Allows you to specify a list of core tool names that should be made available to the model. This can be used to restrict the set of built-in tools. See <a href="../core/tools-api.html#built-in-tools">Built-in Tools</a> for a list of core tools. You can also specify command-specific restrictions for tools that support it, like the <code>ShellTool</code>. For example, <code>&quot;coreTools&quot;: [&quot;ShellTool(ls -l)&quot;]</code> will only allow the <code>ls -l</code> command to be executed.</li>
+<li><strong>Default:</strong> All tools available for use by the Gemini model.</li>
+<li><strong>Example:</strong> <code>&quot;coreTools&quot;: [&quot;ReadFileTool&quot;, &quot;GlobTool&quot;, &quot;ShellTool(ls)&quot;]</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>allowedTools</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Description:</strong> A list of tool names that will bypass the confirmation dialog. This is useful for tools that you trust and use frequently. The match semantics are the same as <code>coreTools</code>.</li>
+<li><strong>Example:</strong> <code>&quot;allowedTools&quot;: [&quot;ShellTool(git status)&quot;]</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>excludeTools</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Allows you to specify a list of core tool names that should be excluded from the model. A tool listed in both <code>excludeTools</code> and <code>coreTools</code> is excluded. You can also specify command-specific restrictions for tools that support it, like the <code>ShellTool</code>. For example, <code>&quot;excludeTools&quot;: [&quot;ShellTool(rm -rf)&quot;]</code> will block the <code>rm -rf</code> command.</li>
+<li><strong>Default</strong>: No tools excluded.</li>
+<li><strong>Example:</strong> <code>&quot;excludeTools&quot;: [&quot;run_shell_command&quot;, &quot;findFiles&quot;]</code>.</li>
+<li><strong>Security Note:</strong> Command-specific restrictions in
+<code>excludeTools</code> for <code>run_shell_command</code> are based on simple string matching and can be easily bypassed. This feature is <strong>not a security mechanism</strong> and should not be relied upon to safely execute untrusted code. It is recommended to use <code>coreTools</code> to explicitly select commands
+that can be executed.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>allowMCPServers</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Allows you to specify a list of MCP server names that should be made available to the model. This can be used to restrict the set of MCP servers to connect to. Note that this will be ignored if <code>--allowed-mcp-server-names</code> is set.</li>
+<li><strong>Default:</strong> All MCP servers are available for use by the Gemini model.</li>
+<li><strong>Example:</strong> <code>&quot;allowMCPServers&quot;: [&quot;myPythonServer&quot;]</code>.</li>
+<li><strong>Security Note:</strong> This uses simple string matching on MCP server names, which can be modified. If you're a system administrator looking to prevent users from bypassing this, consider configuring the <code>mcpServers</code> at the system settings level such that the user will not be able to configure any MCP servers of their own. This should not be used as an airtight security mechanism.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>excludeMCPServers</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Allows you to specify a list of MCP server names that should be excluded from the model. A server listed in both <code>excludeMCPServers</code> and <code>allowMCPServers</code> is excluded. Note that this will be ignored if <code>--allowed-mcp-server-names</code> is set.</li>
+<li><strong>Default</strong>: No MCP servers excluded.</li>
+<li><strong>Example:</strong> <code>&quot;excludeMCPServers&quot;: [&quot;myNodeServer&quot;]</code>.</li>
+<li><strong>Security Note:</strong> This uses simple string matching on MCP server names, which can be modified. If you're a system administrator looking to prevent users from bypassing this, consider configuring the <code>mcpServers</code> at the system settings level such that the user will not be able to configure any MCP servers of their own. This should not be used as an airtight security mechanism.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>autoAccept</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Controls whether the CLI automatically accepts and executes tool calls that are considered safe (e.g., read-only operations) without explicit user confirmation. If set to <code>true</code>, the CLI will bypass the confirmation prompt for tools deemed safe.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Example:</strong> <code>&quot;autoAccept&quot;: true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>theme</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Sets the visual <a href="./themes.html">theme</a> for LLxprt Code.</li>
+<li><strong>Default:</strong> <code>&quot;Default&quot;</code></li>
+<li><strong>Example:</strong> <code>&quot;theme&quot;: &quot;GitHub&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>vimMode</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enables or disables vim mode for input editing. When enabled, the input area supports vim-style navigation and editing commands with NORMAL and INSERT modes. The vim mode status is displayed in the footer and persists between sessions.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Example:</strong> <code>&quot;vimMode&quot;: true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>shellReplacement</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Allows command substitution patterns (<code>$()</code>, <code>&lt;()</code>, and backticks) in shell commands. When enabled, you can use nested command execution within shell commands. This setting is disabled by default for security reasons.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Example:</strong> <code>&quot;shellReplacement&quot;: true</code></li>
+<li><strong>Security Note:</strong> Enabling this feature allows execution of nested commands, which can be a security risk if running untrusted commands. Only enable if you understand the implications. See <a href="../shell-replacement.html">Shell Command Substitution</a> for more details.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sandbox</code></strong> (boolean or string):</p>
+<ul>
+<li><strong>Description:</strong> Controls whether and how to use sandboxing for tool execution. If set to <code>true</code>, LLxprt Code uses a pre-built <code>gemini-cli-sandbox</code> Docker image. For more information, see <a href="#sandboxing">Sandboxing</a>.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Example:</strong> <code>&quot;sandbox&quot;: &quot;docker&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>toolDiscoveryCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Defines a custom shell command for discovering tools from your project. The shell command must return on <code>stdout</code> a JSON array of <a href="https://ai.google.dev/gemini-api/docs/function-calling#function-declarations">function declarations</a>. Tool wrappers are optional.</li>
+<li><strong>Default:</strong> Empty</li>
+<li><strong>Example:</strong> <code>&quot;toolDiscoveryCommand&quot;: &quot;bin/get_tools&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>toolCallCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Defines a custom shell command for calling a specific tool that was discovered using <code>toolDiscoveryCommand</code>. The shell command must meet the following criteria:
+<ul>
+<li>It must take function <code>name</code> (exactly as in <a href="https://ai.google.dev/gemini-api/docs/function-calling#function-declarations">function declaration</a>) as first command line argument.</li>
+<li>It must read function arguments as JSON on <code>stdin</code>, analogous to <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functioncall"><code>functionCall.args</code></a>.</li>
+<li>It must return function output as JSON on <code>stdout</code>, analogous to <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/model-reference/inference#functionresponse"><code>functionResponse.response.content</code></a>.</li>
+</ul>
+</li>
+<li><strong>Default:</strong> Empty</li>
+<li><strong>Example:</strong> <code>&quot;toolCallCommand&quot;: &quot;bin/call_tool&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.theme</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The color theme for the UI. See <a href="./themes.html">Themes</a> for available options.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.customThemes</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Custom theme definitions.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideWindowTitle</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the window title bar.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideTips</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide helpful tips in the UI.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideBanner</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the application banner.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideFooter</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the footer from the UI.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showMemoryUsage</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Display memory usage information in the UI.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showLineNumbers</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show line numbers in the chat.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showCitations</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show citations for generated text in the chat.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.customWittyPhrases</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> A list of custom phrases to display during loading states. When provided, the CLI will cycle through these phrases instead of the default ones.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>ide</code></h4>
+<ul>
+<li>
+<p><strong><code>ide.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable IDE integration mode.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ide.hasSeenNudge</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Whether the user has seen the IDE integration nudge.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>privacy</code></h4>
+<ul>
+<li><strong><code>privacy.usageStatisticsEnabled</code></strong> (boolean):
+<ul>
+<li><strong>Description:</strong> Enable collection of usage statistics.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>model</code></h4>
+<ul>
+<li>
+<p><strong><code>model.name</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The Gemini model to use for conversations.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>model.maxSessionTurns</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of user/model/tool turns to keep in a session. -1 means unlimited.</li>
+<li><strong>Default:</strong> <code>-1</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>model.summarizeToolOutput</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Settings for summarizing tool output.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>model.chatCompression</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Chat compression settings.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>model.skipNextSpeakerCheck</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Skip the next speaker check.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>context</code></h4>
+<ul>
+<li>
+<p><strong><code>context.fileName</code></strong> (string or array of strings):</p>
+<ul>
+<li><strong>Description:</strong> The name of the context file(s).</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.importFormat</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The format to use when importing memory.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.discoveryMaxDirs</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of directories to search for memory.</li>
+<li><strong>Default:</strong> <code>200</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.includeDirectories</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Additional directories to include in the workspace context. Missing directories will be skipped with a warning.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.loadFromIncludeDirectories</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Whether to load memory files from include directories.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.fileFiltering.respectGitIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .gitignore files when searching.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.fileFiltering.respectGeminiIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .geminiignore files when searching.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>context.fileFiltering.enableRecursiveFileSearch</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable recursive file search functionality.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>shell</code></h4>
+<ul>
+<li>
+<p><strong><code>shouldUseNodePtyShell</code></strong> (boolean):</p>
+<p>Allow fully interactive shell commands by running tools through <code>node-pty</code>. This is the same as the <strong>Enable Interactive Shell (node-pty)</strong> toggle in the <code>/settings</code> dialog. Defaults to <code>false</code>. Legacy settings written as <code>tools.shell.enableInteractiveShell</code> or <code>tools.usePty</code> are migrated automatically.</p>
+</li>
+</ul>
+<h4><code>tools</code></h4>
+<ul>
+<li>
+<p><strong><code>tools.sandbox</code></strong> (boolean or string):</p>
+<ul>
+<li><strong>Description:</strong> Sandbox execution environment (can be a boolean or a path string).</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.core</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Paths to core tool definitions.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.exclude</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Tool names to exclude from discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.discoveryCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to run for tool discovery.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.callCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to run for tool calls.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>mcp</code></h4>
+<ul>
+<li>
+<p><strong><code>mcp.serverCommand</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Command to start an MCP server.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>mcp.allowed</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> An allowlist of MCP servers to allow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>mcp.excluded</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> A denylist of MCP servers to exclude.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>security</code></h4>
+<ul>
+<li>
+<p><strong><code>security.folderTrust.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Setting to track whether Folder trust is enabled.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.auth.selectedType</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The currently selected authentication type.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.auth.useExternal</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Whether to use an external authentication flow.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4><code>advanced</code></h4>
+<ul>
+<li>
+<p><strong><code>advanced.autoConfigureMemory</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Automatically configure Node.js memory limits.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>advanced.dnsResolutionOrder</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> The DNS resolution order.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>advanced.excludedEnvVars</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Environment variables to exclude from project context.</li>
+<li><strong>Default:</strong> <code>[&quot;DEBUG&quot;,&quot;DEBUG_MODE&quot;]</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>advanced.bugCommand</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Configuration for the bug report command.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+</ul>
+</li>
+</ul>
+<h4>Top-Level Settings</h4>
+<p>The following settings remain at the top level of the <code>settings.json</code> file.</p>
+<ul>
+<li>
+<p><strong><code>mcpServers</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Configures connections to one or more Model-Context Protocol (MCP) servers for discovering and using custom tools. LLxprt Code attempts to connect to each configured MCP server to discover available tools. If multiple MCP servers expose a tool with the same name, the tool names will be prefixed with the server alias you defined in the configuration (e.g., <code>serverAlias__actualToolName</code>) to avoid conflicts. Note that the system might strip certain schema properties from MCP tool definitions for compatibility. At least one of <code>command</code>, <code>url</code>, or <code>httpUrl</code> must be provided. If multiple are specified, the order of precedence is <code>httpUrl</code>, then <code>url</code>, then <code>command</code>.</li>
+<li><strong>Default:</strong> Empty</li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>&lt;SERVER_NAME&gt;</code></strong> (object): The server parameters for the named server.
+<ul>
+<li><code>command</code> (string, optional): The command to execute to start the MCP server via standard I/O.</li>
+<li><code>args</code> (array of strings, optional): Arguments to pass to the command.</li>
+<li><code>env</code> (object, optional): Environment variables to set for the server process.</li>
+<li><code>cwd</code> (string, optional): The working directory in which to start the server.</li>
+<li><code>url</code> (string, optional): The URL of an MCP server that uses Server-Sent Events (SSE) for communication.</li>
+<li><code>httpUrl</code> (string, optional): The URL of an MCP server that uses streamable HTTP for communication.</li>
+<li><code>headers</code> (object, optional): A map of HTTP headers to send with requests to <code>url</code> or <code>httpUrl</code>.</li>
+<li><code>timeout</code> (number, optional): Timeout in milliseconds for requests to this MCP server.</li>
+<li><code>trust</code> (boolean, optional): Trust this server and bypass all tool call confirmations.</li>
+<li><code>description</code> (string, optional): A brief description of the server, which may be used for display purposes.</li>
+<li><code>includeTools</code> (array of strings, optional): List of tool names to include from this MCP server. When specified, only the tools listed here will be available from this server (allowlist behavior). If not specified, all tools from the server are enabled by default.</li>
+<li><code>excludeTools</code> (array of strings, optional): List of tool names to exclude from this MCP server. Tools listed here will not be available to the model, even if they are exposed by the server. <strong>Note:</strong> <code>excludeTools</code> takes precedence over <code>includeTools</code> - if a tool is in both lists, it will be excluded.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;mcpServers&quot;: {
+  &quot;myPythonServer&quot;: {
+    &quot;command&quot;: &quot;python&quot;,
+    &quot;args&quot;: [&quot;mcp_server.py&quot;, &quot;--port&quot;, &quot;8080&quot;],
+    &quot;cwd&quot;: &quot;./mcp_tools/python&quot;,
+    &quot;timeout&quot;: 5000,
+    &quot;includeTools&quot;: [&quot;safe_tool&quot;, &quot;file_reader&quot;]
+  },
+  &quot;myNodeServer&quot;: {
+    &quot;command&quot;: &quot;node&quot;,
+    &quot;args&quot;: [&quot;mcp_server.js&quot;],
+    &quot;cwd&quot;: &quot;./mcp_tools/node&quot;,
+    &quot;excludeTools&quot;: [&quot;dangerous_tool&quot;, &quot;file_deleter&quot;]
+  },
+  &quot;myDockerServer&quot;: {
+    &quot;command&quot;: &quot;docker&quot;,
+    &quot;args&quot;: [&quot;run&quot;, &quot;-i&quot;, &quot;--rm&quot;, &quot;-e&quot;, &quot;API_KEY&quot;, &quot;ghcr.io/foo/bar&quot;],
+    &quot;env&quot;: {
+      &quot;API_KEY&quot;: &quot;$MY_API_TOKEN&quot;
+    }
+  },
+  &quot;mySseServer&quot;: {
+    &quot;url&quot;: &quot;http://localhost:8081/events&quot;,
+    &quot;headers&quot;: {
+      &quot;Authorization&quot;: &quot;Bearer $MY_SSE_TOKEN&quot;
+    },
+    &quot;description&quot;: &quot;An example SSE-based MCP server.&quot;
+  },
+  &quot;myStreamableHttpServer&quot;: {
+    &quot;httpUrl&quot;: &quot;http://localhost:8082/stream&quot;,
+    &quot;headers&quot;: {
+      &quot;X-API-Key&quot;: &quot;$MY_HTTP_API_KEY&quot;
+    },
+    &quot;description&quot;: &quot;An example Streamable HTTP-based MCP server.&quot;
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>checkpointing</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Configures the checkpointing feature, which allows you to save and restore conversation and file states. See the <a href="../checkpointing.html">Checkpointing documentation</a> for more details.</li>
+<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false}</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>enabled</code></strong> (boolean): When <code>true</code>, the <code>/restore</code> command is available.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>preferredEditor</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Specifies the preferred editor to use for viewing diffs.</li>
+<li><strong>Default:</strong> <code>vscode</code></li>
+<li><strong>Example:</strong> <code>&quot;preferredEditor&quot;: &quot;vscode&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>telemetry</code></strong> (object)</p>
+<ul>
+<li><strong>Description:</strong> Configures logging and metrics collection for LLxprt Code. For more information, see <a href="../telemetry.html">Telemetry</a>.</li>
+<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false, &quot;target&quot;: &quot;local&quot;, &quot;otlpEndpoint&quot;: &quot;http://localhost:4317&quot;, &quot;logPrompts&quot;: true}</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>enabled</code></strong> (boolean): Whether or not telemetry is enabled.</li>
+<li><strong><code>target</code></strong> (string): The destination for collected telemetry. Supported values are <code>local</code> and <code>gcp</code>.</li>
+<li><strong><code>otlpEndpoint</code></strong> (string): The endpoint for the OTLP Exporter.</li>
+<li><strong><code>logPrompts</code></strong> (boolean): Whether or not to include the content of user prompts in the logs.</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;telemetry&quot;: {
+  &quot;enabled&quot;: true,
+  &quot;target&quot;: &quot;local&quot;,
+  &quot;otlpEndpoint&quot;: &quot;http://localhost:16686&quot;,
+  &quot;logPrompts&quot;: false
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>usageStatisticsEnabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enables or disables the collection of usage statistics. See <a href="#usage-statistics">Usage Statistics</a> for more information.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;usageStatisticsEnabled&quot;: false
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>enableTextToolCallParsing</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enables or disables text-based tool call parsing for models that output tool calls as formatted text rather than structured JSON.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;enableTextToolCallParsing&quot;: true
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>textToolCallModels</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Specifies additional model names that require text-based tool call parsing. The system automatically detects common models like gemma-3-12b-it and gemma-2-27b-it, but you can add custom models here.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;textToolCallModels&quot;: [&quot;my-custom-model&quot;, &quot;local-llama-model&quot;]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>hideTips</code></strong> (boolean):</p>
+<ul>
+<li>
+<p><strong>Description:</strong> Enables or disables helpful tips in the CLI interface.</p>
+</li>
+<li>
+<p><strong>Default:</strong> <code>false</code></p>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">&quot;hideTips&quot;: true
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>hideBanner</code></strong> (boolean):</p>
+<ul>
+<li>
+<p><strong>Description:</strong> Enables or disables the startup banner (ASCII art logo) in the CLI interface.</p>
+</li>
+<li>
+<p><strong>Default:</strong> <code>false</code></p>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">&quot;hideBanner&quot;: true
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>maxSessionTurns</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Sets the maximum number of turns for a session. If the session exceeds this limit, the CLI will stop processing and start a new chat.</li>
+<li><strong>Default:</strong> <code>-1</code> (unlimited)</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;maxSessionTurns&quot;: 10
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>summarizeToolOutput</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Enables or disables the summarization of tool output. You can specify the token budget for the summarization using the <code>tokenBudget</code> setting.</li>
+<li>Note: Currently only the <code>run_shell_command</code> tool is supported.</li>
+<li><strong>Default:</strong> <code>{}</code> (Disabled by default)</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;summarizeToolOutput&quot;: {
+  &quot;run_shell_command&quot;: {
+    &quot;tokenBudget&quot;: 2000
+  }
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>excludedProjectEnvVars</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Specifies environment variables that should be excluded from being loaded from project <code>.env</code> files. This prevents project-specific environment variables (like <code>DEBUG=true</code>) from interfering with llxprt-code behavior. Variables from <code>.llxprt/.env</code> files are never excluded.</li>
+<li><strong>Default:</strong> <code>[&quot;DEBUG&quot;, &quot;DEBUG_MODE&quot;]</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;excludedProjectEnvVars&quot;: [&quot;DEBUG&quot;, &quot;DEBUG_MODE&quot;, &quot;NODE_ENV&quot;]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>includeDirectories</code></strong> (array of strings):</p>
+<ul>
+<li><strong>Description:</strong> Specifies an array of additional absolute or relative paths to include in the workspace context. Missing directories will be skipped with a warning by default. Paths can use <code>~</code> to refer to the user's home directory. This setting can be combined with the <code>--include-directories</code> command-line flag.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;includeDirectories&quot;: [
+  &quot;/path/to/another/project&quot;,
+  &quot;../shared-library&quot;,
+  &quot;~/common-utils&quot;
+]
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>loadMemoryFromIncludeDirectories</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Controls the behavior of the <code>/memory refresh</code> command. If set to <code>true</code>, <code>GEMINI.md</code> files should be loaded from all directories that are added. If set to <code>false</code>, <code>GEMINI.md</code> should only be loaded from the current directory.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;loadMemoryFromIncludeDirectories&quot;: true
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>chatCompression</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Controls the settings for chat history compression, both automatic and
+when manually invoked through the /compress command.</li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>contextPercentageThreshold</code></strong> (number): A value between 0 and 1 that specifies the token threshold for compression as a percentage of the model's total token limit. For example, a value of <code>0.6</code> will trigger compression when the chat history exceeds 60% of the token limit.</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;chatCompression&quot;: {
+  &quot;contextPercentageThreshold&quot;: 0.6
+}
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>showLineNumbers</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Controls whether line numbers are displayed in code blocks in the CLI output.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;showLineNumbers&quot;: false
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><code>emojiFilter</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Controls emoji filtering in LLM responses and file operations. See <a href="../EMOJI-FILTER.html">Emoji Filter Guide</a> for detailed usage.</li>
+<li><strong>Default:</strong> <code>{&quot;mode&quot;: &quot;auto&quot;}</code></li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>mode</code></strong> (string): Filtering mode - <code>allowed</code>, <code>auto</code>, <code>warn</code>, or <code>error</code>
+<ul>
+<li><code>allowed</code>: No filtering, emojis pass through</li>
+<li><code>auto</code>: Silent filtering (default) - converts functional emojis to text, removes decorative ones</li>
+<li><code>warn</code>: Filter with feedback messages</li>
+<li><code>error</code>: Block any content with emojis</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;emojiFilter&quot;: {
+  &quot;mode&quot;: &quot;warn&quot;
+}
+</code></pre>
+</li>
+<li><strong>Note:</strong> Can be configured per-session using <code>/set emojifilter &lt;mode&gt;</code> command</li>
+</ul>
+</li>
+<li>
+<p><strong><code>defaultProfile</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Specifies the profile to automatically load on startup. Set via <code>/profile set-default</code> command.</li>
+<li><strong>Default:</strong> <code>null</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;defaultProfile&quot;: &quot;my-development-profile&quot;
+</code></pre>
+</li>
+<li><strong>Note:</strong> When set, the specified profile will be loaded automatically each time LLxprt Code starts</li>
+</ul>
+</li>
+<li>
+<p><strong><code>accessibility</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Configures accessibility features for the CLI.</li>
+<li><strong>Properties:</strong>
+<ul>
+<li><strong><code>screenReader</code></strong> (boolean): Enables screen reader mode, which adjusts the TUI for better compatibility with screen readers. This can also be enabled with the <code>--screen-reader</code> command-line flag, which will take precedence over the setting.</li>
+<li><strong><code>disableLoadingPhrases</code></strong> (boolean): Disables the display of loading phrases during operations.</li>
+</ul>
+</li>
+<li><strong>Default:</strong> <code>{&quot;screenReader&quot;: false, &quot;disableLoadingPhrases&quot;: false}</code></li>
+<li><strong>Example:</strong><pre><code class="language-json">&quot;accessibility&quot;: {
+  &quot;screenReader&quot;: true,
+  &quot;disableLoadingPhrases&quot;: true
+}
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4>Additional Dialog Settings</h4>
+<p>The following settings are available in the <code>/settings</code> dialog:</p>
+<ul>
+<li>
+<p><strong><code>disableAutoUpdate</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable automatic updates of LLxprt Code. When enabled, you will need to manually update the application.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>enablePromptCompletion</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable AI-powered prompt completion suggestions while typing. Provides intelligent autocomplete based on context and command history.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>enableFuzzyFiltering</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable fuzzy filtering for command menu completions. When enabled, you can type partial characters (e.g., &quot;prd&quot; to match &quot;production&quot;). When disabled, only exact prefix matches are shown.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.useRipgrep</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Use ripgrep for file content search instead of the fallback implementation. When unset, ripgrep is auto-enabled if detected.</li>
+<li><strong>Default:</strong> <code>auto</code> (enabled when ripgrep is available)</li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.enableToolOutputTruncation</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable truncation of large tool outputs to prevent overwhelming the context window.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>tools.truncateToolOutputThreshold</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Truncate tool output if it exceeds this many characters. Set to <code>-1</code> to disable truncation.</li>
+<li><strong>Default:</strong> <code>30000</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showStatusInTitle</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show LLxprt status and AI thoughts in the terminal window title. Useful for monitoring progress when the terminal is in the background.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.hideContextSummary</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the context summary (<a href="http://LLXPRT.md">LLXPRT.md</a> files, MCP servers) displayed above the input prompt.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideCWD</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the current working directory path in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideSandboxStatus</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the sandbox status indicator in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.footer.hideModelInfo</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Hide the model name and context usage information in the footer.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.wittyPhraseStyle</code></strong> (enum):</p>
+<ul>
+<li><strong>Description:</strong> Choose which collection of witty phrases to display during loading operations.</li>
+<li><strong>Default:</strong> <code>&quot;default&quot;</code></li>
+<li><strong>Options:</strong> <code>&quot;default&quot;</code>, <code>&quot;llxprt&quot;</code>, <code>&quot;gemini-cli&quot;</code>, <code>&quot;whimsical&quot;</code>, <code>&quot;custom&quot;</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showTodoPanel</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show the todo panel in the UI for tracking AI-generated task lists.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+</ul>
+</li>
+<li>
+<p><strong><code>debugKeystrokeLogging</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable debug logging of keystrokes to the console. Useful for troubleshooting input issues or developing custom keybindings.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Warning:</strong> This will log all keystrokes including potentially sensitive input. Only enable for debugging purposes.</li>
+</ul>
+</li>
+</ul>
+<h3>Example <code>settings.json</code>:</h3>
+<pre><code class="language-json">{
+  &quot;theme&quot;: &quot;GitHub&quot;,
+  &quot;sandbox&quot;: &quot;docker&quot;,
+  &quot;defaultProfile&quot;: &quot;my-development-profile&quot;,
+  &quot;emojiFilter&quot;: {
+    &quot;mode&quot;: &quot;warn&quot;
+  },
+  &quot;ui&quot;: {
+    &quot;customWittyPhrases&quot;: [
+      &quot;You forget a thousand things every day. Make sure this is one of 'em&quot;,
+      &quot;Connecting to AGI&quot;
+    ]
+  },
+  &quot;toolDiscoveryCommand&quot;: &quot;bin/get_tools&quot;,
+  &quot;toolCallCommand&quot;: &quot;bin/call_tool&quot;,
+  &quot;mcpServers&quot;: {
+    &quot;mainServer&quot;: {
+      &quot;command&quot;: &quot;bin/mcp_server.py&quot;
+    },
+    &quot;anotherServer&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [&quot;mcp_server.js&quot;, &quot;--verbose&quot;]
+    }
+  },
+  &quot;telemetry&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;target&quot;: &quot;local&quot;,
+    &quot;otlpEndpoint&quot;: &quot;http://localhost:4317&quot;,
+    &quot;logPrompts&quot;: true
+  },
+  &quot;usageStatisticsEnabled&quot;: true,
+  &quot;hideTips&quot;: false,
+  &quot;hideBanner&quot;: false,
+  &quot;maxSessionTurns&quot;: 10,
+  &quot;summarizeToolOutput&quot;: {
+    &quot;run_shell_command&quot;: {
+      &quot;tokenBudget&quot;: 100
+    }
+  },
+  &quot;excludedProjectEnvVars&quot;: [&quot;DEBUG&quot;, &quot;DEBUG_MODE&quot;, &quot;NODE_ENV&quot;],
+  &quot;includeDirectories&quot;: [&quot;path/to/dir1&quot;, &quot;~/path/to/dir2&quot;, &quot;../path/to/dir3&quot;],
+  &quot;loadMemoryFromIncludeDirectories&quot;: true
+}
+</code></pre>
+<h2>Shell History</h2>
+<p>The CLI keeps a history of shell commands you run. To avoid conflicts between different projects, this history is stored in a project-specific directory within your user's home folder.</p>
+<ul>
+<li><strong>Location:</strong> <code>~/.llxprt/tmp/&lt;project_hash&gt;/shell_history</code>
+<ul>
+<li><code>&lt;project_hash&gt;</code> is a unique identifier generated from your project's root path.</li>
+<li>The history is stored in a file named <code>shell_history</code>.</li>
+</ul>
+</li>
+</ul>
+<h2>Environment Variables &amp; <code>.env</code> Files</h2>
+<p>Environment variables are a common way to configure applications, especially for sensitive information like API keys or for settings that might change between environments.</p>
+<p>The CLI automatically loads environment variables from an <code>.env</code> file. The loading order is:</p>
+<ol>
+<li><code>.env</code> file in the current working directory.</li>
+<li>If not found, it searches upwards in parent directories until it finds an <code>.env</code> file or reaches the project root (identified by a <code>.git</code> folder) or the home directory.</li>
+<li>If still not found, it looks for <code>~/.env</code> (in the user's home directory).</li>
+</ol>
+<p><strong>Environment Variable Exclusion:</strong> Some environment variables (like <code>DEBUG</code> and <code>DEBUG_MODE</code>) are automatically excluded from being loaded from project <code>.env</code> files to prevent interference with llxprt-code behavior. Variables from <code>.llxprt/.env</code> files are never excluded. You can customize this behavior using the <code>excludedProjectEnvVars</code> setting in your <code>settings.json</code> file.</p>
+<ul>
+<li><strong><code>LLXPRT_DEFAULT_PROVIDER</code></strong>:
+<ul>
+<li>Sets the default LLM provider to use.</li>
+<li>Example: <code>export LLXPRT_DEFAULT_PROVIDER=&quot;anthropic&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_DEFAULT_MODEL</code></strong>:
+<ul>
+<li>Sets the default model to use.</li>
+<li>Example: <code>export LLXPRT_DEFAULT_MODEL=&quot;claude-3-opus-20240229&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_DEBUG</code></strong>:
+<ul>
+<li>Enable debug logging with specific namespaces.</li>
+<li>Namespaces follow the pattern <code>llxprt:&lt;component&gt;:&lt;subcomponent&gt;</code></li>
+<li>Example namespaces:
+<ul>
+<li><code>llxprt:*</code> - All debug output</li>
+<li><code>llxprt:providers:*</code> - All provider debug output</li>
+<li><code>llxprt:providers:openai</code> - OpenAI provider only</li>
+<li><code>llxprt:providers:anthropic</code> - Anthropic provider only</li>
+<li><code>llxprt:gemini:provider</code> - Gemini provider</li>
+<li><code>llxprt:core:client</code> - Core client operations</li>
+<li><code>llxprt:tools:formatter</code> - Tool formatting</li>
+<li><code>llxprt:zed-integration</code> - Zed editor integration</li>
+</ul>
+</li>
+<li>Example: <code>export LLXPRT_DEBUG=&quot;llxprt:providers:*&quot;</code> or <code>export LLXPRT_DEBUG=&quot;llxprt:core:*,llxprt:tools:*&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_CODE_IDE_SERVER_PORT</code></strong>:
+<ul>
+<li>Port for the IDE integration server.</li>
+<li>Used by VS Code extension.</li>
+<li>Example: <code>export LLXPRT_CODE_IDE_SERVER_PORT=&quot;3000&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_CODE_IDE_WORKSPACE_PATH</code></strong>:
+<ul>
+<li>Workspace path for IDE integration.</li>
+<li>Automatically set by VS Code extension.</li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code></strong>:
+<ul>
+<li>Override the system settings file location.</li>
+<li>Example: <code>export LLXPRT_CODE_SYSTEM_SETTINGS_PATH=&quot;/custom/path/settings.json&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_CLI_NO_RELAUNCH</code></strong>:
+<ul>
+<li>Internal flag to prevent CLI relaunching.</li>
+<li>Automatically set by the CLI.</li>
+</ul>
+</li>
+<li><strong><code>GEMINI_API_KEY</code></strong> (Optional):
+<ul>
+<li>Your API key for the Gemini API.</li>
+<li><strong>Only required if using Google's Gemini provider.</strong> LLxprt Code supports multiple providers.</li>
+<li>Set this in your shell profile (e.g., <code>~/.bashrc</code>, <code>~/.zshrc</code>) or an <code>.env</code> file.</li>
+<li>Alternatively, use <code>/key</code> command or other provider's API keys.</li>
+</ul>
+</li>
+<li><strong><code>GEMINI_MODEL</code></strong>:
+<ul>
+<li>Specifies the default Gemini model to use.</li>
+<li>Overrides the hardcoded default</li>
+<li>Example: <code>export GEMINI_MODEL=&quot;gemini-2.5-flash&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>GOOGLE_API_KEY</code></strong>:
+<ul>
+<li>Your Google Cloud API key.</li>
+<li>Required for using Vertex AI in express mode.</li>
+<li>Ensure you have the necessary permissions.</li>
+<li>Example: <code>export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;</code>.</li>
+</ul>
+</li>
+<li><strong><code>GOOGLE_CLOUD_PROJECT</code></strong>:
+<ul>
+<li>Your Google Cloud Project ID.</li>
+<li>Required for using Code Assist or Vertex AI.</li>
+<li>If using Vertex AI, ensure you have the necessary permissions in this project.</li>
+<li><strong>Cloud Shell Note:</strong> When running in a Cloud Shell environment, this variable defaults to a special project allocated for Cloud Shell users. If you have <code>GOOGLE_CLOUD_PROJECT</code> set in your global environment in Cloud Shell, it will be overridden by this default. To use a different project in Cloud Shell, you must define <code>GOOGLE_CLOUD_PROJECT</code> in a <code>.env</code> file.</li>
+<li>Example: <code>export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;</code>.</li>
+</ul>
+</li>
+<li><strong><code>GOOGLE_APPLICATION_CREDENTIALS</code></strong> (string):
+<ul>
+<li><strong>Description:</strong> The path to your Google Application Credentials JSON file.</li>
+<li><strong>Example:</strong> <code>export GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/your/credentials.json&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>OTLP_GOOGLE_CLOUD_PROJECT</code></strong>:
+<ul>
+<li>Your Google Cloud Project ID for Telemetry in Google Cloud</li>
+<li>Example: <code>export OTLP_GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;</code>.</li>
+</ul>
+</li>
+<li><strong><code>GOOGLE_CLOUD_LOCATION</code></strong>:
+<ul>
+<li>Your Google Cloud Project Location (e.g., us-central1).</li>
+<li>Required for using Vertex AI in non express mode.</li>
+<li>Example: <code>export GOOGLE_CLOUD_LOCATION=&quot;YOUR_PROJECT_LOCATION&quot;</code>.</li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_SANDBOX</code></strong>:
+<ul>
+<li>Alternative to the <code>sandbox</code> setting in <code>settings.json</code>.</li>
+<li>Accepts <code>true</code>, <code>false</code>, <code>docker</code>, <code>podman</code>, or a custom command string.</li>
+</ul>
+</li>
+<li><strong><code>SEATBELT_PROFILE</code></strong> (macOS specific):
+<ul>
+<li>Switches the Seatbelt (<code>sandbox-exec</code>) profile on macOS.</li>
+<li><code>permissive-open</code>: (Default) Restricts writes to the project folder (and a few other folders, see <code>packages/cli/src/utils/sandbox-macos-permissive-open.sb</code>) but allows other operations.</li>
+<li><code>strict</code>: Uses a strict profile that declines operations by default.</li>
+<li><code>&lt;profile_name&gt;</code>: Uses a custom profile. To define a custom profile, create a file named <code>sandbox-macos-&lt;profile_name&gt;.sb</code> in your project's <code>.llxprt/</code> directory (e.g., <code>my-project/.llxprt/sandbox-macos-custom.sb</code>).</li>
+</ul>
+</li>
+<li><strong><code>DEBUG</code> or <code>DEBUG_MODE</code></strong> (often used by underlying libraries or the CLI itself):
+<ul>
+<li>Set to <code>true</code> or <code>1</code> to enable verbose debug logging, which can be helpful for troubleshooting.</li>
+<li><strong>Note:</strong> These variables are automatically excluded from project <code>.env</code> files by default to prevent interference with llxprt-code behavior. Use <code>.llxprt/.env</code> files if you need to set these for llxprt-code specifically.</li>
+</ul>
+</li>
+<li><strong><code>DEBUG_ENABLED</code></strong>:
+<ul>
+<li>Enable or disable debug logging.</li>
+<li>Example: <code>export DEBUG_ENABLED=&quot;true&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>DEBUG_LEVEL</code></strong>:
+<ul>
+<li>Set the debug logging level.</li>
+<li>Example: <code>export DEBUG_LEVEL=&quot;debug&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>NO_COLOR</code></strong>:
+<ul>
+<li>Set to any value to disable all color output in the CLI.</li>
+</ul>
+</li>
+<li><strong><code>CLI_TITLE</code></strong>:
+<ul>
+<li>Set to a string to customize the title of the CLI.</li>
+</ul>
+</li>
+<li><strong><code>CODE_ASSIST_ENDPOINT</code></strong>:
+<ul>
+<li>Specifies the endpoint for the code assist server.</li>
+<li>This is useful for development and testing.</li>
+</ul>
+</li>
+<li><strong><code>OPENAI_API_KEY</code></strong>:
+<ul>
+<li>Your API key for OpenAI services.</li>
+<li>Used when provider is set to openai.</li>
+<li>Example: <code>export OPENAI_API_KEY=&quot;sk-...&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>OPENAI_BASE_URL</code></strong>:
+<ul>
+<li>Custom base URL for OpenAI API.</li>
+<li>Example: <code>export OPENAI_BASE_URL=&quot;http://localhost:1234/v1/&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>ANTHROPIC_API_KEY</code></strong>:
+<ul>
+<li>Your API key for Anthropic services.</li>
+<li>Used when provider is set to anthropic.</li>
+<li>Example: <code>export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>LLXPRT_PROMPTS_DIR</code></strong>:
+<ul>
+<li>Specifies a custom directory for prompt configuration files.</li>
+<li>Default: <code>~/.llxprt/prompts</code></li>
+<li>Example: <code>export LLXPRT_PROMPTS_DIR=&quot;/path/to/custom/prompts&quot;</code></li>
+<li>See the <a href="../prompt-configuration.html">Prompt Configuration Guide</a> for details</li>
+</ul>
+</li>
+<li><strong><code>QWEN_API_KEY</code></strong>:
+<ul>
+<li>Your API key for Qwen/Alibaba Cloud services.</li>
+<li>Used when provider is set to qwen.</li>
+<li>Example: <code>export QWEN_API_KEY=&quot;sk-...&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>GROQ_API_KEY</code></strong>:
+<ul>
+<li>Your API key for Groq services.</li>
+<li>Used when provider is set to groq.</li>
+<li>Example: <code>export GROQ_API_KEY=&quot;gsk_...&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>TOGETHER_API_KEY</code></strong>:
+<ul>
+<li>Your API key for Together AI services.</li>
+<li>Used when provider is set to together.</li>
+<li>Example: <code>export TOGETHER_API_KEY=&quot;...&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>X_API_KEY</code></strong>:
+<ul>
+<li>Your API key for <a href="http://X.AI">X.AI</a> (Grok) services.</li>
+<li>Used when provider is set to xai.</li>
+<li>Example: <code>export X_API_KEY=&quot;xai-...&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2>Command-Line Arguments</h2>
+<p>Arguments passed directly when running the CLI can override other configurations for that specific session.</p>
+<ul>
+<li><strong><code>--provider &lt;provider_name&gt;</code></strong>:
+<ul>
+<li>Specifies the LLM provider to use (e.g., <code>openai</code>, <code>anthropic</code>, <code>google</code>, <code>groq</code>, etc.).</li>
+<li>Example: <code>llxprt --provider anthropic</code></li>
+</ul>
+</li>
+<li><strong><code>--model &lt;model_name&gt;</code></strong> (<strong><code>-m &lt;model_name&gt;</code></strong>):
+<ul>
+<li>Specifies the model to use for this session.</li>
+<li>Example: <code>llxprt --model claude-3-opus-20240229</code></li>
+</ul>
+</li>
+<li><strong><code>--key &lt;api_key&gt;</code></strong>:
+<ul>
+<li>Provides the API key for the current provider directly.</li>
+<li>Example: <code>llxprt --key sk-...</code></li>
+</ul>
+</li>
+<li><strong><code>--set key=value</code></strong> (repeatable):
+<ul>
+<li>Apply ephemeral settings at startup (same keys as <code>/set</code>). Pass each assignment separately (<code>--set streaming=disabled --set base-url=https://...</code>). For model parameters, use the dotted syntax (<code>--set modelparam.temperature=0.7 --set modelparam.max_tokens=4096</code>). Values are parsed using the same validation as the interactive command.</li>
+<li>Precedence: CLI flags take priority over profiles/settings, which in turn override environment variables and finally OAuth tokens.</li>
+</ul>
+</li>
+<li><strong><code>--keyfile &lt;path&gt;</code></strong>:
+<ul>
+<li>Path to a file containing the API key for the current provider.</li>
+<li>Example: <code>llxprt --keyfile ~/.openai_key</code></li>
+</ul>
+</li>
+<li><strong><code>--baseurl &lt;url&gt;</code></strong>:
+<ul>
+<li>Sets a custom base URL for the provider API.</li>
+<li>Example: <code>llxprt --baseurl http://localhost:1234/v1/</code></li>
+</ul>
+</li>
+<li><strong><code>--prompt &lt;your_prompt&gt;</code></strong> (<strong><code>-p &lt;your_prompt&gt;</code></strong>):
+<ul>
+<li>Used to pass a prompt directly to the command. This invokes LLxprt Code in a non-interactive mode.</li>
+</ul>
+</li>
+<li><strong><code>--prompt-interactive &lt;your_prompt&gt;</code></strong> (<strong><code>-i &lt;your_prompt&gt;</code></strong>):
+<ul>
+<li>Starts an interactive session with the provided prompt as the initial input.</li>
+<li>The prompt is processed within the interactive session, not before it.</li>
+<li>Cannot be used when piping input from stdin.</li>
+<li>Example: <code>llxprt -i &quot;explain this code&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>--sandbox</code></strong> (<strong><code>-s</code></strong>):
+<ul>
+<li>Enables sandbox mode for this session.</li>
+</ul>
+</li>
+<li><strong><code>--sandbox-image</code></strong>:
+<ul>
+<li>Sets the sandbox image URI.</li>
+</ul>
+</li>
+<li><strong><code>--debug</code></strong> (<strong><code>-d</code></strong>):
+<ul>
+<li>Enables debug mode for this session, providing more verbose output.</li>
+</ul>
+</li>
+<li><strong><code>--help</code></strong> (or <strong><code>-h</code></strong>):
+<ul>
+<li>Displays help information about command-line arguments.</li>
+</ul>
+</li>
+<li><strong><code>--show-memory-usage</code></strong>:
+<ul>
+<li>Displays the current memory usage.</li>
+</ul>
+</li>
+<li><strong><code>--yolo</code></strong>:
+<ul>
+<li>Enables YOLO mode, which automatically approves all tool calls.</li>
+</ul>
+</li>
+<li><strong><code>--approval-mode &lt;mode&gt;</code></strong>:
+<ul>
+<li>Sets the approval mode for tool calls. Available modes:
+<ul>
+<li><code>default</code>: Prompt for approval on each tool call (default behavior)</li>
+<li><code>auto_edit</code>: Automatically approve edit tools (replace, write_file) while prompting for others</li>
+<li><code>yolo</code>: Automatically approve all tool calls (equivalent to <code>--yolo</code>)</li>
+</ul>
+</li>
+<li>Cannot be used together with <code>--yolo</code>. Use <code>--approval-mode=yolo</code> instead of <code>--yolo</code> for the new unified approach.</li>
+<li>Example: <code>llxprt --approval-mode auto_edit</code></li>
+</ul>
+</li>
+<li><strong><code>--allowed-tools &lt;tool1,tool2,...&gt;</code></strong>:
+<ul>
+<li>A comma-separated list of tool names that will bypass the confirmation dialog.</li>
+<li>Example: <code>llxprt --allowed-tools &quot;ShellTool(git status)&quot;</code></li>
+</ul>
+</li>
+<li><strong><code>--telemetry</code></strong>:
+<ul>
+<li>Enables <a href="./telemetry.html">telemetry</a>.</li>
+</ul>
+</li>
+<li><strong><code>--telemetry-target</code></strong>:
+<ul>
+<li>Sets the telemetry target. See <a href="./telemetry.html">telemetry</a> for more information.</li>
+</ul>
+</li>
+<li><strong><code>--telemetry-otlp-endpoint</code></strong>:
+<ul>
+<li>Sets the OTLP endpoint for telemetry. See <a href="./telemetry.html">telemetry</a> for more information.</li>
+</ul>
+</li>
+<li><strong><code>--telemetry-log-prompts</code></strong>:
+<ul>
+<li>Enables logging of prompts for telemetry. See <a href="./telemetry.html">telemetry</a> for more information.</li>
+</ul>
+</li>
+<li><strong><code>--checkpointing</code></strong>:
+<ul>
+<li>Enables <a href="../checkpointing.html">checkpointing</a>.</li>
+</ul>
+</li>
+<li><strong><code>--extensions &lt;extension_name ...&gt;</code></strong> (<strong><code>-e &lt;extension_name ...&gt;</code></strong>):
+<ul>
+<li>Specifies a list of extensions to use for the session. If not provided, all available extensions are used.</li>
+<li>Use the special term <code>llxprt -e none</code> to disable all extensions.</li>
+<li>Example: <code>llxprt -e my-extension -e my-other-extension</code></li>
+</ul>
+</li>
+<li><strong><code>--list-extensions</code></strong> (<strong><code>-l</code></strong>):
+<ul>
+<li>Lists all available extensions and exits.</li>
+</ul>
+</li>
+<li><strong><code>--proxy</code></strong>:
+<ul>
+<li>Sets the proxy for the CLI.</li>
+<li>Example: <code>--proxy http://localhost:7890</code>.</li>
+</ul>
+</li>
+<li><strong><code>--include-directories &lt;dir1,dir2,...&gt;</code></strong>:
+<ul>
+<li>Includes additional directories in the workspace for multi-directory support.</li>
+<li>Can be specified multiple times or as comma-separated values.</li>
+<li>5 directories can be added at maximum.</li>
+<li>Example: <code>--include-directories /path/to/project1,/path/to/project2</code> or <code>--include-directories /path/to/project1 --include-directories /path/to/project2</code></li>
+</ul>
+</li>
+<li><strong><code>--profile-load &lt;profile_name&gt;</code></strong>:
+<ul>
+<li>Load a saved profile configuration on startup.</li>
+<li>Example: <code>llxprt --profile-load my-project</code></li>
+</ul>
+</li>
+<li><strong><code>--ide-mode &lt;enable|disable&gt;</code></strong>:
+<ul>
+<li>Enable or disable IDE integration mode.</li>
+<li>Example: <code>llxprt --ide-mode enable</code></li>
+</ul>
+</li>
+<li><strong><code>--experimental-acp</code></strong>:
+<ul>
+<li>Starts the agent in ACP (Agent Communication Protocol) mode for Zed editor integration.</li>
+<li>This enables the Zed editor to communicate with llxprt as an AI assistant.</li>
+<li>Redirects console output to stderr to keep stdout clean for protocol communication.</li>
+<li>Example: <code>llxprt --experimental-acp</code></li>
+<li><strong>Note:</strong> This is an experimental feature primarily used by the Zed editor integration.</li>
+</ul>
+</li>
+<li><strong><code>--screen-reader</code></strong>:
+<ul>
+<li>Enables screen reader mode for accessibility.</li>
+</ul>
+</li>
+<li><strong><code>--version</code></strong>:
+<ul>
+<li>Displays the version of the CLI.</li>
+</ul>
+</li>
+</ul>
+<h2>Provider API Keys</h2>
+<p>The CLI will automatically detect API keys from the following sources in order of priority:</p>
+<ol>
+<li><strong>CLI arguments:</strong> <code>--key</code> and <code>--keyfile</code></li>
+<li><strong>Config file:</strong> <code>providerApiKeys</code> field in <code>~/.llxprt/settings.json</code></li>
+<li><strong>Environment variables:</strong> <code>OPENAI_API_KEY</code>, <code>ANTHROPIC_API_KEY</code>, etc.</li>
+<li><strong>Key files:</strong> <code>~/.openai_key</code>, <code>~/.anthropic_key</code>, etc.</li>
+</ol>
+<h2>Provider Base URLs</h2>
+<p>You can set custom base URLs for providers to use local or third-party endpoints. This is useful for:</p>
+<ul>
+<li>Running local LLMs with inference servers like LM Studio or Ollama</li>
+<li>Using third-party providers like OpenRouter or Fireworks</li>
+<li>Testing custom proxy endpoints</li>
+</ul>
+<p>Note that when using a custom base URL with the OpenAI provider, some advanced features like the Responses API will be automatically disabled as they are specific to the official OpenAI API.</p>
+<p>Set base URLs using:</p>
+<p>CLI arguments:</p>
+<pre><code class="language-bash">llxprt --baseurl http://localhost:1234/v1/
+# or within the CLI:
+/baseurl &lt;url&gt;
+</code></pre>
+<p>Config file:</p>
+<pre><code class="language-json">{
+  &quot;providerBaseUrls&quot;: {
+    &quot;openai&quot;: &quot;http://localhost:1234/v1/&quot;,
+    &quot;anthropic&quot;: &quot;https://api.proxy.example.com/anthropic/v1/&quot;
+  }
+}
+</code></pre>
+<p>Environment variable:</p>
+<pre><code class="language-bash">export OPENAI_BASE_URL=&quot;http://localhost:1234/v1/&quot;
+</code></pre>
+<h2>Context Files (Hierarchical Instructional Context)</h2>
+<p>While not strictly configuration for the CLI's <em>behavior</em>, context files (defaulting to <code>LLXPRT.md</code> but configurable via the <code>contextFileName</code> setting) are crucial for configuring the <em>instructional context</em> (also referred to as &quot;memory&quot;) provided to the Gemini model. This powerful feature allows you to give project-specific instructions, coding style guides, or any relevant background information to the AI, making its responses more tailored and accurate to your needs. The CLI includes UI elements, such as an indicator in the footer showing the number of loaded context files, to keep you informed about the active context.</p>
+<ul>
+<li><strong>Purpose:</strong> These Markdown files contain instructions, guidelines, or context that you want the Gemini model to be aware of during your interactions. The system is designed to manage this instructional context hierarchically.</li>
+</ul>
+<h3>Example Context File Content (e.g., <code>LLXPRT.md</code>)</h3>
+<p>Here's a conceptual example of what a context file at the root of a TypeScript project might contain:</p>
+<pre><code class="language-markdown"># Project: My Awesome TypeScript Library
+
+## General Instructions:
+
+- When generating new TypeScript code, please follow the existing coding style.
+- Ensure all new functions and classes have JSDoc comments.
+- Prefer functional programming paradigms where appropriate.
+- All code should be compatible with TypeScript 5.0 and Node.js 20+.
+
+## Coding Style:
+
+- Use 2 spaces for indentation.
+- Interface names should be prefixed with `I` (e.g., `IUserService`).
+- Private class members should be prefixed with an underscore (`_`).
+- Always use strict equality (`===` and `!==`).
+
+## Specific Component: `src/api/client.ts`
+
+- This file handles all outbound API requests.
+- When adding new API call functions, ensure they include robust error handling and logging.
+- Use the existing `fetchWithRetry` utility for all GET requests.
+
+## Regarding Dependencies:
+
+- Avoid introducing new external dependencies unless absolutely necessary.
+- If a new dependency is required, please state the reason.
+</code></pre>
+<p>This example demonstrates how you can provide general project context, specific coding conventions, and even notes about particular files or components. The more relevant and precise your context files are, the better the AI can assist you. Project-specific context files are highly encouraged to establish conventions and context.</p>
+<ul>
+<li><strong>Hierarchical Loading and Precedence:</strong> The CLI implements a sophisticated hierarchical memory system by loading context files (e.g., <code>LLXPRT.md</code>) from several locations. Content from files lower in this list (more specific) typically overrides or supplements content from files higher up (more general). The exact concatenation order and final context can be inspected using the <code>/memory show</code> command. The typical loading order is:
+<ol>
+<li><strong>Global Context File:</strong>
+<ul>
+<li>Location: <code>~/.llxprt/&lt;contextFileName&gt;</code> (e.g., <code>~/.llxprt/LLXPRT.md</code> in your user home directory).</li>
+<li>Scope: Provides default instructions for all your projects.</li>
+</ul>
+</li>
+<li><strong>Project Root &amp; Ancestors Context Files:</strong>
+<ul>
+<li>Location: The CLI searches for the configured context file in the current working directory and then in each parent directory up to either the project root (identified by a <code>.git</code> folder) or your home directory.</li>
+<li>Scope: Provides context relevant to the entire project or a significant portion of it.</li>
+</ul>
+</li>
+<li><strong>Sub-directory Context Files (Contextual/Local):</strong>
+<ul>
+<li>Location: The CLI also scans for the configured context file in subdirectories <em>below</em> the current working directory (respecting common ignore patterns like <code>node_modules</code>, <code>.git</code>, etc.).</li>
+<li>Scope: Allows for highly specific instructions relevant to a particular component, module, or subsection of your project.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>Concatenation &amp; UI Indication:</strong> The contents of all found context files are concatenated (with separators indicating their origin and path) and provided as part of the system prompt to the Gemini model. The CLI footer displays the count of loaded context files, giving you a quick visual cue about the active instructional context.</li>
+<li><strong>Importing Content:</strong> You can modularize your context files by importing other Markdown files using the <code>@path/to/file.md</code> syntax. For more details, see the <a href="../core/memport.html">Memory Import Processor documentation</a>.</li>
+<li><strong>Commands for Memory Management:</strong>
+<ul>
+<li>Use <code>/memory refresh</code> to force a re-scan and reload of all context files from all configured locations. This updates the AI's instructional context.</li>
+<li>Use <code>/memory show</code> to display the combined instructional context currently loaded, allowing you to verify the hierarchy and content being used by the AI.</li>
+<li>See the <a href="./commands.html#memory">Commands documentation</a> for full details on the <code>/memory</code> command and its sub-commands (<code>show</code> and <code>refresh</code>).</li>
+</ul>
+</li>
+</ul>
+<p>By understanding and utilizing these configuration layers and the hierarchical nature of context files, you can effectively manage the AI's memory and tailor the LLxprt Code's responses to your specific needs and projects.</p>
+<h2>Authentication Command</h2>
+<p>LLxprt Code provides OAuth authentication for multiple providers through the <code>/auth</code> command.</p>
+<h3>Command Syntax</h3>
+<pre><code>/auth [provider] [action]
+</code></pre>
+<ul>
+<li><strong>provider</strong>: <code>gemini</code>, <code>qwen</code>, or <code>anthropic</code></li>
+<li><strong>action</strong>: <code>enable</code>, <code>disable</code>, <code>logout</code> (or <code>signout</code>)</li>
+</ul>
+<h3>Usage Examples</h3>
+<h4>Show Auth Dialog</h4>
+<pre><code>/auth
+</code></pre>
+<p>Displays the authentication dialog with all available options.</p>
+<h4>Check Provider Status</h4>
+<pre><code>/auth gemini
+/auth anthropic
+/auth qwen
+</code></pre>
+<p>Shows the current OAuth status for the specified provider.</p>
+<h4>Enable OAuth for a Provider</h4>
+<pre><code>/auth gemini enable
+/auth anthropic enable
+/auth qwen enable
+</code></pre>
+<h4>Disable OAuth for a Provider</h4>
+<pre><code>/auth gemini disable
+/auth anthropic disable
+/auth qwen disable
+</code></pre>
+<h4>Logout from a Provider</h4>
+<pre><code>/auth gemini logout
+/auth anthropic logout
+/auth qwen logout
+</code></pre>
+<h3>OAuth Flow by Provider</h3>
+<h4>Gemini (Google)</h4>
+<ul>
+<li>Opens browser for Google OAuth</li>
+<li>Automatically continues after you accept permissions</li>
+<li>Token refreshes automatically</li>
+</ul>
+<h4>Qwen (Alibaba)</h4>
+<ul>
+<li>Opens browser for Alibaba Cloud OAuth</li>
+<li>Automatically continues after you accept permissions</li>
+<li>Seamless authentication flow</li>
+</ul>
+<h4>Anthropic (Claude)</h4>
+<ul>
+<li>Opens browser to Anthropic Console</li>
+<li>After accepting, you need to:
+<ol>
+<li>Copy the API key from the Anthropic Console</li>
+<li>Return to the terminal</li>
+<li>Paste the API key when prompted</li>
+</ol>
+</li>
+<li>Note: This is a manual step because Anthropic uses API keys rather than OAuth tokens</li>
+</ul>
+<h3>Authentication Priority</h3>
+<p>Authentication methods are checked in this order:</p>
+<ol>
+<li>OAuth tokens (if enabled)</li>
+<li>API keys from <code>/key</code> or <code>--key</code> commands</li>
+<li>Environment variables</li>
+<li>Key files (<code>~/.openai_key</code>, etc.)</li>
+</ol>
+<h3>Checking Auth Status</h3>
+<p>Use <code>/status</code> to see all active authentications:</p>
+<pre><code>/status
+</code></pre>
+<p>This shows:</p>
+<ul>
+<li>Which providers are authenticated</li>
+<li>Token expiration times</li>
+<li>OAuth enablement status</li>
+</ul>
+<h2>Sandboxing</h2>
+<p>The LLxprt Code can execute potentially unsafe operations (like shell commands and file modifications) within a sandboxed environment to protect your system.</p>
+<p>Sandboxing is disabled by default, but you can enable it in a few ways:</p>
+<ul>
+<li>Using <code>--sandbox</code> or <code>-s</code> flag.</li>
+<li>Setting <code>LLXPRT_SANDBOX</code> environment variable.</li>
+<li>Sandbox is enabled when using <code>--yolo</code> or <code>--approval-mode=yolo</code> by default.</li>
+</ul>
+<p>By default, it uses a pre-built <code>ghcr.io/vybestack/llxprt-code/sandbox:0.7.0</code> Docker image.</p>
+<p>For project-specific sandboxing needs, you can create a custom Dockerfile at <code>.llxprt/sandbox.Dockerfile</code> in your project's root directory. This Dockerfile can be based on the base sandbox image:</p>
+<pre><code class="language-dockerfile">FROM ghcr.io/vybestack/llxprt-code/sandbox:0.7.0
+
+# Add your custom dependencies or configurations here
+# For example:
+# RUN apt-get update &amp;&amp; apt-get install -y some-package
+# COPY ./my-config /app/my-config
+</code></pre>
+<p>When <code>.llxprt/sandbox.Dockerfile</code> exists, you can use <code>BUILD_SANDBOX</code> environment variable when running LLxprt Code to automatically build the custom sandbox image:</p>
+<pre><code class="language-bash">BUILD_SANDBOX=1 llxprt -s
+</code></pre>
+<h2>Zed Editor Integration</h2>
+<p>LLxprt Code can be integrated with the Zed editor as an AI assistant using the experimental ACP (Agent Communication Protocol) mode.</p>
+<h3>Setting up Zed Integration</h3>
+<ol>
+<li>In Zed, open your settings (<code>cmd+,</code> on macOS)</li>
+<li>Add llxprt as an assistant provider:</li>
+</ol>
+<p>LLxprt integrates with Zed and is easiest to configure in your <code>~/.config/zed/settings.json</code> under &quot;agent_servers&quot; or using Zed's onboarding menu. you need to specify the &quot;whereis llxprt&quot; path to make it work. You also must include <code>--experimental-acp</code>. If you want you use any provider except for gemini (or your default profile config) you'll need to supply arguments that are the same as those on the command line. This is an example of using llxprt with a saved profile for Cerebras' Code Max Qwen 3 Coder (480B) model. You could instead do --provider openai --baseurl thebaseurlofyourprovider --key yourkey or --keyfile yourkeyfile but popping open llxprt and saving a profile is usually easier. Don't include the env DEBUG unless you want to generate really big log files in <code>~/.llxprt/debug/</code></p>
+<p>zed settings.json example:</p>
+<pre><code class="language-json">&quot;llxprt&quot;: {
+      &quot;command&quot;: &quot;node&quot;,
+      &quot;args&quot;: [
+        &quot;/opt/homebrew/bin/llxprt&quot;,
+        &quot;--experimental-acp&quot;,
+        &quot;--profile-load&quot;,
+        &quot;cerebrasqwen3&quot;,
+        &quot;--yolo&quot;
+      ],
+      &quot;env&quot;: { &quot;DEBUG&quot;: &quot;llxprt:*&quot; }
+    }
+  }
+</code></pre>
+<p>This is an example of the Qwen 3 profile (created with /profile save)</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;qwen-3-coder-480b&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 120000,
+    &quot;auth-keyfile&quot;: &quot;~/.cerebras_key&quot;,
+    &quot;base-url&quot;: &quot;https://api.cerebras.ai/v1&quot;,
+    &quot;custom-headers&quot;: &quot;response_format.json_schema.strict true&quot;,
+    &quot;shell-replacement&quot;: true,
+    &quot;streaming&quot;: &quot;disabled&quot;,
+    &quot;emojifilter&quot;: &quot;warn&quot;
+  }
+}
+</code></pre>
+<pre><code class="language-json">{
+  &quot;assistant&quot;: {
+    &quot;providers&quot;: [
+      {
+        &quot;name&quot;: &quot;llxprt&quot;,
+        &quot;type&quot;: &quot;acp&quot;,
+        &quot;command&quot;: &quot;llxprt&quot;,
+        &quot;args&quot;: [&quot;--experimental-acp&quot;]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Configuring Zed with Different Providers</h3>
+<p>You can pass additional arguments to customize the provider and authentication:</p>
+<h4>Using a specific provider and model:</h4>
+<pre><code class="language-json">{
+  &quot;assistant&quot;: {
+    &quot;providers&quot;: [
+      {
+        &quot;name&quot;: &quot;llxprt-claude&quot;,
+        &quot;type&quot;: &quot;acp&quot;,
+        &quot;command&quot;: &quot;llxprt&quot;,
+        &quot;args&quot;: [
+          &quot;--experimental-acp&quot;,
+          &quot;--provider&quot;,
+          &quot;anthropic&quot;,
+          &quot;--model&quot;,
+          &quot;claude-3-opus-20240229&quot;
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h4>Using a saved profile:</h4>
+<pre><code class="language-json">{
+  &quot;assistant&quot;: {
+    &quot;providers&quot;: [
+      {
+        &quot;name&quot;: &quot;llxprt&quot;,
+        &quot;type&quot;: &quot;acp&quot;,
+        &quot;command&quot;: &quot;llxprt&quot;,
+        &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;my-project&quot;]
+      }
+    ]
+  }
+}
+</code></pre>
+<h4>Providing an API key directly:</h4>
+<pre><code class="language-json">{
+  &quot;assistant&quot;: {
+    &quot;providers&quot;: [
+      {
+        &quot;name&quot;: &quot;llxprt-openai&quot;,
+        &quot;type&quot;: &quot;acp&quot;,
+        &quot;command&quot;: &quot;llxprt&quot;,
+        &quot;args&quot;: [
+          &quot;--experimental-acp&quot;,
+          &quot;--provider&quot;,
+          &quot;openai&quot;,
+          &quot;--key&quot;,
+          &quot;sk-...&quot;
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Important Notes for Zed Integration</h3>
+<ul>
+<li><strong>All CLI arguments work</strong>: You can use <code>--provider</code>, <code>--model</code>, <code>--key</code>, <code>--keyfile</code>, <code>--profile-load</code>, etc.</li>
+<li><strong>Default provider</strong>: If you don't specify a provider, it will use your default profile (if configured) or the provider specified by LLXPRT_DEFAULT_PROVIDER environment variable, or Gemini as fallback</li>
+<li><strong>Authentication for Claude/Anthropic</strong>: OAuth authentication for Anthropic in Zed is challenging in the current release because it requires manual API key entry. We recommend either:
+<ul>
+<li>Using <code>--key</code> with your API key directly in the Zed config</li>
+<li>Setting up a default profile with Anthropic configured</li>
+<li>Using environment variables</li>
+<li>This will be improved in a future release</li>
+</ul>
+</li>
+<li><strong>Best practice</strong>: Set up your preferred provider as the default profile using <code>/profile save</code> and <code>/profile set-default</code>, then Zed will automatically use it</li>
+</ul>
+<p>When running in ACP mode:</p>
+<ul>
+<li>Console output is redirected to stderr to keep stdout clean for protocol messages</li>
+<li>Authentication happens through the protocol</li>
+<li>The integration supports all llxprt providers (OpenAI, Anthropic, Google, Groq, etc.)</li>
+</ul>
+<h2>Privacy and Telemetry</h2>
+<p><strong>LLxprt Code does not collect any telemetry or usage statistics by default.</strong> Your privacy is our priority.</p>
+<p>All telemetry features have been disabled in LLxprt Code. We do not collect:</p>
+<ul>
+<li>Tool usage statistics</li>
+<li>API request information</li>
+<li>Session data</li>
+<li>File content</li>
+<li>Personal information</li>
+</ul>
+<p><strong>Note about providers:</strong> When using external providers like Google, OpenAI, or Anthropic, those services may collect data according to their own privacy policies. LLxprt Code itself does not send any telemetry data.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

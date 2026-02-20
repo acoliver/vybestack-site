@@ -1,0 +1,55 @@
+name: Sync LLxprt Code Documentation
+
+on:
+  schedule:
+    # Sync docs daily at 2am UTC
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout site repo
+        uses: actions/checkout@v4
+
+      - name: Clone llxprt-code docs
+        run: |
+          mkdir -p tmp
+          git clone --depth 1 https://github.com/vybestack/llxprt-code.git tmp/llxprt-code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install markdown-it
+        run: npm install markdown-it
+
+      - name: Build docs
+        run: node build-docs.js
+
+      - name: Clean up clone
+        run: rm -rf tmp/llxprt-code
+
+      - name: Check for changes
+        id: check
+        run: |
+          git add llxprt-code/docs/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add llxprt-code/docs/
+          git commit -m "chore: sync documentation from llxprt-code"
+          git push

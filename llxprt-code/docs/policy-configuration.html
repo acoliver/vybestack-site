@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Policy Configuration Guide | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Policy Configuration Guide</h1>
+<h2>Overview</h2>
+<p>Policies control which tools can execute, which require user confirmation, and which are blocked. This guide covers the TOML policy file syntax, rule structure, and common use cases.</p>
+<h2>TOML Policy File Syntax</h2>
+<p>Policy files use TOML (Tom's Obvious, Minimal Language) format. Each file contains an array of rules:</p>
+<pre><code class="language-toml"># Comment describing this policy file
+
+[[rule]]
+toolName = &quot;tool_name&quot;
+argsPattern = &quot;regex_pattern&quot;
+decision = &quot;allow&quot;
+priority = 2.1
+
+[[rule]]
+# Another rule...
+</code></pre>
+<h2>Rule Structure</h2>
+<p>Each rule has four fields:</p>
+<h3>toolName (optional)</h3>
+<p>The name of the tool this rule applies to. If omitted or left undefined, the rule matches <strong>all tools</strong> (wildcard).</p>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-toml"># Match the 'edit' tool specifically
+toolName = &quot;edit&quot;
+
+# Match all tools (wildcard) - omit toolName field
+# No toolName = matches everything
+</code></pre>
+<p><strong>Built-in tool names:</strong></p>
+<ul>
+<li>Read-only: <code>glob</code>, <code>grep</code>, <code>ls</code>, <code>read_file</code>, <code>read_many_files</code>, <code>ripgrep</code>, <code>web_search</code></li>
+<li>Write: <code>edit</code>, <code>write_file</code>, <code>shell</code>, <code>memory</code>, <code>web_fetch</code></li>
+<li>Other: <code>task</code>, <code>write_todos</code>, <code>list_subagents</code>, <code>notebook_edit</code>, <code>slash_command</code>, <code>skill</code>, <code>mcp_tool</code></li>
+</ul>
+<p><strong>MCP tool names:</strong></p>
+<ul>
+<li>Format: <code>serverName__toolName</code></li>
+<li>Example: <code>filesystem__read_file</code>, <code>database__query</code></li>
+</ul>
+<h3>argsPattern (optional)</h3>
+<p>A regular expression pattern to match against the tool's arguments. The arguments are serialized to stable JSON before matching.</p>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-toml"># Block 'rm -rf /' commands
+toolName = &quot;shell&quot;
+argsPattern = &quot;rm\\s+-rf\\s+/&quot;
+decision = &quot;deny&quot;
+
+# Block chmod 777 (insecure permissions)
+toolName = &quot;shell&quot;
+argsPattern = &quot;chmod\\s+777&quot;
+decision = &quot;deny&quot;
+
+# Allow edits only to .md files
+toolName = &quot;edit&quot;
+argsPattern = &quot;\\.md\&quot;&quot;
+decision = &quot;allow&quot;
+</code></pre>
+<p><strong>Important:</strong> Use double backslashes <code>\\</code> to escape regex special characters in TOML.</p>
+<h3>decision (required)</h3>
+<p>The decision to make when this rule matches. Must be one of:</p>
+<ul>
+<li><strong><code>allow</code></strong> - Execute the tool immediately without confirmation</li>
+<li><strong><code>deny</code></strong> - Block the tool execution with a policy rejection message</li>
+<li><strong><code>ask_user</code></strong> - Prompt the user for confirmation</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-toml">decision = &quot;allow&quot;
+decision = &quot;deny&quot;
+decision = &quot;ask_user&quot;
+</code></pre>
+<h3>priority (optional)</h3>
+<p>A number determining rule precedence. Higher priority rules override lower priority rules. Default is <code>0</code>.</p>
+<p><strong>Priority bands:</strong></p>
+<ul>
+<li><strong>Tier 3 (Admin): 3.0 - 3.999</strong> - Enterprise/admin policies (highest)</li>
+<li><strong>Tier 2 (User): 2.0 - 2.999</strong> - User settings and custom policies</li>
+<li><strong>Tier 1 (Default): 1.0 - 1.999</strong> - Built-in defaults (lowest)</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-toml">priority = 1.05   # Tier 1 - default read-only tools
+priority = 2.3    # Tier 2 - user allowed tools
+priority = 3.5    # Tier 3 - admin override
+</code></pre>
+<h2>Priority Bands Reference</h2>
+<h3>Tier 1 (Default): 1.0 - 1.999</h3>
+<p>Built-in defaults provided by llxprt-code:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.05</td>
+<td>Read-only tools auto-approval</td>
+</tr>
+<tr>
+<td>1.01</td>
+<td>Write tools require confirmation</td>
+</tr>
+<tr>
+<td>1.015</td>
+<td>AUTO_EDIT mode write tool overrides</td>
+</tr>
+<tr>
+<td>1.999</td>
+<td>YOLO mode wildcard allow-all</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 2 (User): 2.0 - 2.999</h3>
+<p>User settings and CLI flags:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2.0</td>
+<td>Dangerous command blocks (e.g., <code>rm -rf /</code>)</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>MCP servers in allowed list</td>
+</tr>
+<tr>
+<td>2.2</td>
+<td>MCP servers with <code>trust=true</code></td>
+</tr>
+<tr>
+<td>2.3</td>
+<td><code>--allowed-tools</code> CLI flag</td>
+</tr>
+<tr>
+<td>2.4</td>
+<td><code>--exclude-tools</code> CLI flag</td>
+</tr>
+<tr>
+<td>2.5</td>
+<td>User TOML policies (recommended range: 2.5-2.9)</td>
+</tr>
+<tr>
+<td>2.95</td>
+<td>&quot;Always Allow&quot; UI selections</td>
+</tr>
+</tbody>
+</table>
+<h3>Tier 3 (Admin): 3.0 - 3.999</h3>
+<p>Enterprise administrator policies (future use):</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3.0-3.999</td>
+<td>Reserved for enterprise admin policies</td>
+</tr>
+</tbody>
+</table>
+<h2>Complete Example</h2>
+<pre><code class="language-toml"># Custom policy file: ~/.llxprt/my-policy.toml
+
+# Allow all read-only tools (override defaults)
+[[rule]]
+toolName = &quot;glob&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;grep&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+# Auto-approve edit for markdown files only
+[[rule]]
+toolName = &quot;edit&quot;
+argsPattern = &quot;\\.md\&quot;&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+
+# Block all edit operations on system files
+[[rule]]
+toolName = &quot;edit&quot;
+argsPattern = &quot;/etc/&quot;
+decision = &quot;deny&quot;
+priority = 2.7
+
+# Require confirmation for shell, except safe commands
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;^(ls|pwd|echo|cat)\\s&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+
+# Block dangerous shell patterns
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;rm\\s+-rf&quot;
+decision = &quot;deny&quot;
+priority = 2.8
+
+# Block all other shell commands
+[[rule]]
+toolName = &quot;shell&quot;
+decision = &quot;deny&quot;
+priority = 2.5
+
+# Allow trusted MCP server tools
+[[rule]]
+toolName = &quot;my-mcp-server__&quot;
+decision = &quot;allow&quot;
+priority = 2.2
+</code></pre>
+<h2>Common Use Cases</h2>
+<h3>1. Block Dangerous Shell Commands</h3>
+<pre><code class="language-toml"># Block recursive deletion from root
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;rm\\s+-rf\\s+/&quot;
+decision = &quot;deny&quot;
+priority = 2.0
+
+# Block chmod 777 (insecure)
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;chmod\\s+777&quot;
+decision = &quot;deny&quot;
+priority = 2.0
+
+# Block dd (disk operations)
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;dd\\s+if=&quot;
+decision = &quot;deny&quot;
+priority = 2.0
+
+# Block filesystem formatting
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;mkfs\\.&quot;
+decision = &quot;deny&quot;
+priority = 2.0
+
+# Block fork bombs
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;:(){ :|:&amp; };:&quot;
+decision = &quot;deny&quot;
+priority = 2.0
+</code></pre>
+<h3>2. Auto-Approve Read-Only Tools</h3>
+<pre><code class="language-toml"># Allow all read-only tools without confirmation
+[[rule]]
+toolName = &quot;glob&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;grep&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;ls&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;read_file&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;read_many_files&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+</code></pre>
+<h3>3. Confirmation for Write Tools</h3>
+<pre><code class="language-toml"># Require user confirmation for all write operations
+[[rule]]
+toolName = &quot;edit&quot;
+decision = &quot;ask_user&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;write_file&quot;
+decision = &quot;ask_user&quot;
+priority = 2.5
+
+[[rule]]
+toolName = &quot;shell&quot;
+decision = &quot;ask_user&quot;
+priority = 2.5
+</code></pre>
+<h3>4. Allow Specific MCP Servers</h3>
+<pre><code class="language-toml"># Auto-approve all tools from trusted-server
+[[rule]]
+toolName = &quot;trusted-server__&quot;
+decision = &quot;allow&quot;
+priority = 2.2
+
+# Require confirmation for experimental-server
+[[rule]]
+toolName = &quot;experimental-server__&quot;
+decision = &quot;ask_user&quot;
+priority = 2.2
+
+# Block tools from untrusted-server
+[[rule]]
+toolName = &quot;untrusted-server__&quot;
+decision = &quot;deny&quot;
+priority = 2.2
+</code></pre>
+<h3>5. Deny Discovered Tools by Default</h3>
+<pre><code class="language-toml"># Block all discovered tools unless explicitly allowed
+[[rule]]
+toolName = &quot;discovered_tool_&quot;
+decision = &quot;deny&quot;
+priority = 2.5
+
+# Allow specific discovered tool
+[[rule]]
+toolName = &quot;discovered_tool_my_extension__safe_tool&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+</code></pre>
+<h3>6. Project-Specific Policies</h3>
+<pre><code class="language-toml"># Allow edit only on project files
+[[rule]]
+toolName = &quot;edit&quot;
+argsPattern = &quot;/home/user/myproject/&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+
+# Block edit outside project
+[[rule]]
+toolName = &quot;edit&quot;
+decision = &quot;deny&quot;
+priority = 2.5
+
+# Allow shell commands in project directory
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;cd /home/user/myproject&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+</code></pre>
+<h2>Creating Custom Policies</h2>
+<h3>Step 1: Create a TOML file</h3>
+<p>Create a new file (e.g., <code>~/.llxprt/my-policy.toml</code>):</p>
+<pre><code class="language-toml"># My custom policy
+
+[[rule]]
+toolName = &quot;edit&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+</code></pre>
+<h3>Step 2: Configure Settings</h3>
+<p>Add to <code>~/.llxprt/settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;tools&quot;: {
+    &quot;policyPath&quot;: &quot;/absolute/path/to/my-policy.toml&quot;
+  }
+}
+</code></pre>
+<p><strong>Important:</strong> Use absolute paths, not relative paths or <code>~</code>.</p>
+<h3>Step 3: Test Your Policy</h3>
+<ol>
+<li>Restart llxprt-code</li>
+<li>Run <code>/policies</code> to verify your rules loaded</li>
+<li>Test tool execution to confirm behavior</li>
+</ol>
+<h3>Step 4: Debug Issues</h3>
+<p>If rules don't appear in <code>/policies</code>:</p>
+<ul>
+<li>Check TOML syntax (use online validator)</li>
+<li>Verify file path is absolute and correct</li>
+<li>Check llxprt-code startup logs for errors</li>
+</ul>
+<h2>Legacy --allowed-tools Migration</h2>
+<p>The <code>--allowed-tools</code> CLI flag maps to policy rules at priority 2.3:</p>
+<p><strong>Command:</strong></p>
+<pre><code class="language-bash">llxprt --allowed-tools edit,shell,glob
+</code></pre>
+<p><strong>Equivalent policy:</strong></p>
+<pre><code class="language-toml">[[rule]]
+toolName = &quot;edit&quot;
+decision = &quot;allow&quot;
+priority = 2.3
+
+[[rule]]
+toolName = &quot;shell&quot;
+decision = &quot;allow&quot;
+priority = 2.3
+
+[[rule]]
+toolName = &quot;glob&quot;
+decision = &quot;allow&quot;
+priority = 2.3
+</code></pre>
+<p>These rules can be overridden by:</p>
+<ul>
+<li>User TOML policies at priority 2.5+ (higher priority)</li>
+<li>Admin policies at priority 3.0+</li>
+</ul>
+<h2>Pattern Matching Tips</h2>
+<h3>Args Serialization</h3>
+<p>Tool arguments are serialized to stable JSON before pattern matching:</p>
+<pre><code class="language-json">{
+  &quot;command&quot;: &quot;rm -rf /&quot;,
+  &quot;cwd&quot;: &quot;/home/user&quot;
+}
+</code></pre>
+<p>Match against this JSON structure:</p>
+<pre><code class="language-toml"># Match command field containing 'rm -rf /'
+argsPattern = &quot;\&quot;command\&quot;:\\s*\&quot;.*rm\\s+-rf\\s+/.*\&quot;&quot;
+</code></pre>
+<h3>Common Patterns</h3>
+<p><strong>Match file extensions:</strong></p>
+<pre><code class="language-toml">argsPattern = &quot;\\.md\&quot;&quot;      # .md files
+argsPattern = &quot;\\.(ts|js)\&quot;&quot; # .ts or .js files
+</code></pre>
+<p><strong>Match paths:</strong></p>
+<pre><code class="language-toml">argsPattern = &quot;/etc/&quot;        # Files in /etc/
+argsPattern = &quot;/home/user/&quot;  # Files in user home
+</code></pre>
+<p><strong>Match commands:</strong></p>
+<pre><code class="language-toml">argsPattern = &quot;^(ls|pwd|echo)&quot; # Safe commands
+argsPattern = &quot;git\\s+push&quot;    # Git push
+</code></pre>
+<h3>Testing Patterns</h3>
+<p>Use an online regex tester with sample JSON:</p>
+<ol>
+<li>Serialize tool args to JSON</li>
+<li>Test pattern against JSON string</li>
+<li>Remember to double-escape in TOML (<code>\\</code> not <code>\</code>)</li>
+</ol>
+<h2>Security Best Practices</h2>
+<h3>1. Use Least Privilege</h3>
+<p>Start with <code>deny</code> or <code>ask_user</code> by default:</p>
+<pre><code class="language-toml"># Block all tools by default
+[[rule]]
+decision = &quot;deny&quot;
+priority = 2.5
+
+# Allow only specific tools
+[[rule]]
+toolName = &quot;read_file&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+</code></pre>
+<h3>2. Layer Security</h3>
+<p>Combine multiple rules for defense in depth:</p>
+<pre><code class="language-toml"># Block dangerous patterns (high priority)
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;rm\\s+-rf&quot;
+decision = &quot;deny&quot;
+priority = 2.8
+
+# Allow safe commands (medium priority)
+[[rule]]
+toolName = &quot;shell&quot;
+argsPattern = &quot;^(ls|pwd)&quot;
+decision = &quot;allow&quot;
+priority = 2.6
+
+# Default deny for shell (low priority)
+[[rule]]
+toolName = &quot;shell&quot;
+decision = &quot;deny&quot;
+priority = 2.5
+</code></pre>
+<h3>3. Validate MCP Servers</h3>
+<p>Explicitly list trusted MCP servers:</p>
+<pre><code class="language-toml"># Allow only known trusted servers
+[[rule]]
+toolName = &quot;filesystem__&quot;
+decision = &quot;allow&quot;
+priority = 2.2
+
+[[rule]]
+toolName = &quot;database__&quot;
+decision = &quot;allow&quot;
+priority = 2.2
+
+# Block all other MCP tools
+[[rule]]
+toolName = &quot;.*__&quot;
+decision = &quot;deny&quot;
+priority = 2.1
+</code></pre>
+<h3>4. Audit Policies</h3>
+<p>Regularly review active policies:</p>
+<pre><code class="language-bash">llxprt --command &quot;/policies&quot;
+</code></pre>
+<p>Check for:</p>
+<ul>
+<li>Overly broad wildcards</li>
+<li>Unintended priority conflicts</li>
+<li>Obsolete rules</li>
+</ul>
+<h2>Advanced Topics</h2>
+<h3>Regex Performance</h3>
+<p>Keep patterns simple and specific:</p>
+<ul>
+<li>Avoid complex lookaheads/lookbehinds</li>
+<li>Use anchors (<code>^</code>, <code>$</code>) when possible</li>
+<li>Test patterns on representative data</li>
+</ul>
+<h3>Priority Conflicts</h3>
+<p>When multiple rules match, highest priority wins:</p>
+<pre><code class="language-toml"># This DENY wins (priority 2.8 &gt; 2.5)
+[[rule]]
+toolName = &quot;edit&quot;
+argsPattern = &quot;/etc/&quot;
+decision = &quot;deny&quot;
+priority = 2.8
+
+[[rule]]
+toolName = &quot;edit&quot;
+decision = &quot;allow&quot;
+priority = 2.5
+</code></pre>
+<h3>Dynamic Policies</h3>
+<p>Policies are loaded at startup. To update:</p>
+<ol>
+<li>Edit policy file</li>
+<li>Restart llxprt-code</li>
+<li>Verify with <code>/policies</code></li>
+</ol>
+<p>(Future: dynamic reload via <code>/reload-policies</code> command)</p>
+<h2>Troubleshooting</h2>
+<h3>Policy Not Matching</h3>
+<ol>
+<li>Use <code>/policies</code> to verify rule exists</li>
+<li>Check priority is higher than conflicting rules</li>
+<li>Test argsPattern against actual args JSON</li>
+<li>Verify toolName matches exactly (case-sensitive)</li>
+</ol>
+<h3>TOML Parse Errors</h3>
+<p>Common syntax issues:</p>
+<pre><code class="language-toml"># ❌ Wrong - missing quotes on decision
+decision = allow
+
+# ✅ Correct
+decision = &quot;allow&quot;
+
+# ❌ Wrong - single backslash
+argsPattern = &quot;\s+&quot;
+
+# ✅ Correct - double backslash
+argsPattern = &quot;\\s+&quot;
+
+# ❌ Wrong - array syntax for rule
+[rule]
+
+# ✅ Correct - double bracket for array
+[[rule]]
+</code></pre>
+<h3>Priority Out of Range</h3>
+<pre><code class="language-toml"># ❌ Wrong - priority too high
+priority = 4.5
+
+# ✅ Correct - within Tier 2
+priority = 2.5
+
+# ❌ Wrong - negative priority
+priority = -1
+
+# ✅ Correct - default priority
+priority = 1.0
+</code></pre>
+<h2>Next Steps</h2>
+<ul>
+<li>See <a href="message-bus.html">Message Bus Guide</a> for overview and architecture</li>
+<li>See <a href="migration/approval-mode-to-policies.html">Migration Guide</a> for migrating from legacy approval modes</li>
+<li>Review <a href="https://github.com/vybestack/llxprt-code/tree/main/packages/core/src/policy/policies">example policies</a> in the repository</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider Quick Reference | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Provider Quick Reference</h1>
+<p>This guide provides concise setup instructions for common LLM providers. For complete documentation, see the <a href="../cli/providers.html">full provider guide</a>.</p>
+<h2>Provider Configuration Methods</h2>
+<p>LLxprt Code supports two main ways to configure providers:</p>
+<h3>1. Using Built-in Aliases</h3>
+<p>Many popular providers have built-in aliases for quick setup:</p>
+<pre><code class="language-bash"># Use the alias (recommended for supported providers)
+/provider anthropic
+/provider gemini
+/provider qwen
+/provider synthetic
+
+# Then set your key and model
+/key sk-your-api-key
+/model your-model-name
+</code></pre>
+<h3>2. Using OpenAI-Compatible Endpoint</h3>
+<p>For providers without aliases, use the OpenAI protocol:</p>
+<pre><code class="language-bash">/provider openai
+/baseurl https://provider-api-url/v1/
+/key your-api-key
+/model model-name
+</code></pre>
+<h2>Common Providers</h2>
+<h3>Model geometry and budgeting (all providers)</h3>
+<p>When you set a model, configure both context-limit (ephemeral) and max_tokens (model param):</p>
+<ul>
+<li><strong>context-limit</strong>: The total tokens allowed for the entire request (prompt + output)</li>
+<li><strong>max_tokens</strong>: The maximum tokens reserved for the model's response (output only)</li>
+<li><strong>Effective prompt budget</strong> = context-limit − max_tokens − safety-margin</li>
+</ul>
+<p><strong>Important constraint</strong>: You cannot set context-limit + max_tokens to exceed the model's actual limit. For example:</p>
+<ul>
+<li>If a model supports 200k total context, you CANNOT set context-limit=200000 AND max_tokens=100000</li>
+<li>The system needs room for both your prompt AND the response within the limit</li>
+</ul>
+<p><strong>Safety margin</strong>: 256–2048 tokens (recommend 1024) to avoid last-second overflows from tool wrappers, system prompt, and <a href="http://LLXPRT.md">LLXPRT.md</a>.</p>
+<p><strong>Tip</strong>: If you see &quot;would exceed the token context window&quot; errors, lower max_tokens first or reduce <a href="http://LLXPRT.md">LLXPRT.md</a> size.</p>
+<p>Examples:</p>
+<ul>
+<li>Large coding session: context-limit 121000, max_tokens 10000 → prompt budget ≈ 110k (minus safety).</li>
+<li>Writing mode: context-limit 190000, max_tokens 8000 → prompt budget ≈ 181k (minus safety).</li>
+</ul>
+<blockquote>
+<p><strong>Reasoning tips:</strong><br>
+MiniMax M2.1 relies on interleaved thinking tokens, so keep prior reasoning in context (<code>/set reasoning.stripFromContext none</code>).<br>
+Kimi K2 can trim older reasoning when you need to manage its 256k window (<code>/set reasoning.stripFromContext allButLast</code> or <code>all</code>) while still surfacing recent thinking blocks.</p>
+</blockquote>
+<h3>OpenAI (API Key)</h3>
+<pre><code class="language-bash">/provider openai
+/keyfile ~/.openai_key
+/model gpt-5.2
+</code></pre>
+<h4>Model geometry &amp; recommended settings (OpenAI)</h4>
+<p>Common models: gpt-5.2, gpt-5.2-nano</p>
+<p>Guidance:</p>
+<ul>
+<li>gpt-5.2 context: 200k (via Codex/API key), max output 32k</li>
+<li>gpt-5.2-nano: Faster, smaller variant for simpler tasks</li>
+<li><strong>Note</strong>: gpt-5.2 does NOT support temperature - use <code>/set reasoning.effort</code> instead</li>
+<li>Reasoning effort: <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code></li>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+/set reasoning.effort high  # replaces temperature for reasoning models
+</code></pre>
+<p><strong>Common models:</strong> <code>gpt-5.2</code>, <code>gpt-5.2-nano</code></p>
+<h3>OpenAI Codex (ChatGPT Plus/Pro OAuth)</h3>
+<p>Use your ChatGPT Plus or Pro subscription directly:</p>
+<pre><code class="language-bash">/auth codex enable
+/provider codex
+/model gpt-5.2
+</code></pre>
+<p>This uses OAuth to authenticate with your ChatGPT subscription - no API key needed.</p>
+<h3>Kimi (Moonshot AI)</h3>
+<p>Kimi offers the K2 Thinking model with deep reasoning and multi-step tool orchestration.</p>
+<h4>Using OAuth (Subscription)</h4>
+<pre><code class="language-bash">/auth kimi enable
+/provider kimi
+/model kimi-k2-thinking
+</code></pre>
+<h4>Using API Key</h4>
+<pre><code class="language-bash">/provider kimi
+/keyfile ~/.kimi_key
+/model kimi-k2-thinking
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Kimi)</h4>
+<ul>
+<li>Context: 262,144 tokens</li>
+<li>Architecture: Trillion-parameter MoE (32B active)</li>
+<li>Strengths: Deep reasoning, 200-300 sequential tool calls, native thinking mode</li>
+</ul>
+<p>Example setup:</p>
+<pre><code class="language-bash">/set context-limit 262000
+/set modelparam max_tokens 8192
+/set reasoning.enabled true
+/set reasoning.includeInResponse true
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;kimi&quot;,
+  &quot;model&quot;: &quot;kimi-k2-thinking&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 8192 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 262000,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.includeInResponse&quot;: true
+  }
+}
+</code></pre>
+<h4>Kimi K2 via Synthetic/Chutes</h4>
+<p>Kimi K2 Thinking is also available through third-party providers:</p>
+<pre><code class="language-bash"># Via Synthetic
+/provider synthetic
+/keyfile ~/.synthetic_key
+/model hf:moonshotai/Kimi-K2-Thinking
+
+# Via Chutes
+/provider chutes
+/keyfile ~/.chutes_key
+/model kimi-k2-thinking
+</code></pre>
+<h3>Anthropic (Claude)</h3>
+<h4>Using Alias (Recommended)</h4>
+<pre><code class="language-bash">/provider anthropic
+/key sk-ant-your-key
+/model claude-sonnet-4-5-20250929
+</code></pre>
+<h4>Or OAuth (Claude Pro/Max)</h4>
+<pre><code class="language-bash">/auth anthropic enable
+</code></pre>
+<p>Note: OAuth is lazy - authentication happens when you first use the provider.</p>
+<h4>Model geometry &amp; recommended settings (Anthropic)</h4>
+<p>Common models: claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929, claude-opus-4-5-20251101</p>
+<p>Guidance:</p>
+<ul>
+<li>Start with context-limit 200000.</li>
+<li>If you enable thinking, increase max_tokens as needed and keep ≥1k tokens of safety.</li>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash"> /set context-limit 200000
+ /set modelparam max_tokens 4096
+ /set modelparam temperature 0.7
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;anthropic&quot;,
+  &quot;model&quot;: &quot;claude-sonnet-4-5-20250929&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
+}
+</code></pre>
+<p><strong>Common models:</strong> <code>claude-haiku-4-5-20251001</code>, <code>claude-sonnet-4-5-20250929</code>, <code>claude-opus-4-5-20251101</code></p>
+<p><strong>Environment variable:</strong> <code>export ANTHROPIC_API_KEY=sk-ant-...</code></p>
+<h3>Google Gemini</h3>
+<h4>Using Alias</h4>
+<pre><code class="language-bash">/provider gemini
+/key your-gemini-key
+/model gemini-3-flash-preview
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Gemini)</h4>
+<p>Common models: gemini-3-flash-preview, gemini-3-pro-preview</p>
+<p>Guidance:</p>
+<ul>
+<li>Use context-limit 1048576 for Gemini 3 models; lower if you see provider limit errors.</li>
+<li>Max output tokens: 65536</li>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 1048576
+/set modelparam max_tokens 4096   # Gemini often uses camelCase params in native SDKs, but LLxprt forwards what you set
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;gemini&quot;,
+  &quot;model&quot;: &quot;gemini-3-flash-preview&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 1048576 }
+}
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Synthetic)</h4>
+<p>Popular models: hf:zai-org/GLM-4.7, hf:mistralai/Mixtral-8x7B</p>
+<p>Guidance:</p>
+<ul>
+<li>Context varies by model/runtime. Start with context-limit 200000 and adjust.</li>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;synthetic&quot;,
+  &quot;model&quot;: &quot;hf:zai-org/GLM-4.7&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: {}
+}
+</code></pre>
+<h4>Or OAuth</h4>
+<pre><code class="language-bash">/auth gemini enable
+</code></pre>
+<p>Note: OAuth is lazy - authentication happens when you first use the provider.</p>
+<p><strong>Common models:</strong> <code>gemini-3-flash-preview</code>, <code>gemini-3-pro-preview</code></p>
+<p><strong>Environment variable:</strong> <code>export GEMINI_API_KEY=...</code></p>
+<h3>Synthetic (Hugging Face Models)</h3>
+<pre><code class="language-bash">/provider synthetic
+/key your-synthetic-key
+
+#### Model geometry &amp; recommended settings (Qwen)
+
+Common models: qwen3-coder-pro, qwen3-coder
+
+Guidance:
+- Use /auth qwen enable for OAuth (free) or /provider qwen for API key usage.
+- Start with context-limit 200000; lower if you hit provider limits.
+- Example setup:
+```bash
+/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Important:</strong> This alias is for Qwen's own service. It is not used for Cerebras.</p>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;qwen&quot;,
+  &quot;model&quot;: &quot;qwen3-coder-pro&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
+}
+</code></pre>
+<p>/model hf:zai-org/GLM-4.7</p>
+<pre><code>
+**Popular models:** `hf:zai-org/GLM-4.7`, `hf:mistralai/Mixtral-8x7B`
+
+### Qwen (Free)
+
+#### OAuth (Free)
+
+
+#### Model geometry &amp; recommended settings (xAI)
+
+Model: grok-3 (example)
+
+- Example setup:
+```bash
+/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;grok-3&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 200000,
+    &quot;base-url&quot;: &quot;https://api.x.ai/v1&quot;
+  }
+}
+</code></pre>
+<pre><code class="language-bash">/auth qwen enable
+</code></pre>
+<h4>Using Alias with API Key</h4>
+<pre><code class="language-bash">/provider qwen
+/key your-qwen-key
+/model qwen3-coder-pro
+</code></pre>
+<h3>Models Requiring Custom BaseURL</h3>
+<p>These providers use the OpenAI-compatible endpoint approach:</p>
+<h4>xAI (Grok)</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl https://api.x.ai/v1/
+/key your-xai-key
+/model grok-3
+</code></pre>
+<h4>OpenRouter</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl https://openrouter.ai/api/v1/
+/key your-openrouter-key
+
+#### Model geometry &amp; recommended settings (OpenRouter)
+
+Example model: qwen/qwen3-coder
+
+- Example setup:
+```bash
+/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;qwen/qwen3-coder&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 200000,
+    &quot;base-url&quot;: &quot;https://openrouter.ai/api/v1&quot;
+  }
+}
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Fireworks)</h4>
+<p>Example model: accounts/fireworks/models/llama-v3p3-70b-instruct</p>
+<ul>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;accounts/fireworks/models/llama-v3p3-70b-instruct&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 200000,
+    &quot;base-url&quot;: &quot;https://api.fireworks.ai/inference/v1&quot;
+  }
+}
+</code></pre>
+<h4>OpenRouter</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl https://openrouter.ai/api/v1/
+/key your-openrouter-key
+/model qwen/qwen3-coder
+</code></pre>
+<h4>Fireworks</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl https://api.fireworks.ai/inference/v1/
+/key your-fireworks-key
+/model accounts/fireworks/models/llama-v3p3-70b-instruct
+</code></pre>
+<h4>Cerebras (GLM-4.7)</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl https://api.cerebras.ai/v1/
+/key your-cerebras-key
+/model zai-glm-4.7
+# Recommended runtime tuning:
+/set context-limit 131000
+/set modelparam max_tokens 10000
+/set modelparam temperature 1
+</code></pre>
+<p><strong>Notes:</strong></p>
+<ul>
+<li>GLM-4.7 model supports 200k context, but <strong>Cerebras endpoint limits to ~131k</strong>.</li>
+<li>Budget room for completions: effective prompt budget = context-limit − max_tokens − safety.</li>
+<li>The /provider qwen alias is for Qwen's own service, not for Cerebras.</li>
+</ul>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;zai-glm-4.7&quot;,
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 1,
+    &quot;max_tokens&quot;: 10000
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 131000,
+    &quot;base-url&quot;: &quot;https://api.cerebras.ai/v1&quot;,
+    &quot;shell-replacement&quot;: true
+  }
+}
+</code></pre>
+<h4>Chutes AI</h4>
+<pre><code class="language-bash">/provider chutes    # Has built-in alias
+# OR
+/provider openai
+/baseurl https://api.chutes.ai/v1/
+/key your-chutes-key
+/model your-model
+</code></pre>
+<h2>Local Models</h2>
+<h4>Model geometry &amp; recommended settings (Chutes AI)</h4>
+<ul>
+<li>Example setup:</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;your-model&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 200000,
+    &quot;base-url&quot;: &quot;https://api.chutes.ai/v1&quot;
+  }
+}
+</code></pre>
+<h3>LM Studio</h3>
+<pre><code class="language-bash">/provider lm-studio    # Has built-in alias
+# OR
+/provider openai
+/baseurl http://127.0.0.1:1234/v1/
+/model your-local-model
+</code></pre>
+<h3>llama.cpp</h3>
+<pre><code class="language-bash">/provider llama-cpp    # Has built-in alias
+# OR
+/provider openai
+
+### Model geometry &amp; recommended settings (Local)
+
+Context depends on your local runtime and model build. Start with:
+```bash
+/set context-limit 32000
+/set modelparam max_tokens 2048
+# Increase gradually as your runtime allows.
+</code></pre>
+<p><strong>Ollama tip:</strong></p>
+<pre><code class="language-bash">/provider openai
+/baseurl http://localhost:11434/v1
+/key dummy-key
+/model codellama:13b
+</code></pre>
+<p>/baseurl <a href="http://localhost:8080/v1/">http://localhost:8080/v1/</a>
+/model your-model</p>
+<pre><code>
+### Ollama
+
+```bash
+/provider ollama      # Has built-in alias
+# OR
+/provider openai
+/baseurl http://localhost:11434/v1/
+/key dummy-key        # Ollama may require a dummy key
+/model codellama:13b
+</code></pre>
+<h2>Authentication Methods</h2>
+<h3>API Keys</h3>
+<p>Set directly with <code>/key</code> or load from file:</p>
+<pre><code class="language-bash"># Set key directly
+/key sk-your-api-key
+
+# Load from file (more secure)
+/keyfile ~/.keys/your-provider.key
+</code></pre>
+<h3>OAuth</h3>
+<p>Three providers support OAuth for authentication:</p>
+<pre><code class="language-bash"># Enable OAuth provider (lazy authentication - happens on first use)
+/auth anthropic enable
+/auth gemini enable
+/auth qwen enable
+
+# Check OAuth status
+/auth
+
+# Logout from provider
+/auth provider-name logout
+</code></pre>
+<h3>Environment Variables</h3>
+<p>Set keys in your shell environment (auto-detected):</p>
+<pre><code class="language-bash">export OPENAI_API_KEY=&quot;sk-...&quot;
+export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;
+export GEMINI_API_KEY=&quot;...&quot;
+</code></pre>
+<h2>Saving Configuration as Profiles</h2>
+<p>Save your provider setup for reuse:</p>
+<pre><code class="language-bash"># After configuring your provider
+/profile save my-setup
+
+# Load later
+/profile load my-setup
+
+# Use at startup
+llxprt --profile-load my-setup
+</code></pre>
+<p><strong>See <a href="../settings-and-profiles.html">Settings and Profiles</a> for complete profile management</strong></p>
+<h2>Provider Commands Reference</h2>
+<ul>
+<li><code>/provider</code> - List all providers or switch to one</li>
+<li><code>/model</code> - List available models or switch models</li>
+<li><code>/baseurl</code> - Set custom API endpoint (for OpenAI-compatible providers)</li>
+<li><code>/key</code> - Set API key for current session</li>
+<li><code>/keyfile</code> - Load key from file</li>
+<li><code>/auth</code> - OAuth authentication</li>
+<li><code>/profile save</code> - Save current provider configuration</li>
+</ul>
+<h2>Next Steps</h2>
+<ol>
+<li><strong>Configure your provider</strong> using the examples above</li>
+<li><strong>Save as profile</strong> for easy reuse: <code>/profile save my-config</code></li>
+<li><strong>Adjust model parameters</strong> like temperature: <code>/set modelparam temperature 0.7</code></li>
+<li><strong>Learn about profiles</strong>: <a href="../settings-and-profiles.html">Settings and Profiles Guide</a></li>
+</ol>
+<p><strong>See <a href="../cli/providers.html">complete CLI provider documentation</a> for advanced configuration</strong></p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

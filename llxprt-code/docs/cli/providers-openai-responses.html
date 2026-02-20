@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OpenAI Responses API | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>OpenAI Responses API</h1>
+<p>The OpenAI Responses API is a new endpoint that provides enhanced capabilities for certain models. This document describes how the LLxprt Code integrates with the Responses API, including automatic model detection, streaming support, and tool calling.</p>
+<p><strong>Note:</strong> The Responses API features are now accessible through the <code>/provider</code> command. Use <code>/provider openai-responses</code> to enable this mode in the CLI.</p>
+<h2>Overview</h2>
+<p>The Responses API (<code>/v1/responses</code>) is automatically used for compatible models, providing:</p>
+<ul>
+<li>Enhanced streaming capabilities</li>
+<li>Improved tool calling format</li>
+<li>Future support for stateful conversations</li>
+<li>Better error handling and retry logic</li>
+</ul>
+<h2>Supported Models</h2>
+<p>The following models automatically use the Responses API:</p>
+<ul>
+<li><code>o3-pro</code> (REQUIRES Responses API - will not work with legacy endpoint)</li>
+<li><code>o3</code></li>
+<li><code>o3-mini</code></li>
+<li><code>o1</code></li>
+<li><code>o1-mini</code></li>
+<li><code>gpt-5</code> (when available)</li>
+<li><code>gpt-4.1</code></li>
+<li><code>gpt-4o</code></li>
+<li><code>gpt-4o-mini</code></li>
+<li><code>gpt-4o-realtime</code></li>
+<li><code>gpt-4-turbo</code></li>
+<li><code>gpt-4-turbo-preview</code></li>
+</ul>
+<p>All other models and custom models continue to use the legacy completions endpoint.</p>
+<h2>Configuration</h2>
+<h3>Environment Variables</h3>
+<pre><code class="language-bash"># Disable Responses API for all models (force legacy endpoint)
+export OPENAI_RESPONSES_DISABLE=true
+
+# Standard OpenAI configuration
+export OPENAI_API_KEY=your-api-key
+export OPENAI_BASE_URL=https://api.openai.com/v1  # Optional custom endpoint
+</code></pre>
+<h3>Automatic Endpoint Selection</h3>
+<p>The provider automatically selects the appropriate endpoint based on the model:</p>
+<pre><code class="language-typescript">// Example: Automatic selection
+const provider = new OpenAIProvider({ model: 'gpt-4.1' });
+// Uses: https://api.openai.com/v1/responses
+
+const provider = new OpenAIProvider({ model: 'o3' });
+// Uses: https://api.openai.com/v1/responses
+
+const provider = new OpenAIProvider({ model: 'custom-model' });
+// Uses: https://api.openai.com/v1/chat/completions
+</code></pre>
+<h2>Request Format</h2>
+<p>The Responses API uses a different request format than the legacy completions endpoint:</p>
+<h3>Basic Request</h3>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;Hello&quot;
+    }
+  ],
+  &quot;model&quot;: &quot;gpt-4.1&quot;,
+  &quot;stream&quot;: true
+}
+</code></pre>
+<h3>Request with Tools</h3>
+<pre><code class="language-json">{
+  &quot;messages&quot;: [
+    {
+      &quot;role&quot;: &quot;user&quot;,
+      &quot;content&quot;: &quot;What's the weather in San Francisco?&quot;
+    }
+  ],
+  &quot;model&quot;: &quot;o3&quot;,
+  &quot;tools&quot;: [
+    {
+      &quot;type&quot;: &quot;function&quot;,
+      &quot;function&quot;: {
+        &quot;name&quot;: &quot;get_weather&quot;,
+        &quot;description&quot;: &quot;Get the current weather&quot;,
+        &quot;parameters&quot;: {
+          &quot;type&quot;: &quot;object&quot;,
+          &quot;properties&quot;: {
+            &quot;location&quot;: {
+              &quot;type&quot;: &quot;string&quot;,
+              &quot;description&quot;: &quot;City name&quot;
+            }
+          },
+          &quot;required&quot;: [&quot;location&quot;]
+        }
+      }
+    }
+  ],
+  &quot;tool_choice&quot;: &quot;auto&quot;
+}
+</code></pre>
+<h2>Response Format</h2>
+<h3>Streaming Responses</h3>
+<p>The Responses API uses Server-Sent Events (SSE) for streaming:</p>
+<pre><code>data: {&quot;type&quot;:&quot;message_start&quot;,&quot;message&quot;:{&quot;id&quot;:&quot;msg_123&quot;,&quot;role&quot;:&quot;assistant&quot;}}
+
+data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot;Hello&quot;}}
+
+data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot; there!&quot;}}
+
+data: {&quot;type&quot;:&quot;message_stop&quot;}
+
+data: [DONE]
+</code></pre>
+<h3>Tool Calls</h3>
+<p>Tool calls in the Responses API have a specific format:</p>
+<pre><code>data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot;I'll check the weather for you.\n\n&quot;}}
+
+data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot;&lt;tool_call&gt;&quot;}}
+data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot;\n{\&quot;tool_name\&quot;: \&quot;get_weather\&quot;, \&quot;parameters\&quot;: {\&quot;location\&quot;: \&quot;San Francisco\&quot;}}\n&quot;}}
+data: {&quot;type&quot;:&quot;content_delta&quot;,&quot;delta&quot;:{&quot;text&quot;:&quot;&lt;/tool_call&gt;&quot;}}
+</code></pre>
+<h2>Integration Examples</h2>
+<h3>Basic Usage</h3>
+<pre><code class="language-typescript">import { OpenAIProvider } from '@vybestack/llxprt-code';
+
+const provider = new OpenAIProvider({
+  model: 'gpt-4.1',
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+// Automatically uses Responses API
+const response = await provider.generateChatCompletion({
+  messages: [{ role: 'user', content: 'Hello' }],
+  stream: true,
+});
+</code></pre>
+<h3>Tool Calling</h3>
+<pre><code class="language-typescript">const response = await provider.generateChatCompletion({
+  messages: [{ role: 'user', content: 'What is 2+2?' }],
+  tools: [calculatorTool],
+  tool_choice: 'auto',
+  stream: true,
+});
+
+// Handle streaming response with tool calls
+for await (const chunk of response) {
+  if (chunk.type === 'content') {
+    console.log(chunk.text);
+  } else if (chunk.type === 'tool_calls') {
+    for (const toolCall of chunk.tool_calls) {
+      console.log(`Tool: ${toolCall.name}`);
+      console.log(`Args: ${JSON.stringify(toolCall.arguments)}`);
+    }
+  }
+}
+</code></pre>
+<h3>Forcing Legacy Endpoint</h3>
+<pre><code class="language-typescript">// Option 1: Environment variable
+process.env.OPENAI_RESPONSES_DISABLE = 'true';
+
+// Option 2: Use a custom model (not in the Responses API list)
+const provider = new OpenAIProvider({
+  model: 'my-custom-model', // Automatically uses legacy endpoint
+});
+</code></pre>
+<h2>Differences from Legacy API</h2>
+<h3>Request Differences</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Legacy (<code>/v1/chat/completions</code>)</th>
+<th>Responses (<code>/v1/responses</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Endpoint</td>
+<td><code>/v1/chat/completions</code></td>
+<td><code>/v1/responses</code></td>
+</tr>
+<tr>
+<td>Streaming</td>
+<td>Line-based JSON</td>
+<td>Server-Sent Events</td>
+</tr>
+<tr>
+<td>Tool Format</td>
+<td><code>functions</code> array</td>
+<td><code>tools</code> array</td>
+</tr>
+<tr>
+<td>Tool Choice</td>
+<td><code>function_call</code></td>
+<td><code>tool_choice</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Response Differences</h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>Legacy</th>
+<th>Responses</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stream Format</td>
+<td><code>data: {&quot;choices&quot;:[...]}</code></td>
+<td><code>data: {&quot;type&quot;:&quot;content_delta&quot;,...}</code></td>
+</tr>
+<tr>
+<td>Tool Calls</td>
+<td>In <code>function_call</code> field</td>
+<td>Embedded in content with markers</td>
+</tr>
+<tr>
+<td>Message IDs</td>
+<td>Not provided</td>
+<td>Included in <code>message_start</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Error Handling</h2>
+<p>The Responses API provides enhanced error information:</p>
+<pre><code class="language-json">{
+  &quot;error&quot;: {
+    &quot;type&quot;: &quot;invalid_request_error&quot;,
+    &quot;message&quot;: &quot;Invalid tool specification&quot;,
+    &quot;param&quot;: &quot;tools[0].function.parameters&quot;,
+    &quot;code&quot;: &quot;invalid_tool_parameters&quot;
+  }
+}
+</code></pre>
+<h2>Testing</h2>
+<h3>Unit Tests</h3>
+<pre><code class="language-bash"># Run all OpenAI provider tests
+npm test OpenAIProvider
+
+# Run specific Responses API tests
+npm test OpenAIProvider.responsesIntegration
+npm test OpenAIProvider.switch
+npm test parseResponsesStream
+</code></pre>
+<h3>Integration Tests</h3>
+<pre><code class="language-bash"># Test with real API (requires OPENAI_API_KEY)
+npm run test:integration -- --grep &quot;Responses API&quot;
+</code></pre>
+<h3>Manual Testing</h3>
+<pre><code class="language-bash"># Enable OpenAI Responses mode in the CLI
+llxprt
+&gt; /provider openai-responses
+&gt; /model gpt-4.1
+&gt; Hello
+
+# Test with gpt-4.1 (uses Responses API)
+llxprt --provider openai --model gpt-4.1 &quot;Hello&quot;
+
+# Test with o3 (uses Responses API)
+llxprt --provider openai --model o3 &quot;Hello&quot;
+
+# Test with gpt-5 (when available, will use Responses API)
+llxprt --provider openai --model gpt-5 &quot;Hello&quot;
+
+# Test with custom model (uses legacy endpoint)
+llxprt --provider openai --model my-custom-model &quot;Hello&quot;
+
+# Force legacy endpoint for gpt-4.1
+OPENAI_RESPONSES_DISABLE=true llxprt --provider openai --model gpt-4.1 &quot;Hello&quot;
+</code></pre>
+<h2>Performance Considerations</h2>
+<p>The Responses API generally provides:</p>
+<ul>
+<li>Lower latency for first token</li>
+<li>More consistent streaming performance</li>
+<li>Better handling of long responses</li>
+<li>Improved reliability for tool calls</li>
+</ul>
+<h2>Future Features</h2>
+<p>The following features are planned but not yet implemented:</p>
+<h3>Stateful Conversations</h3>
+<pre><code class="language-typescript">// Future API
+const response = await provider.generateChatCompletion({
+  messages: [...],
+  conversationId: 'conv_123',
+  parentId: 'msg_456',
+  stateful: true
+});
+</code></pre>
+<h3>Response Caching</h3>
+<ul>
+<li>Automatic caching of responses</li>
+<li>Conversation history management</li>
+<li>Reduced API calls for repeated queries</li>
+</ul>
+<h2>Troubleshooting</h2>
+<h3>Common Issues</h3>
+<ol>
+<li>
+<p><strong>Responses API not being used</strong></p>
+<ul>
+<li>Check if <code>OPENAI_RESPONSES_DISABLE</code> is set</li>
+<li>Verify the model is in the supported list</li>
+<li>Check debug logs: <code>DEBUG=llxprt:* llxprt --provider openai ...</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Tool calls not working</strong></p>
+<ul>
+<li>Ensure tools are properly formatted for Responses API</li>
+<li>Check that <code>tool_choice</code> is used instead of <code>function_call</code></li>
+<li>Verify tool response format matches expected structure (see <a href="../tool-output-format.html">Tool output format</a>)</li>
+</ul>
+</li>
+<li>
+<p><strong>Streaming issues</strong></p>
+<ul>
+<li>Ensure SSE parsing is working correctly</li>
+<li>Check for proxy/firewall interference with streaming</li>
+<li>Verify <code>stream: true</code> is set in request</li>
+</ul>
+</li>
+</ol>
+<h3>Debug Mode</h3>
+<p>Enable detailed logging to troubleshoot issues:</p>
+<pre><code class="language-bash"># Show all provider operations
+DEBUG=llxprt:provider:* llxprt --provider openai --model gpt-4.1 &quot;Test&quot;
+
+# Show only Responses API operations
+DEBUG=llxprt:provider:openai:responses llxprt --provider openai --model o3 &quot;Test&quot;
+</code></pre>
+<h2>See Also</h2>
+<ul>
+<li><a href="./configuration.html#openai-provider">OpenAI Provider Configuration</a></li>
+<li><a href="./tools.html">Tool Calling Guide</a></li>
+<li><a href="./streaming.html">Streaming Responses</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

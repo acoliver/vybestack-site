@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Using Local Models | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Using Local Models</h1>
+<p>LLxprt Code provides excellent support for local AI models, allowing you to run powerful language models on your own hardware for enhanced privacy, cost control, and offline capabilities. This guide covers everything you need to know about setting up and optimizing local model usage.</p>
+<h2>Overview</h2>
+<p>Local models offer several advantages:</p>
+<ul>
+<li><strong>Privacy</strong>: Your code and conversations never leave your machine</li>
+<li><strong>Cost Control</strong>: No API fees once you have the hardware</li>
+<li><strong>Offline Capability</strong>: Work without internet connectivity</li>
+<li><strong>Customization</strong>: Fine-tune models for your specific needs</li>
+<li><strong>Speed</strong>: Potentially faster responses with dedicated hardware</li>
+</ul>
+<p>LLxprt Code supports any OpenAI-compatible local server, including:</p>
+<ul>
+<li><strong>LM Studio</strong>: User-friendly GUI for running models locally</li>
+<li><strong>llama.cpp</strong>: Efficient C++ implementation for various models</li>
+<li><strong>Ollama</strong>: Easy-to-use local model server</li>
+<li><strong>text-generation-webui</strong>: Advanced web interface for local models</li>
+<li><strong>Jan</strong>: Open-source ChatGPT alternative</li>
+<li><strong>LocalAI</strong>: Local OpenAI-compatible API server</li>
+</ul>
+<h2>Basic Setup</h2>
+<h3>1. Configure Base URL</h3>
+<p>Use the <code>/baseurl</code> command to point to your local server:</p>
+<pre><code class="language-bash">/baseurl http://localhost:1234/v1  # LM Studio default
+/baseurl http://localhost:11434/v1 # Ollama default
+/baseurl http://localhost:5000/v1  # Common alternative
+</code></pre>
+<h3>2. Remove API Key Requirements</h3>
+<p>Local servers typically don't require authentication:</p>
+<pre><code class="language-bash">/key clear  # Remove any existing API key
+</code></pre>
+<p>If your local server does require authentication, you can still set a key:</p>
+<pre><code class="language-bash">/key your-local-server-key
+# or use a keyfile
+/keyfile path/to/local-key.txt
+</code></pre>
+<h3>3. Select Your Model</h3>
+<p>Choose the model name as it appears in your local server:</p>
+<pre><code class="language-bash">/model llama-3.1-70b-instruct
+/model codestral-latest
+/model qwen2.5-coder-32b
+</code></pre>
+<h2>Essential Ephemeral Settings</h2>
+<p>Local models often require specific configuration for optimal performance. Use these ephemeral settings to fine-tune your experience:</p>
+<h3>Context Size Configuration</h3>
+<p>Match your context limit to your local model's configuration:</p>
+<pre><code class="language-bash"># Common context sizes
+/set context-limit 32768    # 32K context (typical for many models)
+/set context-limit 131072   # 128K context (larger models)
+/set context-limit 1048576  # 1M context (advanced setups)
+</code></pre>
+<p><strong>Important</strong>: This should match the context size configured in your local server (LM Studio, llama.cpp, etc.). Mismatched settings can cause truncation or errors.</p>
+<h3>Socket Configuration for Stability</h3>
+<p>Local AI servers can sometimes have connection stability issues. Configure socket settings for more reliable connections:</p>
+<pre><code class="language-bash">/set socket-timeout 120000      # 2 minute timeout for long responses
+/set socket-keepalive true      # Enable TCP keepalive (default)
+/set socket-nodelay true        # Disable Nagle algorithm (default)
+</code></pre>
+<p>These settings help prevent &quot;socket hang up&quot; and &quot;connection terminated&quot; errors common with local servers.</p>
+<h3>Compression Settings</h3>
+<p>For large contexts, configure when compression kicks in:</p>
+<pre><code class="language-bash">/set compression-threshold 0.8  # Compress when context reaches 80% of limit
+</code></pre>
+<h3>Tool Format Configuration</h3>
+<p>Different models have different tool calling formats. Configure the appropriate format for your model:</p>
+<pre><code class="language-bash">/toolformat openai    # Most local models (default)
+/toolformat qwen      # Qwen models and derivatives
+/toolformat deepseek  # DeepSeek models
+</code></pre>
+<h4>Tool Format Details</h4>
+<ul>
+<li><strong>OpenAI Format</strong>: Standard function calling format used by most models</li>
+<li><strong>Qwen Format</strong>: Used by Qwen models and some Chinese models</li>
+<li><strong>DeepSeek Format</strong>: Specific format for DeepSeek Coder models</li>
+</ul>
+<p>If you're unsure, start with <code>openai</code> format as it's the most widely supported.</p>
+<h2>Popular Local Server Configurations</h2>
+<h3>LM Studio</h3>
+<p>LM Studio is one of the easiest ways to run local models:</p>
+<ol>
+<li>Download and install LM Studio</li>
+<li>Download your preferred model through the LM Studio interface</li>
+<li>Start the local server (usually on port 1234)</li>
+<li>Configure LLxprt Code:</li>
+</ol>
+<pre><code class="language-bash">/baseurl http://localhost:1234/v1
+/key clear
+/model your-model-name
+/set context-limit 32768  # Match LM Studio's context setting
+</code></pre>
+<h3>Ollama</h3>
+<p>Ollama provides a simple command-line interface for local models:</p>
+<ol>
+<li>Install Ollama</li>
+<li>Pull a model: <code>ollama pull llama3.1:70b</code></li>
+<li>Start Ollama (runs on port 11434 by default)</li>
+<li>Configure LLxprt Code:</li>
+</ol>
+<pre><code class="language-bash">/baseurl http://localhost:11434/v1
+/key clear
+/model llama3.1:70b
+/set context-limit 131072  # Ollama often supports larger contexts
+</code></pre>
+<h3>llama.cpp Server</h3>
+<p>For direct llama.cpp server usage:</p>
+<ol>
+<li>Build llama.cpp with server support</li>
+<li>Start server: <code>./llama-server -m model.gguf -c 32768 --port 8080</code></li>
+<li>Configure LLxprt Code:</li>
+</ol>
+<pre><code class="language-bash">/baseurl http://localhost:8080/v1
+/key clear
+/model your-model
+/set context-limit 32768  # Match the -c parameter
+/set socket-timeout 180000  # llama.cpp can be slower
+</code></pre>
+<h2>Performance Optimization</h2>
+<h3>Hardware Considerations</h3>
+<ul>
+<li><strong>GPU Memory</strong>: More VRAM allows larger models and longer contexts</li>
+<li><strong>System RAM</strong>: Important for CPU inference and large contexts</li>
+<li><strong>CPU</strong>: Faster CPUs improve response times for CPU inference</li>
+</ul>
+<h3>LLxprt Code Settings</h3>
+<pre><code class="language-bash"># Optimize for local performance
+/set socket-timeout 300000      # 5 minutes for large model responses
+/set compression-threshold 0.9  # Less aggressive compression
+/set context-limit 65536        # Balance between capability and speed
+</code></pre>
+<h3>Model Selection</h3>
+<p>Consider these factors when choosing models:</p>
+<ul>
+<li><strong>Size vs Speed</strong>: Smaller models (7B-13B) are faster but less capable</li>
+<li><strong>Quantization</strong>: Q4_K_M provides good balance of size and quality</li>
+<li><strong>Specialization</strong>: Code-specific models like CodeLlama or Qwen2.5-Coder</li>
+</ul>
+<h2>Saving Your Configuration</h2>
+<p>Once you have your local setup working, save it as a profile:</p>
+<pre><code class="language-bash">/profile save local-dev
+</code></pre>
+<p>Load it anytime with:</p>
+<pre><code class="language-bash">/profile load local-dev
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Common Issues</h3>
+<ol>
+<li>
+<p><strong>Connection Refused</strong></p>
+<ul>
+<li>Ensure your local server is running</li>
+<li>Check the port number in your <code>/baseurl</code></li>
+<li>Verify firewall settings</li>
+</ul>
+</li>
+<li>
+<p><strong>Socket Hang Up Errors</strong></p>
+<ul>
+<li>Increase socket timeout: <code>/set socket-timeout 180000</code></li>
+<li>Enable keepalive: <code>/set socket-keepalive true</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Tool Calling Errors</strong></p>
+<ul>
+<li>Try different tool formats: <code>/toolformat qwen</code> or <code>/toolformat openai</code></li>
+<li>Some models don't support tools - check model documentation</li>
+</ul>
+</li>
+<li>
+<p><strong>Context Overflow</strong></p>
+<ul>
+<li>Reduce context limit: <code>/set context-limit 16384</code></li>
+<li>Enable compression: <code>/set compression-threshold 0.7</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Slow Responses</strong></p>
+<ul>
+<li>Use smaller/faster models</li>
+<li>Increase socket timeout</li>
+<li>Check GPU/CPU utilization</li>
+</ul>
+</li>
+</ol>
+<h3>Debug Information</h3>
+<p>Enable debug logging to troubleshoot issues:</p>
+<pre><code class="language-bash">DEBUG=llxprt:providers:openai llxprt
+</code></pre>
+<p>This shows detailed information about API calls and socket configuration.</p>
+<h2>Security Considerations</h2>
+<ul>
+<li>Local models keep your data private, but ensure your local server is properly secured</li>
+<li>Don't expose local servers to the internet without proper authentication</li>
+<li>Be cautious with file system access when using local models</li>
+</ul>
+<h2>Example Complete Setup</h2>
+<p>Here's a complete example for a local Qwen2.5-Coder setup:</p>
+<pre><code class="language-bash"># Basic configuration
+/baseurl http://localhost:1234/v1
+/key clear
+/model qwen2.5-coder-32b-instruct
+
+# Optimize for local use
+/set context-limit 131072
+/set socket-timeout 180000
+/set socket-keepalive true
+/set compression-threshold 0.8
+/toolformat qwen
+
+# Save configuration
+/profile save qwen-local
+
+# Test the setup
+What's the weather like? # Should get a response from your local model
+</code></pre>
+<p>This configuration provides a robust setup for local AI development with proper socket handling, context management, and tool support.</p>
+<h2>Why These Settings Matter</h2>
+<h3>Socket Configuration</h3>
+<p>Local AI servers often run on different networking stacks than cloud APIs. The socket configuration helps by:</p>
+<ul>
+<li><strong>socket-timeout</strong>: Prevents premature timeouts during long model inference</li>
+<li><strong>socket-keepalive</strong>: Maintains connection during idle periods</li>
+<li><strong>socket-nodelay</strong>: Reduces latency by disabling packet batching</li>
+</ul>
+<h3>Context Management</h3>
+<p>Unlike cloud APIs with strict token limits, local models let you configure context size. Proper configuration ensures:</p>
+<ul>
+<li>Efficient memory usage</li>
+<li>Consistent behavior across sessions</li>
+<li>Optimal performance for your hardware</li>
+</ul>
+<h3>Tool Format Selection</h3>
+<p>Different model families use different tool calling conventions. Proper format selection ensures:</p>
+<ul>
+<li>Reliable function calling</li>
+<li>Consistent tool execution</li>
+<li>Compatibility with your chosen model</li>
+</ul>
+<p>With these configurations, LLxprt Code provides enterprise-grade local AI capabilities while maintaining the familiar interface and powerful tooling you expect.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

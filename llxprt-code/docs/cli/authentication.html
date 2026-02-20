@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Authentication Setup | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Authentication Setup</h1>
+<p>LLxprt Code supports multiple authentication methods for various AI providers. For Google's AI services, you'll need to configure <strong>one</strong> of the following authentication methods:</p>
+<ol>
+<li>
+<p><strong>Login with Google (Gemini Code Assist):</strong></p>
+<ul>
+<li>
+<p>Use this option to log in with your Google account.</p>
+</li>
+<li>
+<p>During initial startup, LLxprt Code will direct you to a webpage for authentication. Once authenticated, your credentials will be cached locally so the web login can be skipped on subsequent runs.</p>
+</li>
+<li>
+<p>Note that the web login must be done in a browser that can communicate with the machine LLxprt Code is being run from. (Specifically, the browser will be redirected to a localhost url that LLxprt Code will be listening on).</p>
+</li>
+<li>
+<p><a id="workspace-gca">Users may have to specify a GOOGLE_CLOUD_PROJECT if:</a></p>
+<ol>
+<li>You have a Google Workspace account. Google Workspace is a paid service for businesses and organizations that provides a suite of productivity tools, including a custom email domain (e.g. <a href="mailto:your-name@your-company.com">your-name@your-company.com</a>), enhanced security features, and administrative controls. These accounts are often managed by an employer or school.</li>
+<li>You have received a Gemini Code Assist license through the <a href="https://developers.google.com/program/plans-and-pricing">Google Developer Program</a> (including qualified Google Developer Experts)</li>
+<li>You have been assigned a license to a current Gemini Code Assist standard or enterprise subscription.</li>
+<li>You are using the product outside the <a href="https://developers.google.com/gemini-code-assist/resources/available-locations">supported regions</a> for free individual usage.</li>
+<li>You are a Google account holder under the age of 18</li>
+</ol>
+<ul>
+<li>If you fall into one of these categories, you must first configure a Google Cloud Project ID to use, <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api">enable the Gemini for Cloud API</a> and <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam">configure access permissions</a>.</li>
+</ul>
+<p>You can temporarily set the environment variable in your current shell session using the following command:</p>
+<pre><code class="language-bash">export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+</code></pre>
+<ul>
+<li>For repeated use, you can add the environment variable to your <a href="#persisting-environment-variables-with-env-files">.env file</a> or your shell's configuration file (like <code>~/.bashrc</code>, <code>~/.zshrc</code>, or <code>~/.profile</code>). For example, the following command adds the environment variable to a <code>~/.bashrc</code> file:</li>
+</ul>
+<pre><code class="language-bash">echo 'export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong><a id="gemini-api-key"></a>Gemini API key:</strong></p>
+<ul>
+<li>Obtain your API key from Google AI Studio: <a href="https://aistudio.google.com/app/apikey">https://aistudio.google.com/app/apikey</a></li>
+<li>Set the <code>GEMINI_API_KEY</code> environment variable. In the following methods, replace <code>YOUR_GEMINI_API_KEY</code> with the API key you obtained from Google AI Studio:
+<ul>
+<li>
+<p>You can temporarily set the environment variable in your current shell session using the following command:</p>
+<pre><code class="language-bash">export GEMINI_API_KEY=&quot;YOUR_GEMINI_API_KEY&quot;
+</code></pre>
+</li>
+<li>
+<p>For repeated use, you can add the environment variable to your <a href="#persisting-environment-variables-with-env-files">.env file</a>.</p>
+</li>
+<li>
+<p>Alternatively you can export the API key from your shell's configuration file (like <code>~/.bashrc</code>, <code>~/.zshrc</code>, or <code>~/.profile</code>). For example, the following command adds the environment variable to a <code>~/.bashrc</code> file:</p>
+<pre><code class="language-bash">echo 'export GEMINI_API_KEY=&quot;YOUR_GEMINI_API_KEY&quot;' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+<p>:warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Vertex AI:</strong></p>
+<ul>
+<li>
+<p><strong>API Key:</strong></p>
+<ul>
+<li>Obtain your Google Cloud API key: <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser">Get an API Key</a></li>
+<li>Set the <code>GOOGLE_API_KEY</code> environment variable. In the following methods, replace <code>YOUR_GOOGLE_API_KEY</code> with your Vertex AI API key:
+<ul>
+<li>
+<p>You can temporarily set the environment variable in your current shell session using the following command:</p>
+<pre><code class="language-bash">export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;
+</code></pre>
+</li>
+<li>
+<p>For repeated use, you can add the environment variable to your <a href="#persisting-environment-variables-with-env-files">.env file</a> or your shell's configuration file (like <code>~/.bashrc</code>, <code>~/.zshrc</code>, or <code>~/.profile</code>). For example, the following command adds the environment variable to a <code>~/.bashrc</code> file:</p>
+<pre><code class="language-bash">echo 'export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+<p>:warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.</p>
+<blockquote>
+<p><strong>Note:</strong>
+If you encounter an error like <code>&quot;API keys are not supported by this API - Expected OAuth2 access token or other authentication credentials that assert a principal&quot;</code>, it is likely that your organization has restricted the creation of service account API keys. In this case, please try the <a href="#service-account-json-key">service account JSON key</a> method described below.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Application Default Credentials (ADC):</strong></p>
+<blockquote>
+<p><strong>Note:</strong>
+If you have previously set the <code>GOOGLE_API_KEY</code> or <code>GEMINI_API_KEY</code> environment variables, you must unset them to use Application Default Credentials.</p>
+<pre><code class="language-bash">unset GOOGLE_API_KEY GEMINI_API_KEY
+</code></pre>
+</blockquote>
+<ul>
+<li>
+<p><strong>Using <code>gcloud</code> (for local development):</strong></p>
+<ul>
+<li>Ensure you have a Google Cloud project and have enabled the Vertex AI API.</li>
+<li>Log in with your user credentials:<pre><code class="language-bash">gcloud auth application-default login
+</code></pre>
+For more information, see <a href="https://cloud.google.com/docs/authentication/provide-credentials-adc">Set up Application Default Credentials for Google Cloud</a>.</li>
+</ul>
+</li>
+<li>
+<p><strong><a id="service-account-json-key"></a>Using a Service Account (for applications or when service account API keys are restricted):</strong></p>
+<ul>
+<li>If you are unable to create an API key due to <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=existinguser#expandable-2">organization policies</a>, or if you are running in a non-interactive environment, you can authenticate using a service account key.</li>
+<li><a href="https://cloud.google.com/iam/docs/keys-create-delete">Create a service account and key</a>, and download the JSON key file. The service account will need to be assigned the &quot;Vertex AI User&quot; role.</li>
+<li>Set the <code>GOOGLE_APPLICATION_CREDENTIALS</code> environment variable to the absolute path of the JSON file.
+<ul>
+<li>You can temporarily set the environment variable in your current shell session:<pre><code class="language-bash">export GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/your/keyfile.json&quot;
+</code></pre>
+</li>
+<li>For repeated use, you can add the command to your shell's configuration file (e.g., <code>~/.bashrc</code>).<pre><code class="language-bash">echo 'export GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/your/keyfile.json&quot;' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+:warning: Be advised that when you export service account credentials inside your shell configuration file, any other process executed from the shell can read it.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Required Environment Variables for ADC:</strong></p>
+<ul>
+<li>When using ADC (either with <code>gcloud</code> or a service account), you must also set the <code>GOOGLE_CLOUD_PROJECT</code> and <code>GOOGLE_CLOUD_LOCATION</code> environment variables. In the following methods, replace <code>YOUR_PROJECT_ID</code> and <code>YOUR_PROJECT_LOCATION</code> with the relevant values for your project:
+<ul>
+<li>You can temporarily set these environment variables in your current shell session using the following commands:<pre><code class="language-bash">export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+export GOOGLE_CLOUD_LOCATION=&quot;YOUR_PROJECT_LOCATION&quot; # e.g., us-central1
+</code></pre>
+</li>
+<li>For repeated use, you can add the environment variables to your <a href="#persisting-environment-variables-with-env-files">.env file</a> or your shell's configuration file (like <code>~/.bashrc</code>, <code>~/.zshrc</code>, or <code>~/.profile</code>). For example, the following commands add the environment variables to a <code>~/.bashrc</code> file:<pre><code class="language-bash">echo 'export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;' &gt;&gt; ~/.bashrc
+echo 'export GOOGLE_CLOUD_LOCATION=&quot;YOUR_PROJECT_LOCATION&quot;' &gt;&gt; ~/.bashrc
+source ~/.bashrc
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Cloud Shell:</strong></p>
+<ul>
+<li>
+<p>This option is only available when running in a Google Cloud Shell environment.</p>
+</li>
+<li>
+<p>It automatically uses the credentials of the logged-in user in the Cloud Shell environment.</p>
+</li>
+<li>
+<p>This is the default authentication method when running in Cloud Shell and no other method is configured.</p>
+<pre><code>:warning: Be advised that when you export your API key inside your shell configuration file, any other process executed from the shell can read it.
+</code></pre>
+</li>
+</ul>
+</li>
+</ol>
+<h3>Persisting Environment Variables with <code>.env</code> Files</h3>
+<p>You can create a <strong><code>.gemini/.env</code></strong> file in your project directory or in your home directory. Creating a plain <strong><code>.env</code></strong> file also works, but <code>.gemini/.env</code> is recommended to keep Gemini variables isolated from other tools.</p>
+<p><strong>Important:</strong> Some environment variables (like <code>DEBUG</code> and <code>DEBUG_MODE</code>) are automatically excluded from project <code>.env</code> files to prevent interference with llxprt-code behavior. Use <code>.llxprt/.env</code> files for llxprt-code specific variables.</p>
+<p>LLxprt Code automatically loads environment variables from the <strong>first</strong> <code>.env</code> file it finds, using the following search order:</p>
+<ol>
+<li>Starting in the <strong>current directory</strong> and moving upward toward <code>/</code>, for each directory it checks:
+<ol>
+<li><code>.gemini/.env</code></li>
+<li><code>.env</code></li>
+</ol>
+</li>
+<li>If no file is found, it falls back to your <strong>home directory</strong>:
+<ul>
+<li><code>~/.gemini/.env</code></li>
+<li><code>~/.env</code></li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p><strong>Important:</strong> The search stops at the <strong>first</strong> file encountered—variables are <strong>not merged</strong> across multiple files.</p>
+</blockquote>
+<h4>Examples</h4>
+<p><strong>Project-specific overrides</strong> (take precedence when you are inside the project):</p>
+<pre><code class="language-bash">mkdir -p .gemini
+echo 'GOOGLE_CLOUD_PROJECT=&quot;your-project-id&quot;' &gt;&gt; .gemini/.env
+</code></pre>
+<p><strong>User-wide settings</strong> (available in every directory):</p>
+<pre><code class="language-bash">mkdir -p ~/.gemini
+cat &gt;&gt; ~/.gemini/.env &lt;&lt;'EOF'
+GOOGLE_CLOUD_PROJECT=&quot;your-project-id&quot;
+GEMINI_API_KEY=&quot;your-gemini-api-key&quot;
+EOF
+</code></pre>
+<h2>Non-Interactive Mode / Headless Environments</h2>
+<p>When running LLxprt Code in a non-interactive environment, you cannot use the interactive login flow.
+Instead, you must configure authentication using environment variables.</p>
+<p>The CLI will automatically detect if it is running in a non-interactive terminal and will use one of the
+following authentication methods if available:</p>
+<ol>
+<li>
+<p><strong>Gemini API Key:</strong></p>
+<ul>
+<li>Set the <code>GEMINI_API_KEY</code> environment variable.</li>
+<li>The CLI will use this key to authenticate with the Gemini API.</li>
+</ul>
+</li>
+<li>
+<p><strong>Vertex AI:</strong></p>
+<ul>
+<li>Set the <code>GOOGLE_GENAI_USE_VERTEXAI=true</code> environment variable.</li>
+<li><strong>Using an API Key:</strong> Set the <code>GOOGLE_API_KEY</code> environment variable.</li>
+<li><strong>Using Application Default Credentials (ADC):</strong>
+<ul>
+<li>Run <code>gcloud auth application-default login</code> in your environment to configure ADC.</li>
+<li>Ensure the <code>GOOGLE_CLOUD_PROJECT</code> and <code>GOOGLE_CLOUD_LOCATION</code> environment variables are set.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>If none of these environment variables are set in a non-interactive session, the CLI will exit with an error.</p>
+<h2>Multi-Provider Authentication</h2>
+<p>LLxprt Code supports authentication with multiple AI providers beyond Google. Use the <code>/auth</code> command to manage OAuth authentication for providers that support it:</p>
+<ul>
+<li><strong>Anthropic</strong> - OAuth for Claude models</li>
+<li><strong>Gemini</strong> - OAuth for Google AI</li>
+<li><strong>Codex</strong> - OAuth for ChatGPT Plus/Pro subscribers (use <code>/auth codex</code> for OAuth; access GPT-5 without API keys)</li>
+<li><strong>Qwen</strong> - OAuth for Alibaba Cloud models</li>
+</ul>
+<h3>The <code>/auth</code> Command</h3>
+<pre><code class="language-bash">/auth &lt;provider&gt; &lt;action&gt; [bucket-name]
+</code></pre>
+<p><strong>Providers:</strong> <code>anthropic</code>, <code>gemini</code>, <code>codex</code> (OpenAI), <code>qwen</code>, and others</p>
+<p><strong>Actions:</strong></p>
+<ul>
+<li><code>login [bucket]</code> - Authenticate with the provider (optionally to a named bucket)</li>
+<li><code>logout [bucket|--all]</code> - Remove authentication</li>
+<li><code>status</code> - Show all authenticated buckets and their status</li>
+<li><code>switch &lt;bucket&gt;</code> - Switch to a different bucket</li>
+</ul>
+<h3>OAuth Buckets</h3>
+<p>OAuth buckets let you manage multiple authentication contexts per provider. This is useful when you have multiple accounts or API credentials for the same provider.</p>
+<p><strong>Creating buckets:</strong></p>
+<pre><code class="language-bash"># Default bucket (no name)
+/auth anthropic login
+
+# Named buckets
+/auth anthropic login work@company.com
+/auth anthropic login personal@gmail.com
+
+# OpenAI OAuth for ChatGPT Plus/Pro subscribers
+/auth codex login
+</code></pre>
+<p><strong>Viewing buckets:</strong></p>
+<pre><code class="language-bash">/auth anthropic status
+</code></pre>
+<p>Shows all buckets with their authentication status and token expiry.</p>
+<p><strong>Switching buckets:</strong></p>
+<pre><code class="language-bash">/auth anthropic switch work@company.com
+</code></pre>
+<p><strong>Logging out:</strong></p>
+<pre><code class="language-bash"># Logout from specific bucket
+/auth anthropic logout work@company.com
+
+# Logout from all buckets
+/auth anthropic logout --all
+</code></pre>
+<h3>Using Buckets with Profiles</h3>
+<p>Buckets are most powerful when combined with profiles. You can save a profile that uses specific buckets:</p>
+<pre><code class="language-bash"># Single bucket
+/profile save model work-profile work@company.com
+
+# Multiple buckets (automatic failover on rate limits)
+/profile save model ha-profile bucket1 bucket2 bucket3
+</code></pre>
+<p>When a profile has multiple buckets, LLxprt Code automatically fails over to the next bucket when encountering rate limits (429) or quota errors (402).</p>
+<p>For more details, see <a href="./profiles.html">Profiles</a>.</p>
+<h3>Viewing Bucket Statistics</h3>
+<pre><code class="language-bash">/stats buckets
+</code></pre>
+<p>Shows request counts and last-used timestamps for all OAuth buckets across providers.</p>
+<h2>API Key Authentication</h2>
+<p>For providers that use API keys instead of OAuth, you can use environment variables or the <code>/key</code> and <code>/keyfile</code> commands:</p>
+<p><strong>Environment variables:</strong></p>
+<pre><code class="language-bash">export OPENAI_API_KEY=&quot;your-key&quot;
+export ANTHROPIC_API_KEY=&quot;your-key&quot;
+</code></pre>
+<p><strong>In-session commands:</strong></p>
+<pre><code class="language-bash">/key &lt;api-key&gt;
+/keyfile /path/to/keyfile
+</code></pre>
+<p>These commands set the API key for the current provider. The key is not persisted between sessions unless saved in a profile.</p>
+<h2>Authentication Priority</h2>
+<p>When multiple authentication methods are available, LLxprt Code uses this priority:</p>
+<ol>
+<li>CLI flags (<code>--key</code>, <code>--keyfile</code>)</li>
+<li>Profile settings (if a profile is loaded)</li>
+<li>OAuth tokens (from <code>/auth login</code>)</li>
+<li>Environment variables</li>
+</ol>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

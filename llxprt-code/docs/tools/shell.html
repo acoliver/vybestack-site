@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shell Tool (`run_shell_command`) | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Shell Tool (<code>run_shell_command</code>)</h1>
+<p>This document describes the <code>run_shell_command</code> tool for the LLxprt Code.</p>
+<h2>Description</h2>
+<p>Use <code>run_shell_command</code> to interact with the underlying system, run scripts, or perform command-line operations. When <code>shouldUseNodePtyShell</code> is <code>true</code> (the <strong>Enable Interactive Shell (node-pty)</strong> toggle in <code>/settings</code>), fully interactive programs (such as <code>vim</code> or <code>git rebase -i</code>) are supported; otherwise the command runs non-interactively. Legacy settings that use <code>tools.shell.enableInteractiveShell</code> continue to work and are migrated automatically.</p>
+<p>On Windows commands run via <code>cmd.exe /c</code>. On macOS/Linux they run via <code>bash -c</code>.</p>
+<h3>Arguments</h3>
+<p><code>run_shell_command</code> takes the following arguments:</p>
+<ul>
+<li><code>command</code> (string, required): The exact shell command to execute.</li>
+<li><code>description</code> (string, optional): A brief description of the command's purpose, which will be shown to the user.</li>
+<li><code>directory</code> (string, optional): The directory (relative to the project root) in which to execute the command. If not provided, the command runs in the project root.</li>
+</ul>
+<h2>How to use <code>run_shell_command</code> with the LLxprt Code</h2>
+<p>When using <code>run_shell_command</code>, the command is executed as a subprocess. <code>run_shell_command</code> can start background processes using <code>&amp;</code>. The tool returns detailed information about the execution, including:</p>
+<ul>
+<li><code>Command</code>: The command that was executed.</li>
+<li><code>Directory</code>: The directory where the command was run.</li>
+<li><code>Stdout</code>: Output from the standard output stream.</li>
+<li><code>Stderr</code>: Output from the standard error stream.</li>
+<li><code>Error</code>: Any error message reported by the subprocess.</li>
+<li><code>Exit Code</code>: The exit code of the command.</li>
+<li><code>Signal</code>: The signal number if the command was terminated by a signal.</li>
+<li><code>Background PIDs</code>: A list of PIDs for any background processes started.</li>
+</ul>
+<p>Usage:</p>
+<pre><code>run_shell_command(command=&quot;Your commands.&quot;, description=&quot;Your description of the command.&quot;, directory=&quot;Your execution directory.&quot;)
+</code></pre>
+<h2><code>run_shell_command</code> examples</h2>
+<p>List files in the current directory:</p>
+<pre><code>run_shell_command(command=&quot;ls -la&quot;)
+</code></pre>
+<p>Run a script in a specific directory:</p>
+<pre><code>run_shell_command(command=&quot;./my_script.sh&quot;, directory=&quot;scripts&quot;, description=&quot;Run my custom script&quot;)
+</code></pre>
+<p>Start a background server:</p>
+<pre><code>run_shell_command(command=&quot;npm run dev &amp;&quot;, description=&quot;Start development server in background&quot;)
+</code></pre>
+<h2>Configuration</h2>
+<p>You can tune the <code>run_shell_command</code> tool by editing <code>settings.json</code> or by using <code>/settings</code> inside the LLxprt CLI.</p>
+<h3>Enabling Interactive Commands</h3>
+<p>Set <code>shouldUseNodePtyShell</code> to <code>true</code> (or flip <strong>Settings → Shell → Enable Interactive Shell (node-pty)</strong>) to run commands inside a <code>node-pty</code> session (needed for editors, TUIs, etc.). If <code>node-pty</code> cannot be loaded, the CLI automatically falls back to the non-interactive <code>child_process</code> implementation. Legacy <code>tools.shell.enableInteractiveShell</code> entries in existing settings files are still honored.</p>
+<pre><code class="language-json">{
+  &quot;shouldUseNodePtyShell&quot;: true
+}
+</code></pre>
+<h3>Showing Color in Output</h3>
+<p>Set <code>tools.shell.showColor</code> to <code>true</code> to stream ANSI color data back to the CLI. This option only takes effect when interactive shell support is enabled.</p>
+<pre><code class="language-json">{
+  &quot;tools&quot;: {
+    &quot;shell&quot;: {
+      &quot;enableInteractiveShell&quot;: true,
+      &quot;showColor&quot;: true
+    }
+  }
+}
+</code></pre>
+<h3>Setting the Pager</h3>
+<p>You can use a custom pager (default is <code>cat</code>) by setting <code>tools.shell.pager</code>. This also requires <code>enableInteractiveShell</code> to be enabled.</p>
+<pre><code class="language-json">{
+  &quot;tools&quot;: {
+    &quot;shell&quot;: {
+      &quot;enableInteractiveShell&quot;: true,
+      &quot;pager&quot;: &quot;less&quot;
+    }
+  }
+}
+</code></pre>
+<h2>Interactive Commands</h2>
+<p>With a PTY enabled, <code>run_shell_command</code> supports fully interactive programs (for example <code>vim</code>, <code>htop</code>, or <code>git rebase -i</code>). While an interactive session is active you can press <code>Ctrl+F</code> to focus the shell pane, and LLxprt will render the TUI output.</p>
+<h2>Important notes</h2>
+<ul>
+<li><strong>Security:</strong> Be cautious when executing commands, especially those constructed from user input, to prevent security vulnerabilities.</li>
+<li><strong>Interactive commands:</strong> Avoid commands that require interactive user input, as this can cause the tool to hang. Use non-interactive flags if available (e.g., <code>npm init -y</code>).</li>
+<li><strong>Output limiting:</strong> In <code>truncate</code> mode, <code>run_shell_command</code> clips the output by removing the middle to preserve both head and tail. In <code>warn</code> and <code>sample</code>, it uses the default limiter behavior.</li>
+<li><strong>Error handling:</strong> Check the <code>Stderr</code>, <code>Error</code>, and <code>Exit Code</code> fields to determine if a command executed successfully.</li>
+<li><strong>Background processes:</strong> When a command is run in the background with <code>&amp;</code>, the tool will return immediately and the process will continue to run in the background. The <code>Background PIDs</code> field will contain the process ID of the background process.</li>
+</ul>
+<h2>Environment Variables</h2>
+<p>When <code>run_shell_command</code> executes a command, it sets the <code>LLXPRT_CODE=1</code> environment variable in the subprocess's environment. This allows scripts or tools to detect if they are being run from within the LLxprt Code CLI.</p>
+<h2>Command Restrictions</h2>
+<p>You can restrict the commands that can be executed by the <code>run_shell_command</code> tool by using the <code>coreTools</code> and <code>excludeTools</code> settings in your configuration file.</p>
+<ul>
+<li><code>coreTools</code>: To restrict <code>run_shell_command</code> to a specific set of commands, add entries to the <code>coreTools</code> list in the format <code>run_shell_command(&lt;command&gt;)</code>. For example, <code>&quot;coreTools&quot;: [&quot;run_shell_command(git)&quot;]</code> will only allow <code>git</code> commands. Including the generic <code>run_shell_command</code> acts as a wildcard, allowing any command not explicitly blocked.</li>
+<li><code>excludeTools</code>: To block specific commands, add entries to the <code>excludeTools</code> list in the format <code>run_shell_command(&lt;command&gt;)</code>. For example, <code>&quot;excludeTools&quot;: [&quot;run_shell_command(rm)&quot;]</code> will block <code>rm</code> commands.</li>
+</ul>
+<p>The validation logic is designed to be secure and flexible:</p>
+<ol>
+<li><strong>Command Chaining Disabled</strong>: The tool automatically splits commands chained with <code>&amp;&amp;</code>, <code>||</code>, or <code>;</code> and validates each part separately. If any part of the chain is disallowed, the entire command is blocked.</li>
+<li><strong>Prefix Matching</strong>: The tool uses prefix matching. For example, if you allow <code>git</code>, you can run <code>git status</code> or <code>git log</code>.</li>
+<li><strong>Blocklist Precedence</strong>: The <code>excludeTools</code> list is always checked first. If a command matches a blocked prefix, it will be denied, even if it also matches an allowed prefix in <code>coreTools</code>.</li>
+</ol>
+<h3>Command Restriction Examples</h3>
+<p><strong>Allow only specific command prefixes</strong></p>
+<p>To allow only <code>git</code> and <code>npm</code> commands, and block all others:</p>
+<pre><code class="language-json">{
+  &quot;coreTools&quot;: [&quot;run_shell_command(git)&quot;, &quot;run_shell_command(npm)&quot;]
+}
+</code></pre>
+<ul>
+<li><code>git status</code>: Allowed</li>
+<li><code>npm install</code>: Allowed</li>
+<li><code>ls -l</code>: Blocked</li>
+</ul>
+<p><strong>Block specific command prefixes</strong></p>
+<p>To block <code>rm</code> and allow all other commands:</p>
+<pre><code class="language-json">{
+  &quot;coreTools&quot;: [&quot;run_shell_command&quot;],
+  &quot;excludeTools&quot;: [&quot;run_shell_command(rm)&quot;]
+}
+</code></pre>
+<ul>
+<li><code>rm -rf /</code>: Blocked</li>
+<li><code>git status</code>: Allowed</li>
+<li><code>npm install</code>: Allowed</li>
+</ul>
+<p><strong>Blocklist takes precedence</strong></p>
+<p>If a command prefix is in both <code>coreTools</code> and <code>excludeTools</code>, it will be blocked.</p>
+<pre><code class="language-json">{
+  &quot;coreTools&quot;: [&quot;run_shell_command(git)&quot;],
+  &quot;excludeTools&quot;: [&quot;run_shell_command(git push)&quot;]
+}
+</code></pre>
+<ul>
+<li><code>git push origin main</code>: Blocked</li>
+<li><code>git status</code>: Allowed</li>
+</ul>
+<p><strong>Block all shell commands</strong></p>
+<p>To block all shell commands, add the <code>run_shell_command</code> wildcard to <code>excludeTools</code>:</p>
+<pre><code class="language-json">{
+  &quot;excludeTools&quot;: [&quot;run_shell_command&quot;]
+}
+</code></pre>
+<ul>
+<li><code>ls -l</code>: Blocked</li>
+<li><code>any other command</code>: Blocked</li>
+</ul>
+<h2>Security Note for <code>excludeTools</code></h2>
+<p>Command-specific restrictions in
+<code>excludeTools</code> for <code>run_shell_command</code> are based on simple string matching and can be easily bypassed. This feature is <strong>not a security mechanism</strong> and should not be relied upon to safely execute untrusted code. It is recommended to use <code>coreTools</code> to explicitly select commands
+that can be executed.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code Architecture Overview | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>LLxprt Code Architecture Overview</h1>
+<!-- @plan:PLAN-20251018-STATELESSPROVIDER2.P20 @requirement:REQ-SP2-005 -->
+<p>This document explains how LLxprt Code's stateless provider runtime, authentication, and tooling layers fit together after the PLAN-20251018-STATELESSPROVIDER2 rollout.</p>
+<h2>Core components</h2>
+<p>The LLxprt Code is primarily composed of two main packages, along with a suite of tools that can be used by the system in the course of handling command-line input:</p>
+<ol>
+<li>
+<p><strong>CLI package (<code>packages/cli</code>):</strong></p>
+<ul>
+<li><strong>Purpose:</strong> This contains the user-facing portion of the LLxprt Code, such as handling the initial user input, presenting the final output, and managing the overall user experience.</li>
+<li><strong>Key functions contained in the package:</strong>
+<ul>
+<li><a href="./cli/commands.html">Input processing</a></li>
+<li>History management</li>
+<li>Display rendering</li>
+<li><a href="./cli/themes.html">Theme and UI customization</a></li>
+<li><a href="./cli/configuration.html">CLI configuration settings</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Core package (<code>packages/core</code>):</strong></p>
+<ul>
+<li><strong>Purpose:</strong> This acts as the backend for the LLxprt Code. It receives requests sent from <code>packages/cli</code>, orchestrates interactions with the Gemini API, and manages the execution of available tools.</li>
+<li><strong>Key functions contained in the package:</strong>
+<ul>
+<li>API client for communicating with the Google Gemini API</li>
+<li>Prompt construction and management</li>
+<li>Tool registration and execution logic</li>
+<li>State management for conversations or sessions</li>
+<li>Server-side configuration</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Tools (<code>packages/core/src/tools/</code>):</strong></p>
+<ul>
+<li><strong>Purpose:</strong> These are individual modules that extend the capabilities of the Gemini model, allowing it to interact with the local environment (e.g., file system, shell commands, web fetching).</li>
+<li><strong>Interaction:</strong> <code>packages/core</code> invokes these tools based on requests from the Gemini model.</li>
+</ul>
+</li>
+</ol>
+<h2>Interaction Flow</h2>
+<p>A typical interaction with the LLxprt Code follows this flow:</p>
+<ol>
+<li><strong>User input:</strong> The user types a prompt or command into the terminal, which is managed by <code>packages/cli</code>.</li>
+<li><strong>Request to core:</strong> <code>packages/cli</code> sends the user's input to <code>packages/core</code>.</li>
+<li><strong>Request processed:</strong> The core package:
+<ul>
+<li>Constructs an appropriate prompt for the Gemini API, possibly including conversation history and available tool definitions.</li>
+<li>Sends the prompt to the Gemini API.</li>
+</ul>
+</li>
+<li><strong>Gemini API response:</strong> The Gemini API processes the prompt and returns a response. This response might be a direct answer or a request to use one of the available tools.</li>
+<li><strong>Tool execution (if applicable):</strong>
+<ul>
+<li>When the Gemini API requests a tool, the core package prepares to execute it.</li>
+<li>If the requested tool can modify the file system or execute shell commands, the user is first given details of the tool and its arguments, and the user must approve the execution.</li>
+<li>Read-only operations, such as reading files, might not require explicit user confirmation to proceed.</li>
+<li>Once confirmed, or if confirmation is not required, the core package executes the relevant action within the relevant tool, and the result is sent back to the Gemini API by the core package.</li>
+<li>The Gemini API processes the tool result and generates a final response.</li>
+</ul>
+</li>
+<li><strong>Response to CLI:</strong> The core package sends the final response back to the CLI package.</li>
+<li><strong>Display to user:</strong> The CLI package formats and displays the response to the user in the terminal.</li>
+</ol>
+<h2>Provider System Architecture</h2>
+<p>LLxprt Code's stateless multi-provider architecture enables seamless switching between different LLM providers while giving each runtime (CLI session, subagent, automation harness) an isolated state envelope. This system is built on several key components:</p>
+<h3>Provider Registry</h3>
+<p>The provider registry (<code>packages/core/src/providers/</code>) maintains a collection of provider implementations:</p>
+<ul>
+<li><strong>Provider Interface:</strong> Each provider implements a common interface for generating completions, handling streaming, and managing tool calls.</li>
+<li><strong>Runtime Binding:</strong> Providers receive a <code>ProviderRuntimeContext</code> instance when they are invoked, giving access to runtime-specific configuration, logging, and telemetry without relying on global singletons.</li>
+<li><strong>Dynamic Loading:</strong> Providers are loaded on-demand when selected via <code>/provider</code> command, CLI arguments, or subagent configuration.</li>
+<li><strong>Provider Types:</strong>
+<ul>
+<li><code>gemini</code>: Google Gemini models (default)</li>
+<li><code>openai</code>: OpenAI GPT models with Responses API support</li>
+<li><code>anthropic</code>: Anthropic Claude models</li>
+<li><code>qwen</code>: Alibaba Cloud Qwen models</li>
+<li><code>groq</code>, <code>together</code>, <code>xai</code>: Additional cloud providers</li>
+<li>Custom providers via base URL configuration</li>
+</ul>
+</li>
+</ul>
+<h3>Provider Switching</h3>
+<p>The provider system supports multiple switching mechanisms:</p>
+<ol>
+<li><strong>Runtime Switching:</strong> <code>/provider &lt;name&gt;</code> command changes the active provider for the current runtime context without touching other contexts.</li>
+<li><strong>Model Selection:</strong> <code>/model &lt;name&gt;</code> switches models within the current provider.</li>
+<li><strong>API Key Management:</strong> <code>/key</code> and <code>/keyfile</code> commands set provider credentials that are stored on a per-runtime <code>SettingsService</code>.</li>
+<li><strong>Base URL Override:</strong> <code>/baseurl</code> allows custom endpoints (local LLMs, proxies) scoped to the active runtime.</li>
+</ol>
+<h3>Stateless Provider Runtime</h3>
+<p>The stateless provider runtime is centred around <code>ProviderRuntimeContext</code>, a lightweight container that bundles the <code>SettingsService</code>, telemetry emitters, logging channels, and contextual metadata for a single request pipeline. Contexts are created with <code>createProviderRuntimeContext</code> and registered with <code>setActiveProviderRuntimeContext</code>, and they can be nested or swapped without leaking state between callers.</p>
+<pre><code class="language-mermaid">flowchart LR
+    CLI[CLI Session] --&gt;|createProviderRuntimeContext| R1((Runtime A))
+    Subagent1[Build Subagent] --&gt;|createProviderRuntimeContext| R2((Runtime B))
+    Subagent2[Test Subagent] --&gt;|createProviderRuntimeContext| R3((Runtime C))
+
+    R1 --&gt;|SettingsService| S1[(settings snapshot)]
+    R2 --&gt;|SettingsService| S2[(settings snapshot)]
+    R3 --&gt;|SettingsService| S3[(settings snapshot)]
+
+    R1 --&gt;|requests| ProviderRegistry
+    R2 --&gt;|requests| ProviderRegistry
+    R3 --&gt;|requests| ProviderRegistry
+</code></pre>
+<p>Each runtime context exposes:</p>
+<ul>
+<li><code>settingsService</code>: a scoped <code>SettingsService</code> instance with per-runtime overrides.</li>
+<li><code>metadata</code>: runtime identifiers (CLI session id, subagent name, automation worker id) plus runtime-auth scope diagnostics.</li>
+<li><code>telemetry</code>: a channel used by providers and tooling to emit runtime-scoped events.</li>
+<li><code>logger</code>: an adapter that captures provider-level diagnostics without mixing logs across contexts.</li>
+</ul>
+<h3>Runtime-scoped Authentication</h3>
+<p>Runtime isolation now extends to provider authentication. The auth precedence resolver (<code>packages/core/src/auth/precedence.ts</code>) derives a <code>runtimeAuthScopeId</code> from each context's <code>runtimeId</code>, then caches credentials per <code>{runtimeAuthScopeId, providerId, profileId}</code> tuple. Scope metadata is attached to <code>ProviderRuntimeContext.metadata.runtimeAuthScope</code>, giving downstream tools enough data to emit audits or flush tokens.</p>
+<ul>
+<li><strong>Credential lifecycle</strong> – When CLI helpers or providers request credentials, the resolver first checks the scoped cache. Cache misses invoke provider-specific authenticators (API keys, OAuth, device flow) annotated with runtime metadata so audit logs can track which actor minted a token.</li>
+<li><strong>Automatic revocation</strong> – <code>SettingsService</code> event listeners monitor provider switches, profile swaps, and settings clears. Matching scoped tokens are invalidated immediately, ensuring credentials from subagents or temporary automations do not leak back to the CLI.</li>
+<li><strong>Nested runtimes</strong> – <code>activateIsolatedRuntimeContext</code> in <code>runtimeSettings.ts</code> calls <code>enterRuntimeScope</code> to push a child runtime. Nested scopes inherit metadata, but each receives a distinct <code>runtimeAuthScopeId</code> so revocation remains precise.</li>
+<li><strong>OAuth managers</strong> – The CLI registers an <code>OAuthManager</code> per runtime. Providers fetch tokens via the manager, which stores refresh state inside the runtime registry rather than global singletons.</li>
+</ul>
+<p>Authentication details are covered in the migration guide below.</p>
+<h3>Multi-context Orchestration</h3>
+<p>Multiple contexts can operate simultaneously—for example when the CLI launches subagents or when automation scripts fan out provider workloads. The helper <code>withProviderRuntimeContext</code> (see <code>packages/cli/src/runtime/runtimeSettings.ts</code>) wraps asynchronous work, restoring the previous context on completion. Requests issued from different contexts remain isolated, and context switching is constant time.</p>
+<pre><code class="language-ts">import {
+  createProviderRuntimeContext,
+  setActiveProviderRuntimeContext,
+  clearActiveProviderRuntimeContext,
+} from '@vybestack/llxprt-code-core';
+import { withProviderRuntime } from '../runtime/runtimeSettings';
+
+await withProviderRuntime(async () =&gt; {
+  const runtime = createProviderRuntimeContext({
+    metadata: { origin: 'cli-subagent', agentId: 'reviewer' },
+  });
+  setActiveProviderRuntimeContext(runtime);
+  try {
+    await runSubagentJob(runtime);
+  } finally {
+    clearActiveProviderRuntimeContext();
+  }
+});
+</code></pre>
+<p>The snippet above demonstrates two contexts operating concurrently: the primary CLI context and a reviewer subagent. Each context captures its own provider credentials, tool settings, and telemetry buffers, and the runtime-scoped auth cache keeps those credentials segregated.</p>
+<blockquote>
+<p>See the <a href="./migration/stateless-provider-v2.html">Stateless Provider v2 migration guide</a> for integration details and upgrade guidance.</p>
+</blockquote>
+<h2>Ephemeral Settings System</h2>
+<p>The ephemeral settings system provides session-scoped configuration that doesn't persist to disk unless explicitly saved:</p>
+<h3>Architecture Components</h3>
+<ol>
+<li>
+<p><strong>Settings Hierarchy:</strong></p>
+<pre><code>CLI Arguments → Ephemeral Settings → Profile Settings → User Settings → System Settings → Defaults
+</code></pre>
+<p>Higher priority sources override lower ones.</p>
+</li>
+<li>
+<p><strong>Ephemeral Store:</strong></p>
+<ul>
+<li>In-memory key-value store for session settings</li>
+<li>Accessed via <code>/set</code> and <code>/set unset</code> commands</li>
+<li>Categories:
+<ul>
+<li><strong>Model Parameters:</strong> temperature, max_tokens, top_p, etc.</li>
+<li><strong>Context Settings:</strong> context-limit, compression-threshold</li>
+<li><strong>Tool Settings:</strong> tool-output-max-items, tool-output-truncate-mode</li>
+<li><strong>Provider Settings:</strong> base-url, api-version, custom-headers</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Setting Types:</strong></p>
+<ul>
+<li><strong>Scalars:</strong> Simple values (numbers, strings, booleans)</li>
+<li><strong>Nested Objects:</strong> Model parameters with sub-keys</li>
+<li><strong>Dynamic Validation:</strong> Type checking and range validation</li>
+</ul>
+</li>
+</ol>
+<h3>Implementation Flow</h3>
+<ol>
+<li>User executes <code>/set modelparam temperature 0.7</code></li>
+<li>Command parser validates the setting key and value</li>
+<li>Value stored in ephemeral settings map</li>
+<li>Provider receives merged settings on next API call</li>
+<li>Settings persist for session duration unless saved to profile</li>
+</ol>
+<h2>Authentication System Architecture</h2>
+<p>The authentication system supports multiple authentication methods across providers:</p>
+<h3>OAuth Authentication</h3>
+<ol>
+<li>
+<p><strong>Provider-Specific OAuth Flows:</strong></p>
+<ul>
+<li><code>gemini</code>: Google OAuth with Code Assist integration</li>
+<li><code>anthropic</code>: Anthropic OAuth (when available)</li>
+<li><code>qwen</code>: Alibaba Cloud OAuth</li>
+</ul>
+</li>
+<li>
+<p><strong>Lazy Authentication:</strong></p>
+<ul>
+<li>OAuth flow triggered on first API request, not on <code>/auth enable</code></li>
+<li>Reduces friction and prevents unnecessary browser launches</li>
+<li>Token stored in secure system keychain when available</li>
+</ul>
+</li>
+<li>
+<p><strong>Token Management:</strong></p>
+<ul>
+<li>Access tokens cached in memory</li>
+<li>Refresh tokens stored securely</li>
+<li>Automatic token refresh on expiry</li>
+</ul>
+</li>
+</ol>
+<h3>API Key Authentication</h3>
+<ol>
+<li>
+<p><strong>Key Sources (Priority Order):</strong></p>
+<ul>
+<li>Command-line: <code>--key</code> or <code>--keyfile</code></li>
+<li>Session: <code>/key</code> command</li>
+<li>Environment: <code>OPENAI_API_KEY</code>, <code>ANTHROPIC_API_KEY</code>, etc.</li>
+<li>Key files: <code>~/.openai_key</code>, <code>~/.anthropic_key</code></li>
+<li>Settings: <code>providerApiKeys</code> in settings.json</li>
+</ul>
+</li>
+<li>
+<p><strong>Key Security:</strong></p>
+<ul>
+<li>Keys never logged or displayed</li>
+<li>Masked in debug output</li>
+<li>Session keys cleared on exit</li>
+</ul>
+</li>
+</ol>
+<h3>Authentication Flow</h3>
+<pre><code class="language-mermaid">graph TD
+    A[User Request] --&gt; B{Auth Type?}
+    B --&gt;|OAuth| C[Check Token Cache]
+    B --&gt;|API Key| D[Check Key Sources]
+    C --&gt;|Expired| E[Refresh Token]
+    C --&gt;|Missing| F[Launch OAuth Flow]
+    C --&gt;|Valid| G[Make API Call]
+    D --&gt;|Found| G
+    D --&gt;|Not Found| H[Prompt User]
+    E --&gt;|Success| G
+    E --&gt;|Fail| F
+    F --&gt; G
+</code></pre>
+<h2>Profile System Architecture</h2>
+<p>The profile system enables saving and restoring complete session configurations:</p>
+<h3>Profile Components</h3>
+<ol>
+<li>
+<p><strong>Profile Storage:</strong></p>
+<ul>
+<li>Location: <code>~/.llxprt/profiles/</code></li>
+<li>Format: JSON files with <code>.profile.json</code> extension</li>
+<li>Content: Complete session state snapshot</li>
+</ul>
+</li>
+<li>
+<p><strong>Profile Contents:</strong></p>
+<pre><code class="language-json">{
+  &quot;provider&quot;: &quot;anthropic&quot;,
+  &quot;model&quot;: &quot;claude-3-opus-20240229&quot;,
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 0.7,
+    &quot;max_tokens&quot;: 4096
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 100000,
+    &quot;compression-threshold&quot;: 0.7
+  },
+  &quot;apiKey&quot;: &quot;encrypted-or-keyfile-reference&quot;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Profile Operations:</strong></p>
+<ul>
+<li><strong>Save:</strong> <code>/profile save &quot;name&quot;</code> - Captures current session state</li>
+<li><strong>Load:</strong> <code>/profile load &quot;name&quot;</code> - Restores saved configuration</li>
+<li><strong>Delete:</strong> <code>/profile delete &quot;name&quot;</code> - Removes profile</li>
+<li><strong>Set Default:</strong> <code>/profile set-default &quot;name&quot;</code> - Auto-load on startup</li>
+<li><strong>List:</strong> <code>/profile list</code> - Shows available profiles</li>
+</ul>
+</li>
+</ol>
+<h3>Profile Loading Sequence</h3>
+<ol>
+<li>
+<p><strong>Startup Loading:</strong></p>
+<pre><code>CLI Start → Check defaultProfile → Load if exists → Apply --profile-load → Apply CLI args
+</code></pre>
+</li>
+<li>
+<p><strong>Runtime Loading:</strong></p>
+<pre><code>/profile load → Validate profile → Clear ephemeral → Apply profile → Update session
+</code></pre>
+</li>
+<li>
+<p><strong>Profile Merging:</strong></p>
+<ul>
+<li>Profile settings override user/system settings</li>
+<li>CLI arguments override profile settings</li>
+<li>Ephemeral settings preserved unless explicitly in profile</li>
+</ul>
+</li>
+</ol>
+<h3>Profile Use Cases</h3>
+<ol>
+<li><strong>Project-Specific Configurations:</strong>
+<ul>
+<li>Different models for different projects</li>
+<li>Custom temperature/token settings per task</li>
+</ul>
+</li>
+<li><strong>Provider Switching:</strong>
+<ul>
+<li>Quick switch between OpenAI and Anthropic</li>
+<li>Maintain optimal settings per provider</li>
+</ul>
+</li>
+<li><strong>Team Sharing:</strong>
+<ul>
+<li>Export profiles for team consistency</li>
+<li>Standardize AI interactions across developers</li>
+</ul>
+</li>
+</ol>
+<h2>System Integration</h2>
+<p>These systems work together to provide a flexible configuration experience:</p>
+<ol>
+<li><strong>Provider → Auth:</strong> Each provider has specific auth requirements</li>
+<li><strong>Auth → Profile:</strong> Profiles store auth method preferences</li>
+<li><strong>Profile → Ephemeral:</strong> Profiles populate ephemeral settings</li>
+<li><strong>Ephemeral → Provider:</strong> Settings passed to provider on each call</li>
+</ol>
+<h2>Key Design Principles</h2>
+<ul>
+<li><strong>Modularity:</strong> Separating the CLI (frontend) from the Core (backend) allows for independent development and potential future extensions (e.g., different frontends for the same backend).</li>
+<li><strong>Extensibility:</strong> The tool system is designed to be extensible, allowing new capabilities to be added.</li>
+<li><strong>User experience:</strong> The CLI focuses on providing a rich and interactive terminal experience.</li>
+<li><strong>Multi-provider flexibility:</strong> Architecture supports adding new providers with minimal changes.</li>
+<li><strong>Configuration flexibility:</strong> Multiple configuration levels allow both simplicity and power.</li>
+<li><strong>Security-first:</strong> Authentication tokens and API keys handled with security best practices.</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

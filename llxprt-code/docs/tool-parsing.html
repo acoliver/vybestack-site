@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text-Based Tool Call Parsing | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Text-Based Tool Call Parsing</h1>
+<p>This document describes the text-based tool call parsing system in the LLxprt Code, which enables support for models that output tool calls as formatted text rather than structured JSON.</p>
+<h2>Overview</h2>
+<p>Many open-source and specialized models don't support OpenAI's structured tool calling format. Instead, they output tool calls as specially formatted text within their responses. The LLxprt Code automatically detects and parses these formats, converting them to the standard internal format for execution.</p>
+<h2>Architecture</h2>
+<p>The system consists of two parallel paths for tool extraction:</p>
+<ol>
+<li>
+<p><strong>Structured Path</strong>: For providers that return tool calls as JSON objects (OpenAI, Anthropic)</p>
+<ul>
+<li>Provider → ToolFormatter → Standard format → Execution</li>
+</ul>
+</li>
+<li>
+<p><strong>Text-Based Path</strong>: For models that embed tool calls in text (Gemma, Hermes, DeepSeek, Llama)</p>
+<ul>
+<li>Provider → TextToolCallParser → Standard format → Execution</li>
+</ul>
+</li>
+</ol>
+<p>Both paths produce the same <code>IMessage['tool_calls']</code> format, ensuring consistent tool execution regardless of the source.</p>
+<h2>Supported Formats</h2>
+<h3>1. Gemma Format (TOOL_REQUEST)</h3>
+<pre><code>[TOOL_REQUEST]
+list_directory {&quot;path&quot;: &quot;/home/user&quot;}
+[TOOL_REQUEST_END]
+</code></pre>
+<h3>2. JSON Object with END_TOOL_REQUEST</h3>
+<pre><code>{&quot;name&quot;: &quot;search&quot;, &quot;arguments&quot;: {&quot;query&quot;: &quot;climate change&quot;}}
+[END_TOOL_REQUEST]
+</code></pre>
+<h3>3. Hermes Format (tool_call tags)</h3>
+<pre><code class="language-xml">&lt;tool_call&gt;
+{&quot;arguments&quot;: {&quot;symbol&quot;: &quot;TSLA&quot;}, &quot;name&quot;: &quot;get_stock_fundamentals&quot;}
+&lt;/tool_call&gt;
+</code></pre>
+<h3>4. DeepSeek Format (Unicode tokens)</h3>
+<pre><code>&lt;｜tool▁calls▁begin｜&gt;&lt;｜tool▁call▁begin｜&gt;function&lt;｜tool▁sep｜&gt;get_weather
+{&quot;location&quot;: &quot;San Francisco&quot;, &quot;unit&quot;: &quot;celsius&quot;}
+&lt;｜tool▁call▁end｜&gt;
+</code></pre>
+<h3>5. Llama Formats</h3>
+<h4>Pythonic Style (Llama 3.2):</h4>
+<pre><code class="language-python">[get_user_info(user_id=7890, special='black')]
+</code></pre>
+<h4>Function Tag Style:</h4>
+<pre><code class="language-xml">&lt;function=example_function&gt;{&quot;example_name&quot;: &quot;example_value&quot;}&lt;/function&gt;
+</code></pre>
+<h4>JSON Style (Llama 3.1):</h4>
+<pre><code class="language-json">{ &quot;name&quot;: &quot;function_name&quot;, &quot;parameters&quot;: { &quot;arg&quot;: &quot;value&quot; } }
+</code></pre>
+<h3>6. XML Formats</h3>
+<h4>Claude-style:</h4>
+<pre><code class="language-xml">&lt;invoke name=&quot;get_weather&quot;&gt;
+&lt;parameter name=&quot;location&quot;&gt;San Francisco&lt;/parameter&gt;
+&lt;/invoke&gt;
+</code></pre>
+<h4>Generic XML:</h4>
+<pre><code class="language-xml">&lt;tool&gt;
+  &lt;name&gt;search&lt;/name&gt;
+  &lt;arguments&gt;
+    &lt;query&gt;climate change&lt;/query&gt;
+  &lt;/arguments&gt;
+&lt;/tool&gt;
+</code></pre>
+<h3>7. Key-Value Format</h3>
+<pre><code>✦ tool_call: list_directory for path /home/user ignore *.log
+</code></pre>
+<h2>Configuration</h2>
+<h3>Settings</h3>
+<p>Configure text-based tool parsing in your settings file:</p>
+<pre><code class="language-json">{
+  &quot;enableTextToolCallParsing&quot;: true,
+  &quot;textToolCallModels&quot;: [&quot;custom-model-1&quot;, &quot;custom-model-2&quot;]
+}
+</code></pre>
+<ul>
+<li><code>enableTextToolCallParsing</code>: Enable/disable text parsing globally (default: true)</li>
+<li><code>textToolCallModels</code>: Additional models that require text parsing beyond the defaults</li>
+</ul>
+<h3>Default Models</h3>
+<p>The following models automatically use text-based parsing:</p>
+<ul>
+<li>gemma-3-12b-it</li>
+<li>gemma-2-27b-it</li>
+</ul>
+<h3>Auto-Detection</h3>
+<p>The system automatically detects the appropriate parser based on:</p>
+<ol>
+<li>Model name (e.g., models containing &quot;gemma&quot;, &quot;hermes&quot;, &quot;deepseek&quot;)</li>
+<li>Base URL (for custom endpoints)</li>
+<li>Manual override via <code>/toolformat</code> command</li>
+</ol>
+<h3>Examples</h3>
+<h4>Basic Configuration</h4>
+<pre><code class="language-json">{
+  &quot;enableTextToolCallParsing&quot;: true,
+  &quot;textToolCallModels&quot;: [&quot;llama-3.2&quot;, &quot;mixtral-instruct&quot;]
+}
+</code></pre>
+<h4>Using with OpenAI-Compatible Providers</h4>
+<pre><code class="language-json">{
+  &quot;providers&quot;: [
+    {
+      &quot;name&quot;: &quot;openai&quot;,
+      &quot;apiKey&quot;: &quot;$OPENAI_API_KEY&quot;,
+      &quot;baseURL&quot;: &quot;https://api.deepseek.com/v1&quot;
+    }
+  ],
+  &quot;textToolCallModels&quot;: [&quot;deepseek-chat&quot;]
+}
+</code></pre>
+<h4>Testing Tool Parsing</h4>
+<pre><code class="language-bash"># Check current format
+&gt; /toolformat
+Current tool format: auto-detected (gemma)
+
+# Override to text format
+&gt; /toolformat text
+Tool format set to: text
+
+# Test with a tool call
+&gt; List all JavaScript files in the src directory
+</code></pre>
+<h2>Adding New Formats</h2>
+<p>To add support for a new text-based format:</p>
+<ol>
+<li><strong>Add Pattern to TextToolCallParser</strong>:</li>
+</ol>
+<pre><code class="language-typescript">// In TextToolCallParser.ts
+private readonly patterns = [
+  // ... existing patterns ...
+  // Format X: Your new format
+  /your-regex-pattern/gs,
+];
+</code></pre>
+<ol start="2">
+<li><strong>Update Parsing Logic</strong>:</li>
+</ol>
+<pre><code class="language-typescript">if (pattern === this.patterns[X]) {
+  // Custom parsing logic for your format
+  const [fullMatch, toolName, args] = match;
+  // Process and add to matches
+}
+</code></pre>
+<ol start="3">
+<li><strong>Add Tests</strong>:</li>
+</ol>
+<pre><code class="language-typescript">it('should parse new format', () =&gt; {
+  const content = 'Your format example';
+  const result = parser.parse(content);
+  expect(result.toolCalls).toHaveLength(1);
+  // ... assertions
+});
+</code></pre>
+<ol start="4">
+<li><strong>Update Format Detection</strong>:</li>
+</ol>
+<ul>
+<li>Add model names to default lists</li>
+<li>Update <code>requiresTextToolCallParsing()</code> logic</li>
+</ul>
+<h2>Debugging</h2>
+<h3>Enable Debug Logging</h3>
+<p>Set environment variable:</p>
+<pre><code class="language-bash">export DEBUG=openai:*,parser:*
+</code></pre>
+<p>This will show:</p>
+<ul>
+<li>Parser attempts and matches</li>
+<li>Failed parsing attempts with error details</li>
+<li>Tool call extraction process</li>
+<li>Format detection logic</li>
+</ul>
+<h3>Common Issues</h3>
+<ol>
+<li>
+<p><strong>Tool calls not detected</strong>:</p>
+<ul>
+<li>Check if model is in <code>textToolCallModels</code> list</li>
+<li>Verify the format matches a supported pattern</li>
+<li>Look for debug logs showing parsing attempts</li>
+<li>Try manually overriding with <code>/toolformat text</code></li>
+</ul>
+</li>
+<li>
+<p><strong>Malformed arguments</strong>:</p>
+<ul>
+<li>Parser logs failed JSON parsing attempts</li>
+<li>Check for proper escaping of quotes in arguments</li>
+<li>Verify JSON structure is valid</li>
+<li>Common issue: nested quotes not escaped</li>
+</ul>
+</li>
+<li>
+<p><strong>Partial tool calls</strong>:</p>
+<ul>
+<li>Ensure complete markers are present (opening and closing tags)</li>
+<li>Check for truncated responses from the model</li>
+<li>May need to increase max_tokens for the model</li>
+</ul>
+</li>
+<li>
+<p><strong>Wrong format detected</strong>:</p>
+<ul>
+<li>Use <code>/toolformat</code> to check current format</li>
+<li>Override with <code>/toolformat &lt;format&gt;</code> if needed</li>
+<li>Check model name matches expected pattern</li>
+</ul>
+</li>
+</ol>
+<h3>Testing New Formats</h3>
+<ol>
+<li>Create a test file with sample output:</li>
+</ol>
+<pre><code class="language-bash">echo 'Your tool call format here' &gt; test-format.txt
+</code></pre>
+<ol start="2">
+<li>Run the parser test:</li>
+</ol>
+<pre><code class="language-bash">npm test -- --grep &quot;YourFormat&quot;
+</code></pre>
+<ol start="3">
+<li>Check debug output:</li>
+</ol>
+<pre><code class="language-bash">DEBUG=parser:* npm test
+</code></pre>
+<h3>Troubleshooting Steps</h3>
+<ol>
+<li><strong>Verify Model Configuration</strong>:</li>
+</ol>
+<pre><code class="language-bash"># Check current provider and format
+/provider
+/toolformat
+</code></pre>
+<ol start="2">
+<li><strong>Test Tool Call Parsing</strong>:</li>
+</ol>
+<pre><code class="language-bash"># Enable debug logging
+export DEBUG=parser:*
+
+# Try a simple tool call
+&gt; List the files in the current directory
+</code></pre>
+<ol start="3">
+<li>
+<p><strong>Check Parser Patterns</strong>:</p>
+<ul>
+<li>Look in <code>TextToolCallParser.ts</code> for supported patterns</li>
+<li>Verify your model's format matches one of them</li>
+<li>Add custom pattern if needed</li>
+</ul>
+</li>
+<li>
+<p><strong>Common Fixes</strong>:</p>
+<ul>
+<li>Add model to <code>textToolCallModels</code> setting</li>
+<li>Override format with <code>/toolformat text</code></li>
+<li>Update model name detection in provider</li>
+<li>Ensure complete tool call markers in prompts</li>
+</ul>
+</li>
+</ol>
+<h3>Pattern Regex Explanations</h3>
+<ol>
+<li>
+<p><strong>Gemma Format</strong> (<code>[TOOL_REQUEST]</code>):</p>
+<ul>
+<li>Matches: <code>[TOOL_REQUEST]\nfunction_name {args}\n[TOOL_REQUEST_END]</code></li>
+<li>Captures: function name and JSON arguments</li>
+<li>Multiline with optional whitespace</li>
+</ul>
+</li>
+<li>
+<p><strong>JSON with END_TOOL_REQUEST</strong>:</p>
+<ul>
+<li>Matches: <code>{&quot;name&quot;: &quot;func&quot;, &quot;arguments&quot;: {...}}[END_TOOL_REQUEST]</code></li>
+<li>Supports optional line numbers (e.g., <code>1 {&quot;name&quot;...</code>)</li>
+<li>Flexible whitespace handling</li>
+</ul>
+</li>
+<li>
+<p><strong>Hermes XML Format</strong>:</p>
+<ul>
+<li>Matches: <code>&lt;tool_call&gt;{...}&lt;/tool_call&gt;</code></li>
+<li>Extracts JSON from within XML tags</li>
+<li>Handles nested XML properly</li>
+</ul>
+</li>
+<li>
+<p><strong>DeepSeek Unicode Format</strong>:</p>
+<ul>
+<li>Matches: <code>&lt;｜tool▁calls▁begin｜&gt;</code> markers</li>
+<li>Complex Unicode token handling</li>
+<li>Preserves original formatting</li>
+</ul>
+</li>
+</ol>
+<h2>Performance Considerations</h2>
+<ul>
+<li>Text parsing uses regex patterns, which is slower than structured JSON parsing</li>
+<li>Multiple patterns are tried sequentially until a match is found</li>
+<li>Large responses with many tool calls may impact performance</li>
+<li>Consider caching parsed results for repeated calls</li>
+</ul>
+<h2>Security</h2>
+<ul>
+<li>All parsed arguments go through JSON.parse() for validation</li>
+<li>Malformed JSON is logged but doesn't crash the parser</li>
+<li>No code execution happens during parsing</li>
+<li>Tool execution has its own security layer</li>
+</ul>
+<h2>Future Improvements</h2>
+<ol>
+<li><strong>Unified Parser Interface</strong>: Create a common interface for both structured and text parsers</li>
+<li><strong>Pattern Optimization</strong>: Combine similar patterns for better performance</li>
+<li><strong>Streaming Support</strong>: Parse tool calls as they stream in</li>
+<li><strong>Format Auto-Detection</strong>: Detect format from response content rather than model name</li>
+<li><strong>Plugin System</strong>: Allow external parsers for proprietary formats</li>
+</ol>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Multi File Read Tool (`read_many_files`) | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Multi File Read Tool (<code>read_many_files</code>)</h1>
+<p>This document describes the <code>read_many_files</code> tool for the LLxprt Code.</p>
+<h2>Description</h2>
+<p>Use <code>read_many_files</code> to read content from multiple files specified by paths or glob patterns. The behavior of this tool depends on the provided files:</p>
+<ul>
+<li>For text files, this tool concatenates their content into a single string.</li>
+<li>For image (e.g., PNG, JPEG), PDF, audio (MP3, WAV), and video (MP4, MOV) files, it reads and returns them as base64-encoded data, provided they are explicitly requested by name or extension.</li>
+</ul>
+<p><code>read_many_files</code> can be used to perform tasks such as getting an overview of a codebase, finding where specific functionality is implemented, reviewing documentation, or gathering context from multiple configuration files.</p>
+<p><strong>Note:</strong> <code>read_many_files</code> looks for files following the provided paths or glob patterns. A directory path such as <code>&quot;/docs&quot;</code> will return an empty result; the tool requires a pattern such as <code>&quot;/docs/*&quot;</code> or <code>&quot;/docs/*.md&quot;</code> to identify the relevant files.</p>
+<h3>Arguments</h3>
+<p><code>read_many_files</code> takes the following arguments:</p>
+<ul>
+<li><code>paths</code> (list[string], required): An array of glob patterns or paths relative to the tool's target directory (e.g., <code>[&quot;src/**/*.ts&quot;]</code>, <code>[&quot;README.md&quot;, &quot;docs/*&quot;, &quot;assets/logo.png&quot;]</code>).</li>
+<li><code>exclude</code> (list[string], optional): Glob patterns for files/directories to exclude (e.g., <code>[&quot;**/*.log&quot;, &quot;temp/&quot;]</code>). These are added to default excludes if <code>useDefaultExcludes</code> is true.</li>
+<li><code>include</code> (list[string], optional): Additional glob patterns to include. These are merged with <code>paths</code> (e.g., <code>[&quot;*.test.ts&quot;]</code> to specifically add test files if they were broadly excluded, or <code>[&quot;images/*.jpg&quot;]</code> to include specific image types).</li>
+<li><code>recursive</code> (boolean, optional): Whether to search recursively. This is primarily controlled by <code>**</code> in glob patterns. Defaults to <code>true</code>.</li>
+<li><code>useDefaultExcludes</code> (boolean, optional): Whether to apply a list of default exclusion patterns (e.g., <code>node_modules</code>, <code>.git</code>, non image/pdf binary files). Defaults to <code>true</code>.</li>
+<li><code>respect_git_ignore</code> (boolean, optional): Whether to respect .gitignore patterns when finding files. Defaults to true.</li>
+</ul>
+<h2>How to use <code>read_many_files</code> with the LLxprt Code</h2>
+<p><code>read_many_files</code> searches for files matching the provided <code>paths</code> and <code>include</code> patterns, while respecting <code>exclude</code> patterns and default excludes (if enabled).</p>
+<ul>
+<li>For text files: it reads the content of each matched file (attempting to skip binary files not explicitly requested as image/PDF) and concatenates it into a single string, with a separator <code>--- {filePath} ---</code> between the content of each file. Uses UTF-8 encoding by default.</li>
+<li>The tool inserts a <code>--- End of content ---</code> after the last file.</li>
+<li>For image and PDF files: if explicitly requested by name or extension (e.g., <code>paths: [&quot;logo.png&quot;]</code> or <code>include: [&quot;*.pdf&quot;]</code>), the tool reads the file and returns its content as a base64 encoded string.</li>
+<li>The tool attempts to detect and skip other binary files (those not matching common image/PDF types or not explicitly requested) by checking for null bytes in their initial content.</li>
+</ul>
+<p>Usage:</p>
+<pre><code>read_many_files(paths=[&quot;Your files or paths here.&quot;], include=[&quot;Additional files to include.&quot;], exclude=[&quot;Files to exclude.&quot;], recursive=False, useDefaultExcludes=false, respect_git_ignore=true)
+</code></pre>
+<h2><code>read_many_files</code> examples</h2>
+<p>Read all TypeScript files in the <code>src</code> directory:</p>
+<pre><code>read_many_files(paths=[&quot;src/**/*.ts&quot;])
+</code></pre>
+<p>Read the main README, all Markdown files in the <code>docs</code> directory, and a specific logo image, excluding a specific file:</p>
+<pre><code>read_many_files(paths=[&quot;README.md&quot;, &quot;docs/**/*.md&quot;, &quot;assets/logo.png&quot;], exclude=[&quot;docs/OLD_README.md&quot;])
+</code></pre>
+<p>Read all JavaScript files but explicitly including test files and all JPEGs in an <code>images</code> folder:</p>
+<pre><code>read_many_files(paths=[&quot;**/*.js&quot;], include=[&quot;**/*.test.js&quot;, &quot;images/**/*.jpg&quot;], useDefaultExcludes=False)
+</code></pre>
+<h2>Important notes</h2>
+<ul>
+<li><strong>Binary file handling:</strong>
+<ul>
+<li><strong>Image/PDF/Audio/Video files:</strong> The tool can read common image types (PNG, JPEG, etc.), PDF, audio (mp3, wav), and video (mp4, mov) files, returning them as base64 encoded data. These files <em>must</em> be explicitly targeted by the <code>paths</code> or <code>include</code> patterns (e.g., by specifying the exact filename like <code>video.mp4</code> or a pattern like <code>*.mov</code>).</li>
+<li><strong>Other binary files:</strong> The tool attempts to detect and skip other types of binary files by examining their initial content for null bytes. The tool excludes these files from its output.</li>
+</ul>
+</li>
+<li><strong>Performance:</strong> Reading a very large number of files or very large individual files can be resource-intensive.</li>
+<li><strong>Path specificity:</strong> Ensure paths and glob patterns are correctly specified relative to the tool's target directory. For image/PDF files, ensure the patterns are specific enough to include them.</li>
+<li><strong>Default excludes:</strong> Be aware of the default exclusion patterns (like <code>node_modules</code>, <code>.git</code>) and use <code>useDefaultExcludes=False</code> if you need to override them, but do so cautiously.</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

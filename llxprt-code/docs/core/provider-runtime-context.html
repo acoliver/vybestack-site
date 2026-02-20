@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider Runtime Context | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Provider Runtime Context</h1>
+<!-- @plan:PLAN-20251018-STATELESSPROVIDER2.P20 @requirement:REQ-SP2-005 -->
+<p><code>ProviderRuntimeContext</code> encapsulates the state LLxprt Code needs to execute provider calls without relying on global singletons. Each runtime (CLI session, subagent, automation worker) owns one context.</p>
+<pre><code class="language-ts">import {
+  createProviderRuntimeContext,
+  setActiveProviderRuntimeContext,
+  getActiveProviderRuntimeContext,
+  clearActiveProviderRuntimeContext,
+  peekActiveProviderRuntimeContext,
+  setProviderRuntimeContextFallback,
+} from '@vybestack/llxprt-code-core';
+</code></pre>
+<h2>Shape</h2>
+<pre><code class="language-ts">export interface ProviderRuntimeContext {
+  settingsService: SettingsService;
+  config?: Config;
+  runtimeId?: string;
+  metadata?: Record&lt;string, unknown&gt;;
+}
+</code></pre>
+<ul>
+<li><strong><code>settingsService</code></strong> – scoped instance used to read/write provider settings, model parameters, and feature toggles.</li>
+<li><strong><code>config</code></strong> – optional <code>Config</code> object bound to the runtime (CLI bootstrap attaches its own instance).</li>
+<li><strong><code>runtimeId</code></strong> – optional, caller-defined identifier (shown in debug logs and telemetry).</li>
+<li><strong><code>metadata</code></strong> – arbitrary record for caller identifiers (subagent name, job id, etc.).</li>
+</ul>
+<h2>Lifecycle helpers</h2>
+<table>
+<thead>
+<tr>
+<th>Helper</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>createProviderRuntimeContext(init?)</code></td>
+<td>Constructs a context. If <code>settingsService</code> is omitted a fresh <code>SettingsService</code> is created.</td>
+</tr>
+<tr>
+<td><code>setActiveProviderRuntimeContext(context)</code></td>
+<td>Marks a context as the active one for the current async call stack.</td>
+</tr>
+<tr>
+<td><code>clearActiveProviderRuntimeContext()</code></td>
+<td>Unsets the active context (use before restoring a parent).</td>
+</tr>
+<tr>
+<td><code>peekActiveProviderRuntimeContext()</code></td>
+<td>Returns the currently active context or <code>null</code> without touching fallbacks.</td>
+</tr>
+<tr>
+<td><code>getActiveProviderRuntimeContext()</code></td>
+<td>Resolves the active context, creating one with the fallback factory if needed.</td>
+</tr>
+<tr>
+<td><code>setProviderRuntimeContextFallback(factory)</code></td>
+<td>Registers a factory used when <code>getActiveProviderRuntimeContext()</code> is called while no active context is set. Passing <code>null</code> clears the fallback.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> <code>getActiveProviderRuntimeContext()</code> lazily initialises a &quot;legacy-singleton&quot; context if nothing else is registered. Modern code should always create an explicit context during bootstrap and avoid relying on the fallback.</p>
+</blockquote>
+<h2>Runtime metadata &amp; auth scope</h2>
+<ul>
+<li>The auth precedence resolver (<code>auth/precedence.ts</code>) mutates <code>context.metadata.runtimeAuthScope</code> with cache diagnostics whenever credentials are requested. Consumers should treat this metadata as read-only diagnostics.</li>
+<li>Provide a stable <code>runtimeId</code> when creating contexts so scoped caches can invalidate the correct credentials. Omitted <code>runtimeId</code> values fall back to <code>legacy-singleton</code>, which mixes credentials and should be avoided outside tests.</li>
+<li>When contexts are disposed, call <code>clearActiveProviderRuntimeContext()</code> so downstream code does not continue to read stale metadata.</li>
+</ul>
+<h2>Nested runtimes</h2>
+<p>The runtime helpers support stacking contexts—useful when launching subagents or parallel automation tasks:</p>
+<pre><code class="language-ts">const previous = peekActiveProviderRuntimeContext();
+const runtime = createProviderRuntimeContext({
+  runtimeId: 'subagent-reviewer',
+  metadata: { agentId: 'reviewer', origin: 'cli' },
+});
+setActiveProviderRuntimeContext(runtime);
+try {
+  await runReviewerWorkflow(runtime);
+} finally {
+  clearActiveProviderRuntimeContext();
+  if (previous) {
+    setActiveProviderRuntimeContext(previous);
+  }
+}
+</code></pre>
+<p>Each context maintains its own <code>SettingsService</code> instance, preventing provider switches or credential updates in one workflow from leaking into another. Because the auth cache keys off <code>runtimeId</code>, nested contexts receive independent credential buckets that are revoked automatically when settings change.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

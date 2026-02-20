@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Troubleshooting Guide | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Troubleshooting Guide</h1>
+<p>This guide provides solutions to common issues and debugging tips.</p>
+<h2>Authentication</h2>
+<h3>Understanding Authentication in LLxprt Code</h3>
+<p>Authentication in LLxprt Code serves different purposes depending on the provider:</p>
+<p><strong>For Gemini Provider:</strong></p>
+<ul>
+<li>Authentication options: OAuth, GEMINI_API_KEY, GOOGLE_API_KEY (Vertex AI), or NONE</li>
+<li>Use <code>/auth</code> command to select and store your authentication method in <code>~/.llxprt/settings.json</code></li>
+<li>OAuth authentication is lazy-loaded (only happens when you first use the Gemini API)</li>
+<li>Without authentication (NONE), all Gemini operations will fail, including ServerTools (web-search/web-fetch)</li>
+</ul>
+<p><strong>For Other Providers:</strong></p>
+<ul>
+<li>All non-Gemini providers require API keys</li>
+<li>No OAuth option available for OpenAI, Anthropic, etc.</li>
+</ul>
+<h3>How to Provide API Keys</h3>
+<p><strong>Environment Variables:</strong></p>
+<pre><code class="language-bash"># Less commonly used but supported
+export OPENAI_API_KEY=your-key-here
+export ANTHROPIC_API_KEY=your-key-here
+export GEMINI_API_KEY=your-key-here
+</code></pre>
+<p><strong>Command Line:</strong></p>
+<pre><code class="language-bash"># Direct key
+llxprt --provider openai --key $YOUR_KEY
+
+# Key from file
+llxprt --provider openai --keyfile ~/.yourkeyfile
+</code></pre>
+<p><strong>Interactive Mode:</strong></p>
+<pre><code class="language-text">/key        # Enter key directly
+/keyfile    # Load key from file
+</code></pre>
+<h3>Gemini-Specific Authentication</h3>
+<p>Gemini is used in two ways in LLxprt Code:</p>
+<ol>
+<li><strong>As the main provider</strong> - when set via <code>/provider</code> or used by default</li>
+<li><strong>For ServerTools</strong> - provides web-search and web-fetch capabilities even when using other providers</li>
+</ol>
+<p>This means if you're using OpenAI as your main provider but want web search, you'll still need Gemini authentication.</p>
+<h3>Common Authentication Errors</h3>
+<ul>
+<li>
+<p><strong>Error: <code>Failed to login. Message: Request contains an invalid argument</code></strong></p>
+<ul>
+<li>Users with Google Workspace accounts, or users with Google Cloud accounts
+associated with their Gmail accounts may not be able to activate the free
+tier of the Google Code Assist plan.</li>
+<li>For Google Cloud accounts, you can work around this by setting
+<code>GOOGLE_CLOUD_PROJECT</code> to your project ID.</li>
+<li>You can also grab an API key from <a href="https://aistudio.google.com/app/apikey">AI
+Studio</a>, which also includes a
+separate free tier.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: API key not found</strong></p>
+<ul>
+<li>If you specify <code>--key</code> without providing a value, or if the environment variable is empty</li>
+<li>Solution: Ensure your API key is properly set in the environment or provided via command line</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: Invalid API key</strong></p>
+<ul>
+<li>The provided API key is malformed or revoked</li>
+<li>Solution: Check your API key in the provider's dashboard and ensure it's active</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: <code>UNABLE_TO_GET_ISSUER_CERT_LOCALLY</code> or <code>unable to get local issuer certificate</code></strong></p>
+<ul>
+<li><strong>Cause:</strong> You may be on a corporate network with a firewall that intercepts and inspects SSL/TLS traffic. This often requires a custom root CA certificate to be trusted by Node.js.</li>
+<li><strong>Solution:</strong> Set the <code>NODE_EXTRA_CA_CERTS</code> environment variable to the absolute path of your corporate root CA certificate file.
+<ul>
+<li>Example: <code>export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2>Frequently asked questions (FAQs)</h2>
+<ul>
+<li>
+<p><strong>Q: How do I update LLxprt Code to the latest version?</strong></p>
+<ul>
+<li>A: If installed globally via npm, update LLxprt Code using the command <code>npm install -g @vybestack/llxprt-code@latest</code>. If run from source, pull the latest changes from the repository and rebuild using <code>npm run build</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Q: Where are LLxprt Code configuration files stored?</strong></p>
+<ul>
+<li>A: The CLI configuration is stored within two <code>settings.json</code> files: one in your home directory and one in your project's root directory. In both locations, <code>settings.json</code> is found in the <code>.llxprt/</code> folder. Refer to <a href="./cli/configuration.html">CLI Configuration</a> for more details.</li>
+</ul>
+</li>
+<li>
+<p><strong>Q: Why don't I see cached token counts in my stats output?</strong></p>
+<ul>
+<li>A: Cached token information is only displayed when cached tokens are being used. This feature is available for API key users (Gemini API key or Vertex AI) but not for OAuth users (Google Personal/Enterprise accounts) at this time, as the Code Assist API does not support cached content creation. You can still view your total token usage with the <code>/stats</code> command.</li>
+</ul>
+</li>
+</ul>
+<h2>Streaming / Retry issues</h2>
+<ul>
+<li>
+<p><strong>Message:</strong> <code>stream interrupted, retrying</code> (sometimes followed by <code>attempt 2/6</code>)</p>
+<ul>
+<li><strong>Cause:</strong> LLxprt detected a transient network problem (SSE disconnect, socket hang-up, etc.) and automatically queued a retry using the global <code>retries</code>/<code>retrywait</code> settings.</li>
+<li><strong>Resolution:</strong> Normally no action is required; the CLI will retry up to six times with exponential backoff. If you consistently hit this message, consider increasing <code>/set retrywait &lt;ms&gt;</code> or <code>/set retries &lt;n&gt;</code>, or inspect local proxies/firewalls.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error:</strong> <code>Request would exceed the &lt;limit&gt; token context window even after compression (… including system prompt and a &lt;completion&gt; token completion budget).</code></p>
+<ul>
+<li><strong>Cause:</strong> After PR #315, system prompts and the contents of your loaded <code>LLXPRT.md</code> files are counted in <code>context-limit</code>. Even after compression there isn’t enough room for the pending turn plus the reserved completion budget.</li>
+<li><strong>Resolution:</strong> Shorten or remove entries from your <code>LLXPRT.md</code>, run <code>/compress</code>, lower <code>/set maxOutputTokens &lt;n&gt;</code> (or provider-specific <code>max_tokens</code>), or temporarily disable large memories before trying again.</li>
+</ul>
+</li>
+</ul>
+<h2>PowerShell @ Symbol Issues</h2>
+<h3>Problem</h3>
+<p>When using LLxprt Code in PowerShell, typing the <code>@</code> symbol to reference files (e.g., <code>@example.txt</code>) causes severe input lag and performance issues.</p>
+<h3>Cause</h3>
+<p>PowerShell's IntelliSense treats <code>@</code> as the start of a hashtable literal, triggering tab completion and causing the terminal to freeze or lag significantly. This is a known issue with PowerShell that affects any CLI tool using <code>@</code> for file references.</p>
+<h3>Solution</h3>
+<p>LLxprt Code automatically detects when running in PowerShell and provides an alternative <code>+</code> prefix for file references:</p>
+<pre><code class="language-powershell"># Instead of:
+@path/to/file.txt
+
+# Use:
++path/to/file.txt
+</code></pre>
+<p>Both syntaxes work in PowerShell, but <code>+</code> avoids the IntelliSense interference. The CLI will show a helpful tip on first use and update the placeholder text accordingly.</p>
+<p><strong>Note:</strong> This workaround is only active in PowerShell environments. In other shells (bash, zsh, etc.), continue using the standard <code>@</code> prefix.</p>
+<h2>Common error messages and solutions</h2>
+<ul>
+<li>
+<p><strong>Error: <code>EADDRINUSE</code> (Address already in use) when starting an MCP server.</strong></p>
+<ul>
+<li><strong>Cause:</strong> Another process is already using the port that the MCP server is trying to bind to.</li>
+<li><strong>Solution:</strong>
+Either stop the other process that is using the port or configure the MCP server to use a different port.</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: Command not found (when attempting to run LLxprt Code).</strong></p>
+<ul>
+<li><strong>Cause:</strong> LLxprt Code is not correctly installed or not in your system's PATH.</li>
+<li><strong>Solution:</strong>
+<ol>
+<li>Ensure LLxprt Code installation was successful.</li>
+<li>If installed globally, check that your npm global binary directory is in your PATH.</li>
+<li>If running from source, ensure you are using the correct command to invoke it (e.g., <code>node packages/cli/dist/index.js ...</code>).</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: <code>MODULE_NOT_FOUND</code> or import errors.</strong></p>
+<ul>
+<li><strong>Cause:</strong> Dependencies are not installed correctly, or the project hasn't been built.</li>
+<li><strong>Solution:</strong>
+<ol>
+<li>Run <code>npm install</code> to ensure all dependencies are present.</li>
+<li>Run <code>npm run build</code> to compile the project.</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Error: &quot;Operation not permitted&quot;, &quot;Permission denied&quot;, or similar.</strong></p>
+<ul>
+<li><strong>Cause:</strong> If sandboxing is enabled, then the application is likely attempting an operation restricted by your sandbox, such as writing outside the project directory or system temp directory.</li>
+<li><strong>Solution:</strong> See <a href="./cli/configuration.html#sandboxing">Sandboxing</a> for more information, including how to customize your sandbox configuration.</li>
+</ul>
+</li>
+<li>
+<p><strong>CLI is not interactive in &quot;CI&quot; environments</strong></p>
+<ul>
+<li><strong>Issue:</strong> The CLI does not enter interactive mode (no prompt appears) if an environment variable starting with <code>CI_</code> (e.g., <code>CI_TOKEN</code>) is set. This is because the <code>is-in-ci</code> package, used by the underlying UI framework, detects these variables and assumes a non-interactive CI environment.</li>
+<li><strong>Cause:</strong> The <code>is-in-ci</code> package checks for the presence of <code>CI</code>, <code>CONTINUOUS_INTEGRATION</code>, or any environment variable with a <code>CI_</code> prefix. When any of these are found, it signals that the environment is non-interactive, which prevents the CLI from starting in its interactive mode.</li>
+<li><strong>Solution:</strong> If the <code>CI_</code> prefixed variable is not needed for the CLI to function, you can temporarily unset it for the command. e.g., <code>env -u CI_TOKEN llxprt</code></li>
+</ul>
+</li>
+<li>
+<p><strong>DEBUG mode not working from project .env file</strong></p>
+<ul>
+<li><strong>Issue:</strong> Setting <code>DEBUG=true</code> in a project's <code>.env</code> file doesn't enable debug mode for llxprt.</li>
+<li><strong>Cause:</strong> The <code>DEBUG</code> and <code>DEBUG_MODE</code> variables are automatically excluded from project <code>.env</code> files to prevent interference with llxprt behavior.</li>
+<li><strong>Solution:</strong> Use a <code>.llxprt/.env</code> file instead, or configure the <code>excludedProjectEnvVars</code> setting in your <code>settings.json</code> to exclude fewer variables.</li>
+</ul>
+</li>
+</ul>
+<h2>Exit Codes</h2>
+<p>LLxprt Code uses specific exit codes to indicate the reason for termination. This is especially useful for scripting and automation.</p>
+<table>
+<thead>
+<tr>
+<th>Exit Code</th>
+<th>Error Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>41</td>
+<td><code>FatalAuthenticationError</code></td>
+<td>An error occurred during the authentication process.</td>
+</tr>
+<tr>
+<td>42</td>
+<td><code>FatalInputError</code></td>
+<td>Invalid or missing input was provided to the CLI. (non-interactive mode only)</td>
+</tr>
+<tr>
+<td>44</td>
+<td><code>FatalSandboxError</code></td>
+<td>An error occurred with the sandboxing environment (e.g., Docker, Podman, or Seatbelt).</td>
+</tr>
+<tr>
+<td>52</td>
+<td><code>FatalConfigError</code></td>
+<td>A configuration file (<code>settings.json</code>) is invalid or contains errors.</td>
+</tr>
+<tr>
+<td>53</td>
+<td><code>FatalTurnLimitedError</code></td>
+<td>The maximum number of conversational turns for the session was reached. (non-interactive mode only)</td>
+</tr>
+</tbody>
+</table>
+<h2>Sandbox Issues</h2>
+<h3>Container Engine Problems</h3>
+<h4>Docker daemon not running</h4>
+<p><strong>Symptom:</strong> <code>Cannot connect to the Docker daemon. Is the docker daemon running?</code></p>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li><strong>macOS:</strong> Start Docker Desktop</li>
+<li><strong>Linux:</strong> Run <code>sudo systemctl start docker</code> or <code>sudo service docker start</code></li>
+</ul>
+<p>Windows is not currently tested for this sandbox workflow.</p>
+<h4>Podman machine not running (macOS)</h4>
+<p><strong>Symptom:</strong> <code>Error: cannot connect to Podman socket</code></p>
+<p><strong>Solution:</strong></p>
+<pre><code class="language-bash">podman machine start
+podman machine ls  # Verify it's running
+</code></pre>
+<p>If the machine is stuck:</p>
+<pre><code class="language-bash">podman machine stop
+podman machine rm
+podman machine init
+podman machine start
+</code></pre>
+<h4>Image pull failures</h4>
+<p><strong>Symptom:</strong> <code>Sandbox image '&lt;image&gt;' is missing or could not be pulled.</code></p>
+<p><strong>Causes and solutions:</strong></p>
+<ul>
+<li>No network: Check internet connection</li>
+<li>Registry auth required: <code>docker login ghcr.io</code></li>
+<li>Rate limited: Wait and retry, or use authenticated pull</li>
+</ul>
+<h3>Credential Proxy Errors</h3>
+<h4>Failed to start credential proxy</h4>
+<p><strong>Symptom:</strong> <code>Failed to start credential proxy: &lt;error message&gt;</code></p>
+<p><strong>Causes:</strong></p>
+<p>The credential proxy requires a working OS keyring. Common issues:</p>
+<ul>
+<li>Linux: <code>gnome-keyring-daemon</code> not running or D-Bus unavailable</li>
+<li>Keyring locked after login</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<pre><code class="language-bash"># Linux: Check keyring status
+gnome-keyring-daemon --check
+
+# Linux: Start keyring if needed
+eval &quot;$(gnome-keyring-daemon -s)&quot;
+export SSH_AUTH_SOCK
+
+# Fallback: Use explicit API key
+llxprt --key $YOUR_API_KEY --sandbox
+</code></pre>
+<h4>LLXPRT_CREDENTIAL_SOCKET not set</h4>
+<p><strong>Symptom:</strong> Inside the sandbox, authentication fails or <code>/auth</code> commands do not work.</p>
+<p><strong>Cause:</strong> The credential proxy socket was not properly passed to the container.</p>
+<p><strong>Diagnosis:</strong></p>
+<pre><code class="language-bash"># Check if the env var is set inside sandbox (use single quotes)
+llxprt --sandbox 'run shell command: echo $LLXPRT_CREDENTIAL_SOCKET'
+</code></pre>
+<p>If empty, the proxy did not start correctly on the host.</p>
+<p><strong>Solution:</strong> Restart the session. If the problem persists, check host keyring availability.</p>
+<h4>Credential proxy connection lost</h4>
+<p><strong>Symptom:</strong> <code>Credential proxy connection lost. Restart the session.</code></p>
+<p><strong>Cause:</strong> The container lost its connection to the host-side credential proxy. This usually happens after:</p>
+<ul>
+<li>Host system sleep/hibernate</li>
+<li>Container crash</li>
+<li>Network interface changes</li>
+</ul>
+<p><strong>Solution:</strong> Exit and restart the llxprt session.</p>
+<h4>socat not found (Podman macOS)</h4>
+<p><strong>Symptom:</strong> <code>ERROR: socat not found - credential proxy relay requires socat in the sandbox image</code></p>
+<p><strong>Cause:</strong> The sandbox image lacks the <code>socat</code> utility needed for credential proxy bridging on Podman macOS.</p>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Update to a newer sandbox image</li>
+<li>Use Docker Desktop instead of Podman on macOS</li>
+<li>Build a custom image with <code>socat</code> installed</li>
+</ul>
+<h3>SSH Agent Passthrough</h3>
+<h4>SSH_AUTH_SOCK not set</h4>
+<p><strong>Symptom:</strong> <code>SSH agent requested but SSH_AUTH_SOCK is not set.</code></p>
+<p><strong>Solution:</strong></p>
+<pre><code class="language-bash"># Start the agent
+eval &quot;$(ssh-agent -s)&quot;
+
+# Add your key
+ssh-add ~/.ssh/id_ed25519
+
+# Verify
+ssh-add -l
+</code></pre>
+<h4>SSH socket not found</h4>
+<p><strong>Symptom:</strong> <code>SSH_AUTH_SOCK path not found at /path/to/socket</code></p>
+<p><strong>Cause:</strong> The SSH agent is not running or the socket path is incorrect.</p>
+<p><strong>Solution:</strong></p>
+<pre><code class="language-bash"># Check if agent is running
+ps aux | grep ssh-agent
+
+# Restart the agent
+eval &quot;$(ssh-agent -s)&quot;
+ssh-add ~/.ssh/id_ed25519
+</code></pre>
+<h4>Podman macOS SSH issues</h4>
+<p><strong>Symptom:</strong> Git clone fails with <code>Permission denied (publickey)</code> even though keys are loaded.</p>
+<p><strong>Cause:</strong> Podman on macOS runs in a VM. Launchd-managed sockets (paths containing <code>/private/tmp/com.apple.launchd.*</code>) are not accessible from the VM.</p>
+<p><strong>Solution:</strong></p>
+<p>Create a dedicated SSH agent socket at a normal filesystem path:</p>
+<pre><code class="language-bash"># Stop any existing agents
+killall ssh-agent 2&gt;/dev/null
+
+# Start agent with dedicated socket
+ssh-agent -a ~/.llxprt/ssh-agent.sock
+export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
+
+# Add keys
+ssh-add ~/.ssh/id_ed25519
+
+# Test
+ssh-add -l
+
+# Now run llxprt
+llxprt --sandbox-engine podman --sandbox-profile-load dev
+</code></pre>
+<h3>Sandbox Profile Issues</h3>
+<h4>Profile not found</h4>
+<p><strong>Symptom:</strong> <code>Profile 'custom' not found</code></p>
+<p><strong>Solution:</strong></p>
+<pre><code class="language-bash"># Check existing profiles
+ls ~/.llxprt/sandboxes/
+
+# Create the profile if missing
+echo '{&quot;engine&quot;:&quot;auto&quot;}' &gt; ~/.llxprt/sandboxes/custom.json
+</code></pre>
+<h4>Invalid profile JSON</h4>
+<p><strong>Symptom:</strong> <code>Failed to parse sandbox profile</code></p>
+<p><strong>Solution:</strong> Validate the JSON syntax:</p>
+<pre><code class="language-bash"># Check syntax
+cat ~/.llxprt/sandboxes/custom.json | jq .
+</code></pre>
+<p>If <code>jq</code> reports errors, fix the JSON and try again.</p>
+<h4>Operation not permitted</h4>
+<p><strong>Symptom:</strong> <code>Operation not permitted</code> when running commands in sandbox</p>
+<p><strong>Cause:</strong> The operation requires access outside the sandbox boundaries.</p>
+<p><strong>Solutions:</strong></p>
+<ul>
+<li>Use a less restrictive profile (<code>dev</code> instead of <code>safe</code>)</li>
+<li>Add the required path to <code>mounts</code> in the profile</li>
+<li>Disable network restrictions if network access is needed</li>
+</ul>
+<h3>Resource Limits</h3>
+<h4>Container killed (OOM)</h4>
+<p><strong>Symptom:</strong> Container exits unexpectedly, possibly with <code>OOMKilled</code> status.</p>
+<p><strong>Cause:</strong> The process exceeded the memory limit in the profile.</p>
+<p><strong>Solution:</strong> Increase the memory limit in your profile:</p>
+<pre><code class="language-json">{
+  &quot;resources&quot;: { &quot;memory&quot;: &quot;8g&quot; }
+}
+</code></pre>
+<h4>Process limit reached</h4>
+<p><strong>Symptom:</strong> Commands fail with <code>fork: Resource temporarily unavailable</code></p>
+<p><strong>Cause:</strong> The container hit the process count limit (<code>pids</code> in profile).</p>
+<p><strong>Solution:</strong> Increase the process limit:</p>
+<pre><code class="language-json">{
+  &quot;resources&quot;: { &quot;pids&quot;: 512 }
+}
+</code></pre>
+<h3>Debugging Sandbox Issues</h3>
+<h4>Enable debug output</h4>
+<pre><code class="language-bash">DEBUG=1 llxprt --sandbox &quot;your prompt here&quot;
+</code></pre>
+<h4>Inspect the sandbox environment</h4>
+<pre><code class="language-bash"># Check sandbox environment variables
+llxprt --sandbox &quot;run shell command: env | grep -E 'LLXPRT|SANDBOX'&quot;
+
+# Check credential proxy socket
+llxprt --sandbox &quot;run shell command: ls -la $LLXPRT_CREDENTIAL_SOCKET&quot;
+
+# Check mounts
+llxprt --sandbox &quot;run shell command: mount | grep workspace&quot;
+
+# Test network access
+llxprt --sandbox &quot;run shell command: curl -I https://example.com 2&gt;&amp;1&quot;
+</code></pre>
+<h4>Run container manually for debugging</h4>
+<p>Replace <version> below with the tag shown by the docker images command.</p>
+<pre><code class="language-bash"># Find the image
+docker images | grep 'vybestack/llxprt-code/sandbox'
+
+# Run interactively (replace &lt;version&gt; with the tag you found above)
+docker run -it --rm \
+  -v $(pwd):/workspace \
+  -v ~/.llxprt:/home/node/.llxprt \
+  ghcr.io/vybestack/llxprt-code/sandbox:&lt;version&gt; \
+  bash
+
+# Inside container, debug
+env | grep LLXPRT
+ls -la /workspace
+</code></pre>
+<h2>Debugging Tips</h2>
+<ul>
+<li>
+<p><strong>CLI debugging:</strong></p>
+<ul>
+<li>Use the <code>--verbose</code> flag (if available) with CLI commands for more detailed output.</li>
+<li>Check the CLI logs, often found in a user-specific configuration or cache directory.</li>
+</ul>
+</li>
+<li>
+<p><strong>Core debugging:</strong></p>
+<ul>
+<li>Check the server console output for error messages or stack traces.</li>
+<li>Increase log verbosity if configurable.</li>
+<li>Use Node.js debugging tools (e.g., <code>node --inspect</code>) if you need to step through server-side code.</li>
+</ul>
+</li>
+<li>
+<p><strong>Tool issues:</strong></p>
+<ul>
+<li>If a specific tool is failing, try to isolate the issue by running the simplest possible version of the command or operation the tool performs.</li>
+<li>For <code>run_shell_command</code>, check that the command works directly in your shell first.</li>
+<li>For file system tools, double-check paths and permissions.</li>
+</ul>
+</li>
+<li>
+<p><strong>Pre-flight checks:</strong></p>
+<ul>
+<li>Always run <code>npm run preflight</code> before committing code. This can catch many common issues related to formatting, linting, and type errors.</li>
+</ul>
+</li>
+</ul>
+<p>If you encounter an issue not covered here, consider searching the project's issue tracker on GitHub or reporting a new issue with detailed information.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

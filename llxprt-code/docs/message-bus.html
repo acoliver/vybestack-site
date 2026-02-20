@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Message Bus and Policy Engine | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Message Bus and Policy Engine</h1>
+<h2>Overview</h2>
+<p>The message bus and policy engine provide a flexible, rule-based system for controlling tool execution in llxprt-code. This modern approach replaces the legacy approval mode system with configurable policies that determine whether tools should execute automatically, require user confirmation, or be blocked.</p>
+<h2>Key Concepts</h2>
+<h3>Message Bus</h3>
+<p>The message bus is an event-driven communication system that handles tool confirmation requests and responses. It decouples tool execution logic from UI components, enabling:</p>
+<ul>
+<li>Asynchronous tool confirmations</li>
+<li>Policy-based authorization</li>
+<li>Observability through message events</li>
+<li>Flexible UI integration patterns</li>
+</ul>
+<h3>Policy Engine</h3>
+<p>The policy engine evaluates tool execution requests against configurable rules. Each rule can:</p>
+<ul>
+<li>Match specific tools or use wildcards to match all tools</li>
+<li>Match tool arguments using regular expressions</li>
+<li>Specify a decision: <code>allow</code>, <code>deny</code>, or <code>ask_user</code></li>
+<li>Define a priority to control rule precedence</li>
+</ul>
+<h3>Priority Bands</h3>
+<p>Rules are organized into three priority tiers:</p>
+<ul>
+<li><strong>Tier 3 (Admin): <a href="http://3.xxx">3.xxx</a></strong> - Enterprise admin policies (highest priority)</li>
+<li><strong>Tier 2 (User): <a href="http://2.xxx">2.xxx</a></strong> - User settings and custom policies</li>
+<li><strong>Tier 1 (Default): <a href="http://1.xxx">1.xxx</a></strong> - Built-in default policies (lowest priority)</li>
+</ul>
+<p>Within each tier, higher priority numbers win. For example, a rule with priority 2.5 overrides a rule with priority 2.3.</p>
+<h2>Benefits Over Legacy Approval Mode</h2>
+<p>The message bus and policy engine offer several advantages:</p>
+<ol>
+<li><strong>Fine-grained Control</strong>: Define rules per tool or per argument pattern, not just blanket approval modes</li>
+<li><strong>Declarative Configuration</strong>: Policies are defined in TOML files that can be version-controlled</li>
+<li><strong>Composable Rules</strong>: Combine multiple rule sources (defaults, user settings, CLI flags)</li>
+<li><strong>Security</strong>: Block dangerous commands (e.g., <code>rm -rf /</code>) at the policy level</li>
+<li><strong>Extensibility</strong>: MCP server trust settings integrate seamlessly with policies</li>
+<li><strong>Observability</strong>: Message bus events provide insight into tool execution flow</li>
+</ol>
+<h2>Message Bus Integration</h2>
+<p>Message bus routing and the policy engine are now always enabled in llxprt-code. No additional settings or profile changes are required.</p>
+<h2>How It Works</h2>
+<h3>Legacy Path (Historical Reference)</h3>
+<pre><code>Tool Request → shouldConfirmExecute() → UI Dialog → Execute
+</code></pre>
+<h3>Current Flow</h3>
+<pre><code>Tool Request → Policy Engine → ALLOW/DENY/ASK_USER
+                                  ↓
+                            Message Bus → UI → Response → Execute
+</code></pre>
+<p>The policy engine first evaluates the request against all configured rules. Based on the highest-priority matching rule:</p>
+<ul>
+<li><strong>ALLOW</strong>: Tool executes immediately</li>
+<li><strong>DENY</strong>: Tool is blocked with a policy rejection message</li>
+<li><strong>ASK_USER</strong>: Message bus publishes a confirmation request, waits for UI response</li>
+</ul>
+<h2>Using the /policies Command</h2>
+<p>The <code>/policies</code> slash command displays all active policy rules:</p>
+<pre><code>&gt; /policies
+
+Active Policy Rules:
+
+  2.950 │ *                         │ allow    (Always Allow - runtime)
+  2.300 │ edit                      │ allow    (--allowed-tools)
+  2.000 │ shell                     │ deny     (args: rm\s+-rf\s+/)
+  1.999 │ *                         │ allow    (YOLO mode)
+  1.050 │ glob                      │ allow    (read-only default)
+  1.010 │ edit                      │ ask_user (write default)
+
+Default decision: ask_user
+Non-interactive mode: false
+</code></pre>
+<p>This shows:</p>
+<ul>
+<li>Priority order (highest first)</li>
+<li>Tool name (<code>*</code> = wildcard matching all tools)</li>
+<li>Decision (allow/deny/ask_user)</li>
+<li>Args pattern (if applicable)</li>
+</ul>
+<h2>Default Policies</h2>
+<p>llxprt-code ships with built-in policies:</p>
+<h3>Read-Only Tools (Priority 1.05)</h3>
+<p>These tools auto-approve by default:</p>
+<ul>
+<li>glob, grep, ls, read_file, read_many_files, ripgrep</li>
+<li>web_search, task, write_todos, list_subagents</li>
+<li>notebook_edit, slash_command, skill</li>
+</ul>
+<h3>Write Tools (Priority 1.01)</h3>
+<p>These tools require confirmation by default:</p>
+<ul>
+<li>edit, write_file</li>
+<li>shell, memory, web_fetch</li>
+<li>mcp_tool</li>
+</ul>
+<h3>Dangerous Shell Commands (Priority 2.0)</h3>
+<p>These patterns are blocked:</p>
+<ul>
+<li><code>rm -rf /</code> - Recursive root deletion</li>
+<li><code>chmod 777</code> - Insecure permissions</li>
+<li><code>dd if=</code> - Disk overwrite</li>
+<li><code>mkfs.</code> - Filesystem formatting</li>
+<li>Fork bombs and other malicious patterns</li>
+</ul>
+<h3>YOLO Mode (Priority 1.999)</h3>
+<p>When <code>--yolo</code> flag is used, a wildcard allow-all rule is added at priority 1.999.</p>
+<h2>Configuration File Format</h2>
+<p>See <a href="policy-configuration.html">Policy Configuration Guide</a> for detailed TOML syntax and examples.</p>
+<h2>Legacy Compatibility</h2>
+<p>The system maintains full backward compatibility:</p>
+<h3>ApprovalMode Mapping</h3>
+<p>Legacy approval modes map to policy rules:</p>
+<table>
+<thead>
+<tr>
+<th>ApprovalMode</th>
+<th>Policy Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEFAULT</code></td>
+<td>Standard policy stack applies</td>
+</tr>
+<tr>
+<td><code>AUTO_EDIT</code></td>
+<td>Allow write tools at priority 1.015</td>
+</tr>
+<tr>
+<td><code>YOLO</code></td>
+<td>Allow all tools at priority 1.999</td>
+</tr>
+</tbody>
+</table>
+<h3>CLI Flags</h3>
+<ul>
+<li><code>--allowed-tools</code>: Each tool becomes an ALLOW rule at priority 2.3</li>
+<li><code>--yolo</code>: Adds wildcard ALLOW rule at priority 1.999</li>
+</ul>
+<p>Legacy approval settings are now expressed as policy rules that flow through the message bus; there is no toggle to bypass the new architecture.</p>
+<h2>Troubleshooting</h2>
+<h3>Policy Not Taking Effect</h3>
+<ol>
+<li>Verify your policy file path (<code>settings.policyFiles</code>) is correct and readable</li>
+<li>Restart llxprt-code (or reload settings) after edits</li>
+<li>Use <code>/policies</code> to inspect active rules and priorities</li>
+<li>Ensure your custom policy has higher priority than defaults</li>
+</ol>
+<h3>Tool Blocked Unexpectedly</h3>
+<ol>
+<li>Use <code>/policies</code> to see which rule matched</li>
+<li>Check for DENY rules with higher priority than your ALLOW rules</li>
+<li>Review args patterns for overly broad matches</li>
+</ol>
+<h3>Timeout Errors</h3>
+<p>If tool confirmations timeout (default 5 minutes):</p>
+<ul>
+<li>Check that UI is responding to confirmation requests</li>
+<li>In non-interactive mode, ASK_USER decisions become DENY</li>
+<li>Consider adding ALLOW rules for trusted tools</li>
+</ul>
+<h3>Policy File Errors</h3>
+<p>If policy loading fails:</p>
+<ul>
+<li>Check TOML syntax (use online validator)</li>
+<li>Verify priority is in range [1.0, 4.0)</li>
+<li>Ensure regex patterns in <code>argsPattern</code> are valid</li>
+<li>Check file path in settings</li>
+</ul>
+<h2>Security Considerations</h2>
+<h3>Server Name Spoofing Prevention</h3>
+<p>MCP tools are validated to prevent spoofing:</p>
+<ul>
+<li>Expected format: <code>serverName__toolName</code></li>
+<li>If serverName doesn't match prefix, tool is denied</li>
+<li>Built-in tools cannot be spoofed via MCP</li>
+</ul>
+<h3>Priority Band Enforcement</h3>
+<p>The policy engine validates that priorities fall within allowed bands:</p>
+<ul>
+<li>Tier 1: 1.0 - 1.999</li>
+<li>Tier 2: 2.0 - 2.999</li>
+<li>Tier 3: 3.0 - 3.999</li>
+</ul>
+<p>Custom policies with priorities outside this range will fail to load.</p>
+<h3>Non-Interactive Mode</h3>
+<p>When <code>--non-interactive</code> flag is used:</p>
+<ul>
+<li>ASK_USER decisions automatically become DENY</li>
+<li>Prevents tools from hanging waiting for user input</li>
+<li>Recommended for CI/CD environments</li>
+</ul>
+<h2>Performance Notes</h2>
+<h3>Rule Evaluation</h3>
+<ul>
+<li>Rules are sorted by priority once at engine initialization</li>
+<li>Evaluation stops at first matching rule (O(n) worst case)</li>
+<li>Stable stringify for args matching adds minimal overhead</li>
+</ul>
+<h3>Message Bus Overhead</h3>
+<ul>
+<li>EventEmitter-based pub/sub is lightweight</li>
+<li>Correlation IDs use crypto.randomUUID() (fast)</li>
+<li>Timeout cleanup prevents memory leaks</li>
+</ul>
+<h2>Next Steps</h2>
+<ul>
+<li>Read <a href="policy-configuration.html">Policy Configuration Guide</a> to create custom policies</li>
+<li>See <a href="migration/approval-mode-to-policies.html">Migration Guide</a> to migrate from legacy approval modes</li>
+<li>Review <a href="architecture/message-bus-architecture.html">Architecture Document</a> for implementation details</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

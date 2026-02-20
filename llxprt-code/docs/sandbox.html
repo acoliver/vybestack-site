@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sandboxing | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Sandboxing</h1>
+<p>Sandboxing runs llxprt tool execution in an isolated environment so you can work with less risk when running shell commands, editing files, or reviewing untrusted code.</p>
+<h2>Platform support</h2>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Docker</th>
+<th>Podman</th>
+<th>Seatbelt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>macOS</td>
+<td>Full support</td>
+<td>Full support (caveats)</td>
+<td>Built-in</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td>Full support</td>
+<td>Full support</td>
+<td>Not available</td>
+</tr>
+</tbody>
+</table>
+<p>Windows is not tested yet for this workflow. Contributions are welcome.</p>
+<h2>Quick start</h2>
+<pre><code class="language-bash"># Start a sandboxed session with automatic engine selection
+llxprt --sandbox &quot;review this repository&quot;
+
+# Load a specific sandbox profile
+llxprt --sandbox-profile-load safe &quot;analyze this untrusted code&quot;
+
+# Explicitly disable sandboxing
+llxprt --sandbox-engine none
+</code></pre>
+<h2>Why developers use sandboxing</h2>
+<p>Use sandboxing when you want to:</p>
+<ul>
+<li>review code you did not write</li>
+<li>run shell-heavy tasks safely</li>
+<li>keep refresh tokens and key storage on the host</li>
+<li>cap CPU, memory, and process count for noisy workloads</li>
+</ul>
+<h2>How sandbox mode is selected</h2>
+<p>Selection behavior comes from <code>packages/cli/src/config/sandboxConfig.ts</code> and works like this:</p>
+<ol>
+<li><code>--sandbox-engine none</code> disables sandboxing immediately.</li>
+<li><code>LLXPRT_SANDBOX</code> takes precedence over <code>--sandbox</code> and <code>settings.sandbox</code> when choosing the base sandbox command.</li>
+<li><code>--sandbox-profile-load &lt;name&gt;</code> implies sandbox intent, even if <code>--sandbox</code> is not set.</li>
+<li><code>--sandbox-engine &lt;engine&gt;</code> overrides the resolved runtime.</li>
+</ol>
+<h3><code>LLXPRT_SANDBOX</code> accepted values</h3>
+<ul>
+<li>truthy: <code>1</code>, <code>true</code> (requests sandbox with automatic command selection)</li>
+<li>falsy: <code>0</code>, <code>false</code> (disables sandboxing)</li>
+<li>explicit engine: <code>docker</code>, <code>podman</code>, <code>sandbox-exec</code></li>
+</ul>
+<p><code>--sandbox-engine none</code> always disables sandboxing, even when <code>LLXPRT_SANDBOX</code> is set.</p>
+<h2>Built-in profiles</h2>
+<p>Profiles are stored at:</p>
+<pre><code class="language-text">~/.llxprt/sandboxes/&lt;name&gt;.json
+</code></pre>
+<p>Default profile files are created automatically when profile loading is used.</p>
+<table>
+<thead>
+<tr>
+<th>Profile</th>
+<th>Network</th>
+<th>SSH Agent</th>
+<th>Resources</th>
+<th>Typical use case</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dev</code></td>
+<td>on</td>
+<td>auto</td>
+<td>2 CPU, 4GB, 256 pids</td>
+<td>normal development</td>
+</tr>
+<tr>
+<td><code>safe</code></td>
+<td>off</td>
+<td>off</td>
+<td>2 CPU, 4GB, 128 pids</td>
+<td>untrusted code review</td>
+</tr>
+<tr>
+<td><code>tight</code></td>
+<td>off</td>
+<td>off</td>
+<td>1 CPU, 2GB, 64 pids</td>
+<td>maximum restriction</td>
+</tr>
+<tr>
+<td><code>offline</code></td>
+<td>off</td>
+<td>off</td>
+<td>2 CPU, 4GB, 128 pids</td>
+<td>local/offline workflows</td>
+</tr>
+</tbody>
+</table>
+<p>See full profile reference: <a href="./cli/sandbox-profiles.html">Sandbox Profiles</a></p>
+<h2>Profile fields</h2>
+<pre><code class="language-json">{
+  &quot;engine&quot;: &quot;auto&quot;,
+  &quot;image&quot;: &quot;ghcr.io/vybestack/llxprt-code/sandbox:&lt;version&gt;&quot;,
+  &quot;resources&quot;: {
+    &quot;cpus&quot;: 2,
+    &quot;memory&quot;: &quot;4g&quot;,
+    &quot;pids&quot;: 256
+  },
+  &quot;network&quot;: &quot;on&quot;,
+  &quot;sshAgent&quot;: &quot;auto&quot;,
+  &quot;mounts&quot;: [],
+  &quot;env&quot;: {}
+}
+</code></pre>
+<p>Field behavior:</p>
+<ul>
+<li><code>engine</code>: <code>auto</code>, <code>docker</code>, <code>podman</code>, <code>sandbox-exec</code>, <code>none</code></li>
+<li><code>image</code>: container image. Defaults to the current release <code>config.sandboxImageUri</code> value.</li>
+<li><code>resources</code>: <code>cpus</code>, <code>memory</code>, <code>pids</code></li>
+<li><code>network</code>: <code>on</code>, <code>off</code>, <code>proxied</code>
+<ul>
+<li><code>proxied</code> is accepted by schema, but runtime proxy mode is not implemented yet. The launcher logs a warning and falls back to default networking.</li>
+</ul>
+</li>
+<li><code>sshAgent</code>: <code>auto</code>, <code>on</code>, <code>off</code></li>
+<li><code>mounts</code>: extra mounts; mount mode defaults to <code>ro</code> when omitted</li>
+<li><code>env</code>: additional environment variables</li>
+</ul>
+<h2>Credential security in container mode</h2>
+<p>Container mode uses a host-side credential proxy over a Unix socket.</p>
+<p>What this means:</p>
+<ul>
+<li>refresh tokens stay on the host</li>
+<li>sandbox receives short-lived access tokens as needed</li>
+<li><code>/auth &lt;provider&gt; login</code> works from inside sandbox (OAuth handling is host-side)</li>
+<li><code>/key save</code> and <code>/key delete</code> are blocked in sandbox proxy mode</li>
+<li><code>/key load</code>, <code>/key list</code>, and <code>/key show</code> can read host-saved keys</li>
+</ul>
+<p>The socket path is passed through <code>LLXPRT_CREDENTIAL_SOCKET</code> automatically.</p>
+<h2>SSH agent passthrough</h2>
+<p>If <code>sshAgent</code> is enabled:</p>
+<ol>
+<li><code>SSH_AUTH_SOCK</code> is detected on host</li>
+<li>socket is mounted into container</li>
+<li>container process gets <code>SSH_AUTH_SOCK=/ssh-agent</code></li>
+</ol>
+<h3>macOS Podman caveats</h3>
+<p>Podman on macOS runs in a VM. llxprt sets up an SSH tunnel bridge, but:</p>
+<ul>
+<li>launchd socket paths under <code>/private/tmp/com.apple.launchd.*</code> are often problematic</li>
+<li><code>--network=host</code> is required for the bridge</li>
+<li>if a conflicting <code>--network</code> value is already set (for example <code>none</code>), SSH forwarding is skipped or fails</li>
+</ul>
+<p>Reliable workaround:</p>
+<pre><code class="language-bash">ssh-agent -a ~/.llxprt/ssh-agent.sock
+export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
+ssh-add ~/.ssh/id_ed25519
+llxprt --sandbox-engine podman --sandbox-profile-load dev
+</code></pre>
+<h2>Network modes</h2>
+<ul>
+<li><code>on</code>: normal networking</li>
+<li><code>off</code>: container runs with <code>--network none</code></li>
+<li><code>proxied</code>: accepted value, but currently falls back to default networking with a warning</li>
+</ul>
+<h2>Git config mounts</h2>
+<p>Container sandbox mounts these read-only when present:</p>
+<ul>
+<li><code>~/.gitconfig</code></li>
+<li><code>~/.config/git/config</code></li>
+<li><code>~/.gitignore_global</code></li>
+<li><code>~/.ssh/known_hosts</code></li>
+</ul>
+<p><code>~/.git-credentials</code> is intentionally not mounted.</p>
+<h2>macOS Seatbelt mode</h2>
+<p>Seatbelt uses <code>sandbox-exec</code> and runs directly on host.</p>
+<p>Set profile with <code>SEATBELT_PROFILE</code>:</p>
+<ul>
+<li><code>permissive-open</code></li>
+<li><code>permissive-closed</code></li>
+<li><code>permissive-proxied</code></li>
+<li><code>restrictive-open</code></li>
+<li><code>restrictive-closed</code></li>
+<li><code>restrictive-proxied</code></li>
+</ul>
+<p>Seatbelt is useful for lightweight restrictions, but it does not provide container-level credential isolation.</p>
+<h2>Advanced environment controls</h2>
+<pre><code class="language-bash"># pass additional runtime flags to docker/podman launch
+export SANDBOX_FLAGS=&quot;--security-opt label=disable&quot;
+
+# control Linux UID/GID mapping behavior
+export SANDBOX_SET_UID_GID=true
+# or
+export SANDBOX_SET_UID_GID=false
+</code></pre>
+<h2>Troubleshooting quick checks</h2>
+<pre><code class="language-bash"># Verify sandbox env
+llxprt --sandbox &quot;run shell command: env | grep -E 'SANDBOX|LLXPRT'&quot;
+
+# Verify credential proxy variable inside sandbox
+llxprt --sandbox 'run shell command: echo $LLXPRT_CREDENTIAL_SOCKET'
+
+# Verify SSH keys inside sandbox
+llxprt --sandbox-profile-load dev &quot;run shell command: ssh-add -l&quot;
+</code></pre>
+<p>For full troubleshooting guidance, see <a href="./troubleshooting.html">Troubleshooting</a>.</p>
+<h2>Related docs</h2>
+<ul>
+<li><a href="./cli/sandbox-profiles.html">Sandbox Profiles</a></li>
+<li><a href="./tutorials/sandbox-setup.html">Sandbox Setup Tutorial</a></li>
+<li><a href="./cli/authentication.html">Authentication</a></li>
+<li><a href="./cli/configuration.html">Configuration</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

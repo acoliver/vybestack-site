@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profiles | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Profiles</h1>
+<p>Profiles save your LLxprt Code configuration for quick switching between providers, models, and settings. There are two types of profiles: <strong>model profiles</strong> and <strong>load balancer profiles</strong>.</p>
+<h2>Model Profiles</h2>
+<p>Model profiles capture your current session configuration including provider, model, and settings.</p>
+<h3>Creating a Model Profile</h3>
+<pre><code class="language-bash">/profile save model &lt;name&gt; [bucket1] [bucket2] ...
+</code></pre>
+<p><strong>What gets saved:</strong></p>
+<ul>
+<li>Current provider and model</li>
+<li>API base URL (if custom)</li>
+<li>Session settings (context limits, reasoning settings, etc.)</li>
+<li>OAuth bucket configuration (if specified)</li>
+</ul>
+<h3>Basic Example</h3>
+<pre><code class="language-bash">/provider anthropic
+/model claude-sonnet-4-5
+/profile save model work-claude
+</code></pre>
+<h3>Profile with OAuth Bucket</h3>
+<pre><code class="language-bash"># Authenticate first
+/auth anthropic login work@company.com
+
+# Save profile using that bucket
+/profile save model work-profile work@company.com
+</code></pre>
+<h3>Multi-Bucket Profiles (Automatic Failover)</h3>
+<p>Save a profile with multiple OAuth buckets for automatic failover when rate limits or quota errors occur:</p>
+<pre><code class="language-bash"># Authenticate to multiple buckets
+/auth anthropic login work1@company.com
+/auth anthropic login work2@company.com
+/auth anthropic login work3@company.com
+
+# Save profile with failover chain
+/profile save model high-availability work1@company.com work2@company.com work3@company.com
+</code></pre>
+<p><strong>Failover behavior:</strong></p>
+<ul>
+<li>Buckets are tried in the order specified</li>
+<li>On 429 (rate limit): advance to next bucket immediately</li>
+<li>On 402 (quota/payment): advance to next bucket immediately</li>
+<li>On 401 (auth failure): attempt token refresh, retry once, then advance</li>
+</ul>
+<h3>OpenAI-Compatible Endpoints</h3>
+<p>Profiles work with any OpenAI-compatible endpoint. Here's an example using Synthetic with Kimi K2:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;hf:moonshotai/Kimi-K2-Thinking&quot;,
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 1
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-keyfile&quot;: &quot;/path/to/api_key&quot;,
+    &quot;context-limit&quot;: 190000,
+    &quot;base-url&quot;: &quot;https://api.synthetic.new/openai/v1&quot;,
+    &quot;streaming&quot;: &quot;enabled&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.includeInContext&quot;: true,
+    &quot;reasoning.includeInResponse&quot;: true,
+    &quot;reasoning.stripFromContext&quot;: &quot;all&quot;
+  }
+}
+</code></pre>
+<p>Another example with MiniMax M2:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;hf:MiniMaxAI/MiniMax-M2&quot;,
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 1
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-keyfile&quot;: &quot;/path/to/api_key&quot;,
+    &quot;context-limit&quot;: 190000,
+    &quot;base-url&quot;: &quot;https://api.synthetic.new/openai/v1&quot;,
+    &quot;streaming&quot;: &quot;enabled&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.includeInContext&quot;: true,
+    &quot;reasoning.includeInResponse&quot;: true,
+    &quot;reasoning.stripFromContext&quot;: &quot;none&quot;
+  }
+}
+</code></pre>
+<h2>Load Balancer Profiles</h2>
+<p>Load balancer profiles combine multiple model profiles and distribute requests across them.</p>
+<h3>Creating a Load Balancer Profile</h3>
+<pre><code class="language-bash">/profile save loadbalancer &lt;name&gt; &lt;roundrobin|failover&gt; &lt;profile1&gt; &lt;profile2&gt; [profile3...]
+</code></pre>
+<p>Requires at least 2 existing model profiles.</p>
+<h3>Policies</h3>
+<p><strong><code>roundrobin</code></strong> - Distributes requests evenly across backends. Each request goes to the next profile in sequence.</p>
+<pre><code class="language-bash">/profile save loadbalancer balanced roundrobin claude-work openai-work gemini-work
+</code></pre>
+<p><strong><code>failover</code></strong> - Uses primary backend until it fails, then tries the next one.</p>
+<pre><code class="language-bash">/profile save loadbalancer resilient failover primary-claude backup-openai emergency-gemini
+</code></pre>
+<h3>What Triggers Failover</h3>
+<p>By default, failover occurs on:</p>
+<ul>
+<li>HTTP 429 (rate limit)</li>
+<li>HTTP 500, 502, 503, 504 (server errors)</li>
+<li>Network/TCP errors</li>
+</ul>
+<h3>Combining Load Balancer with OAuth Buckets</h3>
+<p>Create profiles with buckets, then reference them in a load balancer:</p>
+<pre><code class="language-bash"># Create bucketed profiles
+/profile save model claude-team1 bucket1@company.com
+/profile save model claude-team2 bucket2@company.com
+
+# Create load balancer over them
+/profile save loadbalancer team-lb roundrobin claude-team1 claude-team2
+</code></pre>
+<h2>Cache Considerations</h2>
+<p>When using load balancers, understanding cache behavior helps optimize performance.</p>
+<h3>Conversation History is Always Preserved</h3>
+<p><strong>Important:</strong> LLxprt Code maintains conversation history at the application layer (in the HistoryService), not at the provider level. This means:</p>
+<ul>
+<li><strong>Full conversation history is sent with every request</strong> to whichever backend handles it</li>
+<li><strong>Switching backends does NOT lose conversation context</strong> - the history travels with the request</li>
+<li>Both round-robin and failover strategies preserve complete conversation continuity</li>
+</ul>
+<pre><code class="language-bash"># With round-robin, each backend receives the FULL conversation history
+/profile save loadbalancer multi roundrobin claude-work openai-work gemini-work
+
+# Request 1 → claude-work (receives: [user message 1])
+# Request 2 → openai-work (receives: [user message 1, assistant response 1, user message 2])
+# Request 3 → gemini-work (receives: [full history including messages 1-3])
+# All backends see the complete conversation!
+</code></pre>
+<h3>What IS Lost on Backend Switch: Provider-Side Caching</h3>
+<p>While conversation history is preserved, <strong>provider-side prompt caching</strong> may be lost:</p>
+<ul>
+<li><strong>Anthropic prompt caching</strong>: Anthropic caches tokenized prefixes server-side for faster responses. Switching to a different backend (or even a different Anthropic bucket) invalidates this cache.</li>
+<li><strong>OpenAI cached tokens</strong>: Similar server-side optimization that resets on backend switch.</li>
+<li><strong>Gemini context caching</strong>: Google's cached context feature is tied to specific sessions.</li>
+</ul>
+<p><strong>This means:</strong></p>
+<ol>
+<li><strong>No loss of conversation context</strong> - the new backend receives full history</li>
+<li><strong>Potential latency increase</strong> - first request to new backend may be slower (no cached tokens)</li>
+<li><strong>Potential cost increase</strong> - provider may charge for re-tokenizing the conversation prefix</li>
+</ol>
+<h3>Best Practices for Cache-Optimized Configuration</h3>
+<p><strong>1. Prefer failover over round-robin to maximize provider-side caching:</strong></p>
+<pre><code class="language-bash"># Good for conversations - stays on one backend, maximizes prompt cache hits
+/profile save loadbalancer chat-resilient failover primary backup
+
+# Better for stateless batch jobs where caching doesn't matter
+/profile save loadbalancer batch-jobs roundrobin worker1 worker2 worker3
+</code></pre>
+<p><strong>2. Use bucket failover within a single profile for rate limit handling:</strong></p>
+<pre><code class="language-bash"># Multiple buckets on same provider - preserves provider-side cache
+/profile save model claude-multi bucket1 bucket2 bucket3
+
+# Same provider = same tokenization = cache may still be valid
+</code></pre>
+<p><strong>3. Set appropriate retry counts to avoid premature failover:</strong></p>
+<pre><code class="language-bash"># Allow retries before switching backends (preserves cache longer)
+/set failover_retry_count 3
+/set failover_retry_delay_ms 2000
+/profile save loadbalancer patient-lb failover primary backup
+</code></pre>
+<p><strong>4. For long conversations, prefer single-provider setups:</strong></p>
+<p>Single-provider configurations maximize provider-side caching benefits. Load balancers are better suited for high-availability needs rather than routine conversations.</p>
+<h2>Failover Behavior</h2>
+<p>Understanding when and how failover occurs helps you configure resilient setups.</p>
+<h3>Default Failover Triggers</h3>
+<p>By default, these HTTP status codes trigger failover:</p>
+<table>
+<thead>
+<tr>
+<th>Status Code</th>
+<th>Meaning</th>
+<th>Failover Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>429</td>
+<td>Rate Limited</td>
+<td>Immediate failover to next backend</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error</td>
+<td>Retry, then failover</td>
+</tr>
+<tr>
+<td>502</td>
+<td>Bad Gateway</td>
+<td>Retry, then failover</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable</td>
+<td>Retry, then failover</td>
+</tr>
+<tr>
+<td>504</td>
+<td>Gateway Timeout</td>
+<td>Retry, then failover</td>
+</tr>
+</tbody>
+</table>
+<p>Network errors (TCP connection failures, DNS resolution failures, timeouts) also trigger failover when <code>failover_on_network_errors</code> is enabled (default: true).</p>
+<h3>Customizing Failover Status Codes</h3>
+<p>Override the default status codes using <code>failover_status_codes</code>:</p>
+<pre><code class="language-bash"># Only failover on rate limits and service unavailable
+/set failover_status_codes [429,503]
+
+# Add 400 (bad request) to failover triggers
+/set failover_status_codes [400,429,500,502,503,504]
+
+# Failover on any 4xx or 5xx error
+/set failover_status_codes [400,401,402,403,404,429,500,501,502,503,504]
+</code></pre>
+<p>Save the configuration to a profile:</p>
+<pre><code class="language-bash">/set failover_status_codes [429,500,502,503,504]
+/profile save loadbalancer my-lb failover primary backup
+</code></pre>
+<h3>Bucket Failover vs Load Balancer Failover</h3>
+<p>There are two distinct failover mechanisms that can work together:</p>
+<p><strong>Bucket Failover</strong> (within a single model profile):</p>
+<ul>
+<li>Rotates OAuth buckets on the same provider</li>
+<li>Preserves model context and conversation state</li>
+<li>Triggers on: 429 (rate limit), 402 (quota), 401 (auth failure with refresh)</li>
+</ul>
+<pre><code class="language-bash"># Bucket failover within a profile
+/profile save model claude-buckets bucket1 bucket2 bucket3
+</code></pre>
+<p><strong>Load Balancer Failover</strong> (across model profiles):</p>
+<ul>
+<li>Switches between entirely different backends (potentially different providers)</li>
+<li>Loses context on switch (see Cache Considerations above)</li>
+<li>Triggers on: configurable status codes (default: 429, 500, 502, 503, 504)</li>
+</ul>
+<pre><code class="language-bash"># LB failover across profiles
+/profile save loadbalancer multi-provider failover claude-profile openai-profile
+</code></pre>
+<p><strong>Combined failover chain:</strong></p>
+<p>When both are configured, bucket failover occurs first, then LB failover:</p>
+<pre><code>Request fails with 429
+  → Try bucket2 (same profile)
+    → Try bucket3 (same profile)
+      → All buckets exhausted, LB failover
+        → Try next profile in load balancer
+</code></pre>
+<h3>Retry Configuration</h3>
+<p>Fine-tune retry behavior before failover occurs:</p>
+<pre><code class="language-bash"># Number of retries per backend before moving to next
+/set failover_retry_count 3
+
+# Delay between retries (milliseconds)
+/set failover_retry_delay_ms 1000
+
+# Disable network error failover (not recommended)
+/set failover_on_network_errors false
+</code></pre>
+<p><strong>Example with aggressive retry:</strong></p>
+<pre><code class="language-bash">/set failover_retry_count 5
+/set failover_retry_delay_ms 2000  # 2 seconds between retries
+/profile save loadbalancer patient-failover failover primary backup
+</code></pre>
+<p><strong>Example with immediate failover:</strong></p>
+<pre><code class="language-bash">/set failover_retry_count 0  # No retries, immediate failover
+/set failover_retry_delay_ms 0
+/profile save loadbalancer fast-failover failover primary backup
+</code></pre>
+<h2>Managing Profiles</h2>
+<h3>Loading a Profile</h3>
+<pre><code class="language-bash">/profile load &lt;name&gt;
+</code></pre>
+<p>Or open interactive selection:</p>
+<pre><code class="language-bash">/profile load
+</code></pre>
+<h3>Listing Profiles</h3>
+<pre><code class="language-bash">/profile list
+</code></pre>
+<h3>Deleting a Profile</h3>
+<pre><code class="language-bash">/profile delete &lt;name&gt;
+</code></pre>
+<h3>Setting a Default Profile</h3>
+<pre><code class="language-bash">/profile set-default &lt;name&gt;
+</code></pre>
+<p>The default profile loads automatically on startup.</p>
+<h3>Loading via CLI Flag</h3>
+<pre><code class="language-bash">llxprt --profile-load my-profile
+</code></pre>
+<h2>Advanced Load Balancer Settings</h2>
+<p>Configure these settings before saving a load balancer profile using <code>/set</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>failover_retry_count</code></td>
+<td>1</td>
+<td>Retries per backend before moving to next</td>
+</tr>
+<tr>
+<td><code>failover_retry_delay_ms</code></td>
+<td>0</td>
+<td>Delay between retries (milliseconds)</td>
+</tr>
+<tr>
+<td><code>failover_on_network_errors</code></td>
+<td>true</td>
+<td>Failover on TCP/network errors</td>
+</tr>
+<tr>
+<td><code>failover_status_codes</code></td>
+<td>[429,500,502,503,504]</td>
+<td>HTTP codes that trigger failover</td>
+</tr>
+<tr>
+<td><code>lb_tpm_failover_threshold</code></td>
+<td>(none)</td>
+<td>Minimum TPM before triggering failover</td>
+</tr>
+<tr>
+<td><code>lb_circuit_breaker_threshold</code></td>
+<td>(none)</td>
+<td>Failures before circuit opens</td>
+</tr>
+<tr>
+<td><code>lb_circuit_breaker_timeout_ms</code></td>
+<td>(none)</td>
+<td>Time before half-open retry</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<pre><code class="language-bash">/set failover_retry_count 3
+/set failover_retry_delay_ms 1000
+/profile save loadbalancer my-lb failover profile1 profile2
+</code></pre>
+<h2>Viewing Profile Statistics</h2>
+<pre><code class="language-bash">/stats lb          # Load balancer stats (requests per backend)
+/stats buckets     # OAuth bucket usage stats
+/diagnostics       # Full system status including active profile
+</code></pre>
+<h2>Common Workflows</h2>
+<h3>High-Availability Setup</h3>
+<pre><code class="language-bash"># Create primary profile
+/provider anthropic
+/model claude-opus-4-5
+/profile save model primary-claude
+
+# Create backup profile
+/provider openai
+/model gpt-5.2
+/profile save model backup-openai
+
+# Create failover load balancer
+/profile save loadbalancer ha-setup failover primary-claude backup-openai
+
+# Set as default
+/profile set-default ha-setup
+</code></pre>
+<h3>Rate Limit Distribution with Multiple Buckets</h3>
+<pre><code class="language-bash"># Authenticate multiple buckets
+/auth anthropic login team-bucket1
+/auth anthropic login team-bucket2
+/auth anthropic login team-bucket3
+
+# Create profile with all buckets
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-multi team-bucket1 team-bucket2 team-bucket3
+</code></pre>
+<h3>Round-Robin Across Providers</h3>
+<pre><code class="language-bash"># Create individual profiles
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-work
+
+/provider openai
+/model gpt-5.2
+/profile save model openai-work
+
+/provider gemini
+/model gemini-3-flash-preview
+/profile save model gemini-work
+
+# Create round-robin load balancer
+/profile save loadbalancer multi-provider roundrobin claude-work openai-work gemini-work
+</code></pre>
+<h3>Resilient Multi-Provider Setup with OAuth Buckets</h3>
+<p>This example demonstrates a complete high-availability configuration combining:</p>
+<ul>
+<li>Multiple providers (Anthropic, OpenAI)</li>
+<li>OAuth bucket failover within each provider</li>
+<li>Load balancer failover across providers</li>
+<li>Custom failover status codes</li>
+</ul>
+<p><strong>Step 1: Set up OAuth buckets for each provider</strong></p>
+<pre><code class="language-bash"># Anthropic buckets (team accounts)
+/auth anthropic login team1@company.com
+/auth anthropic login team2@company.com
+/auth anthropic login personal@gmail.com
+
+# OpenAI buckets
+/auth codex login enterprise@company.com
+/auth codex login backup@company.com
+</code></pre>
+<p><strong>Step 2: Create model profiles with bucket chains</strong></p>
+<pre><code class="language-bash"># Anthropic profile with 3-bucket failover
+/provider anthropic
+/model claude-sonnet-4-5
+/profile save model claude-ha team1@company.com team2@company.com personal@gmail.com
+
+# OpenAI profile with 2-bucket failover
+/provider openai
+/model gpt-5.2
+/profile save model openai-ha enterprise@company.com backup@company.com
+</code></pre>
+<p><strong>Step 3: Configure failover settings</strong></p>
+<pre><code class="language-bash"># Retry 2 times with 1 second delay before failover
+/set failover_retry_count 2
+/set failover_retry_delay_ms 1000
+
+# Trigger failover on rate limits and server errors
+/set failover_status_codes [429,500,502,503,504]
+
+# Enable network error failover
+/set failover_on_network_errors true
+</code></pre>
+<p><strong>Step 4: Create the load balancer</strong></p>
+<pre><code class="language-bash"># Create failover load balancer: try Anthropic first, fall back to OpenAI
+/profile save loadbalancer enterprise-ha failover claude-ha openai-ha
+
+# Set as default
+/profile set-default enterprise-ha
+</code></pre>
+<p><strong>Complete failover chain in action:</strong></p>
+<pre><code>Request hits 429 (rate limit)
+  ↓
+Bucket failover: team1@company.com → team2@company.com
+  ↓ (still 429)
+Bucket failover: team2@company.com → personal@gmail.com
+  ↓ (still 429, all Anthropic buckets exhausted)
+LB failover: claude-ha profile → openai-ha profile
+  ↓
+New provider (OpenAI) with fresh bucket chain:
+  enterprise@company.com → backup@company.com
+  ↓
+Request succeeds on OpenAI
+</code></pre>
+<p><strong>Verify the configuration:</strong></p>
+<pre><code class="language-bash"># Check load balancer stats
+/stats lb
+
+# Check bucket usage
+/stats buckets
+
+# View full diagnostics
+/diagnostics
+</code></pre>
+<p><strong>The complete profile JSON (enterprise-ha.json):</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;type&quot;: &quot;loadbalancer&quot;,
+  &quot;policy&quot;: &quot;failover&quot;,
+  &quot;backends&quot;: [&quot;claude-ha&quot;, &quot;openai-ha&quot;],
+  &quot;ephemeralSettings&quot;: {
+    &quot;failover_retry_count&quot;: 2,
+    &quot;failover_retry_delay_ms&quot;: 1000,
+    &quot;failover_status_codes&quot;: [429, 500, 502, 503, 504],
+    &quot;failover_on_network_errors&quot;: true
+  }
+}
+</code></pre>
+<h2>Profile Storage</h2>
+<p>Profiles are stored as JSON files in <code>~/.llxprt/profiles/</code>. You can edit them directly if needed.</p>
+<h2>Troubleshooting</h2>
+<h3>Profile not loading</h3>
+<ul>
+<li>Check profile exists: <code>/profile list</code></li>
+<li>Profile names cannot contain path separators (<code>/</code> or <code>\</code>)</li>
+</ul>
+<h3>OAuth bucket errors</h3>
+<ul>
+<li>Check bucket is authenticated: <code>/auth &lt;provider&gt; status</code></li>
+<li>Re-authenticate expired bucket: <code>/auth &lt;provider&gt; login &lt;bucket&gt;</code></li>
+</ul>
+<h3>Load balancer not failing over</h3>
+<ul>
+<li>Check settings: <code>failover_on_network_errors</code>, <code>failover_status_codes</code></li>
+<li>Verify all referenced profiles exist: <code>/profile list</code></li>
+</ul>
+<h2>See Also</h2>
+<ul>
+<li><a href="./authentication.html">Authentication</a> - Setting up provider authentication and OAuth buckets</li>
+<li><a href="./commands.html">Commands</a> - Complete command reference</li>
+<li><a href="./configuration.html">Configuration</a> - Configuration options</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Privacy-First Telemetry | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>LLxprt Privacy-First Telemetry</h1>
+<h2>Overview</h2>
+<p>LLxprt takes a <strong>privacy-first approach</strong> to telemetry and logging. All data stays on your local machine by default, with no external transmission to Google or any other third-party services. This documentation explains our privacy-centered telemetry system and how to use it effectively for debugging and analysis.</p>
+<h2>Key Privacy Principles</h2>
+<ul>
+<li><strong>Local Only</strong>: No data is sent to external services by default</li>
+<li><strong>Opt-in</strong>: All logging and telemetry features are disabled by default</li>
+<li><strong>Transparent</strong>: You can see exactly what is logged and where it's stored</li>
+<li><strong>User-Controlled</strong>: Simple commands to enable, disable, and configure all features</li>
+<li><strong>Data Redaction</strong>: Sensitive information is automatically redacted from logs</li>
+<li><strong>No Upstream Telemetry</strong>: Unlike the original gemini-cli, LLxprt never sends data to Google</li>
+</ul>
+<h2>Conversation Logging</h2>
+<p>When enabled, LLxprt logs conversations locally to help with debugging, analysis, and improving your AI interactions.</p>
+<h3>Storage Details</h3>
+<ul>
+<li><strong>Location</strong>: <code>~/.llxprt/conversations/</code></li>
+<li><strong>Format</strong>: JSONL (one JSON object per line)</li>
+<li><strong>File Naming</strong>: <code>conversation-YYYY-MM-DD.jsonl</code> (daily rotation)</li>
+<li><strong>Permissions</strong>: Files are readable only by your user account</li>
+<li><strong>Retention</strong>: Configurable retention period (default: 30 days)</li>
+</ul>
+<h3>What Gets Logged</h3>
+<p>When conversation logging is enabled, the following data is stored locally:</p>
+<h4>Request Data</h4>
+<ul>
+<li>User prompts and messages</li>
+<li>Provider selection (e.g., &quot;openai&quot;, &quot;anthropic&quot;, &quot;gemini&quot;)</li>
+<li>Model parameters and configuration</li>
+<li>Tool call requests and parameters</li>
+<li>Timestamp and session information</li>
+</ul>
+<h4>Response Data</h4>
+<ul>
+<li>AI assistant responses</li>
+<li>Tool call results</li>
+<li>Token usage statistics</li>
+<li>Response metadata (model, provider, timing)</li>
+</ul>
+<h4>Metadata</h4>
+<ul>
+<li>Session identifiers</li>
+<li>Performance metrics</li>
+<li>Error information (when applicable)</li>
+</ul>
+<h3>What Gets Redacted</h3>
+<p>LLxprt automatically redacts sensitive information before writing to log files:</p>
+<ul>
+<li><strong>API Keys and Tokens</strong>: Automatically detected and replaced with <code>[REDACTED_API_KEY]</code></li>
+<li><strong>Credentials</strong>: Passwords, auth tokens, and secret keys</li>
+<li><strong>File Paths</strong>: Local file system paths (configurable)</li>
+<li><strong>URLs</strong>: Web URLs with potentially sensitive parameters</li>
+<li><strong>Email Addresses</strong>: Personal email addresses</li>
+<li><strong>Personal Information</strong>: Phone numbers, SSNs, and other PII patterns</li>
+</ul>
+<h2>The <code>/logging</code> Command</h2>
+<p>The <code>/logging</code> command provides complete control over conversation logging features.</p>
+<h3><code>/logging status</code></h3>
+<p>Shows the current state of conversation logging.</p>
+<pre><code class="language-bash">/logging status
+</code></pre>
+<p><strong>Example Output:</strong></p>
+<pre><code>Conversation Logging: Disabled
+</code></pre>
+<h3><code>/logging enable</code></h3>
+<p>Enables conversation logging with automatic local storage.</p>
+<pre><code class="language-bash">/logging enable
+</code></pre>
+<p><strong>Example Output:</strong></p>
+<pre><code>Conversation logging enabled. Data stored locally only.
+</code></pre>
+<p>After enabling, all new conversations will be logged to your local <code>~/.llxprt/conversations/</code> directory.</p>
+<h3><code>/logging disable</code></h3>
+<p>Disables conversation logging. No future conversations will be logged.</p>
+<pre><code class="language-bash">/logging disable
+</code></pre>
+<p><strong>Example Output:</strong></p>
+<pre><code>Conversation logging disabled. No conversation data will be collected.
+</code></pre>
+<p>Note: This does not delete existing log files. Use your system's file manager to remove old logs if desired.</p>
+<h3><code>/logging show [N]</code></h3>
+<p>Displays the last N log entries from your conversation history (default: 50).</p>
+<pre><code class="language-bash">/logging show 25
+</code></pre>
+<p><strong>Example Output:</strong></p>
+<pre><code>Conversation Logs (3 entries):
+────────────────────────────────────────────────────────────
+[1] 14:32:15 → openai: What is TypeScript and how does it differ from JavaScript?...
+[2] 14:32:18 ← openai: TypeScript is a superset of JavaScript that adds static typing...
+[3] 14:35:22 → gemini: Can you help me debug this React component?...
+────────────────────────────────────────────────────────────
+</code></pre>
+<h3><code>/logging redaction</code></h3>
+<p>Configure what types of data get automatically redacted from logs.</p>
+<h4>View Current Settings</h4>
+<pre><code class="language-bash">/logging redaction
+</code></pre>
+<p><strong>Example Output:</strong></p>
+<pre><code>Current Redaction Settings:
+  • API Keys: Enabled
+  • Credentials: Enabled
+  • File Paths: Disabled
+  • URLs: Enabled
+  • Email Addresses: Enabled
+  • Personal Info: Enabled
+
+To modify settings:
+  /logging redaction --api-keys=false
+  /logging redaction --file-paths=true
+</code></pre>
+<h4>Modify Redaction Settings</h4>
+<pre><code class="language-bash">/logging redaction --file-paths=true --emails=false
+</code></pre>
+<p><strong>Available Options:</strong></p>
+<ul>
+<li><code>--api-keys=true/false</code>: Redact API keys and authentication tokens</li>
+<li><code>--credentials=true/false</code>: Redact passwords and credentials</li>
+<li><code>--file-paths=true/false</code>: Redact local file system paths</li>
+<li><code>--urls=true/false</code>: Redact URLs with sensitive parameters</li>
+<li><code>--emails=true/false</code>: Redact email addresses</li>
+<li><code>--personal-info=true/false</code>: Redact phone numbers, SSNs, and PII</li>
+</ul>
+<p><strong>Example Output:</strong></p>
+<pre><code>Redaction settings updated:
+  • redactFilePaths: enabled
+  • redactEmails: disabled
+</code></pre>
+<h2>Configuration Options</h2>
+<p>LLxprt's telemetry can be configured through settings files, environment variables, and command-line flags.</p>
+<h3>Settings File Configuration</h3>
+<p>Add telemetry configuration to your <code>~/.llxprt/settings.json</code> or workspace <code>.llxprt/settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;telemetry&quot;: {
+    &quot;logConversations&quot;: false,
+    &quot;logResponses&quot;: false,
+    &quot;redactSensitiveData&quot;: true,
+    &quot;redactFilePaths&quot;: false,
+    &quot;redactUrls&quot;: true,
+    &quot;redactEmails&quot;: true,
+    &quot;redactPersonalInfo&quot;: true,
+    &quot;conversationLogPath&quot;: &quot;~/.llxprt/conversations&quot;,
+    &quot;maxLogFiles&quot;: 10,
+    &quot;maxLogSizeMB&quot;: 50,
+    &quot;retentionDays&quot;: 30,
+    &quot;maxConversationsStored&quot;: 1000
+  }
+}
+</code></pre>
+<h3>Configuration Options Reference</h3>
+<h4>Core Logging Settings</h4>
+<ul>
+<li><code>logConversations</code> (boolean): Enable conversation logging (default: <code>false</code>)</li>
+<li><code>logResponses</code> (boolean): Include full AI responses in logs (default: <code>false</code>)</li>
+<li><code>conversationLogPath</code> (string): Directory for log files (default: <code>~/.llxprt/conversations</code>)</li>
+</ul>
+<h4>Data Retention Settings</h4>
+<ul>
+<li><code>retentionDays</code> (number): Days to keep log files (default: <code>30</code>)</li>
+<li><code>maxLogFiles</code> (number): Maximum number of log files to keep (default: <code>5</code>)</li>
+<li><code>maxLogSizeMB</code> (number): Maximum size of each log file in MB (default: <code>10</code>)</li>
+<li><code>maxConversationsStored</code> (number): Maximum conversations to store (default: <code>1000</code>)</li>
+</ul>
+<h4>Privacy and Redaction Settings</h4>
+<ul>
+<li><code>redactSensitiveData</code> (boolean): Enable API key/credential redaction (default: <code>true</code>)</li>
+<li><code>redactFilePaths</code> (boolean): Redact local file paths (default: <code>false</code>)</li>
+<li><code>redactUrls</code> (boolean): Redact URLs with parameters (default: <code>true</code>)</li>
+<li><code>redactEmails</code> (boolean): Redact email addresses (default: <code>true</code>)</li>
+<li><code>redactPersonalInfo</code> (boolean): Redact PII patterns (default: <code>true</code>)</li>
+</ul>
+<h3>Environment Variables</h3>
+<p>You can also control telemetry through environment variables:</p>
+<ul>
+<li><code>LLXPRT_LOG_CONVERSATIONS</code>: Set to <code>&quot;true&quot;</code> to enable conversation logging</li>
+<li><code>LLXPRT_CONVERSATION_LOG_PATH</code>: Override the log directory path</li>
+</ul>
+<h3>Configuration Precedence</h3>
+<p>Settings are applied in the following order (highest precedence first):</p>
+<ol>
+<li><strong>Command-line flags</strong> (when using the <code>llxprt</code> CLI)</li>
+<li><strong>Environment variables</strong></li>
+<li><strong>Workspace settings</strong> (<code>.llxprt/settings.json</code> in current directory)</li>
+<li><strong>User settings</strong> (<code>~/.llxprt/settings.json</code> in home directory)</li>
+<li><strong>Default values</strong></li>
+</ol>
+<h2>Testing and Development</h2>
+<h3>Local Telemetry for Tests</h3>
+<p>During testing and development, LLxprt uses local-only telemetry configuration:</p>
+<pre><code class="language-javascript">// Integration tests use local telemetry target
+const telemetryConfig = {
+  target: 'local',
+  enabled: true,
+  logConversations: true,
+};
+</code></pre>
+<p>This ensures that:</p>
+<ul>
+<li>No test data leaves your development machine</li>
+<li>Test telemetry is isolated from production usage</li>
+<li>Integration tests can verify logging functionality safely</li>
+</ul>
+<h3>Debugging with Conversation Logs</h3>
+<p>To debug issues with LLxprt:</p>
+<ol>
+<li><strong>Enable logging</strong>: <code>/logging enable</code></li>
+<li><strong>Reproduce the issue</strong>: Run the problematic commands</li>
+<li><strong>View recent logs</strong>: <code>/logging show 20</code></li>
+<li><strong>Examine log files</strong>: Check <code>~/.llxprt/conversations/</code> for detailed JSONL data</li>
+</ol>
+<p>The log files contain structured data that can be analyzed with standard JSON tools:</p>
+<pre><code class="language-bash"># View today's conversation log
+cat ~/.llxprt/conversations/conversation-$(date +%Y-%m-%d).jsonl | jq '.'
+
+# Filter for specific providers
+cat ~/.llxprt/conversations/conversation-*.jsonl | jq 'select(.provider == &quot;openai&quot;)'
+
+# Count conversations by provider
+cat ~/.llxprt/conversations/conversation-*.jsonl | jq -r '.provider' | sort | uniq -c
+</code></pre>
+<h2>Privacy Guarantees</h2>
+<h3>What LLxprt Does NOT Do</h3>
+<ul>
+<li><strong>No External Transmission</strong>: LLxprt never sends your conversation data to Google, OpenAI, Anthropic, or any other external service</li>
+<li><strong>No Analytics</strong>: No usage analytics or statistics are collected or transmitted</li>
+<li><strong>No Cloud Storage</strong>: All data remains on your local machine</li>
+<li><strong>No Tracking</strong>: No user behavior tracking or profiling</li>
+</ul>
+<h3>What LLxprt DOES Do</h3>
+<ul>
+<li><strong>Local Storage Only</strong>: All logs are written to your local file system with proper permissions</li>
+<li><strong>Automatic Redaction</strong>: Sensitive information is automatically removed before logging</li>
+<li><strong>User Control</strong>: You have complete control over what gets logged and for how long</li>
+<li><strong>Transparency</strong>: All logging behavior is documented and configurable</li>
+<li><strong>Data Ownership</strong>: You own and control all logged data</li>
+</ul>
+<h2>Difference from Upstream Gemini CLI</h2>
+<p>LLxprt fundamentally differs from the original Google Gemini CLI in its approach to telemetry:</p>
+<h3>Upstream Gemini CLI (What We Don't Do)</h3>
+<ul>
+<li>May send telemetry data to Google services</li>
+<li>Has different privacy policies and data handling</li>
+<li>May collect usage statistics for Google's analysis</li>
+<li>Telemetry configuration optimized for Google's needs</li>
+</ul>
+<h3>LLxprt Privacy-First Approach</h3>
+<ul>
+<li><strong>Zero external transmission</strong>: All data stays local by default</li>
+<li><strong>Disabled by default</strong>: No telemetry or logging without explicit user consent</li>
+<li><strong>Complete user control</strong>: Users manage all aspects of data collection</li>
+<li><strong>Enhanced redaction</strong>: Advanced privacy protection with configurable redaction</li>
+<li><strong>Open transparency</strong>: Full documentation of all privacy practices</li>
+</ul>
+<h2>Best Practices</h2>
+<h3>For Daily Use</h3>
+<ol>
+<li><strong>Start with logging disabled</strong>: Only enable when you need debugging information</li>
+<li><strong>Configure redaction</strong>: Enable redaction for all sensitive data types in your workflow</li>
+<li><strong>Regular cleanup</strong>: Periodically review and clean old log files</li>
+<li><strong>Check settings</strong>: Verify your privacy settings match your comfort level</li>
+</ol>
+<h3>For Development</h3>
+<ol>
+<li><strong>Local testing only</strong>: Use local telemetry targets for all development work</li>
+<li><strong>Sensitive data awareness</strong>: Be mindful of API keys and credentials in test scenarios</li>
+<li><strong>Log analysis</strong>: Use standard JSON tools to analyze conversation patterns</li>
+<li><strong>Documentation</strong>: Document any privacy-related configuration for your team</li>
+</ol>
+<h3>For Team Environments</h3>
+<ol>
+<li><strong>Consistent settings</strong>: Share redaction configurations across team members</li>
+<li><strong>No shared logs</strong>: Never share raw conversation log files (they may contain sensitive data)</li>
+<li><strong>Privacy policies</strong>: Establish team policies for conversation logging</li>
+<li><strong>Access control</strong>: Ensure log files have appropriate file system permissions</li>
+</ol>
+<h2>Support and Troubleshooting</h2>
+<h3>Common Issues</h3>
+<p><strong>Q: I enabled logging but don't see any log files</strong>
+A: Check that the log directory exists and you have write permissions. The default path is <code>~/.llxprt/conversations/</code>.</p>
+<p><strong>Q: My log files are very large</strong>
+A: Configure <code>maxLogSizeMB</code> and <code>maxLogFiles</code> in your settings to control file rotation and size limits.</p>
+<p><strong>Q: I see sensitive information in logs despite redaction being enabled</strong>
+A: Some patterns may not be caught by automatic redaction. Consider adding custom redaction patterns or disabling logging for sensitive workflows.</p>
+<p><strong>Q: How do I permanently delete all conversation logs?</strong>
+A: Remove the entire conversation log directory: <code>rm -rf ~/.llxprt/conversations/</code></p>
+<h3>Getting Help</h3>
+<p>For privacy-related questions or concerns:</p>
+<ol>
+<li>Check this documentation first</li>
+<li>Review your current settings with <code>/logging status</code> and <code>/logging redaction</code></li>
+<li>Examine log files to understand what data is being stored</li>
+<li>File an issue in the LLxprt repository for additional support</li>
+</ol>
+<p>Remember: Your privacy and data control are fundamental to LLxprt's design. All telemetry features are designed to serve you, not external parties.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

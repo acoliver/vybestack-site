@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prompt Configuration System | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <a href="/llxprt-code.html">LLxprt Code</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/llxprt-code/docs/">Docs</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Prompt Configuration System</h1>
+<p>LLxprt Code uses a flexible and customizable prompt configuration system that allows you to tailor the AI's behavior for different providers, models, and environments. This guide explains how to configure and customize prompts.</p>
+<h2>Overview</h2>
+<p>The prompt configuration system provides:</p>
+<ul>
+<li><strong>Provider-specific prompts</strong>: Different instructions for Gemini, OpenAI, Anthropic, etc.</li>
+<li><strong>Model-specific adaptations</strong>: Special handling for models like Flash that need explicit tool usage reminders</li>
+<li><strong>Environment awareness</strong>: Automatic adaptation based on Git repositories, sandboxes, and IDE integration</li>
+<li><strong>Tool-specific instructions</strong>: Detailed guidance for each available tool</li>
+<li><strong>User customization</strong>: Override any prompt with your own versions</li>
+</ul>
+<h2>Default Prompt Location</h2>
+<p>LLxprt Code looks for prompts in the following location:</p>
+<pre><code>~/.llxprt/prompts/
+</code></pre>
+<p>If custom prompts are not found, the system uses built-in defaults that are optimized for each provider and model.</p>
+<h2>Directory Structure</h2>
+<p>The prompt configuration follows a hierarchical structure:</p>
+<pre><code>~/.llxprt/prompts/
+├── core.md                          # Main system prompt
+├── compression.md                   # Instructions for context compression
+├── providers/
+│   ├── gemini/
+│   │   ├── core.md                 # Gemini-specific overrides
+│   │   └── models/
+│   │       └── gemini-2.5-flash/
+│   │           └── core.md         # Flash-specific instructions
+│   ├── openai/
+│   │   └── core.md                 # OpenAI-specific overrides
+│   └── anthropic/
+│       └── core.md                 # Anthropic-specific overrides
+├── env/
+│   ├── git-repository.md           # Added when in a Git repo
+│   ├── sandbox.md                  # Added when sandboxed
+│   ├── macos-seatbelt.md          # macOS sandbox specifics
+│   └── ide-mode.md                # IDE integration context
+├── tools/
+│   ├── edit.md                    # Edit tool instructions
+│   ├── shell.md                   # Shell command guidance
+│   ├── web-fetch.md              # Web fetching rules
+│   └── ...                       # Other tool-specific prompts
+└── services/
+    ├── loop-detection.md         # Loop detection warnings
+    └── init-command.md          # Init command prompts
+
+</code></pre>
+<h2>Prompt Resolution Order</h2>
+<p>Prompts are resolved in the following order (later overrides earlier):</p>
+<ol>
+<li><strong>Built-in defaults</strong>: Core prompts shipped with LLxprt Code</li>
+<li><strong>Provider defaults</strong>: Provider-specific adaptations</li>
+<li><strong>Model defaults</strong>: Model-specific refinements</li>
+<li><strong>User customizations</strong>: Your custom prompts in <code>~/.llxprt/prompts/</code></li>
+</ol>
+<h2>Template Variables</h2>
+<p>Prompts support template variables that are automatically replaced:</p>
+<ul>
+<li><code>{{enabledTools}}</code>: List of available tools</li>
+<li><code>{{environment}}</code>: Current environment details (see below)</li>
+<li><code>{{provider}}</code>: Active provider name</li>
+<li><code>{{model}}</code>: Current model name</li>
+</ul>
+<h3><code>{{environment}}</code> fields</h3>
+<p>The environment object exposes the same properties as <code>PromptEnvironment</code> in code. Common fields include:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>workspaceName</code></td>
+<td>Basename of the current workspace directory</td>
+</tr>
+<tr>
+<td><code>workspaceRoot</code></td>
+<td>Absolute path to the workspace root</td>
+</tr>
+<tr>
+<td><code>workspaceDirectories</code></td>
+<td>Array of directories included in the session</td>
+</tr>
+<tr>
+<td><code>workingDirectory</code></td>
+<td>The cwd the CLI started in</td>
+</tr>
+<tr>
+<td><code>isGitRepository</code></td>
+<td><code>true</code> if git metadata was detected</td>
+</tr>
+<tr>
+<td><code>isSandboxed</code></td>
+<td><code>true</code> when running inside Docker/Seatbelt/etc.</td>
+</tr>
+<tr>
+<td><code>sandboxType</code></td>
+<td><code>macos-seatbelt</code>, <code>generic</code>, or omitted</td>
+</tr>
+<tr>
+<td><code>hasIdeCompanion</code></td>
+<td>Indicates VS Code integration status</td>
+</tr>
+<tr>
+<td><code>folderStructure</code></td>
+<td>A summarized folder tree (may be omitted if unavailable)</td>
+</tr>
+</tbody>
+</table>
+<p>Use these fields in custom prompts, e.g., <code>{{environment.workspaceName}}</code>.</p>
+<h3>Example Template Usage</h3>
+<pre><code class="language-markdown">You have access to these tools: {{enabledTools}}
+
+Current environment:
+{{environment}}
+
+You are running on {{provider}} with model {{model}}.
+</code></pre>
+<h2>Customizing Prompts</h2>
+<h3>Method 1: Manual Creation</h3>
+<p>Create your custom prompts in the <code>~/.llxprt/prompts/</code> directory:</p>
+<pre><code class="language-bash"># Create the prompts directory
+mkdir -p ~/.llxprt/prompts
+
+# Create a custom core prompt
+cat &gt; ~/.llxprt/prompts/core.md &lt;&lt; 'EOF'
+You are a helpful AI assistant specializing in Python development.
+Always write clean, well-documented Python code following PEP 8.
+
+{{enabledTools}}
+EOF
+</code></pre>
+<h3>Method 2: Using the Installer</h3>
+<p>The prompt configuration system includes an installer that can set up the default structure:</p>
+<pre><code class="language-bash"># Install default prompts (coming soon)
+llxprt prompts install
+
+# Install with custom overrides (coming soon)
+llxprt prompts install --custom
+</code></pre>
+<h2>Environment-Specific Prompts</h2>
+<p>The system automatically includes environment-specific prompts based on your context:</p>
+<h3>Git Repository Context</h3>
+<p>When working in a Git repository, the system includes <code>env/git-repository.md</code>:</p>
+<pre><code class="language-markdown">## Git Repository Guidelines
+
+You are in a Git repository. Please:
+
+- Respect .gitignore patterns
+- Be aware of branch protection rules
+- Use conventional commit messages
+</code></pre>
+<h3>Sandbox Context</h3>
+<p>When running in sandbox mode, additional safety instructions are included from <code>env/sandbox.md</code>.</p>
+<h3>IDE Integration</h3>
+<p>When IDE mode is active, context about open files and cursor position is included from <code>env/ide-mode.md</code>.</p>
+<h2>Provider-Specific Customization</h2>
+<h3>Gemini Flash Models</h3>
+<p>Flash models require explicit reminders about tool usage. Create a custom prompt:</p>
+<pre><code class="language-bash">mkdir -p ~/.llxprt/prompts/providers/gemini/models/gemini-2.5-flash/
+cat &gt; ~/.llxprt/prompts/providers/gemini/models/gemini-2.5-flash/core.md &lt;&lt; 'EOF'
+IMPORTANT: You MUST use the provided tools when appropriate.
+Do not try to simulate or pretend tool functionality.
+Always use the actual tools for:
+- Reading files: Use read_file tool
+- Listing directories: Use list_directory tool
+- Running commands: Use run_shell_command tool
+EOF
+</code></pre>
+<h3>OpenAI Models</h3>
+<p>Customize behavior for OpenAI models:</p>
+<pre><code class="language-bash">mkdir -p ~/.llxprt/prompts/providers/openai/
+cat &gt; ~/.llxprt/prompts/providers/openai/core.md &lt;&lt; 'EOF'
+You are powered by OpenAI. Optimize responses for efficiency
+and clarity. Use parallel tool calls when possible.
+EOF
+</code></pre>
+<h2>Tool-Specific Instructions</h2>
+<p>Customize instructions for individual tools:</p>
+<h3>Shell Command Tool</h3>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/tools/shell.md &lt;&lt; 'EOF'
+When using shell commands:
+- Always use absolute paths
+- Check command existence with 'which' first
+- Prefer non-interactive commands
+- Explain any complex commands before running
+EOF
+</code></pre>
+<h3>Edit Tool</h3>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/tools/edit.md &lt;&lt; 'EOF'
+When editing files:
+- Preserve existing code style
+- Make minimal necessary changes
+- Add comments for complex changes
+- Verify file exists before editing
+EOF
+</code></pre>
+<h2>Advanced Configuration</h2>
+<h3>Compression Prompts</h3>
+<p>Customize how context compression works:</p>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/compression.md &lt;&lt; 'EOF'
+When compressing conversation history:
+- Preserve all technical details
+- Keep error messages intact
+- Summarize repetitive content
+- Maintain chronological order
+EOF
+</code></pre>
+<h3>Loop Detection</h3>
+<p>Customize loop detection warnings:</p>
+<pre><code class="language-bash">mkdir -p ~/.llxprt/prompts/services/
+cat &gt; ~/.llxprt/prompts/services/loop-detection.md &lt;&lt; 'EOF'
+You appear to be in a loop. Please:
+1. Stop and analyze what went wrong
+2. Try a different approach
+3. Ask the user for clarification if needed
+EOF
+</code></pre>
+<h2>Environment Variables</h2>
+<p>Control prompt behavior with environment variables:</p>
+<pre><code class="language-bash"># Use a custom prompts directory
+export LLXPRT_PROMPTS_DIR=/path/to/custom/prompts
+
+# Enable debug mode to see prompt resolution
+export DEBUG=true
+</code></pre>
+<h2>Debugging Prompts</h2>
+<p>To see which prompts are being loaded:</p>
+<ol>
+<li>
+<p>Enable debug mode:</p>
+<pre><code class="language-bash">DEBUG=true llxprt
+</code></pre>
+</li>
+<li>
+<p>Check the prompt resolution in the logs</p>
+</li>
+<li>
+<p>Use the memory command to see the final composed prompt:</p>
+<pre><code>/memory show
+</code></pre>
+</li>
+</ol>
+<h2>Best Practices</h2>
+<ol>
+<li><strong>Start with defaults</strong>: Only customize what you need to change</li>
+<li><strong>Test incrementally</strong>: Make small changes and test their effect</li>
+<li><strong>Use version control</strong>: Keep your custom prompts in Git</li>
+<li><strong>Document changes</strong>: Add comments explaining why you customized</li>
+<li><strong>Share with team</strong>: Use project-specific prompt directories</li>
+</ol>
+<h2>Examples</h2>
+<h3>Academic Writing Assistant</h3>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/core.md &lt;&lt; 'EOF'
+You are an academic writing assistant. Always:
+- Use formal academic language
+- Cite sources in APA format
+- Maintain objective tone
+- Check facts before stating them
+
+{{enabledTools}}
+EOF
+</code></pre>
+<h3>DevOps Specialist</h3>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/core.md &lt;&lt; 'EOF'
+You are a DevOps specialist. Focus on:
+- Infrastructure as code
+- Container best practices
+- CI/CD optimization
+- Security-first approach
+
+When working with shell commands, prefer:
+- Docker and Kubernetes commands
+- Terraform for infrastructure
+- Ansible for configuration
+
+{{enabledTools}}
+EOF
+</code></pre>
+<h3>Code Reviewer</h3>
+<pre><code class="language-bash">cat &gt; ~/.llxprt/prompts/core.md &lt;&lt; 'EOF'
+You are a thorough code reviewer. Always check for:
+- Security vulnerabilities
+- Performance issues
+- Code smells
+- Missing tests
+- Documentation gaps
+
+Provide constructive feedback with examples.
+
+{{enabledTools}}
+EOF
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Prompts Not Loading</h3>
+<ol>
+<li>
+<p>Check the directory exists:</p>
+<pre><code class="language-bash">ls -la ~/.llxprt/prompts/
+</code></pre>
+</li>
+<li>
+<p>Verify file permissions:</p>
+<pre><code class="language-bash">chmod -R 644 ~/.llxprt/prompts/
+</code></pre>
+</li>
+<li>
+<p>Enable debug mode to see loading errors:</p>
+<pre><code class="language-bash">DEBUG=true llxprt
+</code></pre>
+</li>
+</ol>
+<h3>Template Variables Not Replaced</h3>
+<p>Ensure you're using the correct syntax:</p>
+<ul>
+<li>Correct: <code>{{enabledTools}}</code></li>
+<li>Wrong: <code>{enabledTools}</code> or <code>{{ enabledTools }}</code></li>
+</ul>
+<h3>Provider-Specific Prompts Not Working</h3>
+<p>Check the directory structure matches exactly:</p>
+<pre><code class="language-bash">~/.llxprt/prompts/providers/[provider-name]/core.md
+</code></pre>
+<p>Provider names must be lowercase: <code>gemini</code>, <code>openai</code>, <code>anthropic</code></p>
+<h2>Migration from Hardcoded Prompts</h2>
+<p>If you were previously modifying LLxprt Code's source code to customize prompts, migrate to the new system:</p>
+<ol>
+<li>Copy your custom prompts to <code>~/.llxprt/prompts/</code></li>
+<li>Remove any source code modifications</li>
+<li>Update to the latest LLxprt Code version</li>
+<li>Test that your customizations still work</li>
+</ol>
+<h2>Contributing Prompt Improvements</h2>
+<p>If you've created prompts that would benefit others:</p>
+<ol>
+<li>Test thoroughly in various scenarios</li>
+<li>Document the use case and benefits</li>
+<li>Submit a pull request to the LLxprt Code repository</li>
+<li>Consider sharing in the community discussions</li>
+</ol>
+<h2>Future Enhancements</h2>
+<p>Planned improvements to the prompt system:</p>
+<ul>
+<li><strong>Prompt marketplace</strong>: Share and download community prompts</li>
+<li><strong>Interactive installer</strong>: GUI for prompt customization</li>
+<li><strong>A/B testing</strong>: Compare prompt effectiveness</li>
+<li><strong>Analytics</strong>: Track which prompts work best</li>
+<li><strong>Hot reload</strong>: Change prompts without restarting</li>
+</ul>
+<h2>Related Documentation</h2>
+<ul>
+<li><a href="./cli/configuration.html">Configuration Guide</a> - General LLxprt Code configuration</li>
+<li><a href="./core/memport.html">Memory System</a> - How context and memory work</li>
+<li><a href="./cli/providers.html">Provider Guide</a> - Provider-specific features</li>
+<li><a href="./tools/index.html">Tool Documentation</a> - Available tools and their usage</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="social-links">
+          <li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/github-mark-white.svg" alt="GitHub" /> </a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/discord-mark-white.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/linkedin-white.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
