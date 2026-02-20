@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code is the Anti-Claw | Vybestack Blog</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section blog-post-section">
+    <div class="container-narrow">
+      <div class="blog-post-header">
+        <span class="blog-date">2026-02-20</span>
+        <h1>LLxprt Code is the Anti-Claw</h1>
+      </div>
+      <div class="blog-post-content">
+        <p><img src="../images/anti-claw.png" alt="A locked vault with a robotic arm working through a small controlled opening"></p>
+<p>In January 2026, an open-source AI agent called OpenClaw went from zero to 180,000 GitHub stars in about two weeks. It could read your email, manage your calendar, execute shell commands, and browse the web. It was the fastest-growing project in GitHub history.</p>
+<p>Then the security researchers showed up.</p>
+<p>SecurityScorecard's STRIKE team found <a href="https://securityscorecard.com/blog/beyond-the-hype-moltbots-real-risk-is-exposed-infrastructure-not-ai-superintelligence/">42,900 instances sitting wide open on Shodan</a> with API keys, Slack tokens, and months of chat history accessible without authentication. Koi Security audited 2,857 ClawHub marketplace skills and found <a href="https://www.digitalapplied.com/blog/openclaw-clawhub-security-crisis-clawhavoc-analysis">341 containing malware, credential theft, or data exfiltration code</a>. Snyk found that <a href="https://www.digitalapplied.com/blog/openclaw-clawhub-security-crisis-clawhavoc-analysis">7.1% of skills were leaking credentials straight through the LLM context window</a>. A <a href="https://hunt.io/blog/cve-2026-25253-openclaw-ai-agent-exposure">one-click RCE</a> scored CVSS 8.8. OpenClaw <a href="https://www.apistronghold.com/blog/openclaw-2026-security-crisis-credential-leaks-prompt-injection">scored 2 out of 100</a> on ZeroLeaks security testing. Kaspersky called it the <a href="https://www.kaspersky.com/blog/moltbot-enterprise-risk-management/55317/">biggest insider threat of 2026</a>.</p>
+<p>We're not here to pile on OpenClaw. Peter Steinberger built something millions of people wanted. But the core design choice, giving an AI agent unrestricted access to your system and hoping it behaves, is not unique to OpenClaw. It is the default architecture of almost every coding agent on the market.</p>
+<h2>The Approval Prompt Trap</h2>
+<p>So how do existing coding agents handle security? Mostly, they ask permission.</p>
+<p>You're working on a Node project in Gemini CLI. It wants to run <code>npm test</code>. You approve. <code>git status</code>. Approve. <code>cat package.json</code>. Approve. Forty approvals in, you're not reading the commands anymore. You're just clicking yes.</p>
+<p><img src="../images/gemini-approve.png" alt="Gemini CLI approval prompts"></p>
+<p>That's a known problem, but here's the bigger one: approval-based security kills autonomous development. The whole promise of AI coding agents is that they run while you do other things. You define a task, step away, come back to working software. If your agent stops and waits for you to approve every shell command, it is not an autonomous agent. It is a typing assistant that needs you watching over its shoulder.</p>
+<p>Gemini CLI's alternative is &quot;YOLO mode,&quot; which auto-approves everything. Which is at least honest about what it is. But then you're back to the OpenClaw architecture: an unrestricted AI with your user privileges.</p>
+<p>And the approval system itself has gaps. A researcher found that <a href="https://github.com/google-gemini/gemini-cli/issues/11021"><code>NODE_DEBUG=1 rm **/*</code> runs without re-prompting</a> because Gemini sees the environment variable prefix, not the destructive command that follows. Another found that wrapping commands inside <a href="https://github.com/google-gemini/gemini-cli/issues/5495"><code>eval</code> bypasses validation entirely</a>. Cyera Research Labs disclosed both <a href="https://www.cyera.com/research-labs/cyera-research-labs-discloses-command-prompt-injection-vulnerabilities-in-gemini-cli">command injection and prompt injection vulnerabilities</a> that allowed arbitrary command execution. Google's own <a href="https://google-gemini.github.io/gemini-cli/docs/cli/enterprise.html">enterprise documentation</a> notes these controls won't stop &quot;a determined user with sufficient privileges on their local machine.&quot; An LLM with shell access is exactly that.</p>
+<h2>The Sandbox That Can't Do Real Work</h2>
+<p>OpenAI took the opposite approach with Codex CLI. Instead of filtering commands, lock the agent in a box.</p>
+<p>You're building a feature that needs to push to GitHub. Codex is in sandbox mode. No network access. <code>git push</code> fails. <code>npm install</code> fails. You can't pull a dependency, can't hit an API, can't do anything that touches the outside world.</p>
+<p><img src="../images/codex-sandbox.png" alt="Codex CLI sandbox mode"></p>
+<p>So developers pass <a href="https://apidog.com/blog/bypass-codex-sandbox/"><code>--dangerously-bypass-approvals-and-sandbox</code></a>. That flag name is refreshingly honest. And now you're running an unrestricted agent again.</p>
+<p>Or worse, some developers copy their SSH keys and API tokens into the sandbox so Codex can work. Now the credentials exist in two places, and the &quot;sandboxed&quot; environment has your secrets in it.</p>
+<p>Codex had its own <a href="https://advisories.gitlab.com/pkg/npm/@openai/codex/CVE-2025-59532/">sandbox bypass CVE</a> where the model could specify a working directory that the sandbox treated as its writable root, enabling arbitrary file writes outside the project. And in February 2026, a <a href="https://www.reddit.com/r/OpenAI/comments/1qxtdp9/codex_53_bypassed_a_sudo_password_prompt_on_its/">Reddit user reported</a> that Codex 5.3 hit a <code>sudo</code> password prompt, couldn't type the password, so it pivoted to <code>wsl.exe --user root</code> through Windows interop and ran the commands as root without asking. Capable agents will find workarounds. That's literally what they're designed to do.</p>
+<h2>It's Not Just the Big Names</h2>
+<p>OpenCode, another popular open-source coding agent, had its own parade of security problems. A <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-22812">critical RCE vulnerability (CVE-2026-22812)</a> allowed any local process, or any website via permissive CORS, to <a href="https://github.com/anomalyco/opencode/security/advisories/GHSA-vxw4-wv6m-9hhh">execute arbitrary shell commands</a> with the user's privileges through an unauthenticated HTTP server that OpenCode starts automatically. A researcher found that a <a href="https://dev.to/pachilo/reading-outside-the-lines-symlink-escape-in-opencodes-file-api-5f81">symlink inside a project directory could escape the file boundary</a> and read arbitrary files like <code>~/.ssh/id_rsa</code>. Another found <a href="https://github.com/xpcmdshell/opencode-lifecycle-rce">RCE via lifecycle scripts</a> in <code>.opencode/package.json</code> that run automatically when you open a cloned repo. Same pattern, different project.</p>
+<h2>Three Problems, Not One</h2>
+<p>Step back from the individual CVEs and there are three structural problems that most coding agents share.</p>
+<p><strong>Credentials.</strong> Every coding agent today can see your API keys, SSH keys, PATs, and cloud credentials. They're in environment variables, dotfiles, config files, all readable by the agent process. One prompt injection, one confused model, one malicious MCP server, and those credentials are in a context window being sent to an API endpoint. OpenClaw's marketplace proved this at scale: 7% of skills were leaking credentials through the LLM context window, not by accident, but by the way the architecture works.</p>
+<p><strong>Filesystem.</strong> Agents run with your user permissions. They can read and write anywhere you can. A confused agent doesn't need to be malicious to cause damage. It just needs to be wrong about which directory it's in.</p>
+<p><strong>Resources.</strong> This one gets less attention but it's painfully real. Anyone who's used a coding agent for long autonomous runs has experienced it: the agent launches a test suite, gets sidetracked, launches it again, and again. Your fan screams, your swap fills, your screen goes black. No mainstream coding agent manages compute budgets. Claude Code's <code>~/.claude</code> directory <a href="https://github.com/anthropics/claude-code/issues/24207">grows unbounded until it fills your disk</a>, and when it hits zero bytes free, it enters a cascade failure that destroys settings and auth. Sonnet 4.5 agents assigned to write tests <a href="https://github.com/anthropics/claude-code/issues/8706">consumed all disk I/O and memory</a>, freezing the entire system. Researchers have started calling this class of problem <a href="https://medium.com/@instatunnel/agentic-resource-exhaustion-the-infinite-loop-attack-of-the-ai-era-76a3f58c62e3">&quot;Denial of Wallet&quot;</a>: recursive agent loops that rack up thousands in API costs while eating system resources.</p>
+<h2>What We're Doing Differently</h2>
+<p>We don't think we've solved LLM security. But we think the right starting point is architecture, not behavior filtering. Here's what LLxprt Code 0.9.0 does.</p>
+<p><strong>The sandbox.</strong> The LLM runs in a container. It can see your project files and nothing else. Not your home directory. Not <code>~/.ssh</code>. Not your environment variables. Not your browser cookies. The boundary is enforced by the container, not by asking the LLM to stay within bounds. This isn't a new idea. Operating systems have done this for decades: processes get the minimum privileges they need. We are applying the same principle to AI agents.</p>
+<p><strong>The proxy.</strong> This is where we think the approach gets interesting, and where it differs from Codex's all-or-nothing sandbox. Locking everything down also locks out the things you need: <code>git push</code>, <code>npm publish</code>, authenticated API calls. Codex's answer is to bypass the sandbox. Ours is to proxy through it.</p>
+<p><img src="../images/llxprt-sandbox.png" alt="LLxprt Code running in sandbox mode"></p>
+<p>Your PATs and API keys live in your OS keyring on the host machine. The LLM cannot see them. It has no tools to access them. They are not in the sandbox's environment. When the agent needs to <code>git push</code>, the request goes through a proxy that handles authentication outside the sandbox. The LLM gets the result. It never touches the token.</p>
+<p>A prompt injection cannot exfiltrate your GitHub PAT because the PAT is not in the LLM's environment. A malicious MCP server cannot read your API keys because they are not in the sandbox. The LLM can do authenticated work without holding credentials.</p>
+<p><strong>Resource containment.</strong> The sandbox constrains CPU and memory. If your agent launches 50 test processes, it hits a ceiling instead of eating your system alive.</p>
+<h2>The Philosophy: Give, Don't Filter</h2>
+<p>The traditional approach is to start with &quot;the LLM can do everything&quot; and then try to filter out bad things one at a time. That's the allowlist/denylist game Gemini CLI plays, and it is a game you lose because the attack surface is infinite.</p>
+<p>We are going the other direction. Start with &quot;the LLM can do nothing&quot; and explicitly give it the capabilities you want. Do you want the LLM to commit to git? Configure that. Are there git operations you want to allow and others you don't? Configure those. Should the LLM be able to publish packages? That's a choice you make, not a default you forget to disable.</p>
+<p><img src="../images/llxprt-config.png" alt="LLxprt Code capability configuration"></p>
+<p>We will be adding more granular configuration over time, things like per-operation proxy rules and scoped credential access. And we will be hardening the sandbox itself as we learn from real-world usage. This is not a finished product. But we think &quot;grant specific capabilities&quot; is a fundamentally better starting point than &quot;filter specific threats.&quot;</p>
+<h2>What This Doesn't Solve Yet</h2>
+<p>We want to be honest about the gaps.</p>
+<p>Prompt injection is still a problem. The sandbox limits what a confused or manipulated agent can do, but it does not prevent the manipulation itself. The proxy trusts the LLM's intent: if the agent says &quot;git push to this repo,&quot; the proxy pushes. Scoping what the proxy allows per-operation is work we're actively doing. MCP servers running inside the sandbox inherit the sandbox's restrictions, but MCP security is an evolving space and we're watching it closely.</p>
+<p>The difference is that when something goes wrong, and it will, the damage is contained. The LLM cannot leak what it cannot see. It cannot consume what it cannot access. That's a much better place to start from than hoping everything goes right.</p>
+<h2>Try It</h2>
+<p>This is all landing in LLxprt Code 0.9.0. You can kick the tires now in the nightly builds:</p>
+<pre><code>npm install -g @vybestack/llxprt-code@nightly
+</code></pre>
+<p>Check the <a href="/llxprt-code/docs/sandbox.html">sandbox documentation</a> and <a href="/llxprt-code/docs/getting-started.html">getting started guide</a> for setup details. It is Apache 2.0 and open source. We'd love feedback. This is the kind of thing that gets better with more people looking at it.</p>
+<p>OpenClaw showed us what happens when you hand an AI agent the keys to everything. We'd rather build something where there are no keys to hand over.</p>
+
+      </div>
+      <div class="blog-post-nav">
+        <a href="/blog/" class="btn-secondary">&lt;- Back to Blog</a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+          <li><a href="https://github.com/vybestack/llxprt-code" title="GitHub"><img src="/assets/icons/github.svg" alt="GitHub" /></a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv" title="Discord"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/" title="LinkedIn"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
