@@ -24,7 +24,7 @@ const navTemplate = `
       </div>
       <div class="nav-right">
         <a href="/llxprt-code.html">LLxprt Code</a>
-        <a href="/jefe.html">Jefe</a>
+        <a href="/jefe.html">LLxprt Jefe</a>
         <a href="/blog/">Blog</a>
         <a href="/#podcast">Podcast</a>
         <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
@@ -45,7 +45,7 @@ const footerTemplate = `
         <h4>Products</h4>
         <ul>
           <li><a href="/llxprt-code.html">LLxprt Code</a></li>
-          <li><a href="/jefe.html">Jefe</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
         </ul>
       </div>
       <div class="footer-section">
