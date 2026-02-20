@@ -1,5 +1,14 @@
 /* Mockup CSS - Green Screen Terminal Aesthetic */
 
+@font-face {
+  font-family: 'Flexi IBM VGA';
+  src: url('assets/fonts/Flexi_IBM_VGA_False.woff2') format('woff2'),
+       url('assets/fonts/Flexi_IBM_VGA_False.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --color-bg: #0a0a0a;
   --color-primary: #6a9955; /* Vybestack green - trademark color */
@@ -13,7 +22,7 @@
   --color-border: #4a7a40;
   --color-border-dim: rgba(74, 122, 64, 0.3);
 
-  --font-mono: 'SF Mono', 'Monaco', 'Menlo', 'Courier New', monospace;
+  --font-mono: 'Flexi IBM VGA', 'SF Mono', 'Monaco', 'Menlo', 'Courier New', monospace;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
 
   --spacing-xs: 0.5rem;
@@ -61,7 +70,7 @@ a:hover {
 }
 
 h1, h2, h3, h4 {
-  font-family: var(--font-sans);
+  font-family: var(--font-mono);
   font-weight: 700;
   line-height: 1.2;
   color: var(--color-primary);
@@ -106,7 +115,7 @@ p { color: var(--color-text-muted); }
 
 .tagline {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   color: var(--color-text-muted);
 }
 
@@ -118,7 +127,7 @@ p { color: var(--color-text-muted); }
 
 .nav-right a {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 1.25rem;
   color: var(--color-text-muted);
 }
 
@@ -471,7 +480,7 @@ p { color: var(--color-text-muted); }
 
 .product-install code {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 1.1rem;
   color: var(--color-primary);
 }
 
@@ -913,7 +922,7 @@ p { color: var(--color-text-muted); }
 /* Utilities */
 code {
   font-family: var(--font-mono);
-  font-size: 0.875rem;
+  font-size: 1.1rem;
 }
 
 hr {
@@ -1093,7 +1102,7 @@ hr {
 }
 
 .product-install-hero code {
-  font-size: 1rem;
+  font-size: 1.25rem;
   color: var(--color-primary);
 }
 
