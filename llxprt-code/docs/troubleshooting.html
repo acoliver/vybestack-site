@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -124,7 +124,7 @@ llxprt --provider openai --key $YOUR_KEY
 llxprt --provider openai --keyfile ~/.yourkeyfile
 </code></pre>
 <p><strong>Interactive Mode:</strong></p>
-<pre><code class="language-text">/key        # Enter key directly
+<pre><code>/key        # Enter key directly
 /keyfile    # Load key from file
 </code></pre>
 <h3>Gemini-Specific Authentication</h3>
@@ -281,14 +281,14 @@ Either stop the other process that is using the port or configure the MCP server
 <li>
 <p><strong>DEBUG mode not working from project .env file</strong></p>
 <ul>
-<li><strong>Issue:</strong> Setting <code>DEBUG=true</code> in a project's <code>.env</code> file doesn't enable debug mode for llxprt.</li>
-<li><strong>Cause:</strong> The <code>DEBUG</code> and <code>DEBUG_MODE</code> variables are automatically excluded from project <code>.env</code> files to prevent interference with llxprt behavior.</li>
-<li><strong>Solution:</strong> Use a <code>.llxprt/.env</code> file instead, or configure the <code>excludedProjectEnvVars</code> setting in your <code>settings.json</code> to exclude fewer variables.</li>
+<li><strong>Issue:</strong> Setting <code>DEBUG=true</code> in a project's <code>.env</code> file doesn't enable debug mode for gemini-cli.</li>
+<li><strong>Cause:</strong> The <code>DEBUG</code> and <code>DEBUG_MODE</code> variables are automatically excluded from project <code>.env</code> files to prevent interference with gemini-cli behavior.</li>
+<li><strong>Solution:</strong> Use a <code>.gemini/.env</code> file instead, or configure the <code>excludedProjectEnvVars</code> setting in your <code>settings.json</code> to exclude fewer variables.</li>
 </ul>
 </li>
 </ul>
 <h2>Exit Codes</h2>
-<p>LLxprt Code uses specific exit codes to indicate the reason for termination. This is especially useful for scripting and automation.</p>
+<p>The Gemini CLI uses specific exit codes to indicate the reason for termination. This is especially useful for scripting and automation.</p>
 <table>
 <thead>
 <tr>
@@ -325,204 +325,6 @@ Either stop the other process that is using the port or configure the MCP server
 </tr>
 </tbody>
 </table>
-<h2>Sandbox Issues</h2>
-<h3>Container Engine Problems</h3>
-<h4>Docker daemon not running</h4>
-<p><strong>Symptom:</strong> <code>Cannot connect to the Docker daemon. Is the docker daemon running?</code></p>
-<p><strong>Solutions:</strong></p>
-<ul>
-<li><strong>macOS:</strong> Start Docker Desktop</li>
-<li><strong>Linux:</strong> Run <code>sudo systemctl start docker</code> or <code>sudo service docker start</code></li>
-</ul>
-<p>Windows is not currently tested for this sandbox workflow.</p>
-<h4>Podman machine not running (macOS)</h4>
-<p><strong>Symptom:</strong> <code>Error: cannot connect to Podman socket</code></p>
-<p><strong>Solution:</strong></p>
-<pre><code class="language-bash">podman machine start
-podman machine ls  # Verify it's running
-</code></pre>
-<p>If the machine is stuck:</p>
-<pre><code class="language-bash">podman machine stop
-podman machine rm
-podman machine init
-podman machine start
-</code></pre>
-<h4>Image pull failures</h4>
-<p><strong>Symptom:</strong> <code>Sandbox image '&lt;image&gt;' is missing or could not be pulled.</code></p>
-<p><strong>Causes and solutions:</strong></p>
-<ul>
-<li>No network: Check internet connection</li>
-<li>Registry auth required: <code>docker login ghcr.io</code></li>
-<li>Rate limited: Wait and retry, or use authenticated pull</li>
-</ul>
-<h3>Credential Proxy Errors</h3>
-<h4>Failed to start credential proxy</h4>
-<p><strong>Symptom:</strong> <code>Failed to start credential proxy: &lt;error message&gt;</code></p>
-<p><strong>Causes:</strong></p>
-<p>The credential proxy requires a working OS keyring. Common issues:</p>
-<ul>
-<li>Linux: <code>gnome-keyring-daemon</code> not running or D-Bus unavailable</li>
-<li>Keyring locked after login</li>
-</ul>
-<p><strong>Solutions:</strong></p>
-<pre><code class="language-bash"># Linux: Check keyring status
-gnome-keyring-daemon --check
-
-# Linux: Start keyring if needed
-eval &quot;$(gnome-keyring-daemon -s)&quot;
-export SSH_AUTH_SOCK
-
-# Fallback: Use explicit API key
-llxprt --key $YOUR_API_KEY --sandbox
-</code></pre>
-<h4>LLXPRT_CREDENTIAL_SOCKET not set</h4>
-<p><strong>Symptom:</strong> Inside the sandbox, authentication fails or <code>/auth</code> commands do not work.</p>
-<p><strong>Cause:</strong> The credential proxy socket was not properly passed to the container.</p>
-<p><strong>Diagnosis:</strong></p>
-<pre><code class="language-bash"># Check if the env var is set inside sandbox (use single quotes)
-llxprt --sandbox 'run shell command: echo $LLXPRT_CREDENTIAL_SOCKET'
-</code></pre>
-<p>If empty, the proxy did not start correctly on the host.</p>
-<p><strong>Solution:</strong> Restart the session. If the problem persists, check host keyring availability.</p>
-<h4>Credential proxy connection lost</h4>
-<p><strong>Symptom:</strong> <code>Credential proxy connection lost. Restart the session.</code></p>
-<p><strong>Cause:</strong> The container lost its connection to the host-side credential proxy. This usually happens after:</p>
-<ul>
-<li>Host system sleep/hibernate</li>
-<li>Container crash</li>
-<li>Network interface changes</li>
-</ul>
-<p><strong>Solution:</strong> Exit and restart the llxprt session.</p>
-<h4>socat not found (Podman macOS)</h4>
-<p><strong>Symptom:</strong> <code>ERROR: socat not found - credential proxy relay requires socat in the sandbox image</code></p>
-<p><strong>Cause:</strong> The sandbox image lacks the <code>socat</code> utility needed for credential proxy bridging on Podman macOS.</p>
-<p><strong>Solutions:</strong></p>
-<ul>
-<li>Update to a newer sandbox image</li>
-<li>Use Docker Desktop instead of Podman on macOS</li>
-<li>Build a custom image with <code>socat</code> installed</li>
-</ul>
-<h3>SSH Agent Passthrough</h3>
-<h4>SSH_AUTH_SOCK not set</h4>
-<p><strong>Symptom:</strong> <code>SSH agent requested but SSH_AUTH_SOCK is not set.</code></p>
-<p><strong>Solution:</strong></p>
-<pre><code class="language-bash"># Start the agent
-eval &quot;$(ssh-agent -s)&quot;
-
-# Add your key
-ssh-add ~/.ssh/id_ed25519
-
-# Verify
-ssh-add -l
-</code></pre>
-<h4>SSH socket not found</h4>
-<p><strong>Symptom:</strong> <code>SSH_AUTH_SOCK path not found at /path/to/socket</code></p>
-<p><strong>Cause:</strong> The SSH agent is not running or the socket path is incorrect.</p>
-<p><strong>Solution:</strong></p>
-<pre><code class="language-bash"># Check if agent is running
-ps aux | grep ssh-agent
-
-# Restart the agent
-eval &quot;$(ssh-agent -s)&quot;
-ssh-add ~/.ssh/id_ed25519
-</code></pre>
-<h4>Podman macOS SSH issues</h4>
-<p><strong>Symptom:</strong> Git clone fails with <code>Permission denied (publickey)</code> even though keys are loaded.</p>
-<p><strong>Cause:</strong> Podman on macOS runs in a VM. Launchd-managed sockets (paths containing <code>/private/tmp/com.apple.launchd.*</code>) are not accessible from the VM.</p>
-<p><strong>Solution:</strong></p>
-<p>Create a dedicated SSH agent socket at a normal filesystem path:</p>
-<pre><code class="language-bash"># Stop any existing agents
-killall ssh-agent 2&gt;/dev/null
-
-# Start agent with dedicated socket
-ssh-agent -a ~/.llxprt/ssh-agent.sock
-export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
-
-# Add keys
-ssh-add ~/.ssh/id_ed25519
-
-# Test
-ssh-add -l
-
-# Now run llxprt
-llxprt --sandbox-engine podman --sandbox-profile-load dev
-</code></pre>
-<h3>Sandbox Profile Issues</h3>
-<h4>Profile not found</h4>
-<p><strong>Symptom:</strong> <code>Profile 'custom' not found</code></p>
-<p><strong>Solution:</strong></p>
-<pre><code class="language-bash"># Check existing profiles
-ls ~/.llxprt/sandboxes/
-
-# Create the profile if missing
-echo '{&quot;engine&quot;:&quot;auto&quot;}' &gt; ~/.llxprt/sandboxes/custom.json
-</code></pre>
-<h4>Invalid profile JSON</h4>
-<p><strong>Symptom:</strong> <code>Failed to parse sandbox profile</code></p>
-<p><strong>Solution:</strong> Validate the JSON syntax:</p>
-<pre><code class="language-bash"># Check syntax
-cat ~/.llxprt/sandboxes/custom.json | jq .
-</code></pre>
-<p>If <code>jq</code> reports errors, fix the JSON and try again.</p>
-<h4>Operation not permitted</h4>
-<p><strong>Symptom:</strong> <code>Operation not permitted</code> when running commands in sandbox</p>
-<p><strong>Cause:</strong> The operation requires access outside the sandbox boundaries.</p>
-<p><strong>Solutions:</strong></p>
-<ul>
-<li>Use a less restrictive profile (<code>dev</code> instead of <code>safe</code>)</li>
-<li>Add the required path to <code>mounts</code> in the profile</li>
-<li>Disable network restrictions if network access is needed</li>
-</ul>
-<h3>Resource Limits</h3>
-<h4>Container killed (OOM)</h4>
-<p><strong>Symptom:</strong> Container exits unexpectedly, possibly with <code>OOMKilled</code> status.</p>
-<p><strong>Cause:</strong> The process exceeded the memory limit in the profile.</p>
-<p><strong>Solution:</strong> Increase the memory limit in your profile:</p>
-<pre><code class="language-json">{
-  &quot;resources&quot;: { &quot;memory&quot;: &quot;8g&quot; }
-}
-</code></pre>
-<h4>Process limit reached</h4>
-<p><strong>Symptom:</strong> Commands fail with <code>fork: Resource temporarily unavailable</code></p>
-<p><strong>Cause:</strong> The container hit the process count limit (<code>pids</code> in profile).</p>
-<p><strong>Solution:</strong> Increase the process limit:</p>
-<pre><code class="language-json">{
-  &quot;resources&quot;: { &quot;pids&quot;: 512 }
-}
-</code></pre>
-<h3>Debugging Sandbox Issues</h3>
-<h4>Enable debug output</h4>
-<pre><code class="language-bash">DEBUG=1 llxprt --sandbox &quot;your prompt here&quot;
-</code></pre>
-<h4>Inspect the sandbox environment</h4>
-<pre><code class="language-bash"># Check sandbox environment variables
-llxprt --sandbox &quot;run shell command: env | grep -E 'LLXPRT|SANDBOX'&quot;
-
-# Check credential proxy socket
-llxprt --sandbox &quot;run shell command: ls -la $LLXPRT_CREDENTIAL_SOCKET&quot;
-
-# Check mounts
-llxprt --sandbox &quot;run shell command: mount | grep workspace&quot;
-
-# Test network access
-llxprt --sandbox &quot;run shell command: curl -I https://example.com 2&gt;&amp;1&quot;
-</code></pre>
-<h4>Run container manually for debugging</h4>
-<p>Replace <version> below with the tag shown by the docker images command.</p>
-<pre><code class="language-bash"># Find the image
-docker images | grep 'vybestack/llxprt-code/sandbox'
-
-# Run interactively (replace &lt;version&gt; with the tag you found above)
-docker run -it --rm \
-  -v $(pwd):/workspace \
-  -v ~/.llxprt:/home/node/.llxprt \
-  ghcr.io/vybestack/llxprt-code/sandbox:&lt;version&gt; \
-  bash
-
-# Inside container, debug
-env | grep LLXPRT
-ls -la /workspace
-</code></pre>
 <h2>Debugging Tips</h2>
 <ul>
 <li>

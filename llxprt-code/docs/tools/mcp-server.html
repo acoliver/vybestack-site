@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -748,13 +748,13 @@ await server.connect(transport);
 <h4>Adding an stdio server</h4>
 <p>This is the default transport for running local servers.</p>
 <pre><code class="language-bash"># Basic syntax
-llxprt mcp add [options] &lt;name&gt; &lt;command&gt; [args...]
+llxprt mcp add &lt;name&gt; &lt;command&gt; [args...]
 
-# Example: Adding a local server with environment variables
-llxprt mcp add -e API_KEY=123 -e DEBUG=true my-stdio-server /path/to/server arg1 arg2 arg3
+# Example: Adding a local server
+llxprt mcp add my-stdio-server -e API_KEY=123 /path/to/server arg1 arg2 arg3
 
-# Example: Adding a local python server with server arguments
-llxprt mcp add python-server python server.py -- --server-arg my-value
+# Example: Adding a local python server
+llxprt mcp add python-server python server.py --port 8080
 </code></pre>
 <h4>Adding an HTTP server</h4>
 <p>This transport is for servers that use the streamable HTTP transport.</p>
@@ -779,7 +779,7 @@ llxprt mcp add --transport sse sse-server https://api.example.com/sse/
 llxprt mcp add --transport sse secure-sse https://api.example.com/sse/ --header &quot;Authorization: Bearer abc123&quot;
 </code></pre>
 <h3>Listing Servers (<code>llxprt mcp list</code>)</h3>
-<p>To view all MCP servers currently configured, use the <code>list</code> command. It displays each server's name, configuration details, and connection status. This command has no flags.</p>
+<p>To view all MCP servers currently configured, use the <code>list</code> command. It displays each server's name, configuration details, and connection status.</p>
 <p><strong>Command:</strong></p>
 <pre><code class="language-bash">llxprt mcp list
 </code></pre>
@@ -793,10 +793,6 @@ llxprt mcp add --transport sse secure-sse https://api.example.com/sse/ --header 
 <p><strong>Command:</strong></p>
 <pre><code class="language-bash">llxprt mcp remove &lt;name&gt;
 </code></pre>
-<p><strong>Options (Flags):</strong></p>
-<ul>
-<li><code>-s, --scope</code>: Configuration scope (user or project). [default: &quot;project&quot;]</li>
-</ul>
 <p><strong>Example:</strong></p>
 <pre><code class="language-bash">llxprt mcp remove my-server
 </code></pre>

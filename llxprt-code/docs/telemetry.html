@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -103,36 +103,34 @@
 </ol>
 <p>The telemetry infrastructure is based on the <strong><a href="https://opentelemetry.io/">OpenTelemetry</a> (OTEL)</strong> standard, which would allow you to send data to any compatible backend that you control, if you choose to re-enable it.</p>
 <h2>Enabling telemetry</h2>
-<p>Telemetry configuration is managed via settings files and environment variables. The recommended approach is to configure telemetry in your <a href="./cli/configuration.html">settings files</a>.</p>
-<h3>Configuration methods</h3>
-<p>Configure telemetry using one of the following methods:</p>
+<p>You can enable telemetry in multiple ways. Configuration is primarily managed via the <a href="./cli/configuration.html"><code>.gemini/settings.json</code> file</a> and environment variables, but CLI flags can override these settings for a specific session.</p>
+<h3>Order of precedence</h3>
+<p>The following lists the precedence for applying telemetry settings, with items listed higher having greater precedence:</p>
 <ol>
 <li>
-<p><strong>Settings files (recommended):</strong></p>
+<p><strong>CLI flags (for <code>llxprt</code> command):</strong></p>
 <ul>
-<li><strong>User settings file (<code>~/.llxprt/settings.json</code>):</strong> Global configuration for all projects.</li>
-<li><strong>Workspace settings file (<code>.llxprt/settings.json</code>):</strong> Project-specific configuration.</li>
+<li><code>--telemetry</code> / <code>--no-telemetry</code>: Overrides <code>telemetry.enabled</code>.</li>
+<li><code>--telemetry-target &lt;local|gcp&gt;</code>: Overrides <code>telemetry.target</code>.</li>
+<li><code>--telemetry-otlp-endpoint &lt;URL&gt;</code>: Overrides <code>telemetry.otlpEndpoint</code>.</li>
+<li><code>--telemetry-log-prompts</code> / <code>--no-telemetry-log-prompts</code>: Overrides <code>telemetry.logPrompts</code>.</li>
+<li><code>--telemetry-outfile &lt;path&gt;</code>: Redirects telemetry output to a file. See <a href="#exporting-to-a-file">Exporting to a file</a>.</li>
 </ul>
-<p>Add a <code>telemetry</code> object to your settings file (see <a href="#example-settings">Example settings</a> below).</p>
 </li>
 <li>
 <p><strong>Environment variables:</strong></p>
 <ul>
-<li><code>OTEL_EXPORTER_OTLP_ENDPOINT</code>: Sets the OTLP endpoint URL.</li>
+<li><code>OTEL_EXPORTER_OTLP_ENDPOINT</code>: Overrides <code>telemetry.otlpEndpoint</code>.</li>
 </ul>
 </li>
 <li>
-<p><strong>CLI flags:</strong> Available for temporary overrides during specific sessions, but settings files are the preferred method for persistent configuration.</p>
+<p><strong>Workspace settings file (<code>.llxprt/settings.json</code>):</strong> Values from the <code>telemetry</code> object in this project-specific file.</p>
 </li>
-</ol>
-<h3>Order of precedence</h3>
-<p>When multiple configuration methods are used, settings are applied in the following order (highest precedence first):</p>
-<ol>
-<li><strong>CLI flags</strong> (temporary session overrides)</li>
-<li><strong>Environment variables</strong></li>
-<li><strong>Workspace settings file (<code>.llxprt/settings.json</code>)</strong></li>
-<li><strong>User settings file (<code>~/.llxprt/settings.json</code>)</strong></li>
-<li><strong>Defaults:</strong>
+<li>
+<p><strong>User settings file (<code>~/.llxprt/settings.json</code>):</strong> Values from the <code>telemetry</code> object in this global user file.</p>
+</li>
+<li>
+<p><strong>Defaults:</strong> applied if not set by any of the above.</p>
 <ul>
 <li><code>telemetry.enabled</code>: <code>false</code></li>
 <li><code>telemetry.target</code>: <code>local</code></li>
@@ -142,7 +140,6 @@
 </li>
 </ol>
 <p><strong>Note:</strong> The telemetry scripts (<code>npm run telemetry</code>) are provided for development purposes but will not collect any data unless you manually re-enable telemetry in the source code. Even then, the <code>local</code> target ensures data stays on your machine, while the <code>gcp</code> target would require your own Google Cloud project - LLxprt Code never sends data to Google's telemetry systems.</p>
-<p><strong>CLI flags reference:</strong> For temporary session overrides, CLI flags are available (e.g., <code>--telemetry</code>, <code>--telemetry-target</code>, <code>--telemetry-otlp-endpoint</code>, <code>--telemetry-log-prompts</code>, <code>--telemetry-outfile</code>). However, for persistent configuration, use settings files as described above.</p>
 <h3>Example settings</h3>
 <p>The following code can be added to your workspace (<code>.llxprt/settings.json</code>) or user (<code>~/.llxprt/settings.json</code>) settings to enable telemetry for local debugging only:</p>
 <pre><code class="language-json">{
@@ -154,8 +151,8 @@
 </code></pre>
 <p><strong>Important:</strong> Even with these settings, telemetry will not function unless you modify the source code to re-enable it. This is intentional to ensure no accidental data collection.</p>
 <h3>Exporting to a file</h3>
-<p>You can export all telemetry data to a file for local inspection using the <code>--telemetry-outfile</code> CLI flag as a temporary override. This must be used with <code>--telemetry-target=local</code>.</p>
-<p>Example:</p>
+<p>You can export all telemetry data to a file for local inspection.</p>
+<p>To enable file export, use the <code>--telemetry-outfile</code> flag with a path to your desired output file. This must be run using <code>--telemetry-target=local</code>.</p>
 <pre><code class="language-bash">llxprt --telemetry --telemetry-target=local --telemetry-outfile=/path/to/telemetry.log &quot;your prompt&quot;
 </code></pre>
 <h2>Running an OTEL Collector</h2>

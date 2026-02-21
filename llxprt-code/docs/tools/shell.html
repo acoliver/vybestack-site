@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -165,7 +165,6 @@
 <ul>
 <li><strong>Security:</strong> Be cautious when executing commands, especially those constructed from user input, to prevent security vulnerabilities.</li>
 <li><strong>Interactive commands:</strong> Avoid commands that require interactive user input, as this can cause the tool to hang. Use non-interactive flags if available (e.g., <code>npm init -y</code>).</li>
-<li><strong>Output limiting:</strong> In <code>truncate</code> mode, <code>run_shell_command</code> clips the output by removing the middle to preserve both head and tail. In <code>warn</code> and <code>sample</code>, it uses the default limiter behavior.</li>
 <li><strong>Error handling:</strong> Check the <code>Stderr</code>, <code>Error</code>, and <code>Exit Code</code> fields to determine if a command executed successfully.</li>
 <li><strong>Background processes:</strong> When a command is run in the background with <code>&amp;</code>, the tool will return immediately and the process will continue to run in the background. The <code>Background PIDs</code> field will contain the process ID of the background process.</li>
 </ul>

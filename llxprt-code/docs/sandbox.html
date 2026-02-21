@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sandboxing | LLxprt Code Docs</title>
+  <title>Sandboxing in the LLxprt Code | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -92,227 +92,130 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Sandboxing</h1>
-<p>Sandboxing runs llxprt tool execution in an isolated environment so you can work with less risk when running shell commands, editing files, or reviewing untrusted code.</p>
-<h2>Platform support</h2>
-<table>
-<thead>
-<tr>
-<th>Platform</th>
-<th>Docker</th>
-<th>Podman</th>
-<th>Seatbelt</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>macOS</td>
-<td>Full support</td>
-<td>Full support (caveats)</td>
-<td>Built-in</td>
-</tr>
-<tr>
-<td>Linux</td>
-<td>Full support</td>
-<td>Full support</td>
-<td>Not available</td>
-</tr>
-</tbody>
-</table>
-<p>Windows is not tested yet for this workflow. Contributions are welcome.</p>
-<h2>Quick start</h2>
-<pre><code class="language-bash"># Start a sandboxed session with automatic engine selection
-llxprt --sandbox &quot;review this repository&quot;
-
-# Load a specific sandbox profile
-llxprt --sandbox-profile-load safe &quot;analyze this untrusted code&quot;
-
-# Explicitly disable sandboxing
-llxprt --sandbox-engine none
+            <h1>Sandboxing in the LLxprt Code</h1>
+<p>This document provides a guide to sandboxing in the LLxprt Code, including prerequisites, quickstart, and configuration.</p>
+<h2>Prerequisites</h2>
+<p>Before using sandboxing, you need to install and set up the LLxprt Code:</p>
+<pre><code class="language-bash">npm install -g @vybestack/llxprt-code
 </code></pre>
-<h2>Why developers use sandboxing</h2>
-<p>Use sandboxing when you want to:</p>
-<ul>
-<li>review code you did not write</li>
-<li>run shell-heavy tasks safely</li>
-<li>keep refresh tokens and key storage on the host</li>
-<li>cap CPU, memory, and process count for noisy workloads</li>
-</ul>
-<h2>How sandbox mode is selected</h2>
-<p>Selection behavior comes from <code>packages/cli/src/config/sandboxConfig.ts</code> and works like this:</p>
-<ol>
-<li><code>--sandbox-engine none</code> disables sandboxing immediately.</li>
-<li><code>LLXPRT_SANDBOX</code> takes precedence over <code>--sandbox</code> and <code>settings.sandbox</code> when choosing the base sandbox command.</li>
-<li><code>--sandbox-profile-load &lt;name&gt;</code> implies sandbox intent, even if <code>--sandbox</code> is not set.</li>
-<li><code>--sandbox-engine &lt;engine&gt;</code> overrides the resolved runtime.</li>
-</ol>
-<h3><code>LLXPRT_SANDBOX</code> accepted values</h3>
-<ul>
-<li>truthy: <code>1</code>, <code>true</code> (requests sandbox with automatic command selection)</li>
-<li>falsy: <code>0</code>, <code>false</code> (disables sandboxing)</li>
-<li>explicit engine: <code>docker</code>, <code>podman</code>, <code>sandbox-exec</code></li>
-</ul>
-<p><code>--sandbox-engine none</code> always disables sandboxing, even when <code>LLXPRT_SANDBOX</code> is set.</p>
-<h2>Built-in profiles</h2>
-<p>Profiles are stored at:</p>
-<pre><code class="language-text">~/.llxprt/sandboxes/&lt;name&gt;.json
+<p>To verify the installation</p>
+<pre><code class="language-bash">llxprt --version
 </code></pre>
-<p>Default profile files are created automatically when profile loading is used.</p>
-<table>
-<thead>
-<tr>
-<th>Profile</th>
-<th>Network</th>
-<th>SSH Agent</th>
-<th>Resources</th>
-<th>Typical use case</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>dev</code></td>
-<td>on</td>
-<td>auto</td>
-<td>2 CPU, 4GB, 256 pids</td>
-<td>normal development</td>
-</tr>
-<tr>
-<td><code>safe</code></td>
-<td>off</td>
-<td>off</td>
-<td>2 CPU, 4GB, 128 pids</td>
-<td>untrusted code review</td>
-</tr>
-<tr>
-<td><code>tight</code></td>
-<td>off</td>
-<td>off</td>
-<td>1 CPU, 2GB, 64 pids</td>
-<td>maximum restriction</td>
-</tr>
-<tr>
-<td><code>offline</code></td>
-<td>off</td>
-<td>off</td>
-<td>2 CPU, 4GB, 128 pids</td>
-<td>local/offline workflows</td>
-</tr>
-</tbody>
-</table>
-<p>See full profile reference: <a href="./cli/sandbox-profiles.html">Sandbox Profiles</a></p>
-<h2>Profile fields</h2>
-<pre><code class="language-json">{
-  &quot;engine&quot;: &quot;auto&quot;,
-  &quot;image&quot;: &quot;ghcr.io/vybestack/llxprt-code/sandbox:&lt;version&gt;&quot;,
-  &quot;resources&quot;: {
-    &quot;cpus&quot;: 2,
-    &quot;memory&quot;: &quot;4g&quot;,
-    &quot;pids&quot;: 256
-  },
-  &quot;network&quot;: &quot;on&quot;,
-  &quot;sshAgent&quot;: &quot;auto&quot;,
-  &quot;mounts&quot;: [],
-  &quot;env&quot;: {}
+<h2>Overview of sandboxing</h2>
+<p>Sandboxing isolates potentially dangerous operations (such as shell commands or file modifications) from your host system, providing a security barrier between AI operations and your environment.</p>
+<p>The benefits of sandboxing include:</p>
+<ul>
+<li><strong>Security</strong>: Prevent accidental system damage or data loss.</li>
+<li><strong>Isolation</strong>: Limit file system access to project directory.</li>
+<li><strong>Consistency</strong>: Ensure reproducible environments across different systems.</li>
+<li><strong>Safety</strong>: Reduce risk when working with untrusted code or experimental commands.</li>
+</ul>
+<h2>Sandboxing methods</h2>
+<p>Your ideal method of sandboxing may differ depending on your platform and your preferred container solution.</p>
+<h3>1. macOS Seatbelt (macOS only)</h3>
+<p>Lightweight, built-in sandboxing using <code>sandbox-exec</code>.</p>
+<p><strong>Default profile</strong>: <code>permissive-open</code> - restricts writes outside project directory but allows most other operations.</p>
+<h3>2. Container-based (Docker/Podman)</h3>
+<p>Cross-platform sandboxing with complete process isolation.</p>
+<p><strong>Note</strong>: Requires building the sandbox image locally or using a published image from your organization's registry.</p>
+<h2>Quickstart</h2>
+<pre><code class="language-bash"># Enable sandboxing with command flag
+llxprt --sandbox &quot;analyze the code structure&quot;
+
+# Use environment variable
+export LLXPRT_SANDBOX=true
+llxprt &quot;run the test suite&quot;
+
+# Configure in settings.json
+{
+  &quot;sandbox&quot;: &quot;docker&quot;
 }
 </code></pre>
-<p>Field behavior:</p>
-<ul>
-<li><code>engine</code>: <code>auto</code>, <code>docker</code>, <code>podman</code>, <code>sandbox-exec</code>, <code>none</code></li>
-<li><code>image</code>: container image. Defaults to the current release <code>config.sandboxImageUri</code> value.</li>
-<li><code>resources</code>: <code>cpus</code>, <code>memory</code>, <code>pids</code></li>
-<li><code>network</code>: <code>on</code>, <code>off</code>, <code>proxied</code>
-<ul>
-<li><code>proxied</code> is accepted by schema, but runtime proxy mode is not implemented yet. The launcher logs a warning and falls back to default networking.</li>
-</ul>
-</li>
-<li><code>sshAgent</code>: <code>auto</code>, <code>on</code>, <code>off</code></li>
-<li><code>mounts</code>: extra mounts; mount mode defaults to <code>ro</code> when omitted</li>
-<li><code>env</code>: additional environment variables</li>
-</ul>
-<h2>Credential security in container mode</h2>
-<p>Container mode uses a host-side credential proxy over a Unix socket.</p>
-<p>What this means:</p>
-<ul>
-<li>refresh tokens stay on the host</li>
-<li>sandbox receives short-lived access tokens as needed</li>
-<li><code>/auth &lt;provider&gt; login</code> works from inside sandbox (OAuth handling is host-side)</li>
-<li><code>/key save</code> and <code>/key delete</code> are blocked in sandbox proxy mode</li>
-<li><code>/key load</code>, <code>/key list</code>, and <code>/key show</code> can read host-saved keys</li>
-</ul>
-<p>The socket path is passed through <code>LLXPRT_CREDENTIAL_SOCKET</code> automatically.</p>
-<h2>SSH agent passthrough</h2>
-<p>If <code>sshAgent</code> is enabled:</p>
+<h2>Configuration</h2>
+<h3>Enable sandboxing (in order of precedence)</h3>
 <ol>
-<li><code>SSH_AUTH_SOCK</code> is detected on host</li>
-<li>socket is mounted into container</li>
-<li>container process gets <code>SSH_AUTH_SOCK=/ssh-agent</code></li>
+<li><strong>Command flag</strong>: <code>-s</code> or <code>--sandbox</code></li>
+<li><strong>Environment variable</strong>: <code>LLXPRT_SANDBOX=true|docker|podman|sandbox-exec</code></li>
+<li><strong>Settings file</strong>: <code>&quot;sandbox&quot;: true</code> in <code>settings.json</code></li>
 </ol>
-<h3>macOS Podman caveats</h3>
-<p>Podman on macOS runs in a VM. llxprt sets up an SSH tunnel bridge, but:</p>
-<ul>
-<li>launchd socket paths under <code>/private/tmp/com.apple.launchd.*</code> are often problematic</li>
-<li><code>--network=host</code> is required for the bridge</li>
-<li>if a conflicting <code>--network</code> value is already set (for example <code>none</code>), SSH forwarding is skipped or fails</li>
-</ul>
-<p>Reliable workaround:</p>
-<pre><code class="language-bash">ssh-agent -a ~/.llxprt/ssh-agent.sock
-export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
-ssh-add ~/.ssh/id_ed25519
+<h3>Sandbox profiles</h3>
+<p>Sandbox profiles live in <code>~/.llxprt/sandboxes/&lt;name&gt;.json</code> and are created on first run.</p>
+<pre><code class="language-bash">llxprt --sandbox-profile-load dev
 llxprt --sandbox-engine podman --sandbox-profile-load dev
+llxprt --sandbox-engine none
 </code></pre>
-<h2>Network modes</h2>
+<p>Profiles can set engine, image, resources, network, sshAgent, mounts, and env.</p>
+<h3>SSH agent passthrough</h3>
+<p>Enable SSH agent passthrough in profiles with <code>&quot;sshAgent&quot;: &quot;auto&quot;</code> or <code>&quot;sshAgent&quot;: &quot;on&quot;</code>.</p>
+<p><strong>Notes:</strong></p>
 <ul>
-<li><code>on</code>: normal networking</li>
-<li><code>off</code>: container runs with <code>--network none</code></li>
-<li><code>proxied</code>: accepted value, but currently falls back to default networking with a warning</li>
+<li>Docker: works reliably by mounting <code>SSH_AUTH_SOCK</code> into <code>/ssh-agent</code>.</li>
+<li>Podman Linux: uses <code>:z</code> relabeling for the socket mount.</li>
+<li>Podman macOS: launchd sockets often fail inside the VM. Prefer Docker, or use a custom SSH_AUTH_SOCK path under a regular filesystem (e.g. <code>~/.llxprt/ssh-agent.sock</code>).</li>
 </ul>
-<h2>Git config mounts</h2>
-<p>Container sandbox mounts these read-only when present:</p>
+<h3>macOS Seatbelt profiles</h3>
+<p>Built-in profiles (set via <code>SEATBELT_PROFILE</code> env var):</p>
 <ul>
-<li><code>~/.gitconfig</code></li>
-<li><code>~/.config/git/config</code></li>
-<li><code>~/.gitignore_global</code></li>
-<li><code>~/.ssh/known_hosts</code></li>
+<li><code>permissive-open</code> (default): Write restrictions, network allowed</li>
+<li><code>permissive-closed</code>: Write restrictions, no network</li>
+<li><code>permissive-proxied</code>: Write restrictions, network via proxy</li>
+<li><code>restrictive-open</code>: Strict restrictions, network allowed</li>
+<li><code>restrictive-closed</code>: Maximum restrictions</li>
 </ul>
-<p><code>~/.git-credentials</code> is intentionally not mounted.</p>
-<h2>macOS Seatbelt mode</h2>
-<p>Seatbelt uses <code>sandbox-exec</code> and runs directly on host.</p>
-<p>Set profile with <code>SEATBELT_PROFILE</code>:</p>
-<ul>
-<li><code>permissive-open</code></li>
-<li><code>permissive-closed</code></li>
-<li><code>permissive-proxied</code></li>
-<li><code>restrictive-open</code></li>
-<li><code>restrictive-closed</code></li>
-<li><code>restrictive-proxied</code></li>
-</ul>
-<p>Seatbelt is useful for lightweight restrictions, but it does not provide container-level credential isolation.</p>
-<h2>Advanced environment controls</h2>
-<pre><code class="language-bash"># pass additional runtime flags to docker/podman launch
-export SANDBOX_FLAGS=&quot;--security-opt label=disable&quot;
-
-# control Linux UID/GID mapping behavior
-export SANDBOX_SET_UID_GID=true
-# or
-export SANDBOX_SET_UID_GID=false
+<h3>Custom Sandbox Flags</h3>
+<p>For container-based sandboxing, you can inject custom flags into the <code>docker</code> or <code>podman</code> command using the <code>SANDBOX_FLAGS</code> environment variable. This is useful for advanced configurations, such as disabling security features for specific use cases.</p>
+<p><strong>Example (Podman)</strong>:</p>
+<p>To disable SELinux labeling for volume mounts, you can set the following:</p>
+<pre><code class="language-bash">export SANDBOX_FLAGS=&quot;--security-opt label=disable&quot;
 </code></pre>
-<h2>Troubleshooting quick checks</h2>
-<pre><code class="language-bash"># Verify sandbox env
-llxprt --sandbox &quot;run shell command: env | grep -E 'SANDBOX|LLXPRT'&quot;
-
-# Verify credential proxy variable inside sandbox
-llxprt --sandbox 'run shell command: echo $LLXPRT_CREDENTIAL_SOCKET'
-
-# Verify SSH keys inside sandbox
-llxprt --sandbox-profile-load dev &quot;run shell command: ssh-add -l&quot;
+<p>Multiple flags can be provided as a space-separated string:</p>
+<pre><code class="language-bash">export SANDBOX_FLAGS=&quot;--flag1 --flag2=value&quot;
 </code></pre>
-<p>For full troubleshooting guidance, see <a href="./troubleshooting.html">Troubleshooting</a>.</p>
-<h2>Related docs</h2>
+<h2>Linux UID/GID handling</h2>
+<p>The sandbox automatically handles user permissions on Linux. Override these permissions with:</p>
+<pre><code class="language-bash">export SANDBOX_SET_UID_GID=true   # Force host UID/GID
+export SANDBOX_SET_UID_GID=false  # Disable UID/GID mapping
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Common issues</h3>
+<p><strong>&quot;Operation not permitted&quot;</strong></p>
 <ul>
-<li><a href="./cli/sandbox-profiles.html">Sandbox Profiles</a></li>
-<li><a href="./tutorials/sandbox-setup.html">Sandbox Setup Tutorial</a></li>
-<li><a href="./cli/authentication.html">Authentication</a></li>
-<li><a href="./cli/configuration.html">Configuration</a></li>
+<li>Operation requires access outside sandbox.</li>
+<li>Try more permissive profile or add mount points.</li>
+</ul>
+<p><strong>Missing commands</strong></p>
+<ul>
+<li>Add to custom Dockerfile.</li>
+<li>Install via <code>sandbox.bashrc</code>.</li>
+</ul>
+<p><strong>Network issues</strong></p>
+<ul>
+<li>Check sandbox profile allows network.</li>
+<li>Verify proxy configuration.</li>
+</ul>
+<h3>Debug mode</h3>
+<pre><code class="language-bash">DEBUG=1 llxprt --sandbox &quot;debug command&quot;
+</code></pre>
+<p><strong>Note:</strong> If you have <code>DEBUG=true</code> in a project's <code>.env</code> file, it won't affect llxprt due to automatic exclusion. Use <code>.llxprt/.env</code> files for llxprt specific debug settings.</p>
+<h3>Inspect sandbox</h3>
+<pre><code class="language-bash"># Check environment
+llxprt --sandbox &quot;run shell command: env | grep SANDBOX&quot;
+
+# List mounts
+llxprt --sandbox &quot;run shell command: mount | grep workspace&quot;
+</code></pre>
+<h2>Security notes</h2>
+<ul>
+<li>Sandboxing reduces but doesn't eliminate all risks.</li>
+<li>Use the most restrictive profile that allows your work.</li>
+<li>Container overhead is minimal after first build.</li>
+<li>GUI applications may not work in sandboxes.</li>
+</ul>
+<h2>Related documentation</h2>
+<ul>
+<li><a href="./cli/configuration.html">Configuration</a>: Full configuration options.</li>
+<li><a href="./cli/commands.html">Commands</a>: Available commands.</li>
+<li><a href="./troubleshooting.html">Troubleshooting</a>: General troubleshooting.</li>
 </ul>
 
           </div>

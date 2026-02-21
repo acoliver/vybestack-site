@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -221,8 +221,8 @@ export DEBUG_LEVEL=verbose
 <h3>File Output (Default)</h3>
 <p>Debug logs are written to <code>~/.llxprt/debug/</code> in JSONL format:</p>
 <ul>
-<li><strong>One file per run</strong>, named by process id: <code>llxprt-debug-&lt;PID&gt;.jsonl</code></li>
-<li>Child processes inherit the same file when <code>LLXPRT_DEBUG</code> is set</li>
+<li>Files are named: <code>debug-YYYY-MM-DD.jsonl</code></li>
+<li>Automatic rotation at midnight</li>
 <li>Each line is a JSON object with timestamp, namespace, level, and message</li>
 </ul>
 <p>Example log entry:</p>
@@ -231,9 +231,7 @@ export DEBUG_LEVEL=verbose
   &quot;namespace&quot;: &quot;llxprt:openai:provider&quot;,
   &quot;level&quot;: &quot;debug&quot;,
   &quot;message&quot;: &quot;Sending request to OpenAI API&quot;,
-  &quot;args&quot;: [&quot;gpt-4&quot;],
-  &quot;runId&quot;: &quot;12345&quot;,
-  &quot;pid&quot;: 12345
+  &quot;args&quot;: [&quot;gpt-4&quot;]
 }
 </code></pre>
 <h3>Stderr Output</h3>
@@ -290,17 +288,17 @@ logger.debug(() =&gt; `Processing ${expensiveComputation()}`);
 <h3>In Interactive Mode</h3>
 <p>Debug output appears in the debug console (Ctrl+O) when using stderr output.</p>
 <h3>File Logs</h3>
-<pre><code class="language-bash"># View the current run log
-cat ~/.llxprt/debug/llxprt-debug-&lt;PID&gt;.jsonl
+<pre><code class="language-bash"># View today's debug log
+cat ~/.llxprt/debug/debug-$(date +%Y-%m-%d).jsonl
 
 # Pretty print with jq
-cat ~/.llxprt/debug/llxprt-debug-*.jsonl | jq '.'
+cat ~/.llxprt/debug/debug-*.jsonl | jq '.'
 
 # Filter by namespace
-cat ~/.llxprt/debug/llxprt-debug-*.jsonl | jq 'select(.namespace | startswith(&quot;llxprt:openai&quot;))'
+cat ~/.llxprt/debug/debug-*.jsonl | jq 'select(.namespace | startswith(&quot;llxprt:openai&quot;))'
 
 # Follow log in real-time
-tail -f ~/.llxprt/debug/llxprt-debug-&lt;PID&gt;.jsonl | jq '.'
+tail -f ~/.llxprt/debug/debug-$(date +%Y-%m-%d).jsonl | jq '.'
 </code></pre>
 <h2>Examples</h2>
 <h3>Debugging Provider Issues</h3>

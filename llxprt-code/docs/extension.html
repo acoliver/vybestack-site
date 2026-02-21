@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -93,153 +93,21 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>LLxprt Code Extensions</h1>
-<p>LLxprt Code extensions package prompts, MCP servers, and custom commands into a
-familiar and user-friendly format. With extensions, you can expand the
-capabilities of LLxprt Code and share those capabilities with others. They are
-designed to be easily installable and shareable.</p>
-<h2>Extension Management</h2>
-<p>LLxprt Code provides a suite of extension management commands via
-<code>llxprt extensions</code>. These commands are run from your terminal (not from within
-an interactive LLxprt session), although you can list installed extensions using
-the <code>/extensions list</code> slash command inside a session.</p>
-<p>Changes made by these commands (installs, updates, enable/disable) take effect
-on the next LLxprt session — active sessions are not affected until restarted.</p>
-<h3>Installing an extension</h3>
-<p>Install an extension from a GitHub URL or a local path:</p>
-<pre><code>llxprt extensions install &lt;source&gt; [--ref &lt;ref&gt;] [--auto-update] [--pre-release] [--consent]
-</code></pre>
-<ul>
-<li><code>&lt;source&gt;</code>: The GitHub URL or local path of the extension to install.</li>
-<li><code>--ref</code>: The git ref (branch, tag, or commit) to install from.</li>
-<li><code>--auto-update</code>: Enable auto-update for this extension.</li>
-<li><code>--pre-release</code>: Enable pre-release versions for this extension.</li>
-<li><code>--consent</code>: Acknowledge the security risks of installing an extension and
-skip the confirmation prompt.</li>
-</ul>
-<p>A copy of the extension is created during installation, so you'll need to run
-<code>llxprt extensions update</code> to pull in subsequent changes from the source.</p>
-<blockquote>
-<p><strong>Note:</strong> If you are installing an extension from GitHub, you'll need to have
-<code>git</code> installed on your machine. See
-<a href="https://git-scm.com/book/en/v2/Getting-Started-Installing-Git">git installation instructions</a>
-for help.</p>
-</blockquote>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-bash"># Install from GitHub
-llxprt extensions install https://github.com/example/my-extension
-
-# Install a specific tag with auto-update
-llxprt extensions install https://github.com/example/my-extension --ref v2.0.0 --auto-update
-
-# Install from a local directory
-llxprt extensions install /path/to/my-extension
-</code></pre>
-<h3>Uninstalling extensions</h3>
-<p>Uninstall one or more extensions by name:</p>
-<pre><code>llxprt extensions uninstall &lt;name...&gt;
-</code></pre>
-<p>You can specify multiple extension names to uninstall them in a single command:</p>
-<pre><code class="language-bash">llxprt extensions uninstall my-security-ext my-other-extension
-</code></pre>
-<h3>Disabling an extension</h3>
-<p>Extensions are enabled across all workspaces by default. You can disable an
-extension entirely or for a specific workspace:</p>
-<pre><code>llxprt extensions disable &lt;name&gt; [--scope &lt;scope&gt;]
-</code></pre>
-<ul>
-<li><code>&lt;name&gt;</code>: The name of the extension to disable.</li>
-<li><code>--scope</code>: The scope to disable the extension in (<code>user</code> or <code>workspace</code>).</li>
-</ul>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-bash"># Disable globally (for all workspaces)
-llxprt extensions disable my-extension
-
-# Disable only for the current workspace
-llxprt extensions disable my-extension --scope workspace
-</code></pre>
-<h3>Enabling an extension</h3>
-<p>Re-enable a previously disabled extension:</p>
-<pre><code>llxprt extensions enable &lt;name&gt; [--scope &lt;scope&gt;]
-</code></pre>
-<ul>
-<li><code>&lt;name&gt;</code>: The name of the extension to enable.</li>
-<li><code>--scope</code>: The scope to enable the extension in (<code>user</code> or <code>workspace</code>).</li>
-</ul>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-bash"># Enable globally
-llxprt extensions enable my-extension
-
-# Enable only for the current workspace
-llxprt extensions enable my-extension --scope workspace
-</code></pre>
-<h3>Updating extensions</h3>
-<p>Update an extension to the latest version (as reflected in its
-<code>llxprt-extension.json</code> <code>version</code> field):</p>
-<pre><code>llxprt extensions update &lt;name&gt;
-</code></pre>
-<p>Or update all installed extensions at once:</p>
-<pre><code>llxprt extensions update --all
-</code></pre>
-<h3>Creating a new extension</h3>
-<p>LLxprt Code includes several boilerplate templates to help you get started:
-<code>context</code>, <code>custom-commands</code>, <code>exclude-tools</code>, and <code>mcp-server</code>.</p>
-<pre><code>llxprt extensions new &lt;path&gt; [template]
-</code></pre>
-<ul>
-<li><code>&lt;path&gt;</code>: The directory to create the extension in.</li>
-<li><code>[template]</code>: The boilerplate template to use.</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="language-bash"># Create an extension with the mcp-server template
-llxprt extensions new ./my-new-extension mcp-server
-</code></pre>
-<h3>Linking a local extension</h3>
-<p>The <code>link</code> command creates a symbolic link from the extension installation
-directory to a local development path. This is useful during development so you
-don't have to run <code>llxprt extensions update</code> every time you make changes.</p>
-<pre><code>llxprt extensions link &lt;path&gt;
-</code></pre>
-<ul>
-<li><code>&lt;path&gt;</code>: The path of the extension to link.</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="language-bash">llxprt extensions link ./my-extension-dev
-</code></pre>
-<h3>Listing installed extensions</h3>
-<p>View all installed extensions and their status:</p>
-<pre><code>llxprt extensions list
-</code></pre>
-<p>You can also list extensions from within an interactive session using the
-<code>/extensions list</code> slash command.</p>
-<h3>Validating an extension</h3>
-<p>Check that an extension's structure and configuration are correct:</p>
-<pre><code>llxprt extensions validate &lt;path&gt;
-</code></pre>
-<ul>
-<li><code>&lt;path&gt;</code>: The path of the extension to validate.</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="language-bash">llxprt extensions validate ./my-extension
-</code></pre>
-<h2>How It Works</h2>
+<p>LLxprt Code supports extensions that can be used to configure and extend its functionality.</p>
+<h2>How it works</h2>
 <p>On startup, LLxprt Code looks for extensions in two locations:</p>
 <ol>
 <li><code>&lt;workspace&gt;/.llxprt/extensions</code></li>
 <li><code>&lt;home&gt;/.llxprt/extensions</code></li>
 </ol>
-<p>LLxprt Code loads all extensions from both locations. If an extension with the
-same name exists in both locations, the extension in the workspace directory
-takes precedence.</p>
-<p>Within each location, individual extensions exist as a directory containing a
-<code>llxprt-extension.json</code> file. For example:</p>
-<p><code>&lt;home&gt;/.llxprt/extensions/my-extension/llxprt-extension.json</code></p>
+<p>LLxprt Code loads all extensions from both locations. If an extension with the same name exists in both locations, the extension in the workspace directory takes precedence.</p>
+<p>Within each location, individual extensions exist as a directory that contains a <code>llxprt-extension.json</code> file. For example:</p>
+<p><code>&lt;workspace&gt;/.llxprt/extensions/my-extension/llxprt-extension.json</code></p>
 <h3><code>llxprt-extension.json</code></h3>
-<p>The <code>llxprt-extension.json</code> file contains the configuration for the extension.
-It has the following structure:</p>
+<p>The <code>llxprt-extension.json</code> file contains the configuration for the extension. The file has the following structure:</p>
 <pre><code class="language-json">{
   &quot;name&quot;: &quot;my-extension&quot;,
   &quot;version&quot;: &quot;1.0.0&quot;,
-  &quot;description&quot;: &quot;My awesome extension&quot;,
   &quot;mcpServers&quot;: {
     &quot;my-server&quot;: {
       &quot;command&quot;: &quot;node my-server.js&quot;
@@ -250,139 +118,68 @@ It has the following structure:</p>
 }
 </code></pre>
 <ul>
-<li><code>name</code>: The name of the extension. This is used to uniquely identify the
-extension and for conflict resolution when extension commands have the same
-name as user or project commands. The name should be lowercase or numbers and
-use dashes instead of underscores or spaces. This is how users will refer to
-your extension in the CLI. Note that we expect this name to match the
-extension directory name.</li>
+<li><code>name</code>: The name of the extension. This is used to uniquely identify the extension and for conflict resolution when extension commands have the same name as user or project commands. The name should be lowercase or numbers and use dashes instead of underscores or spaces. This is how users will refer to your extension in the CLI. Note that we expect this name to match the extension directory name.</li>
 <li><code>version</code>: The version of the extension.</li>
-<li><code>description</code>: A short description of the extension.</li>
-<li><code>mcpServers</code>: A map of MCP servers to configure. The key is the name of the
-server, and the value is the server configuration. These servers will be
-loaded on startup just like MCP servers configured in a
-<a href="./cli/configuration.html"><code>settings.json</code> file</a>. If both an extension and a
-<code>settings.json</code> file configure an MCP server with the same name, the server
-defined in the <code>settings.json</code> file takes precedence.
+<li><code>mcpServers</code>: A map of MCP servers to configure. The key is the name of the server, and the value is the server configuration. These servers will be loaded on startup just like MCP servers configured in a <a href="./cli/configuration.html"><code>settings.json</code> file</a>. If both an extension and a <code>settings.json</code> file configure an MCP server with the same name, the server defined in the <code>settings.json</code> file takes precedence.
 <ul>
-<li>Note that all MCP server configuration options are supported except for
-<code>trust</code>.</li>
+<li>Note that all MCP server configuration options are supported except for <code>trust</code>.</li>
 </ul>
 </li>
-<li><code>contextFileName</code>: The name of the file that contains the context for the
-extension. This will be used to load the context from the extension directory.
-If this property is not used but a <code>LLXPRT.md</code> file is present in your
-extension directory, then that file will be loaded.</li>
-<li><code>excludeTools</code>: An array of tool names to exclude from the model. You can also
-specify command-specific restrictions for tools that support it, like the
-<code>run_shell_command</code> tool. For example,
-<code>&quot;excludeTools&quot;: [&quot;run_shell_command(rm -rf)&quot;]</code> will block the <code>rm -rf</code>
-command. Note that this differs from the MCP server <code>excludeTools</code>
-functionality, which can be listed in the MCP server config.</li>
+<li><code>contextFileName</code>: The name of the file that contains the context for the extension. This will be used to load the context from the extension directory. If this property is not used but a <code>LLXPRT.md</code> file is present in your extension directory, then that file will be loaded.</li>
+<li><code>excludeTools</code>: An array of tool names to exclude from the model. You can also specify command-specific restrictions for tools that support it, like the <code>run_shell_command</code> tool. For example, <code>&quot;excludeTools&quot;: [&quot;run_shell_command(rm -rf)&quot;]</code> will block the <code>rm -rf</code> command. Note that this differs from the MCP server <code>excludeTools</code> functionality, which can be listed in the MCP server config.</li>
 </ul>
-<p>When LLxprt Code starts, it loads all the extensions and merges their
-configurations. If there are any conflicts, the workspace configuration takes
-precedence.</p>
-<h3>Settings</h3>
-<p>Extensions can define settings that the user will be prompted to provide upon
-installation. This is useful for things like API keys, URLs, or other
-configuration that the extension needs to function.</p>
-<p>To define settings, add a <code>settings</code> array to your <code>llxprt-extension.json</code> file.
-Each object in the array should have the following properties:</p>
-<ul>
-<li><code>name</code>: A user-friendly name for the setting.</li>
-<li><code>description</code>: A description of the setting and what it's used for.</li>
-<li><code>envVar</code>: The name of the environment variable that the setting will be stored
-as.</li>
-<li><code>sensitive</code>: Optional boolean. If true, obfuscates the input the user provides
-and stores the secret in keychain storage.</li>
-</ul>
-<p><strong>Example:</strong></p>
-<pre><code class="language-json">{
-  &quot;name&quot;: &quot;my-api-extension&quot;,
-  &quot;version&quot;: &quot;1.0.0&quot;,
-  &quot;settings&quot;: [
-    {
-      &quot;name&quot;: &quot;API Key&quot;,
-      &quot;description&quot;: &quot;Your API key for the service.&quot;,
-      &quot;envVar&quot;: &quot;MY_API_KEY&quot;
-    }
-  ]
-}
-</code></pre>
-<p>When a user installs this extension, they will be prompted to enter their API
-key. The value will be saved to a <code>.env</code> file in the extension's directory
-(e.g., <code>&lt;home&gt;/.llxprt/extensions/my-api-extension/.env</code>).</p>
+<p>When LLxprt Code starts, it loads all the extensions and merges their configurations. If there are any conflicts, the workspace configuration takes precedence.</p>
 <h2>Extension Commands</h2>
-<p>Extensions can provide <a href="./cli/commands.html#custom-commands">custom commands</a> by
-placing TOML files in a <code>commands/</code> subdirectory within the extension directory.
-These commands follow the same format as user and project custom commands and use
-standard naming conventions.</p>
+<p>Extensions can provide <a href="./cli/commands.html#custom-commands">custom commands</a> by placing TOML files in a <code>commands/</code> subdirectory within the extension directory. These commands follow the same format as user and project custom commands and use standard naming conventions.</p>
 <h3>Example</h3>
-<p>An extension named <code>devops</code> with the following structure:</p>
-<pre><code>.llxprt/extensions/devops/
+<p>An extension named <code>gcp</code> with the following structure:</p>
+<pre><code>.llxprt/extensions/gcp/
 ├── llxprt-extension.json
 └── commands/
     ├── deploy.toml
-    └── k8s/
-        └── status.toml
+    └── gcs/
+        └── sync.toml
 </code></pre>
 <p>Would provide these commands:</p>
 <ul>
-<li><code>/deploy</code> — Shows as <code>[devops] Custom command from deploy.toml</code> in help</li>
-<li><code>/k8s:status</code> — Shows as <code>[devops] Custom command from status.toml</code> in help</li>
+<li><code>/deploy</code> - Shows as <code>[gcp] Custom command from deploy.toml</code> in help</li>
+<li><code>/gcs:sync</code> - Shows as <code>[gcp] Custom command from sync.toml</code> in help</li>
 </ul>
 <h3>Conflict Resolution</h3>
-<p>Extension commands have the lowest precedence. When a conflict occurs with user
-or project commands:</p>
+<p>Extension commands have the lowest precedence. When a conflict occurs with user or project commands:</p>
 <ol>
 <li><strong>No conflict</strong>: Extension command uses its natural name (e.g., <code>/deploy</code>)</li>
-<li><strong>With conflict</strong>: Extension command is renamed with the extension prefix
-(e.g., <code>/devops.deploy</code>)</li>
+<li><strong>With conflict</strong>: Extension command is renamed with the extension prefix (e.g., <code>/gcp.deploy</code>)</li>
 </ol>
-<p>For example, if both a user and the <code>devops</code> extension define a <code>deploy</code>
-command:</p>
+<p>For example, if both a user and the <code>gcp</code> extension define a <code>deploy</code> command:</p>
 <ul>
-<li><code>/deploy</code> — Executes the user's deploy command</li>
-<li><code>/devops.deploy</code> — Executes the extension's deploy command (marked with
-<code>[devops]</code> tag)</li>
+<li><code>/deploy</code> - Executes the user's deploy command</li>
+<li><code>/gcp.deploy</code> - Executes the extension's deploy command (marked with <code>[gcp]</code> tag)</li>
 </ul>
-<h2>Installing Extensions with Custom Transports</h2>
-<p>LLxprt Code allows
-<code>llxprt extensions install sso://example/repo</code> so enterprise
-users can use single-sign-on Git remotes. Git does <strong>not</strong> natively understand
-the <code>sso://</code> protocol — you must provide a
-<a href="https://git-scm.com/docs/git-remote-helpers"><code>git-remote-&lt;name&gt;</code> helper</a> (for
-example, <code>git-remote-sso</code>) or configure Git to remap the protocol before running
-the command. If the helper is missing, Git will fail with
-<code>fatal: Unable to find remote helper for 'sso'</code>.</p>
-<p>A warning is emitted whenever you install from an <code>sso://</code> URL to remind you to
-configure the helper. If you do not control the helper, fall back to <code>https://</code>
-or SSH URLs instead.</p>
-<h2>Variables</h2>
-<p>LLxprt Code extensions allow variable substitution in <code>llxprt-extension.json</code>.
-This can be useful if, for example, you need the current directory to run an MCP
-server using an argument like
-<code>&quot;args&quot;: [&quot;${extensionPath}${/}dist${/}server.js&quot;]</code>.</p>
+<h2>Installing extensions with custom transports</h2>
+<p>LLxprt allows <code>llxprt extensions install --source sso://example/repo</code> so enterprise customers can use single-sign-on Git remotes. Git does <strong>not</strong> natively understand the <code>sso://</code> protocol — you must provide a <a href="https://git-scm.com/docs/git-remote-helpers"><code>git-remote-&lt;name&gt;</code> helper</a> (for example, <code>git-remote-sso</code>) or configure Git to remap the protocol before running the command. If the helper is missing, Git will fail with <code>fatal: Unable to find remote helper for 'sso'</code>.</p>
+<p>The CLI emits a warning whenever you install from an <code>sso://</code> URL to remind you to configure the helper. If you do not control the helper, fall back to <code>https://</code> or SSH URLs instead.</p>
+<h1>Variables</h1>
+<p>Gemini CLI extensions allow variable substitution in <code>gemini-extension.json</code>. This can be useful if e.g., you need the current directory to run an MCP server using <code>&quot;cwd&quot;: &quot;${extensionPath}${/}run.ts&quot;</code>.</p>
 <p><strong>Supported variables:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Variable</th>
-<th>Description</th>
+<th>variable</th>
+<th>description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>${extensionPath}</code></td>
-<td>The fully-qualified path of the extension in the user's filesystem, e.g., <code>/Users/username/.llxprt/extensions/example-extension</code>. This will not unwrap symlinks.</td>
+<td>The fully-qualified path of the extension in the user's filesystem e.g., '/Users/username/.gemini/extensions/example-extension'. This will not unwrap symlinks.</td>
 </tr>
 <tr>
 <td><code>${workspacePath}</code></td>
 <td>The fully-qualified path of the current workspace.</td>
 </tr>
 <tr>
-<td><code>${/}</code> or <code>${pathSeparator}</code></td>
+<td><code>${/} or ${pathSeparator}</code></td>
 <td>The path separator (differs per OS).</td>
 </tr>
 </tbody>

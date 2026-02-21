@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -240,17 +240,9 @@ llxprt
 <li><strong>Iterate</strong> — Follow up with clarifications or ask for alternatives</li>
 <li><strong>Use the right model</strong> — Larger models (claude-opus-4-5, gpt-5.2) for complex tasks, faster models (gemini-flash, claude-haiku-4-5) for quick questions</li>
 </ol>
-<h2>Security Tip: Sandboxing</h2>
-<p>When working with code from external sources, enable sandboxing to protect your system:</p>
-<pre><code class="language-bash"># Use the safe profile for untrusted code
-llxprt --sandbox-profile-load safe &quot;review this pull request&quot;
-</code></pre>
-<p>Sandboxing isolates tool execution from your host using Docker or Podman containers. Credentials stay on the host through the credential proxy, and host access is limited to explicit mounts used by sandbox runtime.</p>
-<p>For a full walkthrough, see the <a href="./tutorials/sandbox-setup.html">Sandbox Tutorial</a>.</p>
 <h2>Next Steps</h2>
 <p>Now that you're up and running:</p>
 <ul>
-<li><strong><a href="./sandbox.html">Sandboxing</a></strong> — Protect your system with container isolation</li>
 <li><strong><a href="./cli/profiles.html">Profiles</a></strong> — Save and manage multiple configurations</li>
 <li><strong><a href="./subagents.html">Subagents</a></strong> — Create specialized AI assistants for different tasks</li>
 <li><strong><a href="./local-models.html">Local Models</a></strong> — Run models locally for complete privacy</li>

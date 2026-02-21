@@ -44,7 +44,6 @@
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
           <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
           <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
@@ -74,6 +73,7 @@
           <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
           <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
           <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandbox Security</a></li>
           <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
           <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
           <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
@@ -96,8 +96,8 @@
 <p>The LLxprt Code features a sophisticated task management system to help AI agents track and execute multi-step workflows. This system is primarily composed of three core tools accessible to the AI model: <code>todo_read</code>, <code>todo_write</code>, and <code>todo_pause</code>. Additionally, a &quot;Todo Continuation&quot; system automatically prompts the AI to keep working under specific conditions.</p>
 <h2><code>todo_read</code> Tool</h2>
 <p>This built-in tool allows the AI model to read the current state of the todo list for the active session.</p>
-<p><strong>Purpose</strong>: To retrieve the list of tasks, their statuses, subtasks, and recent tool calls.
-<strong>Returns</strong>: A markdown block that mirrors the Todo panel, including status icons (/○/→), subtasks, and the five most recent tool calls per todo.
+<p><strong>Purpose</strong>: To retrieve the list of tasks, their statuses, priorities, subtasks, and recent tool calls.
+<strong>Returns</strong>: A markdown block that mirrors the Todo panel, including status icons (✔/○/→), priority badges, subtasks, and the five most recent tool calls per todo.
 <strong>Parameters</strong>: None.</p>
 <h2><code>todo_write</code> Tool</h2>
 <p>This built-in tool allows the AI model to create, update, or overwrite the entire todo list for the active session.</p>
@@ -109,6 +109,7 @@
 <li><code>id</code> (string, required): A unique identifier for the todo item.</li>
 <li><code>content</code> (string, required): A clear, descriptive task for the AI to perform.</li>
 <li><code>status</code> (string, enum: &quot;pending&quot;, &quot;in_progress&quot;, &quot;completed&quot;, required): The current status of the task.</li>
+<li><code>priority</code> (string, enum: &quot;high&quot;, &quot;medium&quot;, &quot;low&quot;, required): The priority level of the task.</li>
 </ul>
 </li>
 </ul>
@@ -128,7 +129,7 @@ When called successfully, the AI's execution stream will halt, and the provided 
 <p>Some users prefer all todo updates to remain in the scrollback instead of a separate Ink panel. Open <code>/settings</code> (or edit <code>.llxprt/settings.json</code>) and toggle <strong>UI → Show Todo Panel</strong>. When this setting is off:</p>
 <ul>
 <li>The Todo panel is hidden immediately—no restart required.</li>
-<li><code>todo_write</code> tool calls render the full structured todo list inline (status icons, subtasks, recent tool calls) instead of the <code> Todo list updated</code> placeholder.</li>
+<li><code>todo_write</code> tool calls render the full structured todo list inline (status icons, priorities, subtasks, recent tool calls) instead of the <code>✦ Todo list updated</code> placeholder.</li>
 <li><code>todo_read</code> outputs the same formatter, so both tools always share one canonical textual representation.</li>
 </ul>
 <p>Re-enable the toggle to restore the rich Ink panel without losing any history.</p>
