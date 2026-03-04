@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile File Reference | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Profile File Reference</h1>
+<p>Profiles are JSON files stored in <code>~/.llxprt/profiles/&lt;name&gt;.json</code>. They capture your full provider/model/settings configuration so you can switch contexts with one command.</p>
+<p>You almost never need to hand-edit these files. Use <code>/profile save</code>, <code>/profile load</code>, <code>/provider</code>, <code>/model</code>, <code>/baseurl</code>, <code>/key</code>, <code>/keyfile</code>, <code>/set</code>, and <code>/set modelparam</code> to build your configuration, then save it. This reference documents the file format for when you need to understand what's inside, troubleshoot, or automate profile creation.</p>
+<p>For guidance on which settings to tune and why, see <a href="../settings-and-profiles.html">Settings and Profiles</a>. For the complete list of ephemeral settings, see <a href="./ephemerals.html">Ephemeral Settings Reference</a>.</p>
+<h2>Standard Profile</h2>
+<p>The most common profile type. Configures a single provider and model.</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;chutes-ai&quot;,
+  &quot;model&quot;: &quot;zai-org/GLM-5-TEE&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;chutes-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;medium&quot;,
+    &quot;context-limit&quot;: 200000
+  }
+}
+</code></pre>
+<h3>Top-Level Fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>version</code></td>
+<td>number</td>
+<td>yes</td>
+<td>Always <code>1</code>. Reserved for future format changes.</td>
+</tr>
+<tr>
+<td><code>type</code></td>
+<td>string</td>
+<td>no</td>
+<td><code>&quot;standard&quot;</code> or omitted. Omitting defaults to standard.</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>string</td>
+<td>yes</td>
+<td>Provider name — must match a registered provider or alias (e.g., <code>&quot;kimi&quot;</code>, <code>&quot;chutes-ai&quot;</code>, <code>&quot;xAI&quot;</code>, <code>&quot;codex&quot;</code>). This is what <code>/provider</code> sets.</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>string</td>
+<td>yes</td>
+<td>Model identifier (e.g., <code>&quot;kimi-for-coding&quot;</code>, <code>&quot;zai-org/GLM-5-TEE&quot;</code>, <code>&quot;grok-3&quot;</code>, <code>&quot;gpt-5.3-codex&quot;</code>). This is what <code>/model</code> sets.</td>
+</tr>
+<tr>
+<td><code>modelParams</code></td>
+<td>object</td>
+<td>yes</td>
+<td>Parameters passed directly to the provider API. Usually <code>{}</code>. This is what <code>/set modelparam</code> populates.</td>
+</tr>
+<tr>
+<td><code>ephemeralSettings</code></td>
+<td>object</td>
+<td>yes</td>
+<td>Session settings. This is what <code>/set</code> populates. See <a href="./ephemerals.html">Ephemeral Settings Reference</a> for every key.</td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td>object</td>
+<td>no</td>
+<td>OAuth bucket configuration. See <a href="#auth-configuration">Auth Configuration</a> below.</td>
+</tr>
+<tr>
+<td><code>loadBalancer</code></td>
+<td>object</td>
+<td>no</td>
+<td>Inline load balancer configuration for a standard profile. See <a href="#load-balancer-configuration">Load Balancer Configuration</a>.</td>
+</tr>
+</tbody>
+</table>
+<h3>Provider and Model</h3>
+<p>These are set by the <code>/provider</code> and <code>/model</code> commands. The provider name must match a registered provider alias. The model name is passed to the provider's API — it must be a model that provider supports.</p>
+<pre><code class="language-json">{
+  &quot;provider&quot;: &quot;xAI&quot;,
+  &quot;model&quot;: &quot;grok-3&quot;
+}
+</code></pre>
+<p>When a profile is loaded, the provider alias's defaults (base URL, default ephemeral settings, model-specific defaults) are applied first, then the profile's values layer on top.</p>
+<h3>Model Parameters</h3>
+<p>The <code>modelParams</code> object is passed directly to the provider API as-is. LLxprt doesn't validate these — if you set an unsupported parameter, you'll get an API error.</p>
+<pre><code class="language-json">{
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 0.7,
+    &quot;max_tokens&quot;: 8192,
+    &quot;top_p&quot;: 0.9
+  }
+}
+</code></pre>
+<p>Set these with <code>/set modelparam &lt;name&gt; &lt;value&gt;</code> during a session. Common parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td>Sampling temperature (0.0–2.0).</td>
+</tr>
+<tr>
+<td><code>max_tokens</code></td>
+<td>Max tokens to generate per response (OpenAI/Anthropic).</td>
+</tr>
+<tr>
+<td><code>max_output_tokens</code></td>
+<td>Max output tokens (Gemini).</td>
+</tr>
+<tr>
+<td><code>top_p</code></td>
+<td>Nucleus sampling threshold.</td>
+</tr>
+<tr>
+<td><code>top_k</code></td>
+<td>Top-k sampling.</td>
+</tr>
+<tr>
+<td><code>frequency_penalty</code></td>
+<td>Penalize repeated tokens.</td>
+</tr>
+<tr>
+<td><code>presence_penalty</code></td>
+<td>Penalize tokens that appeared at all.</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>Random seed for deterministic output (OpenAI only).</td>
+</tr>
+</tbody>
+</table>
+<p>Parameter names are provider-specific. Check your provider's API documentation.</p>
+<h3>Ephemeral Settings</h3>
+<p>The <code>ephemeralSettings</code> object contains everything set via <code>/set</code> during the session, plus values set by dedicated commands like <code>/baseurl</code> and <code>/toolformat</code>.</p>
+<pre><code class="language-json">{
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;chutes-prod&quot;,
+    &quot;base-url&quot;: &quot;https://llm.chutes.ai/v1&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;medium&quot;,
+    &quot;reasoning.includeInResponse&quot;: true,
+    &quot;reasoning.includeInContext&quot;: true,
+    &quot;reasoning.stripFromContext&quot;: &quot;none&quot;,
+    &quot;context-limit&quot;: 200000,
+    &quot;tools.disabled&quot;: [&quot;google_web_fetch&quot;]
+  }
+}
+</code></pre>
+<p><strong>Use <code>auth-key-name</code> for authentication.</strong> This stores the name of a key saved in your OS keyring via <code>/key save &lt;name&gt;</code>. The actual key never appears in the profile file. Keyfiles (<code>auth-keyfile</code>) and raw keys (<code>auth-key</code>) also work but are deprecated — they put secrets on disk or directly in the profile JSON.</p>
+<p>Settings stored here include:</p>
+<ul>
+<li><strong>Authentication</strong> — <code>auth-key-name</code> (preferred), <code>auth-key</code> (deprecated), <code>auth-keyfile</code> (deprecated), <code>base-url</code>. Set by <code>/key</code>, <code>/keyfile</code>, <code>/baseurl</code> commands, not <code>/set</code> directly.</li>
+<li><strong>Tool format</strong> — <code>toolFormat</code>, <code>toolFormatOverride</code>. Set by <code>/toolformat</code>.</li>
+<li><strong>Everything else</strong> — reasoning, context limits, compression, timeouts, tool output limits, etc. Set by <code>/set</code>. See <a href="./ephemerals.html">Ephemeral Settings Reference</a> for the complete list.</li>
+</ul>
+<p>When a profile loads, the ephemeral settings are applied to the session. They override provider alias defaults but are overridden by CLI flags (<code>--set</code>, <code>--key-name</code>, etc.).</p>
+<h2>Auth Configuration</h2>
+<p>The optional <code>auth</code> block configures OAuth bucket authentication. This is set up via <code>/auth</code> commands — you don't typically hand-edit this.</p>
+<pre><code class="language-json">{
+  &quot;auth&quot;: {
+    &quot;type&quot;: &quot;oauth&quot;,
+    &quot;buckets&quot;: [&quot;default&quot;, &quot;claudius&quot;, &quot;vybestack&quot;]
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth.type</code></td>
+<td><code>&quot;oauth&quot;</code> or <code>&quot;apikey&quot;</code></td>
+<td>Authentication method. <code>&quot;oauth&quot;</code> uses OAuth tokens from the keyring. <code>&quot;apikey&quot;</code> uses an API key.</td>
+</tr>
+<tr>
+<td><code>auth.buckets</code></td>
+<td>string[]</td>
+<td>OAuth bucket names, tried in order. Each bucket is a separate OAuth credential stored in the keyring. Failover happens automatically when a bucket's quota is exhausted.</td>
+</tr>
+</tbody>
+</table>
+<p>When <code>type</code> is <code>&quot;oauth&quot;</code>, LLxprt tries each bucket in order until one succeeds. This is useful for providers like Anthropic where you might have multiple accounts or token pools.</p>
+<p>When <code>type</code> is <code>&quot;apikey&quot;</code>, the key comes from <code>auth-key-name</code> (preferred — looks up a named key in the OS keyring), or the deprecated <code>auth-key</code>/<code>auth-keyfile</code> settings.</p>
+<p>If <code>auth</code> is omitted entirely, the profile uses whatever authentication is available (named keyring key, environment variables, or OAuth).</p>
+<h2>Load Balancer Profile</h2>
+<p>A load balancer profile distributes requests across multiple named profiles.</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;type&quot;: &quot;loadbalancer&quot;,
+  &quot;policy&quot;: &quot;failover&quot;,
+  &quot;profiles&quot;: [&quot;chutes-primary&quot;, &quot;xai-backup&quot;, &quot;synthetic-fallback&quot;],
+  &quot;provider&quot;: &quot;&quot;,
+  &quot;model&quot;: &quot;&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {}
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>type</code></td>
+<td><code>&quot;loadbalancer&quot;</code></td>
+<td>Required — identifies this as a load balancer profile.</td>
+</tr>
+<tr>
+<td><code>policy</code></td>
+<td><code>&quot;roundrobin&quot;</code> or <code>&quot;failover&quot;</code></td>
+<td><code>roundrobin</code> distributes evenly. <code>failover</code> tries each in order until one succeeds.</td>
+</tr>
+<tr>
+<td><code>profiles</code></td>
+<td>string[]</td>
+<td>List of profile names to balance across. Each must be a saved standard profile.</td>
+</tr>
+<tr>
+<td><code>provider</code>, <code>model</code>, <code>modelParams</code>, <code>ephemeralSettings</code></td>
+<td>—</td>
+<td>Required but empty for load balancer profiles. The individual member profiles supply these.</td>
+</tr>
+</tbody>
+</table>
+<h2>Inline Load Balancer</h2>
+<p>A standard profile can include an inline <code>loadBalancer</code> block to balance across sub-profiles without creating separate profile files:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;chutes-ai&quot;,
+  &quot;model&quot;: &quot;zai-org/GLM-5-TEE&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {},
+  &quot;loadBalancer&quot;: {
+    &quot;strategy&quot;: &quot;round-robin&quot;,
+    &quot;subProfiles&quot;: [
+      {
+        &quot;name&quot;: &quot;primary&quot;,
+        &quot;provider&quot;: &quot;chutes-ai&quot;,
+        &quot;model&quot;: &quot;zai-org/GLM-5-TEE&quot;,
+        &quot;baseURL&quot;: &quot;https://llm.chutes.ai/v1&quot;
+      },
+      {
+        &quot;name&quot;: &quot;backup&quot;,
+        &quot;provider&quot;: &quot;chutes-ai&quot;,
+        &quot;model&quot;: &quot;zai-org/GLM-5-TEE&quot;,
+        &quot;baseURL&quot;: &quot;https://backup.chutes.ai/v1&quot;
+      }
+    ]
+  }
+}
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>loadBalancer.strategy</code></td>
+<td><code>&quot;round-robin&quot;</code></td>
+<td>Balancing strategy.</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles</code></td>
+<td>array</td>
+<td>Inline endpoint configurations.</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles[].name</code></td>
+<td>string</td>
+<td>Human-readable name for this endpoint.</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles[].provider</code></td>
+<td>string</td>
+<td>Provider name.</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles[].model</code></td>
+<td>string</td>
+<td>Model name (optional, inherits from parent).</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles[].baseURL</code></td>
+<td>string</td>
+<td>Endpoint URL (optional).</td>
+</tr>
+<tr>
+<td><code>loadBalancer.subProfiles[].apiKey</code></td>
+<td>string</td>
+<td>API key for this endpoint (optional).</td>
+</tr>
+</tbody>
+</table>
+<h2>Precedence</h2>
+<p>When a profile loads, values are resolved in this order (last wins):</p>
+<ol>
+<li><strong>Provider alias defaults</strong> — base URL, default model, default ephemeral settings, model-specific defaults</li>
+<li><strong>Profile file</strong> — <code>provider</code>, <code>model</code>, <code>modelParams</code>, <code>ephemeralSettings</code>, <code>auth</code></li>
+<li><strong>CLI flags</strong> — <code>--set</code>, <code>--key-name</code>, <code>--keyfile</code>, <code>--model</code>, <code>--provider</code>, <code>--baseurl</code></li>
+</ol>
+<p>This means CLI flags always win, so you can do one-off overrides without modifying the saved profile:</p>
+<pre><code class="language-bash">llxprt --profile-load kimi-k2 --key-name synthetic-alt --set context-limit=100000
+</code></pre>
+<h2>File Location</h2>
+<p>Profiles are stored in <code>~/.llxprt/profiles/</code>. The filename (minus <code>.json</code>) is the profile name:</p>
+<pre><code>~/.llxprt/profiles/
+├── kimi-k2.json
+├── opus-thinking.json
+├── codex-high.json
+└── my-lb-setup.json
+</code></pre>
+<p>The default profile (set via <code>/profile set-default &lt;name&gt;</code>) is recorded in <code>~/.llxprt/settings.json</code> and loads automatically on startup.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

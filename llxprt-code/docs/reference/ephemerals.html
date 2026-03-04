@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ephemeral Settings Reference | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Ephemeral Settings Reference</h1>
+<p>Complete reference for all ephemeral settings. Set with <code>/set &lt;key&gt; &lt;value&gt;</code> during a session or <code>--set &lt;key&gt;=&lt;value&gt;</code> at startup. Ephemeral settings don't persist to <code>settings.json</code> — they live only for the current session unless saved to a profile with <code>/profile save</code>.</p>
+<p>For guidance on tuning these for specific models, see <a href="../settings-and-profiles.html">Settings and Profiles</a>.</p>
+<h2>Reasoning</h2>
+<p>Control extended thinking / chain-of-thought. Most models need <code>reasoning.enabled true</code> at minimum; the rest have sensible defaults.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reasoning.enabled</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Turn on thinking mode. Required for models like Kimi K2-Thinking, Claude with thinking, o3.</td>
+</tr>
+<tr>
+<td><code>reasoning.effort</code></td>
+<td>enum</td>
+<td>provider default</td>
+<td>yes</td>
+<td>How hard the model thinks: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>. Higher = slower + more tokens but better results. Anthropic Opus defaults to <code>high</code>. Codex defaults to <code>medium</code>.</td>
+</tr>
+<tr>
+<td><code>reasoning.maxTokens</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Cap the thinking token budget (OpenAI). Limits how much the model can think per turn.</td>
+</tr>
+<tr>
+<td><code>reasoning.budgetTokens</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Anthropic-specific thinking budget. Usually set automatically via <code>reasoning.effort</code> or adaptive thinking.</td>
+</tr>
+<tr>
+<td><code>reasoning.adaptiveThinking</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Let Anthropic auto-tune the thinking budget based on task complexity. Enabled by default for Claude via the <code>anthropic</code> provider alias.</td>
+</tr>
+<tr>
+<td><code>reasoning.includeInResponse</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Show thinking blocks in the terminal. Set <code>false</code> to get reasoning quality without the visual noise.</td>
+</tr>
+<tr>
+<td><code>reasoning.includeInContext</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Keep thinking in conversation history sent to the model. If <code>false</code>, the model can't reference its own prior reasoning — hurts multi-step tasks.</td>
+</tr>
+<tr>
+<td><code>reasoning.stripFromContext</code></td>
+<td>enum</td>
+<td><code>none</code></td>
+<td>yes</td>
+<td>Prune old thinking to manage context growth. <code>none</code> = keep all (best quality). <code>allButLast</code> = keep only latest thinking (good balance). <code>all</code> = discard all thinking from context (saves tokens).</td>
+</tr>
+<tr>
+<td><code>reasoning.format</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td>API format: <code>native</code> or <code>field</code>. Leave unset unless you know your provider needs a specific format.</td>
+</tr>
+<tr>
+<td><code>reasoning.summary</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td>OpenAI Responses API reasoning summary: <code>auto</code>, <code>concise</code>, <code>detailed</code>, <code>none</code>. Codex alias defaults to <code>auto</code>.</td>
+</tr>
+<tr>
+<td><code>text.verbosity</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td>OpenAI Responses API text verbosity for thinking output: <code>low</code>, <code>medium</code>, <code>high</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Context and Compression</h2>
+<p>Control how much context the model sees and when/how history is compressed. These directly affect quality — too small and the model loses track; too large and it drowns in noise.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>context-limit</code></td>
+<td>number</td>
+<td>model default</td>
+<td>yes</td>
+<td>Max tokens for the entire context window (system prompt + history + tool output). Set lower than the model's max to leave headroom.</td>
+</tr>
+<tr>
+<td><code>compression-threshold</code></td>
+<td>number</td>
+<td>model default</td>
+<td>yes</td>
+<td>Fraction of <code>context-limit</code> that triggers compression (0.0–1.0). E.g., <code>0.7</code> means compress when 70% full. Lower = more frequent compression but more headroom.</td>
+</tr>
+<tr>
+<td><code>max-prompt-tokens</code></td>
+<td>number</td>
+<td><code>200000</code></td>
+<td>yes</td>
+<td>Hard ceiling on any single prompt to the API. Safety net to prevent runaway costs.</td>
+</tr>
+<tr>
+<td><code>maxOutputTokens</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Max output tokens per response (generic, translated by provider). Anthropic alias sets this to <code>40000</code>. Limits how much the model writes per turn.</td>
+</tr>
+<tr>
+<td><code>compression.strategy</code></td>
+<td>enum</td>
+<td><code>middle-out</code></td>
+<td>yes</td>
+<td>Compression algorithm: <code>middle-out</code> (LLM-summarizes middle turns) or <code>top-down-truncation</code> (drops oldest turns).</td>
+</tr>
+<tr>
+<td><code>compression.profile</code></td>
+<td>string</td>
+<td>—</td>
+<td>yes</td>
+<td>Profile to use for compression LLM calls. Lets you use a cheaper model for summarization.</td>
+</tr>
+<tr>
+<td><code>compression.density.readWritePruning</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Drop read-file results when the file was subsequently written. Reduces noise from obsolete reads.</td>
+</tr>
+<tr>
+<td><code>compression.density.fileDedupe</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Deduplicate repeated <code>@file</code> inclusions.</td>
+</tr>
+<tr>
+<td><code>compression.density.recencyPruning</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Keep only the N most recent results per tool type. Aggressive — enable only for very long sessions.</td>
+</tr>
+<tr>
+<td><code>compression.density.recencyRetention</code></td>
+<td>number</td>
+<td><code>3</code></td>
+<td>yes</td>
+<td>How many recent results to keep per tool type when <code>recencyPruning</code> is on.</td>
+</tr>
+<tr>
+<td><code>compression.density.compressHeadroom</code></td>
+<td>number</td>
+<td><code>0.6</code></td>
+<td>yes</td>
+<td>Multiplier for compression target (0–1). Lower = more aggressive compression.</td>
+</tr>
+<tr>
+<td><code>compression.density.optimizeThreshold</code></td>
+<td>number</td>
+<td>strategy default</td>
+<td>yes</td>
+<td>Context usage fraction that triggers density optimization.</td>
+</tr>
+</tbody>
+</table>
+<h2>Tool Output Limits</h2>
+<p>Prevent tools from flooding the context. Applied to all tools via the batch scheduler. See <a href="../settings-and-profiles.html#tool-output-limits">Settings and Profiles</a> for how these interact.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tool-output-max-items</code></td>
+<td>number</td>
+<td>50 (read-many-files), 1000 (grep)</td>
+<td>yes</td>
+<td>Max files/matches per tool call. Lower to force the model to be more surgical.</td>
+</tr>
+<tr>
+<td><code>tool-output-max-tokens</code></td>
+<td>number</td>
+<td><code>50000</code></td>
+<td>yes</td>
+<td>Max tokens across tool output in a batch. Split across concurrent tool calls.</td>
+</tr>
+<tr>
+<td><code>tool-output-truncate-mode</code></td>
+<td>enum</td>
+<td><code>warn</code></td>
+<td>yes</td>
+<td>What happens when output exceeds limits. <code>warn</code> = drop output entirely, tell model to narrow query. <code>truncate</code> = cut to fit silently. <code>sample</code> = pick representative lines.</td>
+</tr>
+<tr>
+<td><code>tool-output-item-size-limit</code></td>
+<td>number</td>
+<td><code>524288</code> (512KB)</td>
+<td>yes</td>
+<td>Max bytes per individual file/item. Prevents one huge file from consuming the budget.</td>
+</tr>
+<tr>
+<td><code>file-read-max-lines</code></td>
+<td>number</td>
+<td><code>2000</code></td>
+<td>yes</td>
+<td>Default max lines when reading a text file with no explicit limit. Prevents accidentally reading massive files.</td>
+</tr>
+</tbody>
+</table>
+<h2>Timeouts</h2>
+<p>Prevent commands and tasks from hanging indefinitely. In seconds (not milliseconds, despite older docs).</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell-default-timeout-seconds</code></td>
+<td>number</td>
+<td><code>300</code> (5 min)</td>
+<td>yes</td>
+<td>Default timeout for shell commands. The model can request a specific timeout, but this applies when it doesn't.</td>
+</tr>
+<tr>
+<td><code>shell-max-timeout-seconds</code></td>
+<td>number</td>
+<td><code>900</code> (15 min)</td>
+<td>yes</td>
+<td>Hard ceiling — the model can't request longer than this. Increase for long builds/test suites.</td>
+</tr>
+<tr>
+<td><code>shell-inactivity-timeout-seconds</code></td>
+<td>number</td>
+<td>— (disabled)</td>
+<td>yes</td>
+<td>Kill commands that produce no output for this long. Resets on each output line. Good for catching commands that hang waiting for input.</td>
+</tr>
+<tr>
+<td><code>task-default-timeout-seconds</code></td>
+<td>number</td>
+<td><code>900</code> (15 min)</td>
+<td>yes</td>
+<td>Default timeout for subagent tasks.</td>
+</tr>
+<tr>
+<td><code>task-max-timeout-seconds</code></td>
+<td>number</td>
+<td><code>1800</code> (30 min)</td>
+<td>yes</td>
+<td>Hard ceiling for subagent tasks.</td>
+</tr>
+<tr>
+<td><code>socket-timeout</code></td>
+<td>number (ms)</td>
+<td>—</td>
+<td>yes</td>
+<td>HTTP request timeout for API calls, in milliseconds. Useful for slow local models.</td>
+</tr>
+</tbody>
+</table>
+<h2>Loop Detection</h2>
+<p>Catch models that get stuck repeating the same action.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>maxTurnsPerPrompt</code></td>
+<td>number</td>
+<td><code>-1</code> (unlimited)</td>
+<td>yes</td>
+<td>Hard limit on turns per prompt. Set to a positive integer to cap runaway sessions.</td>
+</tr>
+<tr>
+<td><code>loopDetectionEnabled</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Master switch for all loop detection. Disable only if you're sure the model won't loop.</td>
+</tr>
+<tr>
+<td><code>toolCallLoopThreshold</code></td>
+<td>number</td>
+<td><code>50</code></td>
+<td>yes</td>
+<td>Consecutive identical tool calls before intervention. <code>-1</code> = unlimited.</td>
+</tr>
+<tr>
+<td><code>contentLoopThreshold</code></td>
+<td>number</td>
+<td><code>50</code></td>
+<td>yes</td>
+<td>Consecutive identical content chunks before intervention. <code>-1</code> = unlimited.</td>
+</tr>
+</tbody>
+</table>
+<h2>Streaming and Network</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>streaming</code></td>
+<td>enum</td>
+<td><code>enabled</code></td>
+<td>yes</td>
+<td><code>enabled</code> or <code>disabled</code>. Disable for providers that don't support streaming or for debugging.</td>
+</tr>
+<tr>
+<td><code>api-version</code></td>
+<td>string</td>
+<td>—</td>
+<td>yes</td>
+<td>API version string. Required by some providers (e.g., Azure OpenAI).</td>
+</tr>
+<tr>
+<td><code>socket-keepalive</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>TCP keepalive for local AI servers. Prevents idle connections from dropping.</td>
+</tr>
+<tr>
+<td><code>socket-nodelay</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>TCP_NODELAY for local AI servers. Reduces latency at the cost of more packets.</td>
+</tr>
+<tr>
+<td><code>stream-options</code></td>
+<td>JSON</td>
+<td>—</td>
+<td>yes</td>
+<td>Extra stream options passed to the OpenAI API (e.g., <code>{&quot;include_usage&quot;: true}</code>).</td>
+</tr>
+<tr>
+<td><code>retries</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Max retry attempts for failed API calls.</td>
+</tr>
+<tr>
+<td><code>retrywait</code></td>
+<td>number (ms)</td>
+<td>—</td>
+<td>yes</td>
+<td>Initial delay between retries. Exponential backoff applies.</td>
+</tr>
+</tbody>
+</table>
+<h2>Rate Limiting</h2>
+<p>Proactive throttling to stay within provider rate limits.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rate-limit-throttle</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td><code>on</code> or <code>off</code>. When on, LLxprt proactively slows down before hitting rate limits.</td>
+</tr>
+<tr>
+<td><code>rate-limit-throttle-threshold</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Percentage of rate limit (1–100) to start throttling at.</td>
+</tr>
+<tr>
+<td><code>rate-limit-max-wait</code></td>
+<td>number (ms)</td>
+<td>—</td>
+<td>yes</td>
+<td>Max time to wait for rate limit headroom before sending anyway.</td>
+</tr>
+<tr>
+<td><code>prompt-caching</code></td>
+<td>enum</td>
+<td><code>off</code></td>
+<td>yes</td>
+<td>Provider-side prompt caching: <code>off</code>, <code>5m</code>, <code>1h</code>, <code>24h</code>. Saves costs when repeating similar prompts. Codex alias defaults to <code>24h</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Load Balancer</h2>
+<p>Settings for multi-endpoint load balancing. Only apply when using load-balanced provider configurations.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tpm_threshold</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Minimum tokens/minute before triggering failover to next endpoint.</td>
+</tr>
+<tr>
+<td><code>timeout_ms</code></td>
+<td>number (ms)</td>
+<td>—</td>
+<td>yes</td>
+<td>Max request duration before load balancer fails over.</td>
+</tr>
+<tr>
+<td><code>circuit_breaker_enabled</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>Enable circuit breaker for failing backends.</td>
+</tr>
+<tr>
+<td><code>circuit_breaker_failure_threshold</code></td>
+<td>number</td>
+<td><code>3</code></td>
+<td>yes</td>
+<td>Failures before opening the circuit (stop sending to that backend).</td>
+</tr>
+<tr>
+<td><code>circuit_breaker_failure_window_ms</code></td>
+<td>number (ms)</td>
+<td><code>60000</code></td>
+<td>yes</td>
+<td>Time window for counting failures.</td>
+</tr>
+<tr>
+<td><code>circuit_breaker_recovery_timeout_ms</code></td>
+<td>number (ms)</td>
+<td><code>30000</code></td>
+<td>yes</td>
+<td>Cooldown before retrying an opened circuit.</td>
+</tr>
+</tbody>
+</table>
+<h2>Subagent and Task Control</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>task-max-async</code></td>
+<td>number</td>
+<td><code>5</code></td>
+<td>yes</td>
+<td>Max concurrent async subagent tasks. <code>-1</code> = unlimited (up to 100).</td>
+</tr>
+<tr>
+<td><code>subagents.async.enabled</code></td>
+<td>boolean</td>
+<td><code>true</code></td>
+<td>yes</td>
+<td>Enable/disable async subagent execution.</td>
+</tr>
+<tr>
+<td><code>todo-continuation</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>Enable todo continuation mode — model picks up where it left off from a todo list.</td>
+</tr>
+</tbody>
+</table>
+<h2>Tool Control</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tools.disabled</code></td>
+<td>string[]</td>
+<td>—</td>
+<td>yes</td>
+<td>List of tool names to disable. The model won't see these tools at all.</td>
+</tr>
+<tr>
+<td><code>tools.allowed</code></td>
+<td>string[]</td>
+<td>—</td>
+<td>yes</td>
+<td>Allowlist — if set, only these tools are available. Overrides <code>tools.disabled</code>.</td>
+</tr>
+<tr>
+<td><code>tool_choice</code></td>
+<td>string</td>
+<td>—</td>
+<td>yes</td>
+<td>Tool choice strategy sent to the API: <code>auto</code>, <code>required</code>, <code>none</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Prompt Configuration</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>enable-tool-prompts</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Load tool-specific prompt files from <code>~/.llxprt/prompts/tools/</code>. Adds specialized instructions per tool.</td>
+</tr>
+<tr>
+<td><code>include-folder-structure</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>Include the workspace folder tree in the system prompt. Helps the model navigate, but costs tokens.</td>
+</tr>
+</tbody>
+</table>
+<h2>Custom Headers</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>custom-headers</code></td>
+<td>JSON</td>
+<td>—</td>
+<td>yes</td>
+<td>Custom HTTP headers as a JSON object. Applied to all API requests.</td>
+</tr>
+<tr>
+<td><code>user-agent</code></td>
+<td>string</td>
+<td>—</td>
+<td>yes</td>
+<td>Override the User-Agent header. Some providers (e.g., Kimi) require specific user agents.</td>
+</tr>
+</tbody>
+</table>
+<h2>Shell Behavior</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell-replacement</code></td>
+<td>string</td>
+<td>—</td>
+<td>yes</td>
+<td>Command substitution mode: <code>allowlist</code> (safe subset), <code>all</code> (everything), <code>none</code>/<code>false</code> (disabled). Controls whether <code>$()</code> and backticks work in shell commands.</td>
+</tr>
+</tbody>
+</table>
+<h2>Authentication</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auth.noBrowser</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Skip automatic browser launch for OAuth. Use manual code entry instead. Useful for SSH/headless environments.</td>
+</tr>
+<tr>
+<td><code>authOnly</code></td>
+<td>boolean</td>
+<td>—</td>
+<td>yes</td>
+<td>Force OAuth-only authentication.</td>
+</tr>
+</tbody>
+</table>
+<h2>Memory</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>model.canSaveCore</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td><strong>no</strong></td>
+<td>Allow the model to write to <code>.LLXPRT_SYSTEM</code> (core system memory). <strong>Unsafe</strong> — the model can override your own directives. Not saved to profiles deliberately.</td>
+</tr>
+<tr>
+<td><code>model.allMemoriesAreCore</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Load <code>LLXPRT.md</code> files as part of the system prompt instead of user context. Makes the model treat your memories as hard directives rather than suggestions.</td>
+</tr>
+</tbody>
+</table>
+<h2>Debugging</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>emojifilter</code></td>
+<td>enum</td>
+<td><code>auto</code></td>
+<td>yes</td>
+<td>Emoji handling: <code>allowed</code>, <code>auto</code> (detect terminal support), <code>warn</code>, <code>error</code>.</td>
+</tr>
+<tr>
+<td><code>dumponerror</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td>Dump API request body to <code>~/.llxprt/dumps/</code> on errors: <code>enabled</code> or <code>disabled</code>.</td>
+</tr>
+<tr>
+<td><code>dumpcontext</code></td>
+<td>enum</td>
+<td>—</td>
+<td>yes</td>
+<td>Context dumping: <code>now</code> (dump immediately), <code>status</code>, <code>on</code> (every turn), <code>error</code> (on errors), <code>off</code>.</td>
+</tr>
+</tbody>
+</table>
+<h2>Model Parameters</h2>
+<p>These are passed directly to the provider API as-is. LLxprt doesn't validate them. Set with <code>/set modelparam &lt;name&gt; &lt;value&gt;</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>temperature</code></td>
+<td>number</td>
+<td>Sampling temperature (0.0–2.0). Lower = more deterministic.</td>
+</tr>
+<tr>
+<td><code>max_tokens</code></td>
+<td>number</td>
+<td>Max tokens to generate (OpenAI/Anthropic). Alias: <code>maxTokens</code>.</td>
+</tr>
+<tr>
+<td><code>max_output_tokens</code></td>
+<td>number</td>
+<td>Max output tokens (Gemini native param).</td>
+</tr>
+<tr>
+<td><code>top_p</code></td>
+<td>number</td>
+<td>Nucleus sampling threshold.</td>
+</tr>
+<tr>
+<td><code>top_k</code></td>
+<td>number</td>
+<td>Top-k sampling.</td>
+</tr>
+<tr>
+<td><code>frequency_penalty</code></td>
+<td>number</td>
+<td>Penalize repeated tokens.</td>
+</tr>
+<tr>
+<td><code>presence_penalty</code></td>
+<td>number</td>
+<td>Penalize tokens that appeared at all.</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>number</td>
+<td>Random seed for deterministic output (OpenAI only).</td>
+</tr>
+<tr>
+<td><code>stop</code></td>
+<td>string[]</td>
+<td>Stop sequences — model stops generating when it produces any of these.</td>
+</tr>
+<tr>
+<td><code>response_format</code></td>
+<td>JSON</td>
+<td>Response format (e.g., <code>{&quot;type&quot;: &quot;json_object&quot;}</code>).</td>
+</tr>
+<tr>
+<td><code>logit_bias</code></td>
+<td>JSON</td>
+<td>Per-token bias.</td>
+</tr>
+<tr>
+<td><code>reasoning</code></td>
+<td>JSON</td>
+<td>OpenAI reasoning config object. Usually set via <code>reasoning.*</code> settings instead.</td>
+</tr>
+</tbody>
+</table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

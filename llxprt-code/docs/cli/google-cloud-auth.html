@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Google Cloud Authentication | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Google Cloud Authentication</h1>
+<p>Most users should use OAuth (<code>/auth gemini enable</code>) or a Gemini API key (<code>/key save gemini &lt;key&gt;</code>). This page covers advanced Google Cloud authentication methods for enterprise and Workspace users.</p>
+<h2>When You Need This</h2>
+<p>You need Google Cloud authentication if:</p>
+<ul>
+<li>You have a Google Workspace account (managed by an employer or school)</li>
+<li>You received a Gemini Code Assist license through the <a href="https://developers.google.com/program/plans-and-pricing">Google Developer Program</a></li>
+<li>You have a Gemini Code Assist standard or enterprise subscription</li>
+<li>You're using LLxprt Code outside <a href="https://developers.google.com/gemini-code-assist/resources/available-locations">supported regions</a> for free individual usage</li>
+<li>You're under 18 with a Google account</li>
+</ul>
+<h2>Google Cloud Project ID</h2>
+<p>If you fall into one of the categories above, you need to configure a Google Cloud Project ID. First, <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api">enable the Gemini for Cloud API</a> and <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam">configure access permissions</a>.</p>
+<p>Then set the project ID:</p>
+<pre><code class="language-bash">export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+</code></pre>
+<p>For persistent use, add this to your shell config (<code>~/.bashrc</code>, <code>~/.zshrc</code>).</p>
+<h2>Vertex AI</h2>
+<h3>API Key</h3>
+<p>Get an API key from <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser">Google Cloud</a>, then:</p>
+<pre><code class="language-bash">export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;
+</code></pre>
+<blockquote>
+<p>If you see &quot;API keys are not supported by this API,&quot; your organization may restrict API key creation. Use <a href="#application-default-credentials">Application Default Credentials</a> instead.</p>
+</blockquote>
+<h3>Application Default Credentials (ADC)</h3>
+<blockquote>
+<p>Unset any existing <code>GOOGLE_API_KEY</code> or <code>GEMINI_API_KEY</code> first — they take precedence over ADC.</p>
+</blockquote>
+<p><strong>For local development</strong> with <code>gcloud</code>:</p>
+<pre><code class="language-bash">gcloud auth application-default login
+export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+export GOOGLE_CLOUD_LOCATION=&quot;us-central1&quot;
+</code></pre>
+<p><strong>With a service account</strong> (for non-interactive environments):</p>
+<ol>
+<li><a href="https://cloud.google.com/iam/docs/keys-create-delete">Create a service account</a> with the &quot;Vertex AI User&quot; role</li>
+<li>Download the JSON key file</li>
+<li>Set the path:</li>
+</ol>
+<pre><code class="language-bash">export GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/keyfile.json&quot;
+export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+export GOOGLE_CLOUD_LOCATION=&quot;us-central1&quot;
+</code></pre>
+<h2>Cloud Shell</h2>
+<p>When running in Google Cloud Shell, authentication uses the logged-in user's credentials automatically. No configuration needed — this is the default when no other method is configured.</p>
+<h2>Related</h2>
+<ul>
+<li><a href="./authentication.html">Authentication</a> — Main authentication guide</li>
+<li><a href="../oauth-setup.html">OAuth Setup</a> — OAuth flows for all providers</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
