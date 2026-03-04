@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLxprt Code 0.9.0: Secrets Stay Home | Vybestack Blog</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section blog-post-section">
+    <div class="container-narrow">
+      <div class="blog-post-header">
+        <span class="blog-date">2026-03-04</span>
+        <h1>LLxprt Code 0.9.0: Secrets Stay Home</h1>
+      </div>
+      <div class="blog-post-content">
+        <p><img src="../images/llxprt-logo.svg" alt="LLxprt Code Logo"></p>
+<p>LLxprt Code 0.9.0 is out. This is the biggest release we've shipped, with 215 issues closed, and a fundamental change in how the agent handles your credentials. Here's what matters.</p>
+<p><a href="https://youtu.be/QRnCBIA1DLg"><img src="../../assets/release-0.9.0-youtube.png" alt="Release video"></a></p>
+<h2>The Sandbox Gets Real</h2>
+<p>In February we wrote about <a href="/blog/rendered/2026-02-20-anti-claw.html">why coding agent security is broken</a>. Approval prompts train you to click yes. Sandboxes that cut off the network entirely make real work impossible. Agents leak your PATs or exceed the authority you intended to give them. We laid out what we thought the right architecture looked like, and 0.9.0 is that architecture.</p>
+<p>The LLM runs inside a Docker or Podman container. It can see your project files and nothing else. Not your home directory, not <code>~/.ssh</code>, not your environment variables. The container runtime enforces the boundary, not the model's good behavior.</p>
+<p>When the agent needs to authenticate with an API, it doesn't need your credentials. Requests go through a proxy running on the host. Your OAuth tokens live in your OS keyring, flow through a Unix socket, and never enter the container. The PAT or token is never shared with the LLM.</p>
+<p>A prompt injection can't exfiltrate your Anthropic API key because the key isn't in the LLM's environment. A malicious MCP server can't read your OAuth tokens because they aren't in the sandbox. The agent does authenticated work without holding credentials.</p>
+<p>The sandbox also constrains CPU and memory. You know how Claude loves to open 15 instances of vitest and brick your system? That's its favorite thing to do. In 0.9.0, a runaway test suite at worst crashes the sandbox, not your system.</p>
+<h2>Smarter Context, Longer Sessions</h2>
+<p>Running out of context mid-task quietly kills autonomous coding sessions. 0.9.0 overhauls how LLxprt manages its context window.</p>
+<p>You now choose a compression strategy. <strong>Top-down</strong> summarizes the oldest messages first. <strong>Middle-out</strong> keeps the beginning and end of the conversation intact and compresses the middle. <strong>One-shot</strong> does a single-pass summary of everything. Pick the one that fits how you work.</p>
+<p>Alongside the new strategies, there are a number of bug fixes and improvements to how compression calculates thresholds, counts tokens, and recovers from failures. Compression works much better now for longer autonomous sessions without the LLM losing coherence.</p>
+<h2>Pick Up Where You Left Off</h2>
+<p>Sessions now persist properly. The <code>--continue</code> flag resumes your last session. The new <code>/continue</code> command opens a session browser so you can pick any previous session and replay it.</p>
+<p>TODOs survive across sessions. They don't vanish on <code>--continue</code> or disappear when you send the next message. The <code>/todo</code> menu lets you add, edit, and delete items, so you can fix the model's task list without starting over.</p>
+<p><strong>Core Memory</strong> is new: save preferences and rules directly into the system prompt. Models that respect system directives (like GPT-5.3-Codex) will follow them more reliably than instructions buried in conversation history.</p>
+<h2>Images and PDFs Across Providers</h2>
+<p>Image and PDF support is no longer restricted to Gemini models. 0.9.0 adds media support across Anthropic, OpenAI, OpenAI Responses, and Gemini providers. Drop a screenshot, a design mockup, or a PDF spec into the conversation and the model can read it, regardless of which provider you're using.</p>
+<h2>The February Models</h2>
+<p>0.9.0 adds support for the wave of models released in February:</p>
+<ul>
+<li><strong>Claude Opus 4.6</strong> and <strong>Claude Sonnet 4.6</strong> from Anthropic</li>
+<li><strong>GPT-5.3-Codex</strong> and <strong>GPT-5.3-Codex-Spark</strong> from OpenAI</li>
+<li><strong>Kimi 2.5</strong> from Moonshot</li>
+<li><strong>DeepSeek Reasoner</strong> from DeepSeek</li>
+<li><strong>Gemini 3</strong> from Google with thinking level support</li>
+</ul>
+<p>Several other new models like <strong>Qwen Next 3.5</strong> and <strong>MiniMax 2.5</strong> also work out of the box without any changes on our side.</p>
+<p>Reasoning and thinking blocks now stream incrementally across all providers that support them and display in the correct order. OpenAI Responses streams reasoning blocks. Anthropic thinking persists across full conversations. GPT-5.3-Codex parallel tool calls are bounded to the context window so aggressive tool use doesn't overflow it.</p>
+<h2>AST-Aware Tooling and a New Shell</h2>
+<p>The code tools got significantly smarter. <strong>AST Grep</strong> does structural code search using syntax tree patterns, not text matching. <strong>AST Edit</strong> performs syntax-validated edits with structure awareness. Thanks to <a href="https://github.com/e2720pjk">e2720pjk</a> for contributing AST Edit. <strong>Structural Analysis</strong> builds call graphs, type hierarchies, and cross-reference maps. These tools understand code as code, not as strings.</p>
+<p>The shell command system was rewritten from scratch. The <code>!</code> shell mode now has autocomplete. <strong>Interactive PTY mode</strong> lets you press Ctrl-F to send keystrokes to a running process, so when the agent launches something that needs input, you can answer it without killing the session.</p>
+<p>LLxprt Code also ships an <strong>experimental LSP server</strong>, wiring Language Server Protocol diagnostics into the edit tools for type-aware feedback after changes.</p>
+<h2>Hooks: Automate Around the Agent</h2>
+<p>The new hook system lets you register scripts that fire on tool events. Pre-hooks run before a tool executes; post-hooks run after. Auto-format files after edits. Run linters after code changes. Enforce project-specific rules. Build custom audit trails. Configure them per-project or globally. See the <a href="/llxprt-code/docs/hooks/">hooks documentation</a> for details and examples on how to set them up.</p>
+<h2>Async Subagents</h2>
+<p>The LLM can now launch and manage async subagents. Instead of blocking the main conversation while a subtask runs, the agent kicks off background work and keeps going. Use <code>/task</code> to see what's running.</p>
+<p>Subagents run in-process, can have their own profiles and use a different model from the parent, and don't share context. When a subagent finishes, it sends its results back to the parent and the parent wakes up, even if you're sitting at the input prompt waiting to type something.</p>
+<p><img src="../../assets/jefe-screenshot.png" alt="Jefe dashboard"></p>
+<h2>Introducing LLxprt Jefe</h2>
+<p>When you're working on 8 issues across 4 different projects and have 10 terminals open, it's hard to keep track of which LLxprt is working on what. Who wants to think about sandbox settings for each one?</p>
+<p><strong>LLxprt Jefe</strong> is a new companion product, a terminal dashboard for managing multiple LLxprt Code instances. Launch agents, watch their output in real time, and jump into any conversation when it needs guidance. Persistent tmux sessions mean Jefe auto-reattaches after crashes and calls <code>--continue</code> to resume where the agent left off.</p>
+<p>For example, I often have up to 7 agents working on different issues on different branches of llxprt-code, all running in Jefe. Meanwhile I might be working on 2-3 other projects in completely different repositories, also managed by Jefe. I swap between them, kill what I'm not using, launch new ones in the sandbox. No more drowning in terminal tabs.</p>
+<p>Jefe is in preview and available now:</p>
+<pre><code>brew tap vybestack/homebrew-tap
+brew update
+brew install jefe
+</code></pre>
+<p>Check it out at <a href="https://github.com/vybestack/llxprt-jefe">github.com/vybestack/llxprt-jefe</a>.</p>
+<h2>What's Next</h2>
+<p><strong>0.10.0</strong> is a stability-focused release. We're cherry-picking enough from gemini-cli to enable Skills in LLxprt and continuing the migration to OS-standard config paths (XDG on Linux, Library on macOS).</p>
+<p>Soon <strong>Jefe</strong> will let you have a heads-up view of all your running sessions without switching between them, so you can see what every agent is doing at a glance.</p>
+<p>In <strong>0.11.0</strong> you'll be able to copy and paste from the sandbox clipboard, use Anthropic tool searching, stream over Codex WebSocket connections, and set up Workflows for multi-step automation.</p>
+<h2>Get Started</h2>
+<p>Install or upgrade:</p>
+<pre><code>npm install -g @vybestack/llxprt-code
+</code></pre>
+<p>Or via Homebrew:</p>
+<pre><code>brew tap vybestack/homebrew-tap
+brew update
+brew install llxprt-code
+</code></pre>
+<p>LLxprt Code is Apache 2.0, open source, and built for the terminal. Check the <a href="/llxprt-code/docs/">documentation</a>, join us on <a href="https://discord.gg/Wc6dZqWWYv">Discord</a>, or dive into the code on <a href="https://github.com/vybestack/llxprt-code">GitHub</a>.</p>
+<p>Thanks to contributors <a href="https://github.com/e2720pjk">e2720pjk</a> and <a href="https://github.com/5i2urom">5i2urom</a> for their pull requests in this release, and to everyone in the Discord who filed issues and tested nightlies.</p>
+
+      </div>
+      <div class="blog-post-nav">
+        <a href="/blog/" class="btn-secondary">&lt;- Back to Blog</a>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+          <li><a href="https://github.com/vybestack/llxprt-code" title="GitHub"><img src="/assets/icons/github.svg" alt="GitHub" /></a></li>
+          <li><a href="https://discord.gg/Wc6dZqWWYv" title="Discord"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+          <li><a href="https://www.linkedin.com/company/vybestack/" title="LinkedIn"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>
