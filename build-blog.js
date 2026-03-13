@@ -18,7 +18,7 @@ const navTemplate = `
     <div class="nav-container">
       <div class="nav-left">
         <a href="/" class="logo">
-          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
         </a>
         <span class="tagline">Beyond Vibe Coding</span>
       </div>

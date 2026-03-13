@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Settings and Profiles | LLxprt Code Docs</title>
+  <title>Settings and Profile Management | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="nav-container">
       <div class="nav-left">
         <a href="/" class="logo">
-          <img src="/assets/vybestack_logo.png" alt="Vybestack" />
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
         </a>
         <span class="tagline">Beyond Vibe Coding</span>
       </div>
@@ -43,390 +43,599 @@
           <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
           <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
           <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
-          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
-          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
-          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
           <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
-          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
-          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
-          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
           <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
-          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
-          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
-          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
-          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
-          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
-          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
-          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/zed-integration.html">Zed Editor Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers-openai-responses.html">OpenAI Responses API</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/settings-and-profiles.html">Settings and Profiles</a></li>
+          <li><a href="/llxprt-code/docs/checkpointing.html">Checkpointing</a></li>
+          <li><a href="/llxprt-code/docs/extension.html">Extensions</a></li>
+          <li><a href="/llxprt-code/docs/ide-integration.html">IDE Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands Reference</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/index.html">CLI Introduction</a></li>
+          <li><a href="/llxprt-code/docs/deployment.html">Execution and Deployment</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
-          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/runtime-helpers.html">Runtime helper APIs</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/telemetry.html">Telemetry</a></li>
+          <li><a href="/llxprt-code/docs/telemetry-privacy.html">Telemetry Privacy</a></li>
+          <li><a href="/llxprt-code/docs/gemini-cli-tips.html">Migration from Gemini CLI</a></li>
+          <li><a href="/llxprt-code/docs/architecture.html">Architecture Overview</a></li>
+          <li><a href="/llxprt-code/docs/core/index.html">Core Introduction</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-runtime-context.html">Provider runtime context</a></li>
+          <li><a href="/llxprt-code/docs/core/provider-interface.html">Provider interface</a></li>
+          <li><a href="/llxprt-code/docs/core/tools-api.html">Tools API</a></li>
+          <li><a href="/llxprt-code/docs/core/memport.html">Memory Import Processor</a></li>
+          <li><a href="/llxprt-code/docs/shell-replacement.html">Shell Replacement</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing & Development Guide</a></li>
+          <li><a href="/llxprt-code/docs/npm.html">NPM Workspaces and Publishing</a></li>
+          <li><a href="/llxprt-code/docs/migration/stateless-provider.html">Stateless provider migration</a></li>
+          <li><a href="/llxprt-code/docs/tools/index.html">Tools Overview</a></li>
+          <li><a href="/llxprt-code/docs/tools/file-system.html">File System Tools</a></li>
+          <li><a href="/llxprt-code/docs/tools/multi-file.html">Multi-File Read Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/shell.html">Shell Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-fetch.html">Web Fetch Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/web-search.html">Web Search Tool</a></li>
+          <li><a href="/llxprt-code/docs/tools/memory.html">Memory Tool</a></li>
+          <li><a href="/llxprt-code/docs/release-notes/stateless-provider.html">Release notes: Stateless Provider</a></li>
+          <li><a href="/llxprt-code/docs/tos-privacy.html">Terms of Service and Privacy Notice</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Settings and Profiles</h1>
-<p>LLxprt Code has two kinds of configuration: <strong>persistent settings</strong> (saved to <code>~/.llxprt/settings.json</code>) and <strong>ephemeral settings</strong> (session-only, but saveable to profiles).</p>
-<h2>Profiles (Recommended)</h2>
-<p>Profiles capture your full setup — provider, model, parameters, and ephemeral settings — in one file. Use them instead of passing flags every time.</p>
-<pre><code>/provider openai
-/model hf:moonshotai/Kimi-K2-Thinking
-/baseurl https://api.synthetic.new/openai/v1
-/set reasoning.enabled true
-/profile save kimi-k2
-</code></pre>
-<p>Load it later:</p>
-<pre><code>/profile load kimi-k2
-</code></pre>
-<p>Or at startup:</p>
-<pre><code class="language-bash">llxprt --profile-load kimi-k2
-</code></pre>
-<h3>Profile Commands</h3>
-<pre><code>/profile save &lt;name&gt;            # Save current config
-/profile load &lt;name&gt;            # Load a profile
-/profile list                   # Show saved profiles
-/profile delete &lt;name&gt;          # Delete a profile
-/profile set-default &lt;name&gt;     # Auto-load on startup
-/profile set-default none       # Clear auto-load
-</code></pre>
-<p>Profiles are stored in <code>~/.llxprt/profiles/&lt;name&gt;.json</code>.</p>
-<h3>CLI Flags Override Profiles</h3>
-<p>Command-line flags always win over profile values. This is useful for one-off overrides:</p>
-<pre><code class="language-bash"># Load profile but use a different key
-llxprt --profile-load kimi-k2 --key-name synthetic-alt
-
-# Load profile but override the model
-llxprt --profile-load kimi-k2 --model gpt-4.1
-</code></pre>
+            <h1>Settings and Profile Management</h1>
+<p>This guide covers how to configure LLxprt Code using ephemeral settings, model parameters, and profiles.</p>
+<h2>Table of Contents</h2>
+<ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#ephemeral-settings">Ephemeral Settings</a></li>
+<li><a href="#model-parameters">Model Parameters</a></li>
+<li><a href="#profile-management">Profile Management</a></li>
+<li><a href="#command-line-usage">Command Line Usage</a></li>
+<li><a href="#examples">Examples</a></li>
+<li><a href="#important-notes">Important Notes</a></li>
+</ul>
+<h2>Overview</h2>
+<p>LLxprt Code uses three types of settings:</p>
+<ol>
+<li><strong>Persistent Settings</strong>: Saved to <code>~/.llxprt/settings.json</code> (theme, default provider, etc.)</li>
+<li><strong>Ephemeral Settings</strong>: Session-only settings that aren't saved unless explicitly stored in a profile</li>
+<li><strong>Model Parameters</strong>: Provider-specific parameters passed directly to the AI model</li>
+</ol>
 <h2>Ephemeral Settings</h2>
-<p>Set with <code>/set</code> during a session or <code>--set</code> at startup. These don't persist unless saved to a profile.</p>
-<pre><code>/set context-limit 100000
-/set compression-threshold 0.7
-</code></pre>
-<p>At startup:</p>
-<pre><code class="language-bash">llxprt --set context-limit=100000 --set streaming=disabled
-</code></pre>
-<h3>Core Settings</h3>
+<p>Ephemeral settings are runtime configurations that last only for your current session. They can be saved to profiles for reuse.</p>
+<h3>Available Ephemeral Settings</h3>
 <table>
 <thead>
 <tr>
 <th>Setting</th>
 <th>Description</th>
 <th>Default</th>
+<th>Example</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>context-limit</code></td>
-<td>Maximum context window tokens</td>
-<td>model default</td>
+<td>Maximum tokens for context window (counts system prompt + <a href="http://LLXPRT.md">LLXPRT.md</a>)</td>
+<td>-</td>
+<td><code>100000</code></td>
 </tr>
 <tr>
 <td><code>compression-threshold</code></td>
-<td>When to compress history (0.0–1.0)</td>
-<td>model default</td>
-</tr>
-<tr>
-<td><code>max-prompt-tokens</code></td>
-<td>Max tokens in any prompt sent to LLM</td>
-<td><code>200000</code></td>
-</tr>
-<tr>
-<td><code>streaming</code></td>
-<td><code>enabled</code> or <code>disabled</code></td>
-<td><code>enabled</code></td>
+<td>When to compress history (0.0-1.0)</td>
+<td>-</td>
+<td><code>0.7</code> (70% of context)</td>
 </tr>
 <tr>
 <td><code>base-url</code></td>
 <td>Custom API endpoint</td>
-<td>provider default</td>
+<td>-</td>
+<td><code>https://api.anthropic.com</code></td>
 </tr>
 <tr>
-<td><code>shell-replacement</code></td>
-<td>Allow <code>$()</code> and backtick substitution in shell</td>
-<td><code>false</code></td>
+<td><code>tool-format</code></td>
+<td>Tool format override</td>
+<td>-</td>
+<td><code>openai</code>, <code>anthropic</code>, <code>hermes</code></td>
 </tr>
 <tr>
-<td><code>auth.noBrowser</code></td>
-<td>Skip browser for OAuth, use manual code entry</td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<h3>Reasoning Settings</h3>
-<p>These control extended thinking / chain-of-thought for models that support it (Kimi K2-Thinking, Claude with thinking, o3, etc.).</p>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>reasoning.enabled</code></td>
-<td>Enable thinking/reasoning mode</td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>reasoning.effort</code></td>
-<td>Reasoning effort level (<code>low</code>, <code>medium</code>, <code>high</code>)</td>
-<td>provider default</td>
-</tr>
-<tr>
-<td><code>reasoning.includeInResponse</code></td>
-<td>Show thinking blocks in the terminal</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>reasoning.includeInContext</code></td>
-<td>Keep thinking in conversation history sent to the model</td>
-<td><code>true</code></td>
-</tr>
-<tr>
-<td><code>reasoning.stripFromContext</code></td>
-<td>Prune thinking from older turns (<code>none</code>, <code>all</code>, <code>allButLast</code>)</td>
-<td><code>none</code></td>
-</tr>
-<tr>
-<td><code>reasoning.adaptiveThinking</code></td>
-<td>Let provider auto-tune thinking budget</td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<p>When you set <code>reasoning.enabled true</code>, the other defaults are already sensible — thinking is shown in the terminal, kept in context, and nothing is stripped. You typically only need <code>/set reasoning.enabled true</code>.</p>
-<p><strong>Why these matter:</strong></p>
-<ul>
-<li><strong><code>includeInResponse</code></strong> — if <code>false</code>, the model still thinks but you don't see it. Useful if you want reasoning quality without the noise.</li>
-<li><strong><code>includeInContext</code></strong> — if <code>false</code>, thinking blocks are discarded before the next turn. The model loses access to its own reasoning, which can hurt multi-step tasks. Keep this <code>true</code> unless you're tight on context.</li>
-<li><strong><code>stripFromContext</code></strong> — controls context growth for long sessions. <code>none</code> keeps all thinking (best quality, most tokens). <code>allButLast</code> keeps only the most recent thinking block (good balance). <code>all</code> strips everything (saves context but the model can't reference prior reasoning). For models with large context windows like K2 (256K), <code>none</code> is fine. For smaller windows, <code>allButLast</code> or <code>all</code> helps.</li>
-</ul>
-<h3>Context and Output Limits</h3>
-<p>These settings control how much information flows between you, the model, and the tools. Getting them right is the difference between a model that works efficiently and one that drowns in its own output.</p>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>context-limit</code></td>
-<td>Max tokens the model can see (system prompt + history + tool output)</td>
-<td>model default</td>
-</tr>
-<tr>
-<td><code>max-prompt-tokens</code></td>
-<td>Hard ceiling on any single prompt sent to the API</td>
-<td><code>200000</code></td>
-</tr>
-<tr>
-<td><code>compression-threshold</code></td>
-<td>Fraction of context-limit that triggers compression (0.0–1.0)</td>
-<td>model default</td>
-</tr>
-</tbody>
-</table>
-<p><strong>How they interact:</strong> The model's context window has a fixed size (e.g., 128K for Claude Sonnet, 256K for Kimi K2). <code>context-limit</code> caps how much of that window you actually use — set it lower than the model's max if you want to leave headroom. When the conversation history exceeds <code>compression-threshold × context-limit</code>, LLxprt compresses older turns to free space. <code>max-prompt-tokens</code> is a safety net that prevents any single API call from exceeding a hard limit.</p>
-<p><code>maxOutputTokens</code> (set via <code>/set modelparam maxOutputTokens</code> or <code>max_tokens</code> depending on provider) controls how many tokens the model can generate in a single response. This interacts with context-limit because every token the model generates gets added to the history for the next turn. A model that generates very long responses fills up the context faster, triggering more frequent compressions.</p>
-<h3>Tool Output Limits</h3>
-<p>These prevent a single tool call from flooding the context. This matters more than you might expect — a grep across a large codebase can easily return hundreds of thousands of tokens, which consumes the entire context window in one shot.</p>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>tool-output-max-items</code></td>
-<td>Max files/matches per tool call</td>
-<td><code>50</code></td>
-</tr>
-<tr>
-<td><code>tool-output-max-tokens</code></td>
-<td>Max tokens in tool output</td>
-<td><code>50000</code></td>
-</tr>
-<tr>
-<td><code>tool-output-item-size-limit</code></td>
-<td>Max bytes per file/item</td>
-<td><code>524288</code> (512KB)</td>
-</tr>
-<tr>
-<td><code>tool-output-truncate-mode</code></td>
-<td><code>warn</code>, <code>truncate</code>, or <code>sample</code></td>
-<td><code>warn</code></td>
-</tr>
-</tbody>
-</table>
-<p><strong>How they interact:</strong> Every tool result goes into the conversation history. If <code>tool-output-max-tokens</code> is 50K and the model makes 3 tool calls in a row, that's potentially 150K tokens of tool output added to context — which on a 128K model means immediate compression (and loss of earlier context). Lowering these limits forces the model to be more surgical with its queries, which often produces better results anyway.</p>
-<p><code>tool-output-truncate-mode</code> controls what happens when a tool exceeds its limits. <code>warn</code> drops the output entirely and tells the model the results were too large — the model gets nothing back, just a message suggesting it narrow its query. <code>truncate</code> cuts the output to fit and silently includes what fits. <code>sample</code> picks evenly-spaced lines from the output to give a representative cross-section. <code>warn</code> is the default because it forces the model to be more surgical, which usually produces better results than shoveling truncated output into context.</p>
-<h3>Timeouts</h3>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>shell-default-timeout-seconds</code></td>
-<td>Default shell command timeout</td>
-<td><code>300</code> (5 min)</td>
-</tr>
-<tr>
-<td><code>shell-max-timeout-seconds</code></td>
-<td>Maximum shell command timeout</td>
-<td><code>900</code> (15 min)</td>
-</tr>
-<tr>
-<td><code>task-default-timeout-seconds</code></td>
-<td>Default subagent task timeout</td>
-<td><code>900</code> (15 min)</td>
-</tr>
-<tr>
-<td><code>task-max-timeout-seconds</code></td>
-<td>Maximum subagent task timeout</td>
-<td><code>1800</code> (30 min)</td>
-</tr>
-<tr>
-<td><code>socket-timeout</code></td>
-<td>HTTP request timeout for API calls (ms)</td>
-<td>—</td>
-</tr>
-</tbody>
-</table>
-<p>Some models will kick off commands that wait for user interaction (like an interactive installer or a server that doesn't exit) and then hang indefinitely. The timeouts prevent this from blocking your session forever. If you're running long builds or test suites, increase <code>shell-max-timeout-seconds</code>. For subagent-heavy workflows, increase <code>task-max-timeout-seconds</code>.</p>
-<h3>Prompt and Caching</h3>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>prompt-caching</code></td>
-<td>Provider-side prompt caching (<code>off</code>, <code>5m</code>, <code>1h</code>, <code>24h</code>)</td>
-<td><code>off</code></td>
-</tr>
-<tr>
-<td><code>enable-tool-prompts</code></td>
-<td>Load tool-specific prompt files</td>
-<td><code>false</code></td>
-</tr>
-<tr>
-<td><code>include-folder-structure</code></td>
-<td>Include folder tree in system prompt</td>
-<td><code>false</code></td>
-</tr>
-</tbody>
-</table>
-<h3>Other Settings</h3>
-<table>
-<thead>
-<tr>
-<th>Setting</th>
-<th>Description</th>
-<th>Default</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>emojifilter</code></td>
-<td>Emoji handling (<code>auto</code>, <code>allowed</code>, <code>warn</code>, <code>error</code>)</td>
-<td><code>auto</code></td>
+<td><code>api-version</code></td>
+<td>API version (Azure)</td>
+<td>-</td>
+<td><code>2024-02-01</code></td>
 </tr>
 <tr>
 <td><code>custom-headers</code></td>
 <td>HTTP headers as JSON</td>
-<td>—</td>
+<td>-</td>
+<td><code>{&quot;X-Custom&quot;: &quot;value&quot;}</code></td>
 </tr>
 <tr>
-<td><code>api-version</code></td>
-<td>API version (e.g., for Azure)</td>
-<td>—</td>
+<td><code>stream-options</code></td>
+<td>Stream options for OpenAI API</td>
+<td><code>{&quot;include_usage&quot;: true}</code></td>
+<td><code>{&quot;include_usage&quot;: false}</code></td>
+</tr>
+<tr>
+<td><code>streaming</code></td>
+<td>Enable or disable streaming responses (stored as <code>enabled</code>/<code>disabled</code> even if booleans are provided)</td>
+<td><code>enabled</code></td>
+<td><code>disabled</code></td>
+</tr>
+<tr>
+<td><code>socket-timeout</code></td>
+<td>Request timeout in milliseconds for local / OpenAI-compatible servers</td>
+<td><code>60000</code></td>
+<td><code>120000</code></td>
 </tr>
 <tr>
 <td><code>socket-keepalive</code></td>
-<td>TCP keepalive for local servers</td>
+<td>Enable TCP keepalive for local AI server connections</td>
 <td><code>true</code></td>
+<td><code>false</code></td>
 </tr>
 <tr>
 <td><code>socket-nodelay</code></td>
-<td>TCP_NODELAY for local servers</td>
+<td>Enable TCP_NODELAY for local AI server connections</td>
 <td><code>true</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>tool-output-max-items</code></td>
+<td>Maximum number of items/files/matches returned by tools</td>
+<td><code>50</code></td>
+<td><code>100</code></td>
+</tr>
+<tr>
+<td><code>tool-output-max-tokens</code></td>
+<td>Maximum tokens in tool output</td>
+<td><code>50000</code></td>
+<td><code>100000</code></td>
+</tr>
+<tr>
+<td><code>tool-output-truncate-mode</code></td>
+<td>How to handle exceeding limits</td>
+<td><code>warn</code></td>
+<td><code>warn</code>, <code>truncate</code>, or <code>sample</code></td>
+</tr>
+<tr>
+<td><code>tool-output-item-size-limit</code></td>
+<td>Maximum size per item/file in bytes</td>
+<td><code>524288</code></td>
+<td><code>1048576</code> (1MB)</td>
+</tr>
+<tr>
+<td><code>max-prompt-tokens</code></td>
+<td>Maximum tokens allowed in any prompt sent to LLM</td>
+<td><code>200000</code></td>
+<td><code>300000</code></td>
+</tr>
+<tr>
+<td><code>shell-replacement</code></td>
+<td>Allow command substitution ($(), &lt;(), backticks)</td>
+<td><code>false</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>shell_default_timeout_ms</code></td>
+<td>Default timeout for shell tool executions in milliseconds</td>
+<td><code>60000</code></td>
+<td><code>120000</code></td>
+</tr>
+<tr>
+<td><code>shell_max_timeout_ms</code></td>
+<td>Maximum timeout for shell tool executions in milliseconds</td>
+<td><code>300000</code></td>
+<td><code>600000</code></td>
+</tr>
+<tr>
+<td><code>task_default_timeout_ms</code></td>
+<td>Default timeout for task tool executions in milliseconds</td>
+<td><code>60000</code></td>
+<td><code>120000</code></td>
+</tr>
+<tr>
+<td><code>task_max_timeout_ms</code></td>
+<td>Maximum timeout for task tool executions in milliseconds</td>
+<td><code>300000</code></td>
+<td><code>600000</code></td>
+</tr>
+<tr>
+<td><code>emojifilter</code></td>
+<td>Emoji filter mode for LLM responses</td>
+<td><code>auto</code></td>
+<td><code>allowed</code>, <code>auto</code>, <code>warn</code>, <code>error</code></td>
 </tr>
 </tbody>
 </table>
-<h3>Unsetting Values</h3>
-<pre><code>/set unset context-limit
-/set unset custom-headers
+<p><strong>Note:</strong> <code>auth-key</code> and <code>auth-keyfile</code> are no longer supported as ephemeral settings. Use <code>/key</code> and <code>/keyfile</code> commands instead.</p>
+<h3>Setting Ephemeral Values</h3>
+<pre><code class="language-bash"># Set context limit
+/set context-limit 100000
+
+# Set compression threshold (70% of context)
+/set compression-threshold 0.7
+
+# Set custom headers
+/set custom-headers {&quot;X-Organization&quot;: &quot;my-org&quot;, &quot;X-Project&quot;: &quot;my-project&quot;}
+
+### Boot-time overrides
+
+You can apply the same settings at startup via CLI flags:
+
+```bash
+llxprt --set streaming=disabled --set base-url=https://api.anthropic.com --provider anthropic
+
+# Apply model parameters non-interactively
+llxprt --set modelparam.temperature=0.7 --set modelparam.max_tokens=4096
+</code></pre>
+<p>The CLI parses each <code>--set key=value</code> just like <code>/set</code>, so CI jobs and scripts can configure ephemeral behavior without interactive prompts. Command-line values take precedence over profile/settings files. For model parameters, use the dotted syntax <code>--set modelparam.&lt;name&gt;=&lt;value&gt;</code> which mirrors <code>/set modelparam &lt;name&gt; &lt;value&gt;</code>.</p>
+<h1>Configure streaming</h1>
+<p>/set streaming disabled # Disable streaming responses
+/set stream-options {&quot;include_usage&quot;: false} # OpenAI stream options</p>
+<h1>Configure socket behavior for local/OpenAI-compatible servers</h1>
+<p>/set socket-timeout 120000
+/set socket-keepalive true
+/set socket-nodelay true</p>
+<h1>Enable shell command substitution (use with caution)</h1>
+<p>/set shell-replacement true</p>
+<h1>Tool timeout settings</h1>
+<p>/set shell_default_timeout_ms 120000
+/set shell_max_timeout_ms 600000
+/set task_default_timeout_ms 120000
+/set task_max_timeout_ms 600000</p>
+<h1>Tool output control settings</h1>
+<p>/set tool-output-max-items 100 # Allow up to 100 files/matches
+/set tool-output-max-tokens 100000 # Allow up to 100k tokens in tool output
+/set tool-output-truncate-mode truncate # Truncate instead of warning
+/set tool-output-item-size-limit 1048576 # 1MB per file
+/set max-prompt-tokens 300000 # Increase max prompt size</p>
+<h1>Emoji filter settings</h1>
+<p>/set emojifilter auto # Silent filtering (default)
+/set emojifilter warn # Filter with feedback
+/set emojifilter error # Block content with emojis
+/set emojifilter allowed # Allow emojis through</p>
+<pre><code>
+### Unsetting Values
+
+```bash
+# Remove a setting
+/set unset context-limit
+
+# Remove a specific header
+/set unset custom-headers X-Organization
 </code></pre>
 <h2>Model Parameters</h2>
-<p>Model parameters are passed directly to the provider API. LLxprt doesn't validate them — if you typo a parameter name, you'll get an API error, not a LLxprt error.</p>
-<pre><code>/set modelparam temperature 0.8
+<p>Model parameters are provider-specific settings passed directly to the AI API. These are <strong>not validated</strong> by LLxprt Code, allowing you to use any current or future parameters.</p>
+<h3>Common Parameters</h3>
+<p>Different providers support different parameters:</p>
+<p><strong>OpenAI/Anthropic:</strong></p>
+<ul>
+<li><code>temperature</code> (0.0-2.0 for OpenAI, 0.0-1.0 for others)</li>
+<li><code>max_tokens</code></li>
+<li><code>top_p</code></li>
+<li><code>presence_penalty</code> (-2.0 to 2.0)</li>
+<li><code>frequency_penalty</code> (-2.0 to 2.0)</li>
+<li><code>seed</code></li>
+<li><code>stop</code> or <code>stop_sequences</code></li>
+</ul>
+<p><strong>Anthropic Specific:</strong></p>
+<ul>
+<li><code>thinking</code> (for Claude's thinking mode)</li>
+<li><code>enable_thinking</code> (boolean to enable/disable thinking mode)</li>
+<li><code>top_k</code></li>
+</ul>
+<p><strong>Reasoning Model Settings (Kimi K2-Thinking, etc.):</strong></p>
+<ul>
+<li><code>reasoning.enabled</code> - enable reasoning/thinking mode</li>
+<li><code>reasoning.includeInContext</code> - include reasoning in conversation context</li>
+<li><code>reasoning.includeInResponse</code> - show reasoning in responses</li>
+<li><code>reasoning.stripFromContext</code> (<code>none</code>, <code>all</code>, <code>allButLast</code>) - control reasoning in context history</li>
+</ul>
+<p><strong>Gemini Specific:</strong></p>
+<ul>
+<li><code>maxOutputTokens</code> (camelCase)</li>
+<li><code>topP</code> (camelCase)</li>
+<li><code>topK</code> (camelCase)</li>
+<li><code>candidateCount</code></li>
+<li><code>stopSequences</code></li>
+</ul>
+<h3>Setting Model Parameters</h3>
+<pre><code class="language-bash"># Basic parameters
+/set modelparam temperature 0.8
 /set modelparam max_tokens 4096
-/set modelparam top_p 0.9
+
+# Claude's thinking mode
+/set modelparam thinking {&quot;type&quot;:&quot;enabled&quot;,&quot;budget_tokens&quot;:4096}
+
+# Multiple stop sequences
+/set modelparam stop_sequences [&quot;END&quot;, &quot;DONE&quot;, &quot;---&quot;]
+
+# Provider-specific parameters
+/set modelparam top_k 40  # Anthropic/Gemini
+/set modelparam seed 12345  # OpenAI for reproducibility
 </code></pre>
-<p>Parameter names are provider-specific (e.g., <code>max_tokens</code> for OpenAI/Anthropic, <code>maxOutputTokens</code> for Gemini). Check your provider's API docs.</p>
-<pre><code>/set modelparam                  # List current params
-/set unset modelparam temperature  # Remove one
-/set unset modelparam              # Clear all
+<h3>Viewing Current Parameters</h3>
+<pre><code class="language-bash"># List all model parameters (if provider implements this)
+/set modelparam
+
+# List all ephemeral settings
+/set
 </code></pre>
-<h2>Ergonomics Tips</h2>
-<p><strong>Save profiles for things you use often.</strong> Instead of remembering flags, save a profile and load it. You can have as many as you want.</p>
-<p><strong>Set a default profile</strong> so your preferred setup loads automatically:</p>
-<pre><code>/profile set-default kimi-k2
+<h3>Unsetting Model Parameters</h3>
+<pre><code class="language-bash"># Remove a specific parameter
+/set unset modelparam temperature
+
+# Clear ALL model parameters
+/set unset modelparam
 </code></pre>
-<p><strong>Use <code>--set</code> for one-off tweaks</strong> without modifying your saved profile:</p>
-<pre><code class="language-bash">llxprt --profile-load kimi-k2 --set streaming=disabled
+<h2>Profile Management</h2>
+<p>Profiles save your current configuration (provider, model, parameters, and ephemeral settings) for easy reuse.</p>
+<h3>Profile Storage Location</h3>
+<p>Profiles are stored in: <code>~/.llxprt/profiles/&lt;profile-name&gt;.json</code></p>
+<h3>Creating Profiles</h3>
+<pre><code class="language-bash"># Save current configuration to a profile
+/profile save my-writing-assistant
+
+# Profile will include:
+# - Current provider and model
+# - All model parameters
+# - All ephemeral settings (including auth)
 </code></pre>
-<h2>Provider Alias Defaults</h2>
-<p>Some provider aliases ship with tuned defaults for their models — you get reasonable settings just by using <code>/provider &lt;name&gt;</code> without configuring anything. These are a good starting point; you can override any of them with <code>/set</code>.</p>
-<p><strong>Anthropic</strong> — sets <code>maxOutputTokens</code> to 40K globally. For Claude models specifically, enables reasoning with adaptive thinking (lets the model decide how much to think). For Claude Opus 4.6, sets <code>reasoning.effort</code> to <code>high</code>.</p>
-<p><strong>Codex</strong> — sets <code>context-limit</code> to 262K, enables 24-hour prompt caching, sets <code>reasoning.effort</code> to <code>medium</code>, and enables reasoning summaries. Tuned for long coding sessions with OpenAI's Codex models.</p>
-<p><strong>Kimi</strong> — sets <code>context-limit</code> to 262K and <code>max_tokens</code> to 32K. For Kimi models specifically, enables reasoning with <code>includeInResponse</code>, <code>includeInContext</code>, and <code>stripFromContext: none</code> — full thinking visibility with nothing discarded.</p>
-<p><strong>Gemini, OpenAI, xAI, OpenRouter, Fireworks</strong> — minimal defaults (just endpoint URL and default model). You configure behavior yourself.</p>
-<p>When you load a provider alias, its defaults apply first, then any <code>/set</code> overrides or profile settings layer on top. You can inspect what a provider alias sets by looking at its config file in the source, or just check your active settings with <code>/set</code> after loading a provider.</p>
-<h2>Tuning for Your Model</h2>
-<p>Good model ergonomics require tuning to a model's specific strengths and weaknesses. The alias defaults are a starting point, but with experience you'll find the sweet spots.</p>
-<p><strong>The core tradeoff:</strong> letting the model put more information in the context means fewer round-trips (fewer tool calls, faster completion) — but too much context introduces distractors, can overwhelm the model, and triggers frequent compressions that lose earlier work. Conversely, keeping tool output small means more steps (more tool calls, more turns) which can also go sideways. The goal is finding the balance where the model doesn't hurt itself.</p>
-<p><strong>Models that bite off more than they can chew:</strong> some models will try to read entire directories, run massive greps, or generate very long responses that flood the context. Lower <code>tool-output-max-tokens</code> and <code>tool-output-max-items</code> to force them to be more targeted. You can also lower <code>maxOutputTokens</code> to keep individual responses shorter.</p>
-<p><strong>Models that hang:</strong> some models kick off interactive commands, start servers, or run things that wait for input and never return. Tighter <code>shell-default-timeout-seconds</code> helps. If you're using a model prone to this, keep the default timeout short and only bump <code>shell-max-timeout-seconds</code> for when you explicitly need long-running commands.</p>
-<p><strong>Compression frequency:</strong> if you notice the model losing track of what it's done or repeating work, it's probably compressing too often. Either increase <code>context-limit</code> (if the model supports it), lower tool output limits so less junk enters the context, or set <code>compression-threshold</code> higher so compression kicks in later. If the model has a small context window, leaner tool output is usually better than pushing the limits.</p>
-<p><strong>Profile per model:</strong> once you've dialed in good settings for a model, save them:</p>
-<pre><code>/set tool-output-max-items 30
-/set tool-output-max-tokens 30000
-/set shell-default-timeout-seconds 120
-/profile save kimi-k2-tuned
+<h3>Loading Profiles</h3>
+<pre><code class="language-bash"># Load a profile interactively
+/profile load
+
+# Load a specific profile
+/profile load my-writing-assistant
 </code></pre>
-<p>Then you don't have to remember the tweaks — just load the profile.</p>
-<h2>Reference Documentation</h2>
+<h3>Listing Profiles</h3>
+<pre><code class="language-bash"># Show all saved profiles
+/profile list
+</code></pre>
+<h3>Deleting Profiles</h3>
+<pre><code class="language-bash"># Delete a specific profile
+/profile delete old-config
+
+# Profile will be removed from ~/.llxprt/profiles/
+</code></pre>
+<h3>Setting Default Profile</h3>
+<pre><code class="language-bash"># Set a profile to load automatically on startup
+/profile set-default my-default-config
+
+# Clear the default profile
+/profile set-default none
+</code></pre>
+<p>When a default profile is set, it will be automatically loaded each time you start LLxprt Code. This is stored in your user settings (<code>~/.llxprt/settings.json</code>).</p>
+<h3>Profile Structure</h3>
+<p>A profile JSON file looks like:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;anthropic&quot;,
+  &quot;model&quot;: &quot;claude-sonnet-4-5-20250929&quot;,
+  &quot;modelParams&quot;: {
+    &quot;temperature&quot;: 0.7,
+    &quot;max_tokens&quot;: 4096,
+    &quot;thinking&quot;: {
+      &quot;type&quot;: &quot;enabled&quot;,
+      &quot;budget_tokens&quot;: 4096
+    }
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 200000,
+    &quot;compression-threshold&quot;: 0.8,
+    &quot;auth-keyfile&quot;: &quot;~/.keys/anthropic.key&quot;,
+    &quot;custom-headers&quot;: {
+      &quot;X-Organization&quot;: &quot;my-org&quot;
+    }
+  }
+}
+</code></pre>
+<h2>Command Line Usage</h2>
+<h3>Loading Profiles at Startup</h3>
+<pre><code class="language-bash"># Start with a specific profile
+llxprt --profile-load my-writing-assistant
+
+# Provide API key via command line (overrides profile)
+llxprt --profile-load my-profile --key sk-ant-...
+
+# Use a keyfile
+llxprt --keyfile ~/.keys/anthropic.key
+
+# Set provider and model
+llxprt --provider anthropic --model claude-sonnet-4-5-20250929
+</code></pre>
+<h3>Inline Profiles for CI/CD</h3>
+<p>For CI/CD environments, the <code>--profile</code> flag accepts inline JSON. However, for most use cases we recommend:</p>
+<ol>
+<li><strong>Save profiles in the TUI</strong> using <code>/profile save model &lt;name&gt;</code></li>
+<li><strong>Use <code>--profile-load</code></strong> in CI/CD to load saved profiles</li>
+<li><strong>Store API keys securely</strong> in CI secrets, passed via <code>--keyfile</code> or environment variables</li>
+</ol>
+<pre><code class="language-bash"># Recommended: Load saved profile
+llxprt --profile-load my-ci-profile &quot;Review this code&quot;
+
+# With keyfile from CI secrets
+llxprt --profile-load my-ci-profile --keyfile /tmp/api_key &quot;Review this code&quot;
+</code></pre>
+<p>For advanced CI/CD scenarios where inline profiles are needed:</p>
+<pre><code class="language-bash"># Inline profile (advanced use case)
+llxprt --profile '{&quot;provider&quot;:&quot;anthropic&quot;,&quot;model&quot;:&quot;claude-sonnet-4-5-20250929&quot;}' --keyfile /tmp/api_key &quot;Review code&quot;
+</code></pre>
+<p><strong>Important Notes:</strong></p>
 <ul>
-<li><a href="./reference/ephemerals.html">Ephemeral Settings Reference</a> — complete reference for every ephemeral setting with defaults, types, and advice</li>
-<li><a href="./reference/profiles.html">Profile File Reference</a> — the profile JSON format, all fields, auth config, load balancers, precedence rules</li>
+<li><code>--profile</code> and <code>--profile-load</code> are mutually exclusive</li>
+<li>Prefer <code>--profile-load</code> with saved profiles over inline JSON</li>
+<li>Use <code>--keyfile</code> for API keys rather than embedding in JSON</li>
 </ul>
-<h2>Related</h2>
+<h3>Authentication Best Practices</h3>
+<ol>
+<li>
+<p><strong>Use Keyfiles</strong> instead of embedding keys:</p>
+<pre><code class="language-bash"># Create a keyfile with proper permissions
+echo &quot;sk-ant-api03-...&quot; &gt; ~/.keys/anthropic.key
+chmod 600 ~/.keys/anthropic.key
+
+# Use it
+/set auth-keyfile ~/.keys/anthropic.key
+</code></pre>
+</li>
+<li>
+<p><strong>Never commit API keys</strong> to version control</p>
+</li>
+<li>
+<p><strong>Use environment variables</strong> for CI/CD:</p>
+<pre><code class="language-bash">export ANTHROPIC_API_KEY=&quot;sk-ant-...&quot;
+export OPENAI_API_KEY=&quot;sk-...&quot;
+</code></pre>
+</li>
+</ol>
+<h2>Tool Output Control</h2>
+<p>LLxprt Code provides fine-grained control over tool outputs to prevent context overflow and manage large responses. These settings are particularly useful when working with large codebases or extensive file operations.</p>
+<h3>Tool Output Settings Explained</h3>
+<p><strong><code>tool-output-max-items</code></strong>: Controls how many items (files, search results, etc.) a tool can return.</p>
 <ul>
-<li><a href="./cli/profiles.html">Profiles</a> — detailed profile management and multi-bucket failover</li>
-<li><a href="./cli/authentication.html">Authentication</a> — key management</li>
-<li><a href="./cli/providers.html">Providers</a> — provider-specific configuration</li>
+<li>Default: 50</li>
+<li>Use case: Increase when searching large codebases, decrease to save context</li>
 </ul>
+<p><strong><code>tool-output-max-tokens</code></strong>: Limits the total tokens in a tool's output.</p>
+<ul>
+<li>Default: 50000</li>
+<li>Use case: Prevent single tool calls from consuming too much context</li>
+</ul>
+<p><strong><code>tool-output-truncate-mode</code></strong>: Determines behavior when limits are exceeded.</p>
+<ul>
+<li><code>warn</code> (default): Show warning but include all output</li>
+<li><code>truncate</code>: Cut off output at the limit</li>
+<li><code>sample</code>: Intelligently sample from the output</li>
+</ul>
+<p><strong><code>tool-output-item-size-limit</code></strong>: Maximum size per individual item (in bytes).</p>
+<ul>
+<li>Default: 524288 (512KB)</li>
+<li>Use case: Control how much of each file is read</li>
+</ul>
+<p><strong><code>max-prompt-tokens</code></strong>: Final safety limit on prompt size sent to the LLM.</p>
+<ul>
+<li>Default: 200000</li>
+<li>Use case: Prevent API errors from oversized prompts</li>
+</ul>
+<h3>Example Configurations</h3>
+<pre><code class="language-bash"># For large codebase exploration
+/set tool-output-max-items 200
+/set tool-output-max-tokens 150000
+/set tool-output-truncate-mode sample
+/profile save large-codebase
+
+# For focused work with full file contents
+/set tool-output-max-items 20
+/set tool-output-item-size-limit 2097152  # 2MB per file
+/set tool-output-truncate-mode warn
+/profile save detailed-analysis
+
+# For quick searches with minimal context usage
+/set tool-output-max-items 10
+/set tool-output-max-tokens 10000
+/set tool-output-truncate-mode truncate
+/profile save quick-search
+</code></pre>
+<h2>Examples</h2>
+<h3>Example 1: Creative Writing Setup</h3>
+<pre><code class="language-bash"># Configure for creative writing
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+/set modelparam temperature 0.9
+/set modelparam max_tokens 8000
+/set context-limit 150000
+/profile save creative-writing
+</code></pre>
+<h3>Example 2: Code Analysis Setup</h3>
+<pre><code class="language-bash"># Configure for code analysis
+/provider openai
+/model o3-mini
+/set modelparam temperature 0.2
+/set modelparam max_tokens 4096
+/set modelparam seed 42  # For reproducibility
+/set compression-threshold 0.7
+/profile save code-analysis
+</code></pre>
+<h3>Example 3: Local Model Setup</h3>
+<pre><code class="language-bash"># Configure for local LLM
+/provider openai  # Local servers use OpenAI protocol
+/baseurl http://localhost:8080/v1
+/model local-model-name
+/set modelparam temperature 0.7
+/profile save local-llm
+</code></pre>
+<h3>Example 4: Using Claude's Thinking Mode</h3>
+<pre><code class="language-bash"># Enable thinking for complex reasoning
+/provider anthropic
+/model claude-sonnet-4-5-20250929
+/set modelparam thinking {&quot;type&quot;:&quot;enabled&quot;,&quot;budget_tokens&quot;:8192}
+/profile save deep-thinking
+</code></pre>
+<h3>Example 5: Using Reasoning Models (Kimi K2-Thinking)</h3>
+<pre><code class="language-bash"># Configure for Kimi K2-Thinking via OpenAI-compatible API
+/provider openai
+/baseurl https://api.synthetic.new/openai/v1
+/model hf:moonshotai/Kimi-K2-Thinking
+/set reasoning.enabled true
+/set reasoning.includeInContext true
+/set reasoning.includeInResponse true
+/set reasoning.stripFromContext none
+/set streaming disabled  # Non-streaming recommended for reasoning models
+/profile save k2-thinking
+</code></pre>
+<h2>Important Notes</h2>
+<h3>Model Parameter Validation</h3>
+<p>⚠️ <strong>Warning</strong>: LLxprt Code does <strong>not</strong> validate model parameters. This means:</p>
+<ul>
+<li>You can set any parameter, even if the provider doesn't support it</li>
+<li>Typos in parameter names won't be caught</li>
+<li>Invalid values might cause API errors</li>
+<li>Different models support different parameters</li>
+</ul>
+<p>Always check your provider's documentation for:</p>
+<ul>
+<li>Correct parameter names (e.g., <code>max_tokens</code> vs <code>maxTokens</code>)</li>
+<li>Valid value ranges</li>
+<li>Model-specific features</li>
+</ul>
+<h3>Security Considerations</h3>
+<ol>
+<li><strong>API Keys are sensitive</strong>: Never share profiles containing API keys</li>
+<li><strong>Use keyfiles</strong>: Store keys in separate files with restricted permissions</li>
+<li><strong>Environment isolation</strong>: Different environments should use different keyfiles</li>
+<li><strong>Profile sharing</strong>: Remove auth settings before sharing profiles:<pre><code class="language-bash">/set unset auth-key
+/set unset auth-keyfile
+/profile save shareable-profile
+</code></pre>
+</li>
+</ol>
+<h3>Provider Differences</h3>
+<p>Each provider has its own:</p>
+<ul>
+<li>Parameter names (snake_case vs camelCase)</li>
+<li>Value ranges (temperature 0-2 for OpenAI, 0-1 for others)</li>
+<li>Specific features (thinking mode, vision, etc.)</li>
+<li>Rate limits and pricing</li>
+</ul>
+<p>Always consult your provider's documentation for the most up-to-date information.</p>
+<h3>Troubleshooting</h3>
+<p><strong>&quot;Invalid parameter&quot; errors</strong>: Check the exact parameter name for your provider</p>
+<p><strong>Settings not persisting</strong>: Remember that ephemeral settings are session-only unless saved to a profile</p>
+<p><strong>Profile not loading</strong>: Check that the profile exists in <code>~/.llxprt/profiles/</code></p>
+<p><strong>API errors after loading profile</strong>: Verify that model parameters are valid for the current provider/model</p>
+<p><strong>Authentication failures</strong>: Ensure keyfiles have correct permissions (600) and valid keys</p>
 
           </div>
         </div>
