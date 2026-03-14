@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hooks on LLxprt Code: Best practices | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Hooks on LLxprt Code: Best practices</h1>
+<p>This guide covers security considerations, performance optimization, debugging
+techniques, and privacy considerations for developing and deploying hooks in
+LLxprt Code.</p>
+<h2>Security considerations</h2>
+<h3>Validate all inputs</h3>
+<p>Never trust data from hooks without validation. Hook inputs may contain
+user-provided data that could be malicious:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+input=$(cat)
+
+# Validate JSON structure
+if ! echo &quot;$input&quot; | jq empty 2&gt;/dev/null; then
+  echo &quot;Invalid JSON input&quot; &gt;&amp;2
+  exit 1
+fi
+
+# Validate required fields
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name // empty')
+if [ -z &quot;$tool_name&quot; ]; then
+  echo &quot;Missing tool_name field&quot; &gt;&amp;2
+  exit 1
+fi
+</code></pre>
+<h3>Use timeouts</h3>
+<p>Set reasonable timeouts to prevent hooks from hanging indefinitely:</p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;slow-validator&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;./hooks/validate.sh&quot;,
+            &quot;timeout&quot;: 5000
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<p><strong>Recommended timeouts:</strong></p>
+<ul>
+<li>Fast validation: 1000-5000ms</li>
+<li>Network requests: 10000-30000ms</li>
+<li>Heavy computation: 30000-60000ms</li>
+</ul>
+<h3>Limit permissions</h3>
+<p>Run hooks with minimal required permissions:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+# Don't run as root
+if [ &quot;$EUID&quot; -eq 0 ]; then
+  echo &quot;Hook should not run as root&quot; &gt;&amp;2
+  exit 1
+fi
+
+# Check file permissions before writing
+if [ -w &quot;$file_path&quot; ]; then
+  # Safe to write
+else
+  echo &quot;Insufficient permissions&quot; &gt;&amp;2
+  exit 1
+fi
+</code></pre>
+<h3>Scan for secrets</h3>
+<p>Use <code>BeforeTool</code> hooks to prevent committing sensitive data:</p>
+<pre><code class="language-javascript">const SECRET_PATTERNS = [
+  /api[_-]?key\s*[:=]\s*['&quot;]?[a-zA-Z0-9_-]{20,}['&quot;]?/i,
+  /password\s*[:=]\s*['&quot;]?[^\s'&quot;]{8,}['&quot;]?/i,
+  /secret\s*[:=]\s*['&quot;]?[a-zA-Z0-9_-]{20,}['&quot;]?/i,
+  /AKIA[0-9A-Z]{16}/, // AWS access key
+  /ghp_[a-zA-Z0-9]{36}/, // GitHub personal access token
+  /sk-[a-zA-Z0-9]{48}/, // OpenAI API key
+];
+
+function containsSecret(content) {
+  return SECRET_PATTERNS.some((pattern) =&gt; pattern.test(content));
+}
+</code></pre>
+<h3>Review external scripts</h3>
+<p>Always review hook scripts from untrusted sources before enabling them:</p>
+<pre><code class="language-bash"># Review before installing
+cat third-party-hook.sh | less
+
+# Check for suspicious patterns
+grep -E 'curl|wget|ssh|eval' third-party-hook.sh
+
+# Verify hook source
+ls -la third-party-hook.sh
+</code></pre>
+<h3>Sandbox untrusted hooks</h3>
+<p>For maximum security, consider running untrusted hooks in isolated environments:</p>
+<pre><code class="language-bash"># Run hook in Docker container
+docker run --rm \
+  -v &quot;$GEMINI_PROJECT_DIR:/workspace:ro&quot; \
+  -i untrusted-hook-image \
+  /hook-script.sh &lt; input.json
+</code></pre>
+<h2>Performance</h2>
+<h3>Keep hooks fast</h3>
+<p>Hooks run synchronously—slow hooks delay the agent loop. Optimize for speed by
+using parallel operations:</p>
+<pre><code class="language-javascript">// Sequential operations are slower
+const data1 = await fetch(url1).then((r) =&gt; r.json());
+const data2 = await fetch(url2).then((r) =&gt; r.json());
+const data3 = await fetch(url3).then((r) =&gt; r.json());
+
+// Prefer parallel operations for better performance
+const [data1, data2, data3] = await Promise.all([
+  fetch(url1).then((r) =&gt; r.json()),
+  fetch(url2).then((r) =&gt; r.json()),
+  fetch(url3).then((r) =&gt; r.json()),
+]);
+</code></pre>
+<h3>Cache expensive operations</h3>
+<p>Store results between invocations to avoid repeated computation:</p>
+<pre><code class="language-javascript">const fs = require('fs');
+const path = require('path');
+
+const CACHE_FILE = '.llxprt/hook-cache.json';
+
+function readCache() {
+  try {
+    return JSON.parse(fs.readFileSync(CACHE_FILE, 'utf8'));
+  } catch {
+    return {};
+  }
+}
+
+function writeCache(data) {
+  fs.writeFileSync(CACHE_FILE, JSON.stringify(data, null, 2));
+}
+
+async function main() {
+  const cache = readCache();
+  const cacheKey = `tool-list-${(Date.now() / 3600000) | 0}`; // Hourly cache
+
+  if (cache[cacheKey]) {
+    console.log(JSON.stringify(cache[cacheKey]));
+    return;
+  }
+
+  // Expensive operation
+  const result = await computeExpensiveResult();
+  cache[cacheKey] = result;
+  writeCache(cache);
+
+  console.log(JSON.stringify(result));
+}
+</code></pre>
+<h3>Use appropriate events</h3>
+<p>Choose hook events that match your use case to avoid unnecessary execution.
+<code>AfterAgent</code> fires once per agent loop completion, while <code>AfterModel</code> fires
+after every LLM call (potentially multiple times per loop):</p>
+<pre><code class="language-json">// If checking final completion, use AfterAgent instead of AfterModel
+{
+  &quot;hooks&quot;: {
+    &quot;AfterAgent&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;final-checker&quot;,
+            &quot;command&quot;: &quot;./check-completion.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Filter with matchers</h3>
+<p>Use specific matchers to avoid unnecessary hook execution. Instead of matching
+all tools with <code>*</code>, specify only the tools you need:</p>
+<pre><code class="language-json">{
+  &quot;matcher&quot;: &quot;write_file|replace&quot;,
+  &quot;hooks&quot;: [
+    {
+      &quot;name&quot;: &quot;validate-writes&quot;,
+      &quot;command&quot;: &quot;./validate.sh&quot;
+    }
+  ]
+}
+</code></pre>
+<h3>Optimize JSON parsing</h3>
+<p>For large inputs, use streaming JSON parsers to avoid loading everything into
+memory:</p>
+<pre><code class="language-javascript">// Standard approach: parse entire input
+const input = JSON.parse(await readStdin());
+const content = input.tool_input.content;
+
+// For very large inputs: stream and extract only needed fields
+const { createReadStream } = require('fs');
+const JSONStream = require('JSONStream');
+
+const stream = createReadStream(0).pipe(JSONStream.parse('tool_input.content'));
+let content = '';
+stream.on('data', (chunk) =&gt; {
+  content += chunk;
+});
+</code></pre>
+<h2>Debugging</h2>
+<h3>Log to files</h3>
+<p>Write debug information to dedicated log files:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+LOG_FILE=&quot;.llxprt/hooks/debug.log&quot;
+
+# Log with timestamp
+log() {
+  echo &quot;[$(date '+%Y-%m-%d %H:%M:%S')] $*&quot; &gt;&gt; &quot;$LOG_FILE&quot;
+}
+
+input=$(cat)
+log &quot;Received input: ${input:0:100}...&quot;
+
+# Hook logic here
+
+log &quot;Hook completed successfully&quot;
+</code></pre>
+<h3>Use stderr for errors</h3>
+<p>Error messages on stderr are surfaced appropriately based on exit codes:</p>
+<pre><code class="language-javascript">try {
+  const result = dangerousOperation();
+  console.log(JSON.stringify({ result }));
+} catch (error) {
+  console.error(`Hook error: ${error.message}`);
+  process.exit(2); // Blocking error
+}
+</code></pre>
+<h3>Test hooks independently</h3>
+<p>Run hook scripts manually with sample JSON input:</p>
+<pre><code class="language-bash"># Create test input
+cat &gt; test-input.json &lt;&lt; 'EOF'
+{
+  &quot;session_id&quot;: &quot;test-123&quot;,
+  &quot;cwd&quot;: &quot;/tmp/test&quot;,
+  &quot;hook_event_name&quot;: &quot;BeforeTool&quot;,
+  &quot;tool_name&quot;: &quot;write_file&quot;,
+  &quot;tool_input&quot;: {
+    &quot;file_path&quot;: &quot;test.txt&quot;,
+    &quot;content&quot;: &quot;Test content&quot;
+  }
+}
+EOF
+
+# Test the hook
+cat test-input.json | .llxprt/hooks/my-hook.sh
+
+# Check exit code
+echo &quot;Exit code: $?&quot;
+</code></pre>
+<h3>Check exit codes</h3>
+<p>Ensure your script returns the correct exit code:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -e  # Exit on error
+
+# Hook logic
+process_input() {
+  # ...
+}
+
+if process_input; then
+  echo &quot;Success message&quot;
+  exit 0
+else
+  echo &quot;Error message&quot; &gt;&amp;2
+  exit 2
+fi
+</code></pre>
+<h3>Enable telemetry</h3>
+<p>Hook execution is logged when <code>telemetry.logPrompts</code> is enabled:</p>
+<pre><code class="language-json">{
+  &quot;telemetry&quot;: {
+    &quot;logPrompts&quot;: true
+  }
+}
+</code></pre>
+<p>View hook telemetry in logs to debug execution issues.</p>
+<h3>Use hook panel</h3>
+<p>The <code>/hooks panel</code> command shows execution status and recent output:</p>
+<pre><code class="language-bash">/hooks panel
+</code></pre>
+<p>Check for:</p>
+<ul>
+<li>Hook execution counts</li>
+<li>Recent successes/failures</li>
+<li>Error messages</li>
+<li>Execution timing</li>
+</ul>
+<h2>Development</h2>
+<h3>Start simple</h3>
+<p>Begin with basic logging hooks before implementing complex logic:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+# Simple logging hook to understand input structure
+input=$(cat)
+echo &quot;$input&quot; &gt;&gt; .llxprt/hook-inputs.log
+echo &quot;Logged input&quot;
+</code></pre>
+<h3>Use JSON libraries</h3>
+<p>Parse JSON with proper libraries instead of text processing:</p>
+<p><strong>Bad:</strong></p>
+<pre><code class="language-bash"># Fragile text parsing
+tool_name=$(echo &quot;$input&quot; | grep -oP '&quot;tool_name&quot;:\s*&quot;\K[^&quot;]+')
+</code></pre>
+<p><strong>Good:</strong></p>
+<pre><code class="language-bash"># Robust JSON parsing
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name')
+</code></pre>
+<h3>Make scripts executable</h3>
+<p>Always make hook scripts executable:</p>
+<pre><code class="language-bash">chmod +x .llxprt/hooks/*.sh
+chmod +x .llxprt/hooks/*.js
+</code></pre>
+<h3>Version control</h3>
+<p>Commit hooks to share with your team:</p>
+<pre><code class="language-bash">git add .llxprt/hooks/
+git add .llxprt/settings.json
+git commit -m &quot;Add project hooks for security and testing&quot;
+</code></pre>
+<p><strong><code>.gitignore</code> considerations:</strong></p>
+<pre><code class="language-gitignore"># Ignore hook cache and logs
+.llxprt/hook-cache.json
+.llxprt/hook-debug.log
+.llxprt/memory/session-*.jsonl
+
+# Keep hook scripts
+!.llxprt/hooks/*.sh
+!.llxprt/hooks/*.js
+</code></pre>
+<h3>Document behavior</h3>
+<p>Add descriptions to help others understand your hooks:</p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;write_file|replace&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;secret-scanner&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
+            &quot;description&quot;: &quot;Scans code changes for API keys, passwords, and other secrets before writing&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<p>Add comments in hook scripts:</p>
+<pre><code class="language-javascript">#!/usr/bin/env node
+/**
+ * RAG Tool Filter Hook
+ *
+ * This hook reduces the tool space from 100+ tools to ~15 relevant ones
+ * by extracting keywords from the user's request and filtering tools
+ * based on semantic similarity.
+ *
+ * Performance: ~500ms average, cached tool embeddings
+ * Dependencies: @google/generative-ai
+ */
+</code></pre>
+<h2>Troubleshooting</h2>
+<h3>Hook not executing</h3>
+<p><strong>Check hook name in <code>/hooks panel</code>:</strong></p>
+<pre><code class="language-bash">/hooks panel
+</code></pre>
+<p>Verify the hook appears in the list and is enabled.</p>
+<p><strong>Verify matcher pattern:</strong></p>
+<pre><code class="language-bash"># Test regex pattern
+echo &quot;write_file|replace&quot; | grep -E &quot;write_.*|replace&quot;
+</code></pre>
+<p><strong>Check disabled list:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;disabled&quot;: [&quot;my-hook-name&quot;]
+  }
+}
+</code></pre>
+<p><strong>Ensure script is executable:</strong></p>
+<pre><code class="language-bash">ls -la .llxprt/hooks/my-hook.sh
+chmod +x .llxprt/hooks/my-hook.sh
+</code></pre>
+<p><strong>Verify script path:</strong></p>
+<pre><code class="language-bash"># Check path expansion
+echo &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot;
+
+# Verify file exists
+test -f &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot; &amp;&amp; echo &quot;File exists&quot;
+</code></pre>
+<h3>Hook timing out</h3>
+<p><strong>Check configured timeout:</strong></p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;slow-hook&quot;,
+  &quot;timeout&quot;: 60000
+}
+</code></pre>
+<p><strong>Optimize slow operations:</strong></p>
+<pre><code class="language-javascript">// Before: Sequential operations (slow)
+for (const item of items) {
+  await processItem(item);
+}
+
+// After: Parallel operations (fast)
+await Promise.all(items.map((item) =&gt; processItem(item)));
+</code></pre>
+<p><strong>Use caching:</strong></p>
+<pre><code class="language-javascript">const cache = new Map();
+
+async function getCachedData(key) {
+  if (cache.has(key)) {
+    return cache.get(key);
+  }
+  const data = await fetchData(key);
+  cache.set(key, data);
+  return data;
+}
+</code></pre>
+<p><strong>Consider splitting into multiple faster hooks:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;write_file&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;quick-check&quot;,
+            &quot;command&quot;: &quot;./quick-validation.sh&quot;,
+            &quot;timeout&quot;: 1000
+          }
+        ]
+      },
+      {
+        &quot;matcher&quot;: &quot;write_file&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;deep-check&quot;,
+            &quot;command&quot;: &quot;./deep-analysis.sh&quot;,
+            &quot;timeout&quot;: 30000
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Invalid JSON output</h3>
+<p><strong>Validate JSON before outputting:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+output='{&quot;decision&quot;: &quot;allow&quot;}'
+
+# Validate JSON
+if echo &quot;$output&quot; | jq empty 2&gt;/dev/null; then
+  echo &quot;$output&quot;
+else
+  echo &quot;Invalid JSON generated&quot; &gt;&amp;2
+  exit 1
+fi
+</code></pre>
+<p><strong>Ensure proper quoting and escaping:</strong></p>
+<pre><code class="language-javascript">// Bad: Unescaped string interpolation
+const message = `User said: ${userInput}`;
+console.log(JSON.stringify({ message }));
+
+// Good: Automatic escaping
+console.log(JSON.stringify({ message: `User said: ${userInput}` }));
+</code></pre>
+<p><strong>Check for binary data or control characters:</strong></p>
+<pre><code class="language-javascript">function sanitizeForJSON(str) {
+  return str.replace(/[\x00-\x1F\x7F-\x9F]/g, ''); // Remove control chars
+}
+
+const cleanContent = sanitizeForJSON(content);
+console.log(JSON.stringify({ content: cleanContent }));
+</code></pre>
+<h3>Exit code issues</h3>
+<p><strong>Verify script returns correct codes:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+set -e  # Exit on error
+
+# Processing logic
+if validate_input; then
+  echo &quot;Success&quot;
+  exit 0
+else
+  echo &quot;Validation failed&quot; &gt;&amp;2
+  exit 2
+fi
+</code></pre>
+<p><strong>Check for unintended errors:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+# Don't use 'set -e' if you want to handle errors explicitly
+# set -e
+
+if ! command_that_might_fail; then
+  # Handle error
+  echo &quot;Command failed but continuing&quot; &gt;&amp;2
+fi
+
+# Always exit explicitly
+exit 0
+</code></pre>
+<p><strong>Use trap for cleanup:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+cleanup() {
+  # Cleanup logic
+  rm -f /tmp/hook-temp-*
+}
+
+trap cleanup EXIT
+
+# Hook logic here
+</code></pre>
+<h3>Environment variables not available</h3>
+<p><strong>Check if variable is set:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+if [ -z &quot;$GEMINI_PROJECT_DIR&quot; ]; then
+  echo &quot;GEMINI_PROJECT_DIR not set&quot; &gt;&amp;2
+  exit 1
+fi
+
+if [ -z &quot;$CUSTOM_VAR&quot; ]; then
+  echo &quot;Warning: CUSTOM_VAR not set, using default&quot; &gt;&amp;2
+  CUSTOM_VAR=&quot;default-value&quot;
+fi
+</code></pre>
+<p><strong>Debug available variables:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+# List all environment variables
+env &gt; .llxprt/hook-env.log
+
+# Check specific variables
+echo &quot;GEMINI_PROJECT_DIR: $GEMINI_PROJECT_DIR&quot; &gt;&gt; .llxprt/hook-env.log
+echo &quot;GEMINI_SESSION_ID: $GEMINI_SESSION_ID&quot; &gt;&gt; .llxprt/hook-env.log
+echo &quot;GEMINI_API_KEY: ${GEMINI_API_KEY:+&lt;set&gt;}&quot; &gt;&gt; .llxprt/hook-env.log
+</code></pre>
+<p><strong>Use .env files:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+# Load .env file if it exists
+if [ -f &quot;$GEMINI_PROJECT_DIR/.env&quot; ]; then
+  source &quot;$GEMINI_PROJECT_DIR/.env&quot;
+fi
+</code></pre>
+<h2>Privacy considerations</h2>
+<p>Hook inputs and outputs may contain sensitive information. LLxprt Code respects
+the <code>telemetry.logPrompts</code> setting for hook data logging.</p>
+<h3>What data is collected</h3>
+<p>Hook telemetry may include:</p>
+<ul>
+<li><strong>Hook inputs:</strong> User prompts, tool arguments, file contents</li>
+<li><strong>Hook outputs:</strong> Hook responses, decision reasons, added context</li>
+<li><strong>Standard streams:</strong> stdout and stderr from hook processes</li>
+<li><strong>Execution metadata:</strong> Hook name, event type, duration, success/failure</li>
+</ul>
+<h3>Privacy settings</h3>
+<p><strong>Enabled (default):</strong></p>
+<p>Full hook I/O is logged to telemetry. Use this when:</p>
+<ul>
+<li>Developing and debugging hooks</li>
+<li>Telemetry is redirected to a trusted enterprise system</li>
+<li>You understand and accept the privacy implications</li>
+</ul>
+<p><strong>Disabled:</strong></p>
+<p>Only metadata is logged (event name, duration, success/failure). Hook inputs and
+outputs are excluded. Use this when:</p>
+<ul>
+<li>Sending telemetry to third-party systems</li>
+<li>Working with sensitive data</li>
+<li>Privacy regulations require minimizing data collection</li>
+</ul>
+<h3>Configuration</h3>
+<p><strong>Disable PII logging in settings:</strong></p>
+<pre><code class="language-json">{
+  &quot;telemetry&quot;: {
+    &quot;logPrompts&quot;: false
+  }
+}
+</code></pre>
+<p><strong>Disable via environment variable:</strong></p>
+<pre><code class="language-bash">export GEMINI_TELEMETRY_LOG_PROMPTS=false
+</code></pre>
+<h3>Sensitive data in hooks</h3>
+<p>If your hooks process sensitive data:</p>
+<ol>
+<li><strong>Minimize logging:</strong> Don't write sensitive data to log files</li>
+<li><strong>Sanitize outputs:</strong> Remove sensitive data before outputting</li>
+<li><strong>Use secure storage:</strong> Encrypt sensitive data at rest</li>
+<li><strong>Limit access:</strong> Restrict hook script permissions</li>
+</ol>
+<p><strong>Example sanitization:</strong></p>
+<pre><code class="language-javascript">function sanitizeOutput(data) {
+  const sanitized = { ...data };
+
+  // Remove sensitive fields
+  delete sanitized.apiKey;
+  delete sanitized.password;
+
+  // Redact sensitive strings
+  if (sanitized.content) {
+    sanitized.content = sanitized.content.replace(
+      /api[_-]?key\s*[:=]\s*['&quot;]?[a-zA-Z0-9_-]{20,}['&quot;]?/gi,
+      '[REDACTED]',
+    );
+  }
+
+  return sanitized;
+}
+
+console.log(JSON.stringify(sanitizeOutput(hookOutput)));
+</code></pre>
+<h2>Learn more</h2>
+<ul>
+<li><a href="index.html">Hooks Reference</a> - Complete API reference</li>
+<li><a href="writing-hooks.html">Writing Hooks</a> - Tutorial and examples</li>
+<li><a href="../cli/configuration.html">Configuration</a> - LLxprt Code settings</li>
+<li><a href="../hooks-design.html">Hooks Design Document</a> - Technical architecture</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

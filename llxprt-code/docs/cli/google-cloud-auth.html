@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Async Task Execution | LLxprt Code Docs</title>
+  <title>Google Cloud Authentication | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../../vybestack.css" />
 </head>
 <body>
@@ -68,47 +68,57 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Async Task Execution</h1>
-<h2>Overview</h2>
-<p>Async tasks allow the model to launch subagents in the background without blocking.
-The foreground agent can continue working while subagents run in parallel.</p>
-<h2>Using Async Mode</h2>
-<p>To launch a subagent asynchronously, use the <code>async=true</code> parameter:</p>
-<pre><code>Task(subagent='researcher', goal='Research topic X', async=true)
-</code></pre>
-<p>The Task tool returns immediately with a task ID. The subagent runs in the background.</p>
-<h2>Monitoring Async Tasks</h2>
-<h3>Model Tool: check_async_tasks</h3>
-<p>The model can use the <code>check_async_tasks</code> tool to query task status:</p>
+            <h1>Google Cloud Authentication</h1>
+<p>Most users should use OAuth (<code>/auth gemini enable</code>) or a Gemini API key (<code>/key save gemini &lt;key&gt;</code>). This page covers advanced Google Cloud authentication methods for enterprise and Workspace users.</p>
+<h2>When You Need This</h2>
+<p>You need Google Cloud authentication if:</p>
 <ul>
-<li>No arguments: List all async tasks</li>
-<li><code>task_id</code>: Get details of a specific task (prefix matching supported)</li>
+<li>You have a Google Workspace account (managed by an employer or school)</li>
+<li>You received a Gemini Code Assist license through the <a href="https://developers.google.com/program/plans-and-pricing">Google Developer Program</a></li>
+<li>You have a Gemini Code Assist standard or enterprise subscription</li>
+<li>You're using LLxprt Code outside <a href="https://developers.google.com/gemini-code-assist/resources/available-locations">supported regions</a> for free individual usage</li>
+<li>You're under 18 with a Google account</li>
 </ul>
-<h3>User Commands</h3>
-<ul>
-<li><code>/tasks</code> or <code>/tasks list</code> - Show all async tasks with status</li>
-<li><code>/task end &lt;id&gt;</code> - Cancel a running async task (prefix matching supported)</li>
-</ul>
-<h2>Notifications</h2>
-<p>When an async task completes:</p>
-<ol>
-<li>If the agent is idle: Auto-triggers with completion notification</li>
-<li>If the agent is busy: Included in next turn's system reminder</li>
-</ol>
-<h2>Configuration</h2>
-<p>Set maximum concurrent async tasks:</p>
-<pre><code>/set task-max-async 10
+<h2>Google Cloud Project ID</h2>
+<p>If you fall into one of the categories above, you need to configure a Google Cloud Project ID. First, <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#enable-api">enable the Gemini for Cloud API</a> and <a href="https://cloud.google.com/gemini/docs/discover/set-up-gemini#grant-iam">configure access permissions</a>.</p>
+<p>Then set the project ID:</p>
+<pre><code class="language-bash">export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
 </code></pre>
-<p>Default: 5. Use -1 for unlimited.</p>
-<h2>Task Lifecycle</h2>
+<p>For persistent use, add this to your shell config (<code>~/.bashrc</code>, <code>~/.zshrc</code>).</p>
+<h2>Vertex AI</h2>
+<h3>API Key</h3>
+<p>Get an API key from <a href="https://cloud.google.com/vertex-ai/generative-ai/docs/start/api-keys?usertype=newuser">Google Cloud</a>, then:</p>
+<pre><code class="language-bash">export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;
+</code></pre>
+<blockquote>
+<p>If you see &quot;API keys are not supported by this API,&quot; your organization may restrict API key creation. Use <a href="#application-default-credentials">Application Default Credentials</a> instead.</p>
+</blockquote>
+<h3>Application Default Credentials (ADC)</h3>
+<blockquote>
+<p>Unset any existing <code>GOOGLE_API_KEY</code> or <code>GEMINI_API_KEY</code> first — they take precedence over ADC.</p>
+</blockquote>
+<p><strong>For local development</strong> with <code>gcloud</code>:</p>
+<pre><code class="language-bash">gcloud auth application-default login
+export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+export GOOGLE_CLOUD_LOCATION=&quot;us-central1&quot;
+</code></pre>
+<p><strong>With a service account</strong> (for non-interactive environments):</p>
 <ol>
-<li><strong>Running</strong>: Task is executing</li>
-<li><strong>Completed</strong>: Task finished successfully with output</li>
-<li><strong>Failed</strong>: Task encountered an error</li>
-<li><strong>Cancelled</strong>: Task was cancelled via /task end</li>
+<li><a href="https://cloud.google.com/iam/docs/keys-create-delete">Create a service account</a> with the &quot;Vertex AI User&quot; role</li>
+<li>Download the JSON key file</li>
+<li>Set the path:</li>
 </ol>
-<p>Completed/failed/cancelled tasks are kept in history for notification delivery.
-History is limited to 2x the max concurrent limit (or 10 if unlimited).</p>
+<pre><code class="language-bash">export GOOGLE_APPLICATION_CREDENTIALS=&quot;/path/to/keyfile.json&quot;
+export GOOGLE_CLOUD_PROJECT=&quot;YOUR_PROJECT_ID&quot;
+export GOOGLE_CLOUD_LOCATION=&quot;us-central1&quot;
+</code></pre>
+<h2>Cloud Shell</h2>
+<p>When running in Google Cloud Shell, authentication uses the logged-in user's credentials automatically. No configuration needed — this is the default when no other method is configured.</p>
+<h2>Related</h2>
+<ul>
+<li><a href="./authentication.html">Authentication</a> — Main authentication guide</li>
+<li><a href="../oauth-setup.html">OAuth Setup</a> — OAuth flows for all providers</li>
+</ul>
 
           </div>
         </div>
