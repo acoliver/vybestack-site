@@ -194,7 +194,7 @@ llxprt --provider Synthetic
 <p>From the command line:</p>
 <pre><code class="language-bash">llxprt --provider codex
 </code></pre>
-<p>Each command opens a browser for authentication with your existing account. See <a href="../oauth-setup.html">OAuth Setup</a> for details.</p>
+<p>Each <code>enable</code> command sets up lazy OAuth — a browser opens automatically when you make your first request to that provider. Use <code>/auth &lt;provider&gt; login</code> to open the browser immediately. See <a href="../oauth-setup.html">OAuth Setup</a> for details.</p>
 <h3>API Keys (Keyring)</h3>
 <p>Use <code>/key save</code> to store an API key in your system keyring. You only need to do this once — the key is stored securely and never exposed to the LLM. Keys are automatically masked when you paste them.</p>
 <pre><code class="language-text">/key save anthropic sk-ant-***your-key***

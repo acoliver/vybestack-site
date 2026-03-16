@@ -116,7 +116,7 @@
 /provider qwen
 /model qwen-3-coder
 </code></pre>
-<p>Each <code>/auth</code> command opens a browser for OAuth with your existing account.</p>
+<p>Each <code>/auth &lt;provider&gt; enable</code> command enables lazy OAuth — a browser opens automatically when you make your first request to that provider. Use <code>/auth &lt;provider&gt; login</code> to open the browser immediately.</p>
 <h3>Option C: API Keys</h3>
 <p>For direct API access, use <code>/key save</code> to store your key in your system keyring. You only need to do this once — afterwards, <code>/key load</code> retrieves it without exposing the key in your shell history or to the LLM. Keys are automatically masked when you paste them into the REPL.</p>
 <p><strong>Anthropic:</strong></p>
