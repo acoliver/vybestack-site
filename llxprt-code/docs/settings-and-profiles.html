@@ -55,34 +55,35 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Settings and Profiles</h1>
-<p>LLxprt Code has two kinds of configuration: <strong>persistent settings</strong> (saved to <code>~/.llxprt/settings.json</code>) and <strong>ephemeral settings</strong> (session-only, but saveable to profiles).</p>
+<p>LLxprt Code has two kinds of configuration: <strong>persistent settings</strong> (saved to your <a href="./reference/application-directories.html">user <code>settings.json</code></a>) and <strong>ephemeral settings</strong> (session-only, but saveable to profiles).</p>
 <h2>Profiles (Recommended)</h2>
 <p>Profiles capture your full setup — provider, model, parameters, and ephemeral settings — in one file. Use them instead of passing flags every time.</p>
 <pre><code>/provider openai
-/model hf:moonshotai/Kimi-K2-Thinking
+/model hf:moonshotai/Kimi-K3
 /baseurl https://api.synthetic.new/openai/v1
 /set reasoning.enabled true
-/profile save kimi-k2
+/profile save kimi-k3
 </code></pre>
 <p>Load it later:</p>
-<pre><code>/profile load kimi-k2
+<pre><code>/profile load kimi-k3
 </code></pre>
 <p>Or at startup:</p>
-<pre><code class="language-bash">llxprt --profile-load kimi-k2
+<pre><code class="language-bash">llxprt --profile-load kimi-k3
 </code></pre>
 <h3>Profile Commands</h3>
 <pre><code>/profile save &lt;name&gt;            # Save current config
@@ -92,14 +93,14 @@
 /profile set-default &lt;name&gt;     # Auto-load on startup
 /profile set-default none       # Clear auto-load
 </code></pre>
-<p>Profiles are stored in <code>~/.llxprt/profiles/&lt;name&gt;.json</code>.</p>
+<p>Profiles are stored in <code>&lt;config&gt;/profiles/&lt;name&gt;.json</code> (see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <h3>CLI Flags Override Profiles</h3>
 <p>Command-line flags always win over profile values. This is useful for one-off overrides:</p>
 <pre><code class="language-bash"># Load profile but use a different key
-llxprt --profile-load kimi-k2 --key-name synthetic-alt
+llxprt --profile-load kimi-k3 --key-name synthetic-alt
 
 # Load profile but override the model
-llxprt --profile-load kimi-k2 --model gpt-4.1
+llxprt --profile-load kimi-k3 --model gpt-5.5
 </code></pre>
 <h2>Ephemeral Settings</h2>
 <p>Set with <code>/set</code> during a session or <code>--set</code> at startup. These don't persist unless saved to a profile.</p>
@@ -108,6 +109,68 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 </code></pre>
 <p>At startup:</p>
 <pre><code class="language-bash">llxprt --set context-limit=100000 --set streaming=disabled
+</code></pre>
+<h2>Settings File Compatibility</h2>
+<p>Persistent settings files accept both legacy flat keys and the V2 namespaced shape for settings that have moved under a clearer namespace. Existing files continue to work; new writes for mapped UI primitive keys use the V2 path.</p>
+<pre><code class="language-json">{
+  &quot;ui&quot;: {
+    &quot;accessibility&quot;: {
+      &quot;screenReader&quot;: true,
+      &quot;enableLoadingPhrases&quot;: false
+    },
+    &quot;checkpointing&quot;: {
+      &quot;enabled&quot;: true
+    },
+    &quot;fileFiltering&quot;: {
+      &quot;respectGitIgnore&quot;: true,
+      &quot;respectLlxprtIgnore&quot;: true,
+      &quot;enableRecursiveFileSearch&quot;: true,
+      &quot;enableFuzzySearch&quot;: false
+    }
+  }
+}
+</code></pre>
+<p>Backward-compatible mappings:</p>
+<table>
+<thead>
+<tr>
+<th>Legacy path</th>
+<th>V2 path written by settings updates</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>accessibility.*</code></td>
+<td><code>ui.accessibility.*</code></td>
+</tr>
+<tr>
+<td><code>checkpointing.*</code></td>
+<td><code>ui.checkpointing.*</code></td>
+</tr>
+<tr>
+<td><code>fileFiltering.*</code></td>
+<td><code>ui.fileFiltering.*</code></td>
+</tr>
+</tbody>
+</table>
+<p>When both legacy and V2 locations are present in the same settings layer, the V2 value wins. Normal scope precedence still applies across settings files.</p>
+<p>This is the complete V2 compatibility mapping currently supported by LLxprt. Other root-level settings remain in their existing locations until they get an explicit namespaced compatibility path.</p>
+<p>Model settings have one compatibility exception: the legacy <code>model</code> setting is a string and remains supported as-is for model selection. V2 files may also use an object when they need compression settings next to the model name:</p>
+<pre><code class="language-json">{
+  &quot;model&quot;: {
+    &quot;name&quot;: &quot;gpt-5.5&quot;,
+    &quot;compressionThreshold&quot;: 0.7
+  }
+}
+</code></pre>
+<p><code>compressionThreshold</code> must be a number from 0 to 1.</p>
+<p><code>model.name</code> is normalized back to the active model string, and <code>model.compressionThreshold</code> maps to the legacy runtime shape <code>chatCompression.contextPercentageThreshold</code>. Existing files using <code>&quot;model&quot;: &quot;gpt-4.1&quot;</code> and/or <code>chatCompression.contextPercentageThreshold</code> continue to work.</p>
+<p>Merged runtime settings keep <code>model</code> as the active model string for existing callers and also expose the V2 object fields as <code>modelConfig</code> for code that needs the full namespaced model configuration.</p>
+<pre><code class="language-json">{
+  &quot;chatCompression&quot;: {
+    &quot;contextPercentageThreshold&quot;: 0.7
+  }
+}
 </code></pre>
 <h3>Core Settings</h3>
 <table>
@@ -157,7 +220,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 </tbody>
 </table>
 <h3>Reasoning Settings</h3>
-<p>These control extended thinking / chain-of-thought for models that support it (Kimi K2-Thinking, Claude with thinking, o3, etc.).</p>
+<p>These control extended thinking / chain-of-thought for models that support it (Kimi K3, Claude with thinking, GPT-5.x reasoning effort, etc.).</p>
 <table>
 <thead>
 <tr>
@@ -174,7 +237,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 </tr>
 <tr>
 <td><code>reasoning.effort</code></td>
-<td>Reasoning effort level (<code>low</code>, <code>medium</code>, <code>high</code>)</td>
+<td>Effort (<code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>)</td>
 <td>provider default</td>
 </tr>
 <tr>
@@ -204,7 +267,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 <ul>
 <li><strong><code>includeInResponse</code></strong> — if <code>false</code>, the model still thinks but you don't see it. Useful if you want reasoning quality without the noise.</li>
 <li><strong><code>includeInContext</code></strong> — if <code>false</code>, thinking blocks are discarded before the next turn. The model loses access to its own reasoning, which can hurt multi-step tasks. Keep this <code>true</code> unless you're tight on context.</li>
-<li><strong><code>stripFromContext</code></strong> — controls context growth for long sessions. <code>none</code> keeps all thinking (best quality, most tokens). <code>allButLast</code> keeps only the most recent thinking block (good balance). <code>all</code> strips everything (saves context but the model can't reference prior reasoning). For models with large context windows like K2 (256K), <code>none</code> is fine. For smaller windows, <code>allButLast</code> or <code>all</code> helps.</li>
+<li><strong><code>stripFromContext</code></strong> — controls context growth for long sessions. <code>none</code> keeps all thinking (best quality, most tokens). <code>allButLast</code> keeps only the most recent thinking block (good balance). <code>all</code> strips everything (saves context but the model can't reference prior reasoning). For models with large context windows like K3 (1M), <code>none</code> is fine. For smaller windows, <code>allButLast</code> or <code>all</code> helps.</li>
 </ul>
 <h3>Context and Output Limits</h3>
 <p>These settings control how much information flows between you, the model, and the tools. Getting them right is the difference between a model that works efficiently and one that drowns in its own output.</p>
@@ -234,7 +297,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 </tr>
 </tbody>
 </table>
-<p><strong>How they interact:</strong> The model's context window has a fixed size (e.g., 128K for Claude Sonnet, 256K for Kimi K2). <code>context-limit</code> caps how much of that window you actually use — set it lower than the model's max if you want to leave headroom. When the conversation history exceeds <code>compression-threshold × context-limit</code>, LLxprt compresses older turns to free space. <code>max-prompt-tokens</code> is a safety net that prevents any single API call from exceeding a hard limit.</p>
+<p><strong>How they interact:</strong> The model's context window has a fixed size (e.g., 200K for Claude Opus, 1M for Kimi K3). <code>context-limit</code> caps how much of that window you actually use — set it lower than the model's max if you want to leave headroom. Note that the available window can differ by auth variant (API key vs OAuth/subscription). When the conversation history exceeds <code>compression-threshold × context-limit</code>, LLxprt compresses older turns to free space. <code>max-prompt-tokens</code> is a safety net that prevents any single API call from exceeding a hard limit.</p>
 <p><code>maxOutputTokens</code> (set via <code>/set modelparam maxOutputTokens</code> or <code>max_tokens</code> depending on provider) controls how many tokens the model can generate in a single response. This interacts with context-limit because every token the model generates gets added to the history for the next turn. A model that generates very long responses fills up the context faster, triggering more frequent compressions.</p>
 <h3>Tool Output Limits</h3>
 <p>These prevent a single tool call from flooding the context. This matters more than you might expect — a grep across a large codebase can easily return hundreds of thousands of tokens, which consumes the entire context window in one shot.</p>
@@ -269,7 +332,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 </tr>
 </tbody>
 </table>
-<p><strong>How they interact:</strong> Every tool result goes into the conversation history. If <code>tool-output-max-tokens</code> is 50K and the model makes 3 tool calls in a row, that's potentially 150K tokens of tool output added to context — which on a 128K model means immediate compression (and loss of earlier context). Lowering these limits forces the model to be more surgical with its queries, which often produces better results anyway.</p>
+<p><strong>How they interact:</strong> Every tool result goes into the conversation history. If <code>tool-output-max-tokens</code> is 50K and the model makes 3 tool calls in a row, that's potentially 150K tokens of tool output added to context — which on a 200K model means rapid compression (and loss of earlier context). Lowering these limits forces the model to be more surgical with its queries, which often produces better results anyway.</p>
 <p><code>tool-output-truncate-mode</code> controls what happens when a tool exceeds its limits. <code>warn</code> drops the output entirely and tells the model the results were too large — the model gets nothing back, just a message suggesting it narrow its query. <code>truncate</code> cuts the output to fit and silently includes what fits. <code>sample</code> picks evenly-spaced lines from the output to give a representative cross-section. <code>warn</code> is the default because it forces the model to be more surgical, which usually produces better results than shoveling truncated output into context.</p>
 <h3>Timeouts</h3>
 <table>
@@ -391,16 +454,16 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 <h2>Ergonomics Tips</h2>
 <p><strong>Save profiles for things you use often.</strong> Instead of remembering flags, save a profile and load it. You can have as many as you want.</p>
 <p><strong>Set a default profile</strong> so your preferred setup loads automatically:</p>
-<pre><code>/profile set-default kimi-k2
+<pre><code>/profile set-default kimi-k3
 </code></pre>
 <p><strong>Use <code>--set</code> for one-off tweaks</strong> without modifying your saved profile:</p>
-<pre><code class="language-bash">llxprt --profile-load kimi-k2 --set streaming=disabled
+<pre><code class="language-bash">llxprt --profile-load kimi-k3 --set streaming=disabled
 </code></pre>
 <h2>Provider Alias Defaults</h2>
 <p>Some provider aliases ship with tuned defaults for their models — you get reasonable settings just by using <code>/provider &lt;name&gt;</code> without configuring anything. These are a good starting point; you can override any of them with <code>/set</code>.</p>
-<p><strong>Anthropic</strong> — sets <code>maxOutputTokens</code> to 40K globally. For Claude models specifically, enables reasoning with adaptive thinking (lets the model decide how much to think). For Claude Opus 4.6, sets <code>reasoning.effort</code> to <code>high</code>.</p>
-<p><strong>Codex</strong> — sets <code>context-limit</code> to 262K, enables 24-hour prompt caching, sets <code>reasoning.effort</code> to <code>medium</code>, and enables reasoning summaries. Tuned for long coding sessions with OpenAI's Codex models.</p>
-<p><strong>Kimi</strong> — sets <code>context-limit</code> to 262K and <code>max_tokens</code> to 32K. For Kimi models specifically, enables reasoning with <code>includeInResponse</code>, <code>includeInContext</code>, and <code>stripFromContext: none</code> — full thinking visibility with nothing discarded.</p>
+<p><strong>Anthropic</strong> — sets <code>maxOutputTokens</code> to 40K globally and <code>context-limit</code> to 200K. For Claude models specifically, enables reasoning with adaptive thinking (lets the model decide how much to think). For Claude Opus models, sets <code>reasoning.effort</code> to <code>high</code>.</p>
+<p><strong>Codex</strong> — defaults to GPT-5.6 Sol and lists the Sol, Terra, and Luna tiers. It sets <code>context-limit</code> to 262K, enables 24-hour prompt caching, sets <code>reasoning.effort</code> to <code>medium</code>, and enables reasoning summaries. Use <code>reasoning.effort max</code> when maximum GPT-5.6 reasoning is worth the additional latency and tokens.</p>
+<p><strong>Kimi</strong> — sets <code>context-limit</code> to 262K and <code>max_tokens</code> to 32K. For Kimi models specifically, enables reasoning with <code>includeInResponse</code>, <code>includeInContext</code>, and <code>stripFromContext: none</code> — full thinking visibility with nothing discarded. The <code>kimi-k3</code> model overrides these with its shipped geometry: <code>context-limit</code> 1M, <code>max_tokens</code> 131072 (K3's default output allocation; the server supports up to 1048576), and <code>reasoning.effort</code> <code>max</code> (K3 accepts only <code>low</code> / <code>high</code> / <code>max</code>; <code>medium</code> is invalid for K3).</p>
 <p><strong>Gemini, OpenAI, xAI, OpenRouter, Fireworks</strong> — minimal defaults (just endpoint URL and default model). You configure behavior yourself.</p>
 <p>When you load a provider alias, its defaults apply first, then any <code>/set</code> overrides or profile settings layer on top. You can inspect what a provider alias sets by looking at its config file in the source, or just check your active settings with <code>/set</code> after loading a provider.</p>
 <h2>Tuning for Your Model</h2>
@@ -413,7 +476,7 @@ llxprt --profile-load kimi-k2 --model gpt-4.1
 <pre><code>/set tool-output-max-items 30
 /set tool-output-max-tokens 30000
 /set shell-default-timeout-seconds 120
-/profile save kimi-k2-tuned
+/profile save kimi-k3-tuned
 </code></pre>
 <p>Then you don't have to remember the tweaks — just load the profile.</p>
 <h2>Reference Documentation</h2>

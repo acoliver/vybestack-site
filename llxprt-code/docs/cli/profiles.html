@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -75,14 +76,14 @@
 <li><strong>Load balancer profiles</strong> — combine multiple model profiles with failover or round-robin</li>
 </ul>
 <blockquote>
-<p><strong>Note:</strong> LLxprt Code also has <a href="./sandboxing.html">sandbox profiles</a> for container configuration. This page covers model and load balancer profiles only.</p>
+<p><strong>Note:</strong> LLxprt Code also has <a href="./sandbox-profiles.html">sandbox profiles</a> for container configuration. This page covers model and load balancer profiles only.</p>
 </blockquote>
 <h2>Model Profiles</h2>
 <p>A model profile captures your current session state: provider, model, base URL, key reference, and any ephemeral settings.</p>
 <h3>Creating a Profile</h3>
 <p>Set up your session the way you want, then save it:</p>
 <pre><code>/provider anthropic
-/model claude-opus-4-6
+/model claude-opus-5
 /key load anthropic
 /profile save model work-claude
 </code></pre>
@@ -103,7 +104,7 @@
 /profile save model work-profile work@company.com
 </code></pre>
 <h3>Multi-Bucket Failover</h3>
-<p>Save a profile with multiple OAuth buckets. When one account hits rate limits, LLxprt Code automatically moves to the next — this works with all OAuth providers (Anthropic, Codex, Gemini, Qwen):</p>
+<p>Save a profile with multiple OAuth buckets. When one account hits rate limits, LLxprt Code automatically moves to the next — this works with all OAuth providers (Anthropic, Codex):</p>
 <pre><code>/auth anthropic login work1@company.com
 /auth anthropic login work2@company.com
 /auth anthropic login personal@gmail.com
@@ -157,12 +158,12 @@
 </code></pre>
 <h3>High-Availability Across Providers</h3>
 <pre><code>/provider anthropic
-/model claude-opus-4-6
+/model claude-opus-5
 /key load anthropic
 /profile save model primary-claude
 
 /provider openai
-/model gpt-5.2
+/model gpt-5.5
 /key load openai
 /profile save model backup-openai
 
@@ -175,16 +176,16 @@
 /auth anthropic login personal@gmail.com
 
 /provider anthropic
-/model claude-opus-4-6
+/model claude-opus-5
 /profile save model claude-multi team1@company.com team2@company.com personal@gmail.com
 </code></pre>
 <h2>Manual Profile Files</h2>
-<p>Profiles are stored as JSON in <code>~/.llxprt/profiles/</code>. You can edit them directly.</p>
+<p>Profiles are stored as JSON in your <a href="../reference/application-directories.html">profiles directory</a> (<code>&lt;config&gt;/profiles/</code>, overridable via <code>LLXPRT_CONFIG_HOME</code>). You can edit them directly.</p>
 <p>Profiles work with any OpenAI-compatible or Anthropic-compatible endpoint. Here's an example targeting Synthetic:</p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;hf:moonshotai/Kimi-K2-Thinking&quot;,
+  &quot;model&quot;: &quot;hf:moonshotai/Kimi-K3&quot;,
   &quot;modelParams&quot;: {
     &quot;temperature&quot;: 1
   },

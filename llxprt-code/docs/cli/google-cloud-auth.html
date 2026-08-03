@@ -55,21 +55,25 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Google Cloud Authentication</h1>
-<p>Most users should use OAuth (<code>/auth gemini enable</code>) or a Gemini API key (<code>/key save gemini &lt;key&gt;</code>). This page covers advanced Google Cloud authentication methods for enterprise and Workspace users.</p>
+<p>Most users should use a Gemini API key (<code>/key save gemini &lt;key&gt;</code>) or Vertex AI. This page covers advanced Google Cloud authentication methods for enterprise and Workspace users.</p>
+<blockquote>
+<p><strong>Free individual access removed in mid-2026.</strong> Google has fully removed the free consumer &quot;Login with Google&quot; CLI access. Use a Gemini API key for individual use; Google Workspace users can still use the project / Vertex / ADC methods below.</p>
+</blockquote>
 <h2>When You Need This</h2>
 <p>You need Google Cloud authentication if:</p>
 <ul>
@@ -91,7 +95,7 @@
 <pre><code class="language-bash">export GOOGLE_API_KEY=&quot;YOUR_GOOGLE_API_KEY&quot;
 </code></pre>
 <blockquote>
-<p>If you see &quot;API keys are not supported by this API,&quot; your organization may restrict API key creation. Use <a href="#application-default-credentials">Application Default Credentials</a> instead.</p>
+<p>If you see &quot;API keys are not supported by this API,&quot; your organization may restrict API key creation. Use <a href="#application-default-credentials-adc">Application Default Credentials</a> instead.</p>
 </blockquote>
 <h3>Application Default Credentials (ADC)</h3>
 <blockquote>

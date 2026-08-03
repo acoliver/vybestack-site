@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -102,7 +103,7 @@
 <li>Using the arrow keys, select a theme. Some interfaces might offer a live preview or highlight as you select.</li>
 <li>Confirm your selection to apply the theme.</li>
 </ol>
-<p><strong>Note:</strong> Theme selection follows the same precedence as other settings (workspace <code>.llxprt/settings.json</code> &gt; user <code>~/.llxprt/settings.json</code> &gt; system overrides). <code>/theme</code> will update the highest-precedence writable file; you no longer need to delete the <code>&quot;theme&quot;</code> key manually before switching themes.</p>
+<p><strong>Note:</strong> Theme selection follows the same precedence as other settings (workspace <code>.llxprt/settings.json</code> &gt; <a href="../reference/application-directories.html">user settings.json</a> &gt; system overrides). <code>/theme</code> will update the highest-precedence writable file; you no longer need to delete the <code>&quot;theme&quot;</code> key manually before switching themes.</p>
 <h3>Theme Persistence</h3>
 <p>Selected themes are saved in LLxprt Code's <a href="./configuration.html">configuration</a> so your preference is remembered across sessions.</p>
 <hr>
@@ -128,7 +129,6 @@
       &quot;Gray&quot;: &quot;#ABB2BF&quot;,
       &quot;DiffAdded&quot;: &quot;#A6E3A1&quot;,
       &quot;DiffRemoved&quot;: &quot;#F38BA8&quot;,
-      &quot;DiffModified&quot;: &quot;#89B4FA&quot;,
       &quot;GradientColors&quot;: [&quot;#4796E4&quot;, &quot;#847ACE&quot;, &quot;#C3677F&quot;]
     }
   }
@@ -149,7 +149,6 @@
 <li><code>Gray</code></li>
 <li><code>DiffAdded</code> (optional, for added lines in diffs)</li>
 <li><code>DiffRemoved</code> (optional, for removed lines in diffs)</li>
-<li><code>DiffModified</code> (optional, for modified lines in diffs)</li>
 </ul>
 <p>You can also override individual UI text roles by adding a nested <code>text</code> object.
 This object supports the keys <code>primary</code>, <code>secondary</code>, <code>link</code>, <code>accent</code>, and
@@ -198,7 +197,6 @@ This object supports the keys <code>primary</code>, <code>secondary</code>, <cod
   &quot;Gray&quot;: &quot;#ABB2BF&quot;,
   &quot;DiffAdded&quot;: &quot;#A6E3A1&quot;,
   &quot;DiffRemoved&quot;: &quot;#F38BA8&quot;,
-  &quot;DiffModified&quot;: &quot;#89B4FA&quot;,
   &quot;GradientColors&quot;: [&quot;#4796E4&quot;, &quot;#847ACE&quot;, &quot;#C3677F&quot;]
 }
 </code></pre>

@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -73,6 +74,12 @@
 <p>LLxprt Code includes the ability to automatically ignore files, similar to <code>.gitignore</code> (used by Git) and <code>.aiexclude</code> (used by Gemini Code Assist). Adding paths to your <code>.llxprtignore</code> file will exclude them from tools that support this feature, although they will still be visible to other services (such as Git).</p>
 <h2>How it works</h2>
 <p>When you add a path to your <code>.llxprtignore</code> file, tools that respect this file will exclude matching files and directories from their operations. For example, when you use the <code>read_many_files</code> tool, any paths in your <code>.llxprtignore</code> file will be automatically excluded.</p>
+<p><code>.gitignore</code> and <code>.llxprtignore</code> filtering are independent. Toggling one does not affect the other. Tools that expose <code>file_filtering_options</code> (such as <code>glob</code>, <code>ls</code>, <code>grep</code>/<code>ripgrep</code>, and <code>read_many_files</code>) allow you to control each independently:</p>
+<ul>
+<li><code>respect_git_ignore</code> — whether to apply <code>.gitignore</code> patterns.</li>
+<li><code>respect_llxprt_ignore</code> — whether to apply <code>.llxprtignore</code> patterns.</li>
+</ul>
+<p>Both default to <code>true</code>. When both are enabled, <code>.llxprtignore</code> patterns are applied after <code>.gitignore</code> patterns, so a negation in <code>.llxprtignore</code> can un-ignore a file ignored by <code>.gitignore</code>.</p>
 <p>For the most part, <code>.llxprtignore</code> follows the conventions of <code>.gitignore</code> files:</p>
 <ul>
 <li>Blank lines and lines starting with <code>#</code> are ignored.</li>

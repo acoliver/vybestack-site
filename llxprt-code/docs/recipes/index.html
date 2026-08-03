@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -71,13 +72,13 @@
             <h1>Profile Recipes</h1>
 <p>Ready-to-use configuration recipes for common LLxprt Code setups. Each recipe includes copy-paste JSON profiles and interactive command sequences.</p>
 <h2>Available Recipes</h2>
-<h3><a href="./free-tier-setup.html">Free Tier Setup</a></h3>
-<p>Get started with LLxprt Code without spending a dime using Gemini and Qwen OAuth.</p>
+<h3><a href="./free-tier-setup.html">Free / Low-Cost Tier Setup</a></h3>
+<p>Get started with LLxprt Code at low cost using Gemini and Qwen (API key).</p>
 <ul>
-<li>Gemini OAuth setup (completely free)</li>
-<li>Qwen OAuth setup (completely free)</li>
+<li>Gemini setup (API key)</li>
+<li>Qwen setup (DashScope API key)</li>
 <li>Complete profile JSON examples</li>
-<li>When to use which free provider</li>
+<li>Note on changing free-tier availability (see the recipe)</li>
 </ul>
 <h3><a href="./claude-pro-workflow.html">Claude Pro Workflow</a></h3>
 <p>Maximize your Claude Pro/Max subscription with thinking mode and rate limit failover.</p>
@@ -98,14 +99,12 @@
 <h2>Quick Start</h2>
 <ol>
 <li>Choose a recipe that matches your use case</li>
-<li>Copy the profile JSON to <code>~/.llxprt/profiles/&lt;name&gt;.json</code></li>
+<li>Copy the profile JSON to <code>&lt;config&gt;/profiles/&lt;name&gt;.json</code> (see <a href="../reference/application-directories.html">Application Directories</a>)</li>
 <li>Or use the interactive commands to set up step-by-step</li>
 <li>Load with <code>/profile load &lt;name&gt;</code></li>
 </ol>
 <h2>Profile Storage</h2>
-<p>All profiles are stored in:</p>
-<pre><code>~/.llxprt/profiles/
-</code></pre>
+<p>All profiles are stored in <code>&lt;config&gt;/profiles/</code> (see <a href="../reference/application-directories.html">Application Directories</a>).</p>
 <h2>See Also</h2>
 <ul>
 <li><a href="../settings-and-profiles.html">Settings and Profiles Guide</a> - Complete profile management documentation</li>

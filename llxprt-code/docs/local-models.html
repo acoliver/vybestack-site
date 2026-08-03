@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -172,18 +173,159 @@
 /set context-limit 131072  # Ollama often supports larger contexts
 </code></pre>
 <h3>llama.cpp Server</h3>
-<p>For direct llama.cpp server usage:</p>
-<ol>
-<li>Build llama.cpp with server support</li>
-<li>Start server: <code>./llama-server -m model.gguf -c 32768 --port 8080</code></li>
-<li>Configure LLxprt Code:</li>
-</ol>
-<pre><code class="language-bash">/baseurl http://localhost:8080/v1
-/key clear
-/model your-model
-/set context-limit 32768  # Match the -c parameter
-/set socket-timeout 180000  # llama.cpp can be slower
+<p>llama.cpp's built-in server (<code>llama-server</code>) exposes an OpenAI-compatible API that LLxprt Code can talk to directly. This section walks through the full setup: building/serving a GGUF model, validating the endpoint, saving a reusable profile, and testing it.</p>
+<h4>Build and start the server</h4>
+<p>For Apple Silicon and other constrained-disk machines, keep both the llama.cpp checkout/build and the model files on an external or data volume (for example <code>/Volumes/XS1000</code>) rather than filling up your main drive.</p>
+<pre><code class="language-bash"># Build llama.cpp on the data volume.
+mkdir -p /Volumes/XS1000/$USER/tools /Volumes/XS1000/$USER/models
+cd /Volumes/XS1000/$USER/tools
+git clone https://github.com/ggml-org/llama.cpp.git
+cmake -S llama.cpp -B llama.cpp/build -DGGML_METAL=ON -DCMAKE_BUILD_TYPE=Release
+cmake --build llama.cpp/build --target llama-server llama-cli
 </code></pre>
+<p>If disk space is not a concern, you can install a packaged <code>llama-server</code> instead; just keep the GGUF model itself wherever you have enough space.</p>
+<p>Download or copy a GGUF model to the data volume, then start the server. Match <code>-c</code> (context size) to what you intend to use in LLxprt Code, and set <code>-ngl</code> to offload layers to the GPU:</p>
+<pre><code class="language-bash">/Volumes/XS1000/$USER/tools/llama.cpp/build/bin/llama-server \
+  -m /Volumes/XS1000/$USER/models/your-model.gguf \
+  -c 32768 \
+  --host 127.0.0.1 \
+  --port 8080 \
+  -ngl 99
+</code></pre>
+<h4>Validate the endpoint with curl</h4>
+<p>Before pointing LLxprt Code at the server, confirm it is responding:</p>
+<pre><code class="language-bash"># List available models
+curl --fail -sS http://127.0.0.1:8080/v1/models
+
+# Test a chat completion
+curl --fail -sS http://127.0.0.1:8080/v1/chat/completions \
+  -H &quot;Content-Type: application/json&quot; \
+  -d '{
+    &quot;model&quot;: &quot;your-model.gguf&quot;,
+    &quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Reply with: ok&quot;}]
+  }'
+</code></pre>
+<p>The <code>/v1/models</code> response reports the model name (often the GGUF filename). LLxprt Code accepts that short name — you do not need to pass the full path as the model.</p>
+<h4>Configure LLxprt Code interactively</h4>
+<pre><code class="language-bash">/provider openai
+/baseurl http://127.0.0.1:8080/v1
+/key clear
+/model your-model.gguf
+/set context-limit 32768     # Match the -c parameter
+/set socket-timeout 300000   # 5 minutes — local inference can be slow
+/toolformat openai           # llama.cpp speaks the OpenAI tool format
+</code></pre>
+<p>Local servers generally ignore the <code>Authorization</code> header, so <code>/key clear</code> is sufficient interactively. When persisting settings to a profile (below), a harmless placeholder for <code>auth-key</code> avoids falling back to an unrelated <code>OPENAI_API_KEY</code>; llama.cpp will not check it.</p>
+<h4>Save a reusable profile</h4>
+<p>Instead of re-typing the commands above every session, persist them to a profile. Profiles live in <code>&lt;config&gt;/profiles/&lt;name&gt;.json</code> (see <a href="./reference/application-directories.html">Application Directories</a>) and are loaded with <code>/profile load &lt;name&gt;</code> or the <code>--profile-load</code> flag.</p>
+<p>You can build the profile interactively and run <code>/profile save &lt;name&gt;</code>, or hand-write the JSON. For a llama.cpp server, use the <code>openai</code> provider (its server is OpenAI-compatible) and these ephemeral settings keys:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>base-url</code></td>
+<td>The llama.cpp server's <code>/v1</code> endpoint</td>
+</tr>
+<tr>
+<td><code>auth-key</code></td>
+<td>Placeholder for llama.cpp; prevents ambient API key fallback</td>
+</tr>
+<tr>
+<td><code>context-limit</code></td>
+<td>Must match the server's <code>-c</code> value</td>
+</tr>
+<tr>
+<td><code>socket-timeout</code></td>
+<td>Generous timeout (ms) for slow local inference</td>
+</tr>
+<tr>
+<td><code>tool-format</code></td>
+<td><code>openai</code> for llama.cpp's OpenAI-compatible tool calling format</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> The persisted key is <code>tool-format</code> (kebab-case), not <code>toolFormat</code>.</p>
+</blockquote>
+<p>Example profile (<code>&lt;config&gt;/profiles/llamacpp.json</code>):</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;your-model.gguf&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8080/v1&quot;,
+    &quot;auth-key&quot;: &quot;local-no-key-required&quot;,
+    &quot;context-limit&quot;: 32768,
+    &quot;socket-timeout&quot;: 300000,
+    &quot;tool-format&quot;: &quot;openai&quot;
+  }
+}
+</code></pre>
+<p>Load it interactively or at startup:</p>
+<pre><code class="language-bash">/profile load llamacpp         # inside a session
+bun scripts/start.ts --profile-load llamacpp   # from a dev checkout
+llxprt --profile-load llamacpp # installed CLI
+</code></pre>
+<h4>Validate the profile non-interactively</h4>
+<p>Run a one-shot prompt through the profile to confirm the full chain works end to end. Unset <code>OPENAI_API_KEY</code> first so LLxprt Code relies on the profile's <code>auth-key</code> placeholder rather than any ambient environment key:</p>
+<pre><code class="language-bash">unset OPENAI_API_KEY
+bun scripts/start.ts \
+  --profile-load llamacpp \
+  &quot;Reply with exactly: llxprt local profile ok&quot;
+</code></pre>
+<h3>Using Gemma-family GGUF models</h3>
+<p>The setup above works with any GGUF model. Gemma-family models (Gemma 2, Gemma 3, Gemma 4, etc.) are a strong choice for local coding assistance and are available in GGUF form from Hugging Face.</p>
+<h4>Choosing a Gemma GGUF</h4>
+<p>General guidance:</p>
+<ul>
+<li>Pick a quantization that fits your RAM/VRAM. QAT Q4_0 and similar 4-bit quantizations dramatically reduce file size while retaining most quality.</li>
+<li>Store the downloaded GGUF on an external or data volume (e.g. <code>/Volumes/XS1000</code>) when your main drive is space-constrained.</li>
+<li>Match the server's <code>-c</code> (context) to the model's supported context length — Gemma models can have very large context windows (262,144 tokens for some variants).</li>
+</ul>
+<h4>Tested example: Gemma 4 12B (QAT Q4_0)</h4>
+<p>The following was validated end to end with LLxprt Code:</p>
+<ul>
+<li><strong>Model</strong>: <code>google/gemma-4-12B-it-qat-q4_0-gguf</code> (public, non-gated on Hugging Face)</li>
+<li><strong>Main file</strong>: <code>gemma-4-12b-it-qat-q4_0.gguf</code> (~6.5 GB)</li>
+<li><strong>Context length</strong>: 262,144 tokens</li>
+<li><strong>Hardware</strong>: Fit comfortably in QAT Q4_0 form on an Apple MBP M4 Max with 128 GB RAM</li>
+</ul>
+<p>Start the server. The example below uses a practical 32K runtime context even though the model advertises a larger maximum; increase <code>-c</code> and the profile's <code>context-limit</code> together if your hardware can support it.</p>
+<pre><code class="language-bash">/Volumes/XS1000/$USER/tools/llama.cpp/build/bin/llama-server \
+  -m /Volumes/XS1000/$USER/models/gemma-4/gemma-4-12b-it-qat-q4_0.gguf \
+  -c 32768 \
+  --host 127.0.0.1 \
+  --port 8080 \
+  -ngl 99
+</code></pre>
+<p>The short model name <code>gemma-4-12b-it-qat-q4_0.gguf</code> was accepted directly by both <code>curl /v1/chat/completions</code> and by LLxprt Code's profile <code>model</code> field.</p>
+<p>Save a profile for it (<code>&lt;config&gt;/profiles/gemma4-llamacpp.json</code>, see <a href="./reference/application-directories.html">Application Directories</a>):</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;gemma-4-12b-it-qat-q4_0.gguf&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8080/v1&quot;,
+    &quot;auth-key&quot;: &quot;local-no-key-required&quot;,
+    &quot;context-limit&quot;: 32768,
+    &quot;socket-timeout&quot;: 300000,
+    &quot;tool-format&quot;: &quot;openai&quot;
+  }
+}
+</code></pre>
+<p>Then validate non-interactively:</p>
+<pre><code class="language-bash">env OPENAI_API_KEY= bun scripts/start.ts \
+  --profile-load gemma4-llamacpp \
+  &quot;Reply with exactly: llxprt local profile ok&quot;
+</code></pre>
+<p>This is just one tested example — other Gemma variants and sizes work with the same steps; adjust the GGUF filename, context length, and <code>-ngl</code> to your hardware.</p>
 <h2>Performance Optimization</h2>
 <h3>Hardware Considerations</h3>
 <ul>

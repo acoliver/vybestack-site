@@ -55,21 +55,22 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Prompt Configuration</h1>
-<p>LLxprt Code builds its system prompt from markdown files organized in a hierarchy. You can customize any part by placing override files in <code>~/.llxprt/prompts/</code>.</p>
+<p>LLxprt Code builds its system prompt from markdown files organized in a hierarchy. You can customize any part by placing override files in the <code>prompts/</code> subdirectory of LLxprt's <a href="./reference/application-directories.html">config directory</a> (<code>&lt;config&gt;/prompts/</code>, overridable via <code>LLXPRT_CONFIG_HOME</code>).</p>
 <h2>How It Works</h2>
 <p>The system prompt is assembled from three types of files:</p>
 <ul>
@@ -84,7 +85,7 @@ core.md                                       ← base default
 </code></pre>
 <p>The same hierarchy applies to <code>env/</code> and <code>tools/</code> subdirectories.</p>
 <h2>Directory Structure</h2>
-<pre><code>~/.llxprt/prompts/
+<pre><code>&lt;config&gt;/prompts/
 ├── core.md                              # Override the main system prompt
 ├── compression.md                       # Override compression instructions
 ├── env/
@@ -105,7 +106,7 @@ core.md                                       ← base default
 │               └── core.md           # Flash-specific override
 └── subagent-delegation.md             # Subagent delegation directives
 </code></pre>
-<p>If a file doesn't exist in your <code>~/.llxprt/prompts/</code> directory, the built-in default is used. You only need to create files for things you want to change.</p>
+<p>If a file doesn't exist in your <code>&lt;config&gt;/prompts/</code> directory (see <a href="./reference/application-directories.html">Application Directories</a>), the built-in default is used. You only need to create files for things you want to change.</p>
 <h2>Tool Prompts</h2>
 <p>Tool-specific prompt files are <strong>off by default</strong> because most modern models don't perform better with them. Enable them if you find your model needs more explicit tool guidance:</p>
 <pre><code>/set enable-tool-prompts true
@@ -224,7 +225,7 @@ core.md                                       ← base default
 <p><strong><code>{{CURRENT_DATE}}</code>, <code>{{CURRENT_TIME}}</code>, and <code>{{CURRENT_DATETIME}}</code> will break prefix caching</strong> because they change every request. If you need a timestamp in your prompt, use <code>{{SESSION_STARTED_AT}}</code> instead — it stays constant for the entire session, so the prompt caches properly.</p>
 <p>The internal in-memory cache invalidates when prompt files change on disk (via file watcher), but you may need to start a new session for API-level cache benefits to reset cleanly.</p>
 <h2>Small / Local Models</h2>
-<p>If you're running a local model with a constrained context window (e.g., 8K–32K tokens), the default <code>core.md</code> may be too large. Create a stripped-down override at <code>~/.llxprt/prompts/core.md</code> with just the essentials — shorter instructions, fewer examples, no subagent delegation. Keep <code>enable-tool-prompts</code> off (the default) to avoid bloating the prompt further.</p>
+<p>If you're running a local model with a constrained context window (e.g., 8K–32K tokens), the default <code>core.md</code> may be too large. Create a stripped-down override at <code>&lt;config&gt;/prompts/core.md</code> (see <a href="./reference/application-directories.html">Application Directories</a>) with just the essentials — shorter instructions, fewer examples, no subagent delegation. Keep <code>enable-tool-prompts</code> off (the default) to avoid bloating the prompt further.</p>
 <h2>Contributing Prompt Improvements</h2>
 <p>If you find prompt configurations that work better for mainstream models, please open a <a href="https://github.com/vybestack/llxprt-code/discussions">discussion</a> — we're always trying to optimize the default prompts and community feedback on what works is valuable.</p>
 <h2>Related</h2>

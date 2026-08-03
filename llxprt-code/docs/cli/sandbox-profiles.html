@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -72,9 +73,9 @@
 <p>Sandbox profiles define runtime, network, SSH passthrough, mounts, and resource limits for container sandboxing.</p>
 <p>This guide is focused on Linux and macOS. Windows is not tested yet for this workflow. Contributions are welcome.</p>
 <h2>Profile location</h2>
-<pre><code class="language-text">~/.llxprt/sandboxes/&lt;profile-name&gt;.json
+<pre><code class="language-text">&lt;config&gt;/sandboxes/&lt;profile-name&gt;.json
 </code></pre>
-<p>Example: <code>~/.llxprt/sandboxes/dev.json</code></p>
+<p>Example: <code>&lt;config&gt;/sandboxes/dev.json</code> (see <a href="../reference/application-directories.html">Application Directories</a>)</p>
 <p>Built-in profile files are created automatically when profile loading is used.</p>
 <h2>Loading profiles</h2>
 <pre><code class="language-bash"># Load profile
@@ -225,22 +226,35 @@ llxprt --sandbox-engine none
 <li>conflicting <code>--network</code> values can disable bridge setup</li>
 <li>VM memory must exceed the container <code>resources.memory</code> limit, or the process gets OOM-killed (exit code 137). See <a href="../sandbox.html#podman-macos-oom-killed-with-exit-code-137">Sandbox troubleshooting</a>.</li>
 </ul>
-<p>If SSH forwarding is unreliable, use a dedicated socket path:</p>
-<pre><code class="language-bash">ssh-agent -a ~/.llxprt/ssh-agent.sock
-export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
+<p>If SSH forwarding is unreliable, use a dedicated socket path (the location is your choice — this example uses a path in your home directory):</p>
+<pre><code class="language-bash">ssh-agent -a ~/.ssh/llxprt-agent.sock
+export SSH_AUTH_SOCK=~/.ssh/llxprt-agent.sock
 ssh-add ~/.ssh/id_ed25519
 </code></pre>
 <h2>Listing and inspecting profiles</h2>
-<pre><code class="language-bash">ls ~/.llxprt/sandboxes/
-cat ~/.llxprt/sandboxes/dev.json
+<p>Sandbox profiles live in <code>&lt;config&gt;/sandboxes/</code> (see <a href="../reference/application-directories.html">Application Directories</a>). The config directory is overridable via <code>LLXPRT_CONFIG_HOME</code> and follows the platform default (<code>~/.config/llxprt-code</code> on Linux, <code>~/Library/Preferences/llxprt-code</code> on macOS, <code>%APPDATA%\llxprt-code\Config</code> on Windows).</p>
+<p>Set a shell variable for convenience:</p>
+<pre><code class="language-bash"># Linux / macOS
+SANDBOX_DIR=&quot;${LLXPRT_CONFIG_HOME:-$(node --input-type=module -e &quot;import envPaths from 'env-paths'; process.stdout.write(envPaths('llxprt-code',{suffix:''}).config)&quot;)}/sandboxes&quot;
+ls &quot;$SANDBOX_DIR&quot;
+cat &quot;$SANDBOX_DIR/dev.json&quot;
+</code></pre>
+<pre><code class="language-powershell"># Windows (PowerShell)
+$ConfigHome = if ($env:LLXPRT_CONFIG_HOME) { $env:LLXPRT_CONFIG_HOME } `
+  else { Join-Path $env:APPDATA 'llxprt-code\Config' }
+$SANDBOX_DIR = Join-Path $ConfigHome 'sandboxes'
+Get-ChildItem $SANDBOX_DIR
+Get-Content &quot;$SANDBOX_DIR\dev.json&quot;
 </code></pre>
 <h2>Common issues</h2>
 <h3>Profile not found</h3>
-<p>If <code>--sandbox-profile-load custom</code> fails, verify file exists:</p>
-<pre><code class="language-bash">ls ~/.llxprt/sandboxes/custom.json
+<p>If <code>--sandbox-profile-load custom</code> fails, verify the file exists:</p>
+<pre><code class="language-bash">SANDBOX_DIR=&quot;${LLXPRT_CONFIG_HOME:-$(node --input-type=module -e &quot;import envPaths from 'env-paths'; process.stdout.write(envPaths('llxprt-code',{suffix:''}).config)&quot;)}/sandboxes&quot;
+ls &quot;$SANDBOX_DIR/custom.json&quot;
 </code></pre>
 <h3>Invalid JSON</h3>
-<pre><code class="language-bash">jq . ~/.llxprt/sandboxes/custom.json
+<pre><code class="language-bash">SANDBOX_DIR=&quot;${LLXPRT_CONFIG_HOME:-$(node --input-type=module -e &quot;import envPaths from 'env-paths'; process.stdout.write(envPaths('llxprt-code',{suffix:''}).config)&quot;)}/sandboxes&quot;
+jq . &quot;$SANDBOX_DIR/custom.json&quot;
 </code></pre>
 <h3>Engine missing</h3>
 <pre><code class="language-bash">which docker

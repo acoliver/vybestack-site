@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -84,7 +85,7 @@
 <p>You keep velocity, but with better guardrails.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li>Node.js 20+</li>
+<li>Node.js 24+</li>
 <li><code>llxprt</code> installed</li>
 <li>one working runtime:
 <ul>
@@ -174,7 +175,7 @@ llxprt --sandbox-engine podman --sandbox-profile-load dev
 <pre><code class="language-text">/auth anthropic enable
 /auth anthropic login
 </code></pre>
-<p>(Use another provider if preferred, e.g. <code>/auth gemini enable</code> then <code>/auth gemini login</code>.)</p>
+<p>(Use another provider if preferred, e.g. <code>/auth codex enable</code> then <code>/auth codex login</code>.)</p>
 <p>What to expect:</p>
 <ul>
 <li>login flow is initiated from sandbox session</li>
@@ -201,7 +202,7 @@ llxprt --sandbox-engine podman --sandbox-profile-load dev
 </ul>
 <p>This is expected and protects host key storage from sandbox writes.</p>
 <h2>Step 8: create your own profile</h2>
-<p>Create <code>~/.llxprt/sandboxes/custom.json</code>:</p>
+<p>Create <code>&lt;config&gt;/sandboxes/custom.json</code> (see <a href="../reference/application-directories.html">Application Directories</a> for <code>&lt;config&gt;</code>):</p>
 <pre><code class="language-json">{
   &quot;engine&quot;: &quot;docker&quot;,
   &quot;resources&quot;: {

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLxprt Code Telemetry Guide (Disabled by Default) | LLxprt Code Docs</title>
+  <title>LLxprt Code Telemetry | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -55,368 +55,222 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>LLxprt Code Telemetry Guide (Disabled by Default)</h1>
-<p><strong>Important:</strong> LLxprt Code has telemetry disabled by default. No data is collected or sent to Google or any external service. The telemetry system is only available for your own local debugging and monitoring if you explicitly enable it.</p>
-<h2>Current Status</h2>
-<p>Telemetry is currently <strong>disabled</strong> in the LLxprt Code codebase. The telemetry initialization code has been commented out to ensure no data collection occurs. If you need telemetry for local debugging:</p>
-<ol>
-<li>Telemetry must be explicitly enabled in your settings</li>
-<li>All data stays on your local machine unless you configure an external endpoint</li>
-<li>No data is ever sent to Google</li>
-</ol>
-<p>The telemetry infrastructure is based on the <strong><a href="https://opentelemetry.io/">OpenTelemetry</a> (OTEL)</strong> standard, which would allow you to send data to any compatible backend that you control, if you choose to re-enable it.</p>
-<h2>Enabling telemetry</h2>
-<p>Telemetry configuration is managed via settings files and environment variables. The recommended approach is to configure telemetry in your <a href="./cli/configuration.html">settings files</a>.</p>
-<h3>Configuration methods</h3>
-<p>Configure telemetry using one of the following methods:</p>
-<ol>
-<li>
-<p><strong>Settings files (recommended):</strong></p>
+            <h1>LLxprt Code Telemetry</h1>
+<p><strong>LLxprt Code never sends telemetry anywhere.</strong> There is no network exporter in
+the codebase — no OTLP, no Google, no vendor endpoint of any kind. Everything
+described on this page happens entirely on your own machine.</p>
+<p>Within that boundary there are two separate layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Default</th>
+<th>Where it goes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Session stats</td>
+<td>Always on</td>
+<td>In memory; shown by <code>/stats</code></td>
+</tr>
+<tr>
+<td>OTEL traces/metrics/logs</td>
+<td>Off (<code>telemetry.enabled: false</code>)</td>
+<td>A local file, or your console</td>
+</tr>
+</tbody>
+</table>
+<p>Session stats are what populate the <code>/stats</code> display — token counts, tool call
+tallies, and timings for the current session. They are aggregated in memory
+regardless of the <code>telemetry.enabled</code> setting, are never written to disk by this
+layer, and disappear when the session ends. Nothing to opt out of: it is your
+own usage, shown back to you.</p>
+<p>The OTEL layer is the one <code>telemetry.enabled</code> controls; it defaults to <code>false</code>,
+and the rest of this page is about that layer.</p>
+<p>This page covers OTEL telemetry (traces, metrics, logs). For conversation
+logging (the <code>/logging</code> command), see
+<a href="./telemetry-privacy.html">Telemetry Privacy</a>.</p>
+<h2>What telemetry does</h2>
+<p>When enabled, the OpenTelemetry SDK registers <strong>only <code>HttpInstrumentation</code></strong> —
+it does not create custom spans for tool calls or model responses. The data
+emitted is:</p>
 <ul>
-<li><strong>User settings file (<code>~/.llxprt/settings.json</code>):</strong> Global configuration for all projects.</li>
-<li><strong>Workspace settings file (<code>.llxprt/settings.json</code>):</strong> Project-specific configuration.</li>
+<li><strong>Traces</strong>: HTTP request/response spans (auto-instrumented by
+<code>HttpInstrumentation</code>). There are no custom <code>startSpan</code> calls for tool calls
+or API interactions.</li>
+<li><strong>Metrics</strong>: session counts, tool call counts/latency, API request
+counts/latency, token usage, file operation counts.</li>
+<li><strong>Logs</strong>: configuration events, user prompts (if <code>logPrompts</code> is enabled),
+tool calls, hook calls, API requests/responses/errors, slash commands.</li>
 </ul>
-<p>Add a <code>telemetry</code> object to your settings file (see <a href="#example-settings">Example settings</a> below).</p>
-</li>
-<li>
-<p><strong>Environment variables:</strong></p>
-<ul>
-<li><code>OTEL_EXPORTER_OTLP_ENDPOINT</code>: Sets the OTLP endpoint URL.</li>
-</ul>
-</li>
-<li>
-<p><strong>CLI flags:</strong> Available for temporary overrides during specific sessions, but settings files are the preferred method for persistent configuration.</p>
-</li>
-</ol>
-<h3>Order of precedence</h3>
-<p>When multiple configuration methods are used, settings are applied in the following order (highest precedence first):</p>
-<ol>
-<li><strong>CLI flags</strong> (temporary session overrides)</li>
-<li><strong>Environment variables</strong></li>
-<li><strong>Workspace settings file (<code>.llxprt/settings.json</code>)</strong></li>
-<li><strong>User settings file (<code>~/.llxprt/settings.json</code>)</strong></li>
-<li><strong>Defaults:</strong>
-<ul>
-<li><code>telemetry.enabled</code>: <code>false</code></li>
-<li><code>telemetry.target</code>: <code>local</code></li>
-<li><code>telemetry.otlpEndpoint</code>: <code>http://localhost:4317</code></li>
-<li><code>telemetry.logPrompts</code>: <code>true</code></li>
-</ul>
-</li>
-</ol>
-<p><strong>Note:</strong> The telemetry scripts (<code>npm run telemetry</code>) are provided for development purposes but will not collect any data unless you manually re-enable telemetry in the source code. Even then, the <code>local</code> target ensures data stays on your machine, while the <code>gcp</code> target would require your own Google Cloud project - LLxprt Code never sends data to Google's telemetry systems.</p>
-<p><strong>CLI flags reference:</strong> For temporary session overrides, CLI flags are available (e.g., <code>--telemetry</code>, <code>--telemetry-target</code>, <code>--telemetry-otlp-endpoint</code>, <code>--telemetry-log-prompts</code>, <code>--telemetry-outfile</code>). However, for persistent configuration, use settings files as described above.</p>
-<h3>Example settings</h3>
-<p>The following code can be added to your workspace (<code>.llxprt/settings.json</code>) or user (<code>~/.llxprt/settings.json</code>) settings to enable telemetry for local debugging only:</p>
+<p>All data is written locally — to a file if you configure an outfile, or to the
+console otherwise. The SDK constructs only <code>File*Exporter</code> or
+<code>Console*Exporter</code>; no OTLP or network exporter is imported anywhere in the
+source, so there is no code path that could transmit this data.</p>
+<blockquote>
+<p><strong>Inert flags:</strong> <code>--telemetry-target</code>, <code>--telemetry-otlp-endpoint</code>, and
+<code>--telemetry-otlp-protocol</code> are still accepted for backward compatibility but
+currently have <strong>no effect</strong> — no exporter reads them. Pointing them at a
+collector will not send anything. Use <code>--telemetry-outfile</code> to choose where
+output is written.</p>
+</blockquote>
+<h2>Enable telemetry</h2>
+<p>Telemetry is controlled by the <code>telemetry.enabled</code> setting.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default</td>
+<td><code>false</code> (disabled)</td>
+</tr>
+<tr>
+<td>Scope</td>
+<td>User settings or workspace settings</td>
+</tr>
+<tr>
+<td>Persistence</td>
+<td>Saved in <code>settings.json</code></td>
+</tr>
+<tr>
+<td>Precedence</td>
+<td>CLI flags override settings files</td>
+</tr>
+</tbody>
+</table>
+<p>To enable telemetry, add the following to your
+<a href="./reference/application-directories.html">user settings</a> or workspace
+<code>.llxprt/settings.json</code>:</p>
 <pre><code class="language-json">{
   &quot;telemetry&quot;: {
-    &quot;enabled&quot;: true,
-    &quot;target&quot;: &quot;local&quot;
+    &quot;enabled&quot;: true
   }
 }
 </code></pre>
-<p><strong>Important:</strong> Even with these settings, telemetry will not function unless you modify the source code to re-enable it. This is intentional to ensure no accidental data collection.</p>
-<h3>Exporting to a file</h3>
-<p>You can export all telemetry data to a file for local inspection using the <code>--telemetry-outfile</code> CLI flag as a temporary override. This must be used with <code>--telemetry-target=local</code>.</p>
-<p>Example:</p>
-<pre><code class="language-bash">llxprt --telemetry --telemetry-target=local --telemetry-outfile=/path/to/telemetry.log &quot;your prompt&quot;
+<p>You can also enable it for a single session with the CLI flag:</p>
+<pre><code class="language-bash">llxprt --telemetry &quot;your prompt&quot;
 </code></pre>
-<h2>Running an OTEL Collector</h2>
-<p>An OTEL Collector is a service that receives, processes, and exports telemetry data.
-The CLI sends data using the OTLP/gRPC protocol.</p>
-<p>Learn more about OTEL exporter standard configuration in <a href="https://opentelemetry.io/docs/languages/sdk-configuration/otlp-exporter/">documentation</a>.</p>
-<h3>Local</h3>
-<p>Use the <code>npm run telemetry -- --target=local</code> command to set up a local telemetry pipeline for development purposes. Note that telemetry is disabled in the code, so this will not collect any data unless you manually re-enable it. The script installs <code>otelcol-contrib</code> (the OpenTelemetry Collector) and <code>jaeger</code> (The Jaeger UI for viewing traces) locally. To use it:</p>
+<p>CLI flags take precedence over settings files. Specifically, the configuration
+builder resolves the effective value as <code>argv.telemetry ?? settings.telemetry.enabled</code>
+— a CLI flag wins if present, otherwise the persisted setting is used. See
+<a href="./cli/configuration.html">Configuration</a> for the full settings reference.</p>
+<h3>Where output goes</h3>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Output destination</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--telemetry-outfile=/path/to/file</code></td>
+<td>All traces, metrics, and logs are written to that file</td>
+</tr>
+<tr>
+<td>No outfile configured</td>
+<td>Data is written to the console (stdout/stderr)</td>
+</tr>
+</tbody>
+</table>
+<p>To write telemetry to a file:</p>
+<pre><code class="language-bash">llxprt --telemetry --telemetry-outfile=/tmp/llxprt-telemetry.log &quot;your prompt&quot;
+</code></pre>
+<h2>Verify telemetry is working</h2>
 <ol>
-<li>
-<p><strong>Run the command</strong>:
-Execute the command from the root of the repository:</p>
-<pre><code class="language-bash">npm run telemetry -- --target=local
-</code></pre>
-<p>The script will:</p>
+<li>Enable telemetry and start a session.</li>
+<li>Run any prompt that triggers a tool call or API request.</li>
+<li>Check the output:
 <ul>
-<li>Download Jaeger and OTEL if needed.</li>
-<li>Start a local Jaeger instance.</li>
-<li>Start an OTEL collector configured to receive data from LLxprt Code.</li>
-<li>Automatically enable telemetry in your workspace settings.</li>
-<li>On exit, disable telemetry.</li>
+<li><strong>File</strong>: inspect the outfile with <code>cat</code> or <code>jq</code>.</li>
+<li><strong>Console</strong>: look for OTEL span/log output in the terminal.</li>
 </ul>
-</li>
-<li>
-<p><strong>View traces</strong>:
-Open your web browser and navigate to <strong><a href="http://localhost:16686">http://localhost:16686</a></strong> to access the Jaeger UI. Here you can inspect detailed traces of LLxprt Code operations.</p>
-</li>
-<li>
-<p><strong>Inspect logs and metrics</strong>:
-The script redirects the OTEL collector output (which includes logs and metrics) to <code>~/.llxprt/tmp/&lt;projectHash&gt;/otel/collector.log</code>. The script will provide links to view and a command to tail your telemetry data (traces, metrics, logs) locally.</p>
-</li>
-<li>
-<p><strong>Stop the services</strong>:
-Press <code>Ctrl+C</code> in the terminal where the script is running to stop the OTEL Collector and Jaeger services.</p>
 </li>
 </ol>
-<h3>Google Cloud (Not Recommended)</h3>
-<p><strong>Important:</strong> LLxprt Code does not send telemetry to Google. The GCP target is only provided if you want to send telemetry to your own Google Cloud project for your own purposes. This is not recommended for normal use.</p>
-<p>The <code>npm run telemetry -- --target=gcp</code> command sets up a local OpenTelemetry collector that could forward data to your own Google Cloud project. Remember that telemetry is disabled in the code, so no data will be sent unless you manually re-enable it. To use it:</p>
-<ol>
-<li>
-<p><strong>Prerequisites</strong>:</p>
-<ul>
-<li>Have a Google Cloud project ID.</li>
-<li>Export the <code>GOOGLE_CLOUD_PROJECT</code> environment variable to make it available to the OTEL collector.<pre><code class="language-bash">export OTLP_GOOGLE_CLOUD_PROJECT=&quot;your-project-id&quot;
+<h2>Disable telemetry</h2>
+<p>Telemetry defaults to off, so simply not enabling it is sufficient. If
+telemetry is enabled in your persisted settings (<code>settings.json</code>), omitting
+<code>--telemetry</code> on the command line does <strong>not</strong> disable it — the persisted
+setting still applies (the builder uses <code>argv.telemetry ?? settings.telemetry.enabled</code>).
+To explicitly disable telemetry for a single session regardless of persisted
+settings, use <code>--no-telemetry</code>:</p>
+<pre><code class="language-bash">llxprt --no-telemetry &quot;your prompt&quot;
 </code></pre>
-</li>
-<li>Authenticate with Google Cloud (e.g., run <code>gcloud auth application-default login</code> or ensure <code>GOOGLE_APPLICATION_CREDENTIALS</code> is set).</li>
-<li>Ensure your Google Cloud account/service account has the necessary IAM roles: &quot;Cloud Trace Agent&quot;, &quot;Monitoring Metric Writer&quot;, and &quot;Logs Writer&quot;.</li>
-</ul>
-</li>
-<li>
-<p><strong>Run the command</strong>:
-Execute the command from the root of the repository:</p>
-<pre><code class="language-bash">npm run telemetry -- --target=gcp
-</code></pre>
-<p>The script will:</p>
+<p>To disable it permanently, remove <code>telemetry.enabled</code> from your settings (or
+set it to <code>false</code>).</p>
+<h2>Privacy</h2>
 <ul>
-<li>Download the <code>otelcol-contrib</code> binary if needed.</li>
-<li>Start an OTEL collector configured to receive data from LLxprt Code and export it to your specified Google Cloud project.</li>
-<li>Automatically enable telemetry in your workspace settings (<code>.llxprt/settings.json</code>).</li>
-<li>Provide direct links to view traces, metrics, and logs in your Google Cloud Console.</li>
-<li>On exit (Ctrl+C), it will attempt to restore your original telemetry and sandbox settings.</li>
+<li><strong>No external transmission</strong>: no OTLP or network exporter exists in the
+source. Data goes only to the configured file or console.</li>
+<li><strong>No data sent to Google or anyone else</strong>: there is no upstream endpoint,
+vendor integration, or opt-in that would transmit telemetry off your machine.</li>
+<li><strong>Session stats are yours</strong>: the always-on <code>/stats</code> aggregation stays in
+memory for the life of the session. It is not persisted and not transmitted.</li>
+<li><strong>Prompt logging</strong>: the <code>telemetry.logPrompts</code> setting controls whether user
+prompt <strong>text</strong> is included in the <code>llxprt_code.user_prompt</code> log event.
+Default is <code>true</code>; set it to <code>false</code> to redact prompt content from that
+specific log event. Note: <code>logPrompts: false</code> does <strong>not</strong> redact hook
+input/output data (the <code>llxprt_code.hook_call</code> event always includes
+<code>hook_input</code> and <code>hook_output</code> fields regardless of this setting).</li>
 </ul>
-</li>
-<li>
-<p><strong>Run LLxprt Code:</strong>
-In a separate terminal, run your LLxprt Code commands. This generates telemetry data that the collector captures.</p>
-</li>
-<li>
-<p><strong>View telemetry in Google Cloud</strong>:
-Use the links provided by the script to navigate to the Google Cloud Console and view your traces, metrics, and logs.</p>
-</li>
-<li>
-<p><strong>Inspect local collector logs</strong>:
-The script redirects the local OTEL collector output to <code>~/.llxprt/tmp/&lt;projectHash&gt;/otel/collector-gcp.log</code>. The script provides links to view and command to tail your collector logs locally.</p>
-</li>
-<li>
-<p><strong>Stop the service</strong>:
-Press <code>Ctrl+C</code> in the terminal where the script is running to stop the OTEL Collector.</p>
-</li>
-</ol>
-<h2>Logs and metric reference</h2>
-<p>The following section describes the structure of logs and metrics generated for LLxprt Code.</p>
+<h2>Logs and metrics reference</h2>
+<p>The following events and metrics are emitted when telemetry is enabled. All
+event and metric names use the <code>llxprt_code.*</code> prefix (the service name is
+<code>llxprt-code</code>, but the telemetry identifiers use underscores):</p>
+<h3>Logs (event names)</h3>
 <ul>
-<li>A <code>sessionId</code> is included as a common attribute on all logs and metrics.</li>
-</ul>
-<h3>Logs</h3>
-<p>Logs are timestamped records of specific events. The following events are logged for LLxprt Code:</p>
-<ul>
-<li>
-<p><code>llxprt_cli.config</code>: This event occurs once at startup with the CLI's configuration.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code> (string)</li>
-<li><code>embedding_model</code> (string)</li>
-<li><code>sandbox_enabled</code> (boolean)</li>
-<li><code>core_tools_enabled</code> (string)</li>
-<li><code>approval_mode</code> (string)</li>
-<li><code>api_key_enabled</code> (boolean)</li>
-<li><code>vertex_ai_enabled</code> (boolean)</li>
-<li><code>code_assist_enabled</code> (boolean)</li>
-<li><code>log_prompts_enabled</code> (boolean)</li>
-<li><code>file_filtering_respect_git_ignore</code> (boolean)</li>
-<li><code>debug_mode</code> (boolean)</li>
-<li><code>mcp_servers</code> (string)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.user_prompt</code>: This event occurs when a user submits a prompt.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>prompt_length</code></li>
-<li><code>prompt</code> (this attribute is excluded if <code>log_prompts_enabled</code> is configured to be <code>false</code>)</li>
-<li><code>auth_type</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.tool_call</code>: This event occurs for each function call.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>function_name</code></li>
-<li><code>function_args</code></li>
-<li><code>duration_ms</code></li>
-<li><code>success</code> (boolean)</li>
-<li><code>decision</code> (string: &quot;accept&quot;, &quot;reject&quot;, &quot;auto_accept&quot;, or &quot;modify&quot;, if applicable)</li>
-<li><code>error</code> (if applicable)</li>
-<li><code>error_type</code> (if applicable)</li>
-<li><code>metadata</code> (if applicable, dictionary of string -&gt; any)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.api_request</code>: This event occurs when making a request to a provider API.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code></li>
-<li><code>request_text</code> (if applicable)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.api_error</code>: This event occurs if the API request fails.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code></li>
-<li><code>error</code></li>
-<li><code>error_type</code></li>
-<li><code>status_code</code></li>
-<li><code>duration_ms</code></li>
-<li><code>auth_type</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.api_response</code>: This event occurs upon receiving a response from a provider API.</p>
-<ul>
-<li>
-<p><strong>Attributes</strong>:</p>
-<ul>
-<li><code>model</code></li>
-<li><code>status_code</code></li>
-<li><code>duration_ms</code></li>
-<li><code>error</code> (optional)</li>
-<li><code>input_token_count</code></li>
-<li><code>output_token_count</code></li>
-<li><code>cached_content_token_count</code></li>
-<li><code>thoughts_token_count</code></li>
-<li><code>tool_token_count</code></li>
-<li><code>response_text</code> (if applicable)</li>
-<li><code>auth_type</code></li>
-</ul>
-</li>
-<li>
-<p><strong>Attributes</strong>:</p>
-<ul>
-<li><code>auth_type</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.slash_command</code>: This event occurs when a user executes a slash command.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>command</code> (string)</li>
-<li><code>subcommand</code> (string, if applicable)</li>
-</ul>
-</li>
-</ul>
-</li>
+<li><code>llxprt_code.config</code>: startup configuration (model, sandbox, approval mode, etc.)</li>
+<li><code>llxprt_code.user_prompt</code>: user prompt submission (length; prompt text if
+<code>logPrompts</code> is enabled)</li>
+<li><code>llxprt_code.tool_call</code>: each tool call (function, args, duration, success)</li>
+<li><code>llxprt_code.hook_call</code>: hook execution (event name, input, output, duration)</li>
+<li><code>llxprt_code.api_request</code>: provider API request</li>
+<li><code>llxprt_code.api_error</code>: provider API error</li>
+<li><code>llxprt_code.api_response</code>: provider API response (token counts, latency)</li>
+<li><code>llxprt_code.slash_command</code>: slash command execution</li>
+<li><code>llxprt_code.next_speaker_check</code>: next-speaker determination</li>
+<li><code>llxprt_code.conversation_request</code>: conversation API request</li>
+<li><code>llxprt_code.conversation_response</code>: conversation API response</li>
+<li><code>llxprt_code.enhanced_conversation_response</code>: enhanced conversation response</li>
+<li><code>llxprt_code.provider_switch</code>: provider switch event</li>
+<li><code>llxprt_code.provider_capability</code>: provider capability report</li>
+<li><code>llxprt_code.tool_output_truncated</code>: tool output truncation event</li>
+<li><code>llxprt_code.file_operation</code>: file system operation</li>
+<li><code>llxprt_code.malformed_json_response</code>: malformed JSON from provider</li>
+<li><code>llxprt_code.model_routing</code>: model routing decision</li>
+<li><code>llxprt_code.extension_install</code>: extension installed</li>
+<li><code>llxprt_code.extension_uninstall</code>: extension uninstalled</li>
+<li><code>llxprt_code.extension_enable</code>: extension enabled</li>
+<li><code>llxprt_code.extension_disable</code>: extension disabled</li>
 </ul>
 <h3>Metrics</h3>
-<p>Metrics are numerical measurements of behavior over time. The following metrics are collected for LLxprt Code:</p>
 <ul>
-<li>
-<p><code>llxprt_cli.session.count</code> (Counter, Int): Incremented once per CLI startup.</p>
-</li>
-<li>
-<p><code>llxprt_cli.tool.call.count</code> (Counter, Int): Counts tool calls.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>function_name</code></li>
-<li><code>success</code> (boolean)</li>
-<li><code>decision</code> (string: &quot;accept&quot;, &quot;reject&quot;, or &quot;modify&quot;, if applicable)</li>
-<li><code>tool_type</code> (string: &quot;mcp&quot;, or &quot;native&quot;, if applicable)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.tool.call.latency</code> (Histogram, ms): Measures tool call latency.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>function_name</code></li>
-<li><code>decision</code> (string: &quot;accept&quot;, &quot;reject&quot;, or &quot;modify&quot;, if applicable)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.api.request.count</code> (Counter, Int): Counts all API requests.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code></li>
-<li><code>status_code</code></li>
-<li><code>error_type</code> (if applicable)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.api.request.latency</code> (Histogram, ms): Measures API request latency.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.token.usage</code> (Counter, Int): Counts the number of tokens used.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>model</code></li>
-<li><code>type</code> (string: &quot;input&quot;, &quot;output&quot;, &quot;thought&quot;, &quot;cache&quot;, or &quot;tool&quot;)</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>
-<p><code>llxprt_cli.file.operation.count</code> (Counter, Int): Counts file operations.</p>
-<ul>
-<li><strong>Attributes</strong>:
-<ul>
-<li><code>operation</code> (string: &quot;create&quot;, &quot;read&quot;, &quot;update&quot;): The type of file operation.</li>
-<li><code>lines</code> (Int, if applicable): Number of lines in the file.</li>
-<li><code>mimetype</code> (string, if applicable): Mimetype of the file.</li>
-<li><code>extension</code> (string, if applicable): File extension of the file.</li>
-<li><code>ai_added_lines</code> (Int, if applicable): Number of lines added/changed by AI.</li>
-<li><code>ai_removed_lines</code> (Int, if applicable): Number of lines removed/changed by AI.</li>
-<li><code>user_added_lines</code> (Int, if applicable): Number of lines added/changed by user in AI proposed changes.</li>
-<li><code>user_removed_lines</code> (Int, if applicable): Number of lines removed/changed by user in AI proposed changes.</li>
-</ul>
-</li>
-</ul>
-</li>
+<li><code>llxprt_code.session.count</code> (counter): incremented once per startup</li>
+<li><code>llxprt_code.tool.call.count</code> (counter): tool call counts</li>
+<li><code>llxprt_code.tool.call.latency</code> (histogram, ms): tool call latency</li>
+<li><code>llxprt_code.api.request.count</code> (counter): API request counts</li>
+<li><code>llxprt_code.api.request.latency</code> (histogram, ms): API request latency</li>
+<li><code>llxprt_code.token.usage</code> (counter): token usage by type (input, output, etc.)</li>
+<li><code>llxprt_code.file.operation.count</code> (counter): file operation counts</li>
 </ul>
 
           </div>

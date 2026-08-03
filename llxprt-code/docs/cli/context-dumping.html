@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -118,7 +119,7 @@
 </tbody>
 </table>
 <h2>Dump Location</h2>
-<p>Dumps are saved to <code>~/.llxprt/dumps/</code> with filenames in the format:</p>
+<p>Dumps are saved to <code>&lt;cache&gt;/dumps/</code> (see <a href="../reference/application-directories.html">Application Directories</a>) with filenames in the format:</p>
 <pre><code class="language-text">YYYYMMDD-HHMMSS-&lt;provider&gt;-&lt;random&gt;.json
 </code></pre>
 <p>Example: <code>20251208-183505-openai-asq1d9.json</code></p>
@@ -135,7 +136,7 @@
       &quot;User-Agent&quot;: &quot;llxprt-code&quot;
     },
     &quot;body&quot;: {
-      &quot;model&quot;: &quot;gpt-4&quot;,
+      &quot;model&quot;: &quot;gpt-5.5&quot;,
       &quot;messages&quot;: [...],
       &quot;tools&quot;: [...],
       &quot;stream&quot;: false,
@@ -154,17 +155,19 @@
 <h2>Using Dumps with curl</h2>
 <p>Dumps are OpenAI API compliant and can be replayed with curl. Since the dump includes metadata alongside the request body, extract the body first:</p>
 <h3>Extract and Send Request</h3>
-<pre><code class="language-bash"># Extract the request body and send to the API
-jq '.request.body' ~/.llxprt/dumps/YOUR_DUMP.json &gt; /tmp/body.json
+<pre><code class="language-bash"># Linux example: LLXPRT_CACHE_HOME -&gt; LLXPRT_CONFIG_HOME -&gt; Linux default.
+# See Application Directories for the macOS and Windows defaults.
+DUMPS=&quot;${LLXPRT_CACHE_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.cache/llxprt-code}}/dumps&quot;
+jq '.request.body' &quot;$DUMPS/YOUR_DUMP.json&quot; &gt; /tmp/body.json
 
-curl -X POST &quot;$(jq -r '.request.url' ~/.llxprt/dumps/YOUR_DUMP.json)&quot; \
+curl -X POST &quot;$(jq -r '.request.url' &quot;$DUMPS/YOUR_DUMP.json&quot;)&quot; \
   -H &quot;Content-Type: application/json&quot; \
   -H &quot;Authorization: Bearer $OPENAI_API_KEY&quot; \
   -d @/tmp/body.json
 </code></pre>
 <h3>One-liner Alternative</h3>
 <pre><code class="language-bash"># Pipe the body directly to curl
-jq '.request.body' ~/.llxprt/dumps/YOUR_DUMP.json | \
+jq '.request.body' &quot;$DUMPS/YOUR_DUMP.json&quot; | \
   curl -X POST &quot;https://api.openai.com/v1/chat/completions&quot; \
     -H &quot;Content-Type: application/json&quot; \
     -H &quot;Authorization: Bearer $OPENAI_API_KEY&quot; \
@@ -173,7 +176,7 @@ jq '.request.body' ~/.llxprt/dumps/YOUR_DUMP.json | \
 <h3>Using with Different Providers</h3>
 <p>For OpenAI-compatible providers (like local models or alternative endpoints):</p>
 <pre><code class="language-bash"># Extract URL from dump and use with custom auth
-DUMP=~/.llxprt/dumps/YOUR_DUMP.json
+DUMP=&quot;$DUMPS/YOUR_DUMP.json&quot;
 jq '.request.body' &quot;$DUMP&quot; | \
   curl -X POST &quot;$(jq -r '.request.url' &quot;$DUMP&quot;)&quot; \
     -H &quot;Content-Type: application/json&quot; \
@@ -189,22 +192,22 @@ jq '{
   message_count: (.request.body.messages | length),
   tool_count: (.request.body.tools | length),
   response_status: .response.status
-}' ~/.llxprt/dumps/YOUR_DUMP.json
+}' &quot;$DUMPS/YOUR_DUMP.json&quot;
 </code></pre>
 <h3>Extract Conversation History</h3>
 <pre><code class="language-bash"># Show messages with roles
-jq '.request.body.messages[] | {role, content: .content[:100]}' ~/.llxprt/dumps/YOUR_DUMP.json
+jq '.request.body.messages[] | {role, content: .content[:100]}' &quot;$DUMPS/YOUR_DUMP.json&quot;
 </code></pre>
 <h3>List Available Tools</h3>
 <pre><code class="language-bash"># Show tool names and descriptions
-jq '.request.body.tools[] | {name: .function.name, description: .function.description[:50]}' ~/.llxprt/dumps/YOUR_DUMP.json
+jq '.request.body.tools[] | {name: .function.name, description: .function.description[:50]}' &quot;$DUMPS/YOUR_DUMP.json&quot;
 </code></pre>
 <h3>Check Response Details</h3>
 <pre><code class="language-bash"># Show response finish reason and token usage
 jq '{
   finish_reason: .response.body.choices[0].finish_reason,
   usage: .response.body.usage
-}' ~/.llxprt/dumps/YOUR_DUMP.json
+}' &quot;$DUMPS/YOUR_DUMP.json&quot;
 </code></pre>
 <h2>Use Cases</h2>
 <h3>Debugging API Issues</h3>
@@ -254,11 +257,14 @@ llxprt --debug llxprt:*
 <li>Store dumps securely and clean up when no longer needed</li>
 <li>Consider redacting sensitive data before sharing dumps</li>
 </ul>
-<pre><code class="language-bash"># Clean up old dumps
-rm ~/.llxprt/dumps/*.json
+<pre><code class="language-bash"># Clean up old dumps. This Linux example honors LLXPRT_CACHE_HOME, then
+# LLXPRT_CONFIG_HOME, then the Linux default; see Application Directories for
+# the macOS and Windows defaults.
+CACHE_DIR=&quot;${LLXPRT_CACHE_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.cache/llxprt-code}}&quot;
+rm -f &quot;${CACHE_DIR}/dumps/&quot;*.json
 
 # Or keep only recent dumps
-find ~/.llxprt/dumps -name &quot;*.json&quot; -mtime +7 -delete
+find &quot;${CACHE_DIR}/dumps&quot; -name &quot;*.json&quot; -mtime +7 -delete
 </code></pre>
 
           </div>

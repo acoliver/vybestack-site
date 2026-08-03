@@ -55,22 +55,24 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>LLxprt Code Configuration</h1>
 <p>This page covers <code>settings.json</code> — the persistent configuration file. You can also edit settings interactively with the <code>/settings</code> command during a session.</p>
-<p>For session-level settings (the <code>/set</code> command), profiles, and reasoning configuration, see <a href="../settings-and-profiles.html">Settings and Profiles</a>.</p>
+<p>For session-level settings (the <code>/set</code> command), profiles, reasoning configuration, and V2 namespaced settings compatibility, see <a href="../settings-and-profiles.html">Settings and Profiles</a>.</p>
+<p>Unknown top-level keys in settings files are intentionally accepted and preserved for forward/backward compatibility with extensions, migrations, and older configuration files. Unknown nested keys inside strict built-in sections are still rejected during validation.</p>
 <h2>Configuration layers</h2>
 <p>Configuration is applied in the following order of precedence (lower numbers are overridden by higher numbers):</p>
 <ol>
@@ -87,13 +89,13 @@
 <ul>
 <li><strong>System defaults file:</strong>
 <ul>
-<li><strong>Location:</strong> <code>/etc/llxprt-code/system-defaults.json</code> (Linux), <code>C:\ProgramData\llxprt-code\system-defaults.json</code> (Windows) or <code>/Library/Application Support/LLxprt-Code/system-defaults.json</code> (macOS). The path can be overridden using the <code>LLXPRT_CODE_SYSTEM_DEFAULTS_PATH</code> environment variable.</li>
+<li><strong>Location:</strong> <code>/etc/llxprt-code/system-defaults.json</code> (Linux), <code>C:\ProgramData\llxprt-code\system-defaults.json</code> (Windows) or <code>/Library/Application Support/LlxprtCode/system-defaults.json</code> (macOS). The path can be overridden using the <code>LLXPRT_SYSTEM_DEFAULTS_PATH</code> environment variable (a legacy alias <code>LLXPRT_CODE_SYSTEM_DEFAULTS_PATH</code> is also honored for backward compatibility).</li>
 <li><strong>Scope:</strong> Provides a base layer of system-wide default settings. These settings have the lowest precedence and are intended to be overridden by user, project, or system override settings.</li>
 </ul>
 </li>
 <li><strong>User settings file:</strong>
 <ul>
-<li><strong>Location:</strong> <code>~/.llxprt/settings.json</code> (where <code>~</code> is your home directory).</li>
+<li><strong>Location:</strong> Your user <code>settings.json</code> in LLxprt's <a href="../reference/application-directories.html">config directory</a> (overridable via <code>LLXPRT_CONFIG_HOME</code>).</li>
 <li><strong>Scope:</strong> Applies to all LLxprt Code sessions for the current user. User settings override system defaults.</li>
 </ul>
 </li>
@@ -105,7 +107,7 @@
 </li>
 <li><strong>System settings file:</strong>
 <ul>
-<li><strong>Location:</strong> <code>/etc/llxprt-code/settings.json</code> (Linux), <code>C:\ProgramData\llxprt-code\settings.json</code> (Windows) or <code>/Library/Application Support/LLxprt-Code/settings.json</code> (macOS). The path can be overridden using the <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> environment variable.</li>
+<li><strong>Location:</strong> <code>/etc/llxprt-code/settings.json</code> (Linux), <code>C:\ProgramData\llxprt-code\settings.json</code> (Windows) or <code>/Library/Application Support/LlxprtCode/settings.json</code> (macOS). The path can be overridden using the <code>LLXPRT_SYSTEM_SETTINGS_PATH</code> environment variable (a legacy alias <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> is also honored for backward compatibility).</li>
 <li><strong>Scope:</strong> Applies to all LLxprt Code sessions on the system, for all users. System settings act as overrides, taking precedence over all other settings files. May be useful for system administrators at enterprises to have controls over users' LLxprt Code setups.</li>
 </ul>
 </li>
@@ -117,17 +119,17 @@
 <h3>The <code>.llxprt</code> directory in your project</h3>
 <p>In addition to a project settings file, a project's <code>.llxprt</code> directory can contain other project-specific files related to LLxprt Code's operation, such as:</p>
 <ul>
-<li><a href="#sandboxing">Custom sandbox profiles</a> (e.g., <code>.llxprt/sandbox-macos-custom.sb</code>, <code>.llxprt/sandbox.Dockerfile</code>).</li>
+<li><a href="#sandbox">Custom sandbox profiles</a> (e.g., <code>.llxprt/sandbox-macos-custom.sb</code>, <code>.llxprt/sandbox.Dockerfile</code>).</li>
 </ul>
 <h3>Available settings in <code>settings.json</code>:</h3>
 <!-- SETTINGS-AUTOGEN:START -->
 <h4><code>accessibility</code></h4>
 <ul>
 <li>
-<p><strong><code>accessibility.disableLoadingPhrases</code></strong> (boolean):</p>
+<p><strong><code>accessibility.enableLoadingPhrases</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Disable loading phrases for accessibility</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enable loading phrases during operations.</li>
+<li><strong>Default:</strong> <code>true</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
@@ -166,6 +168,7 @@
 <ul>
 <li><strong>Description:</strong> Filter emojis from AI-generated content and file operations. Options: allowed (no filtering), auto (silent filtering), warn (filter with warnings to AI), error (block operations with emojis).</li>
 <li><strong>Default:</strong> <code>&quot;auto&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -196,20 +199,37 @@
 </ul>
 </li>
 <li>
-<p><strong><code>fileFiltering.disableFuzzySearch</code></strong> (boolean):</p>
+<p><strong><code>fileFiltering.enableFuzzySearch</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Disable fuzzy search when searching for files.</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enable fuzzy search when searching for files.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering.maxFileCount</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of files to index during file search. Prevents OOM on large projects.</li>
+<li><strong>Default:</strong> <code>20000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>fileFiltering.searchTimeout</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Timeout in milliseconds for file search operations.</li>
+<li><strong>Default:</strong> <code>5000</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
 </ul>
-<h4><code>disableAutoUpdate</code></h4>
+<h4><code>enableAutoUpdate</code></h4>
 <ul>
-<li><strong><code>disableAutoUpdate</code></strong> (boolean):
+<li><strong><code>enableAutoUpdate</code></strong> (boolean):
 <ul>
-<li><strong>Description:</strong> Disable automatic updates</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enable automatic updates.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -240,6 +260,26 @@
 <li><strong>Description:</strong> Maximum number of lines to keep in the PTY scrollback buffer for interactive shell output.</li>
 <li><strong>Default:</strong> <code>600000</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>streamIdleTimeoutMs</code></h4>
+<ul>
+<li><strong><code>streamIdleTimeoutMs</code></strong> (number):
+<ul>
+<li><strong>Description:</strong> Stream idle timeout in milliseconds. Disabled by default (0). Set to a positive number of milliseconds to enable the watchdog; zero or negative disables it. Any finite number is valid.</li>
+<li><strong>Default:</strong> <code>0</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+</ul>
+<h4><code>streamFirstResponseTimeoutMs</code></h4>
+<ul>
+<li><strong><code>streamFirstResponseTimeoutMs</code></strong> (number):
+<ul>
+<li><strong>Description:</strong> First-response (time-to-first-content) watchdog in milliseconds. Enabled by default (300000 = 5 minutes). A provider liveness signal (e.g. response.created) disarms it even before semantic content arrives. Set to 0 or a negative number to disable.</li>
+<li><strong>Default:</strong> <code>300000</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -297,17 +337,9 @@
 <ul>
 <li><strong><code>defaultDisabledTools</code></strong> (array):
 <ul>
-<li>
-<p><strong>Description:</strong> Tool names disabled by default. Users can re-enable them with /tools enable.</p>
-</li>
-<li>
-<p><strong>Default:</strong></p>
-<pre><code class="language-json">[&quot;google_web_fetch&quot;]
-</code></pre>
-</li>
-<li>
-<p><strong>Requires restart:</strong> Yes</p>
-</li>
+<li><strong>Description:</strong> Tool names disabled by default. Users can re-enable them with /tools enable.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
 </ul>
@@ -341,17 +373,6 @@
 </ul>
 </li>
 </ul>
-<h4><code>toolCallProcessingMode</code></h4>
-<ul>
-<li><strong><code>toolCallProcessingMode</code></strong> (enum):
-<ul>
-<li><strong>Description:</strong> Mode for processing tool calls. Pipeline mode is optimized, legacy mode uses older implementation.</li>
-<li><strong>Default:</strong> <code>&quot;legacy&quot;</code></li>
-<li><strong>Values:</strong> <code>&quot;legacy&quot;</code>, <code>&quot;pipeline&quot;</code></li>
-<li><strong>Requires restart:</strong> Yes</li>
-</ul>
-</li>
-</ul>
 <h4><code>mcpServerCommand</code></h4>
 <ul>
 <li><strong><code>mcpServerCommand</code></strong> (string):
@@ -368,6 +389,7 @@
 <ul>
 <li><strong>Description:</strong> Settings for automatic session cleanup.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -375,19 +397,93 @@
 <ul>
 <li><strong><code>output.format</code></strong> (enum):
 <ul>
-<li><strong>Description:</strong> The format of the CLI output.</li>
+<li><strong>Description:</strong> The format of the CLI output. Can be <code>text</code> or <code>json</code>.</li>
 <li><strong>Default:</strong> <code>&quot;text&quot;</code></li>
 <li><strong>Values:</strong> <code>&quot;text&quot;</code>, <code>&quot;json&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
 <h4><code>ui</code></h4>
 <ul>
 <li>
+<p><strong><code>ui.accessibility.enableLoadingPhrases</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable loading phrases during operations.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.accessibility.screenReader</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Render output in plain-text to be more screen reader accessible</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.checkpointing.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable session checkpointing for recovery</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.respectGitIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .gitignore files when searching</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.respectLlxprtIgnore</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Respect .llxprtignore files when searching</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.enableRecursiveFileSearch</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable recursive file search functionality</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.enableFuzzySearch</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable fuzzy search when searching for files.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.maxFileCount</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of files to index during file search. Prevents OOM on large projects.</li>
+<li><strong>Default:</strong> <code>20000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.fileFiltering.searchTimeout</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Timeout in milliseconds for file search operations.</li>
+<li><strong>Default:</strong> <code>5000</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
 <p><strong><code>ui.theme</code></strong> (string):</p>
 <ul>
 <li><strong>Description:</strong> The color theme for the UI.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -395,6 +491,7 @@
 <ul>
 <li><strong>Description:</strong> Custom theme definitions.</li>
 <li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -408,8 +505,25 @@
 <li>
 <p><strong><code>ui.showStatusInTitle</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Show Gemini CLI status and thoughts in the terminal window title</li>
+<li><strong>Description:</strong> Show LLxprt model thoughts in the terminal window title during the working phase</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.dynamicWindowTitle</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Update the terminal window title with current status prefixes (Ready: ◇, Action Required: no leading glyph, Working: no leading glyph)</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.showHomeDirectoryWarning</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show a warning when running LLxprt CLI in the home directory.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
 <li>
@@ -417,6 +531,7 @@
 <ul>
 <li><strong>Description:</strong> Hide helpful tips in the UI</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -424,6 +539,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the application banner</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -431,6 +547,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the context summary (<a href="http://LLXPRT.md">LLXPRT.md</a>, MCP servers) above the input.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -438,6 +555,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the current working directory path in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -445,6 +563,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the sandbox status indicator in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -452,6 +571,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the model name and context usage in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -459,6 +579,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the footer from the UI</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -490,6 +611,7 @@
 <ul>
 <li><strong>Description:</strong> Display memory usage information in the UI</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -497,6 +619,7 @@
 <ul>
 <li><strong>Description:</strong> Show line numbers in the chat.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -504,6 +627,7 @@
 <ul>
 <li><strong>Description:</strong> Show citations for generated text in the chat.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -511,6 +635,7 @@
 <ul>
 <li><strong>Description:</strong> Custom witty phrases to display during loading.</li>
 <li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -519,6 +644,7 @@
 <li><strong>Description:</strong> Choose which collection of witty phrases to display during loading.</li>
 <li><strong>Default:</strong> <code>&quot;default&quot;</code></li>
 <li><strong>Values:</strong> <code>&quot;default&quot;</code>, <code>&quot;llxprt&quot;</code>, <code>&quot;gemini-cli&quot;</code>, <code>&quot;whimsical&quot;</code>, <code>&quot;custom&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -526,6 +652,7 @@
 <ul>
 <li><strong>Description:</strong> Enable Vim keybindings in the input field.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -533,6 +660,7 @@
 <ul>
 <li><strong>Description:</strong> Enable IDE integration mode.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -540,6 +668,7 @@
 <ul>
 <li><strong>Description:</strong> The preferred code editor for opening files.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -551,10 +680,19 @@
 </ul>
 </li>
 <li>
+<p><strong><code>ui.maxHeapSizeMB</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Caps the auto-configured Node.js max old space heap size. Overrides the default 8GB cap when auto-configure is enabled. Must be an integer.</li>
+<li><strong>Default:</strong> <code>8192</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
 <p><strong><code>ui.historyMaxItems</code></strong> (number):</p>
 <ul>
 <li><strong>Description:</strong> Maximum number of history items to keep.</li>
 <li><strong>Default:</strong> <code>100</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -562,6 +700,7 @@
 <ul>
 <li><strong>Description:</strong> Maximum size of history in bytes.</li>
 <li><strong>Default:</strong> <code>1048576</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -569,6 +708,7 @@
 <ul>
 <li><strong>Description:</strong> Format for importing memory files (tree or flat).</li>
 <li><strong>Default:</strong> <code>&quot;tree&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -576,6 +716,7 @@
 <ul>
 <li><strong>Description:</strong> Maximum number of directories to scan for memory files.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -583,6 +724,7 @@
 <ul>
 <li><strong>Description:</strong> Maximum directory depth for downward <a href="http://LLXPRT.md">LLXPRT.md</a> search from the current working directory. Does not affect upward traversal or global memory. When unset, searches all depths.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -590,6 +732,7 @@
 <ul>
 <li><strong>Description:</strong> The name of the context file or files to load into memory. Accepts either a single string or an array of strings.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -597,6 +740,7 @@
 <ul>
 <li><strong>Description:</strong> Enable anonymous usage statistics collection.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -604,6 +748,7 @@
 <ul>
 <li><strong>Description:</strong> Maximum number of turns in a session (-1 for unlimited).</li>
 <li><strong>Default:</strong> <code>-1</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -611,6 +756,7 @@
 <ul>
 <li><strong>Description:</strong> Show the todo panel in the UI.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -618,13 +764,14 @@
 <ul>
 <li><strong>Description:</strong> Use the entire width of the terminal for output.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
-<p><strong><code>ui.disableLoadingPhrases</code></strong> (boolean):</p>
+<p><strong><code>ui.enableLoadingPhrases</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Disable loading phrases for accessibility.</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enable loading phrases during operations.</li>
+<li><strong>Default:</strong> <code>true</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
@@ -639,11 +786,20 @@
 </ul>
 <h4><code>ide</code></h4>
 <ul>
-<li><strong><code>ide</code></strong> (object):
+<li>
+<p><strong><code>ide.enabled</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> IDE integration settings.</li>
-<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Description:</strong> Enable IDE integration mode.</li>
+<li><strong>Default:</strong> <code>false</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ide.hasSeenNudge</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Whether the user has seen the IDE integration nudge.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -653,6 +809,7 @@
 <ul>
 <li><strong>Description:</strong> Show LLxprt status and thoughts in the terminal window title</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -662,6 +819,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the current working directory path in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -671,6 +829,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the sandbox status indicator in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -680,6 +839,7 @@
 <ul>
 <li><strong>Description:</strong> Hide the model name and context usage in the footer.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -709,6 +869,7 @@
 <ul>
 <li><strong>Description:</strong> Configuration for the bug report command.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -718,6 +879,7 @@
 <ul>
 <li><strong>Description:</strong> Enables or disables summarization of tool output. Configure per-tool token budgets (for example {&quot;run_shell_command&quot;: {&quot;tokenBudget&quot;: 2000}}). Currently only the run_shell_command tool supports summarization.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -746,6 +908,7 @@
 <ul>
 <li><strong>Description:</strong> Automatically accept and execute tool calls that are considered safe (e.g., read-only operations).</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -793,6 +956,7 @@
 <ul>
 <li><strong>Description:</strong> Use ripgrep for file content search instead of the fallback implementation. When unset, ripgrep is auto-enabled if detected.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -824,13 +988,14 @@
 <ul>
 <li><strong>Description:</strong> Absolute path to a TOML policy file that augments the built-in policy rules.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
 <p><strong><code>tools.enableHooks</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Enable the hooks system for intercepting and customizing LLxprt CLI behavior. When enabled, hooks configured in settings will execute at appropriate lifecycle events (BeforeTool, AfterTool, BeforeModel, etc.). Requires MessageBus integration.</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enables the hooks system experiment. When disabled, the hooks system is completely deactivated regardless of other settings.</li>
+<li><strong>Default:</strong> <code>true</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
@@ -869,6 +1034,7 @@
 <ul>
 <li><strong>Description:</strong> Globally allow background subagent runs. If off, async=true launches are blocked even if a profile enables them.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -876,6 +1042,15 @@
 <ul>
 <li><strong>Description:</strong> Maximum concurrent async tasks. Profile setting (task-max-async) can limit but not exceed this value. Use -1 for unlimited.</li>
 <li><strong>Default:</strong> <code>5</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>subagents.definitions</code></strong> (object):</p>
+<ul>
+<li><strong>Description:</strong> Inline subagent definitions keyed by name. Each value must contain profile and systemPrompt.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
 </ul>
@@ -894,6 +1069,7 @@
 <ul>
 <li><strong>Description:</strong> Enable the &quot;Allow for all future sessions&quot; option in tool confirmation dialogs.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 <li>
@@ -928,6 +1104,30 @@
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
+<li>
+<p><strong><code>security.environmentVariableRedaction.allowed</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Environment variables to allow in addition to the default allowlist.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.environmentVariableRedaction.blocked</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> Environment variables to block in addition to the default blocklist.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.environmentVariableRedaction.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable environment variable redaction (disabled by default).</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
 </ul>
 <h4><code>excludedProjectEnvVars</code></h4>
 <ul>
@@ -941,15 +1141,19 @@
 <pre><code class="language-json">[&quot;DEBUG&quot;, &quot;DEBUG_MODE&quot;]
 </code></pre>
 </li>
+<li>
+<p><strong>Requires restart:</strong> No</p>
+</li>
 </ul>
 </li>
 </ul>
-<h4><code>disableUpdateNag</code></h4>
+<h4><code>enableAutoUpdateNotification</code></h4>
 <ul>
-<li><strong><code>disableUpdateNag</code></strong> (boolean):
+<li><strong><code>enableAutoUpdateNotification</code></strong> (boolean):
 <ul>
-<li><strong>Description:</strong> Disable update notification prompts.</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Description:</strong> Enable update notification prompts.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -959,6 +1163,7 @@
 <ul>
 <li><strong>Description:</strong> Additional directories to include in the workspace context. Missing directories will be skipped with a warning.</li>
 <li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -968,15 +1173,17 @@
 <ul>
 <li><strong>Description:</strong> Whether to load memory files from include directories.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
 <h4><code>model</code></h4>
 <ul>
-<li><strong><code>model</code></strong> (string):
+<li><strong><code>model</code></strong> (string | object):
 <ul>
-<li><strong>Description:</strong> The Gemini model to use for conversations.</li>
+<li><strong>Description:</strong> The model to use for conversations. V2 settings may use { name, compressionThreshold }; compressionThreshold maps to chatCompression.contextPercentageThreshold.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -986,6 +1193,7 @@
 <ul>
 <li><strong>Description:</strong> Whether the user has seen the IDE integration nudge.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1011,15 +1219,41 @@
 </ul>
 <h4><code>chatCompression</code></h4>
 <ul>
-<li><strong><code>chatCompression</code></strong> (object):
+<li>
+<p><strong><code>chatCompression.contextPercentageThreshold</code></strong> (number):</p>
 <ul>
-<li><strong>Description:</strong> Chat compression settings.</li>
+<li><strong>Description:</strong> Fraction of context-limit that triggers history compression (0.0–1.0).</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>chatCompression.strategy</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Legacy compression strategy selector.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>chatCompression.profile</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Legacy compression profile selector.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
 <h4><code>experimental</code></h4>
 <ul>
+<li>
+<p><strong><code>experimental.extensionConfig</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable requesting and fetching of extension settings.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
 <li>
 <p><strong><code>experimental.extensionReloading</code></strong> (boolean):</p>
 <ul>
@@ -1033,6 +1267,22 @@
 <ul>
 <li><strong>Description:</strong> Enable just-in-time context memory loading via ContextManager instead of eager loading at startup.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>experimental.skills</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable skills (experimental).</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>experimental.introspectionAgentSettings.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Enable the Introspection Agent.</li>
+<li><strong>Default:</strong> <code>false</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
@@ -1103,6 +1353,7 @@
 <ul>
 <li><strong>Description:</strong> Enable parsing of tool calls from text responses.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1112,6 +1363,7 @@
 <ul>
 <li><strong>Description:</strong> Models that support text-based tool call parsing.</li>
 <li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1121,6 +1373,7 @@
 <ul>
 <li><strong>Description:</strong> Enable OpenAI Responses API compatibility.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1131,6 +1384,7 @@
 <li><strong>Description:</strong> Control command substitution in shell commands: &quot;allowlist&quot; (validate inner commands against coreTools), &quot;all&quot; (allow all), &quot;none&quot; (block all).</li>
 <li><strong>Default:</strong> <code>&quot;allowlist&quot;</code></li>
 <li><strong>Values:</strong> <code>&quot;allowlist&quot;</code>, <code>&quot;all&quot;</code>, <code>&quot;none&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1150,6 +1404,7 @@
 <ul>
 <li><strong>Description:</strong> Use ripgrep for file content search instead of the fallback implementation. When unset, ripgrep is auto-enabled if detected.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1169,6 +1424,7 @@
 <ul>
 <li><strong>Description:</strong> Show a message in chat when the active profile changes.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1178,6 +1434,7 @@
 <ul>
 <li><strong>Description:</strong> Enable fuzzy filtering for command menu completions. When enabled, you can type partial characters (e.g., &quot;prd&quot; to match &quot;production&quot;). When disabled, only exact prefix matches are shown.</li>
 <li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1187,6 +1444,7 @@
 <ul>
 <li><strong>Description:</strong> Custom witty phrases to display during loading. When provided, the CLI cycles through these instead of the defaults.</li>
 <li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
@@ -1197,18 +1455,98 @@
 <li><strong>Description:</strong> Choose which collection of witty phrases to display during loading.</li>
 <li><strong>Default:</strong> <code>&quot;default&quot;</code></li>
 <li><strong>Values:</strong> <code>&quot;default&quot;</code>, <code>&quot;llxprt&quot;</code>, <code>&quot;gemini-cli&quot;</code>, <code>&quot;whimsical&quot;</code>, <code>&quot;custom&quot;</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+</ul>
+<h4><code>skills</code></h4>
+<ul>
+<li><strong><code>skills.disabled</code></strong> (array):
+<ul>
+<li><strong>Description:</strong> List of disabled skills.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+</ul>
+<h4><code>hooksConfig</code></h4>
+<ul>
+<li>
+<p><strong><code>hooksConfig.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Canonical toggle for the hooks system. When disabled, no hooks will be executed.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>hooksConfig.notifications</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Show visual indicators when hooks are executing.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>hooksConfig.disabled</code></strong> (array):</p>
+<ul>
+<li><strong>Description:</strong> List of hook names (commands) that should be disabled. Hooks in this list will not execute even if configured.</li>
+<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
 </ul>
 <h4><code>hooks</code></h4>
 <ul>
-<li>
-<p><strong><code>hooks.disabled</code></strong> (array):</p>
+<li><strong><code>hooks</code></strong> (object):
 <ul>
-<li><strong>Description:</strong> List of hook names to disable</li>
-<li><strong>Default:</strong> <code>[]</code></li>
+<li><strong>Description:</strong> Event-specific hook configurations.</li>
+<li><strong>Default:</strong> <code>{}</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+</ul>
+<h4><code>admin</code></h4>
+<ul>
+<li>
+<p><strong><code>admin.secureModeEnabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> If true, disallows YOLO mode from being used.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>admin.extensions.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> If false, disallows extensions from being installed or used.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>admin.mcp.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> If false, disallows MCP servers from being used.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>admin.skills.enabled</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> If false, disallows agent skills from being used.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
 </ul>
 <!-- SETTINGS-AUTOGEN:END -->
+</li>
+<li>
+<p><strong>Hook execution precedence:</strong> Hook execution requires both <code>tools.enableHooks</code> and <code>hooksConfig.enabled</code> to be <code>true</code>.</p>
+<ul>
+<li><code>tools.enableHooks</code> is the experimental hooks gate.</li>
+<li><code>hooksConfig.enabled</code> is the canonical runtime execution toggle.</li>
+</ul>
 </li>
 <li>
 <p><strong><code>contextFileName</code></strong> (string or array of strings):</p>
@@ -1241,19 +1579,28 @@
 <li>
 <p><strong><code>fileFiltering</code></strong> (object):</p>
 <ul>
-<li><strong>Description:</strong> Controls git-aware file filtering behavior for @ commands and file discovery tools.</li>
-<li><strong>Default:</strong> <code>&quot;respectGitIgnore&quot;: true, &quot;enableRecursiveFileSearch&quot;: true</code></li>
-<li><strong>Properties:</strong>
+<li>
+<p><strong>Description:</strong> Controls git-aware file filtering behavior for @ commands and file discovery tools.</p>
+</li>
+<li>
+<p><strong>Default:</strong> <code>&quot;respectGitIgnore&quot;: true, &quot;respectLlxprtIgnore&quot;: true, &quot;enableRecursiveFileSearch&quot;: true, &quot;enableFuzzySearch&quot;: true</code></p>
+</li>
+<li>
+<p><strong>Properties:</strong></p>
 <ul>
 <li><strong><code>respectGitIgnore</code></strong> (boolean): Whether to respect .gitignore patterns when discovering files. When set to <code>true</code>, git-ignored files (like <code>node_modules/</code>, <code>dist/</code>, <code>.env</code>) are automatically excluded from @ commands and file listing operations.</li>
+<li><strong><code>respectLlxprtIgnore</code></strong> (boolean): Whether to respect .llxprtignore patterns when discovering files.</li>
 <li><strong><code>enableRecursiveFileSearch</code></strong> (boolean): Whether to enable searching recursively for filenames under the current tree when completing @ prefixes in the prompt.</li>
-<li><strong><code>disableFuzzySearch</code></strong> (boolean): When <code>true</code>, disables the fuzzy search capabilities when searching for files, which can improve performance on projects with a large number of files.</li>
+<li><strong><code>enableFuzzySearch</code></strong> (boolean): When <code>false</code>, disables fuzzy search capabilities when searching for files, which can improve performance on projects with a large number of files.</li>
 </ul>
 </li>
-<li><strong>Example:</strong><pre><code class="language-json">&quot;fileFiltering&quot;: {
+<li>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">&quot;fileFiltering&quot;: {
   &quot;respectGitIgnore&quot;: true,
+  &quot;respectLlxprtIgnore&quot;: true,
   &quot;enableRecursiveFileSearch&quot;: false,
-  &quot;disableFuzzySearch&quot;: true
+  &quot;enableFuzzySearch&quot;: false
 }
 </code></pre>
 </li>
@@ -1264,10 +1611,10 @@
 <p>If you are experiencing performance issues with file searching (e.g., with <code>@</code> completions), especially in projects with a very large number of files, here are a few things you can try in order of recommendation:</p>
 <ol>
 <li>
-<p><strong>Use <code>.geminiignore</code>:</strong> Create a <code>.geminiignore</code> file in your project root to exclude directories that contain a large number of files that you don't need to reference (e.g., build artifacts, logs, <code>node_modules</code>). Reducing the total number of files crawled is the most effective way to improve performance.</p>
+<p><strong>Use <code>.llxprtignore</code>:</strong> Create a <code>.llxprtignore</code> file in your project root to exclude directories that contain a large number of files that you don't need to reference (e.g., build artifacts, logs, <code>node_modules</code>). Reducing the total number of files crawled is the most effective way to improve performance.</p>
 </li>
 <li>
-<p><strong>Disable Fuzzy Search:</strong> If ignoring files is not enough, you can disable fuzzy search by setting <code>disableFuzzySearch</code> to <code>true</code> in your <code>settings.json</code> file. This will use a simpler, non-fuzzy matching algorithm, which can be faster.</p>
+<p><strong>Disable Fuzzy Search:</strong> If ignoring files is not enough, you can disable fuzzy search by setting <code>enableFuzzySearch</code> to <code>false</code> in your <code>settings.json</code> file. This will use a simpler, non-fuzzy matching algorithm, which can be faster.</p>
 </li>
 <li>
 <p><strong>Disable Recursive File Search:</strong> As a last resort, you can disable recursive file search entirely by setting <code>enableRecursiveFileSearch</code> to <code>false</code>. This will be the fastest option as it avoids a recursive crawl of your project. However, it means you will need to type the full path to files when using <code>@</code> completions.</p>
@@ -1277,7 +1624,7 @@
 <li>
 <p><strong><code>coreTools</code></strong> (array of strings):</p>
 <ul>
-<li><strong>Description:</strong> Allows you to specify a list of core tool names that should be made available to the model. This can be used to restrict the set of built-in tools. See <a href="../core/tools-api.html#built-in-tools">Built-in Tools</a> for a list of core tools. You can also specify command-specific restrictions for tools that support it, like the <code>ShellTool</code>. For example, <code>&quot;coreTools&quot;: [&quot;ShellTool(ls -l)&quot;]</code> will only allow the <code>ls -l</code> command to be executed.</li>
+<li><strong>Description:</strong> Allows you to specify a list of core tool names that should be made available to the model. This can be used to restrict the set of built-in tools. See <a href="../tools/index.html#built-in-tools">Built-in Tools</a> for a list of core tools. You can also specify command-specific restrictions for tools that support it, like the <code>ShellTool</code>. For example, <code>&quot;coreTools&quot;: [&quot;ShellTool(ls -l)&quot;]</code> will only allow the <code>ls -l</code> command to be executed.</li>
 <li><strong>Default:</strong> All tools available for use by the Gemini model.</li>
 <li><strong>Example:</strong> <code>&quot;coreTools&quot;: [&quot;ReadFileTool&quot;, &quot;GlobTool&quot;, &quot;ShellTool(ls)&quot;]</code>.</li>
 </ul>
@@ -1355,7 +1702,7 @@ that can be executed.</li>
 <li>
 <p><strong><code>sandbox</code></strong> (boolean or string):</p>
 <ul>
-<li><strong>Description:</strong> Controls whether and how to use sandboxing for tool execution. If set to <code>true</code>, LLxprt Code uses a pre-built <code>gemini-cli-sandbox</code> Docker image. For more information, see <a href="#sandboxing">Sandboxing</a>.</li>
+<li><strong>Description:</strong> Controls whether and how to use sandboxing for tool execution. If set to <code>true</code>, LLxprt Code uses the pre-built <code>ghcr.io/vybestack/llxprt-code/sandbox</code> Docker image. For more information, see <a href="#sandbox">Sandboxing</a>.</li>
 <li><strong>Default:</strong> <code>false</code></li>
 <li><strong>Example:</strong> <code>&quot;sandbox&quot;: &quot;docker&quot;</code></li>
 </ul>
@@ -1489,31 +1836,10 @@ that can be executed.</li>
 </ul>
 </li>
 <li>
-<p><strong><code>model.maxSessionTurns</code></strong> (number):</p>
+<p><strong><code>model.compressionThreshold</code></strong> (number):</p>
 <ul>
-<li><strong>Description:</strong> Maximum number of user/model/tool turns to keep in a session. -1 means unlimited.</li>
-<li><strong>Default:</strong> <code>-1</code></li>
-</ul>
-</li>
-<li>
-<p><strong><code>model.summarizeToolOutput</code></strong> (object):</p>
-<ul>
-<li><strong>Description:</strong> Settings for summarizing tool output.</li>
+<li><strong>Description:</strong> V2 setting for the token threshold that triggers chat history compression, expressed as a percentage of the model context limit. This maps to legacy <code>chatCompression.contextPercentageThreshold</code>.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
-</ul>
-</li>
-<li>
-<p><strong><code>model.chatCompression</code></strong> (object):</p>
-<ul>
-<li><strong>Description:</strong> Chat compression settings.</li>
-<li><strong>Default:</strong> <code>undefined</code></li>
-</ul>
-</li>
-<li>
-<p><strong><code>model.skipNextSpeakerCheck</code></strong> (boolean):</p>
-<ul>
-<li><strong>Description:</strong> Skip the next speaker check.</li>
-<li><strong>Default:</strong> <code>false</code></li>
 </ul>
 </li>
 </ul>
@@ -1562,9 +1888,9 @@ that can be executed.</li>
 </ul>
 </li>
 <li>
-<p><strong><code>context.fileFiltering.respectGeminiIgnore</code></strong> (boolean):</p>
+<p><strong><code>context.fileFiltering.respectLlxprtIgnore</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Respect .geminiignore files when searching.</li>
+<li><strong>Description:</strong> Respect .llxprtignore files when searching.</li>
 <li><strong>Default:</strong> <code>true</code></li>
 </ul>
 </li>
@@ -1791,20 +2117,19 @@ that can be executed.</li>
 <li>
 <p><strong><code>telemetry</code></strong> (object)</p>
 <ul>
-<li><strong>Description:</strong> Configures logging and metrics collection for LLxprt Code. For more information, see <a href="../telemetry.html">Telemetry</a>.</li>
-<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false, &quot;target&quot;: &quot;local&quot;, &quot;otlpEndpoint&quot;: &quot;http://localhost:4317&quot;, &quot;logPrompts&quot;: true}</code></li>
+<li><strong>Description:</strong> Configures logging and metrics collection for LLxprt Code. For more information, see <a href="../telemetry.html">Telemetry</a>. Telemetry data is always local (file or console); the SDK does not construct OTLP/network exporters.</li>
+<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false, &quot;target&quot;: &quot;local&quot;, &quot;logPrompts&quot;: true}</code></li>
 <li><strong>Properties:</strong>
 <ul>
-<li><strong><code>enabled</code></strong> (boolean): Whether or not telemetry is enabled.</li>
-<li><strong><code>target</code></strong> (string): The destination for collected telemetry. Supported values are <code>local</code> and <code>gcp</code>.</li>
-<li><strong><code>otlpEndpoint</code></strong> (string): The endpoint for the OTLP Exporter.</li>
-<li><strong><code>logPrompts</code></strong> (boolean): Whether or not to include the content of user prompts in the logs.</li>
+<li><strong><code>enabled</code></strong> (boolean): Whether or not telemetry is enabled. Defaults to <code>false</code>.</li>
+<li><strong><code>target</code></strong> (string): Intended destination category. Note: regardless of this setting, data is only written locally (file or console); no OTLP or network exporter is constructed by the SDK.</li>
+<li><strong><code>otlpEndpoint</code></strong> (string): Read into configuration but not currently used by the SDK (no OTLP exporter is constructed).</li>
+<li><strong><code>logPrompts</code></strong> (boolean): Controls whether user prompt text is included in the <code>user_prompt</code> log event. Does not affect hook I/O logging (hook input/output is always included in <code>hook_call</code> events when telemetry is enabled).</li>
 </ul>
 </li>
 <li><strong>Example:</strong><pre><code class="language-json">&quot;telemetry&quot;: {
   &quot;enabled&quot;: true,
   &quot;target&quot;: &quot;local&quot;,
-  &quot;otlpEndpoint&quot;: &quot;http://localhost:16686&quot;,
   &quot;logPrompts&quot;: false
 }
 </code></pre>
@@ -1814,7 +2139,7 @@ that can be executed.</li>
 <li>
 <p><strong><code>usageStatisticsEnabled</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Enables or disables the collection of usage statistics. See <a href="#usage-statistics">Usage Statistics</a> for more information.</li>
+<li><strong>Description:</strong> Enables or disables the collection of usage statistics. See the <code>usageStatisticsEnabled</code> setting below for more information.</li>
 <li><strong>Default:</strong> <code>true</code></li>
 <li><strong>Example:</strong><pre><code class="language-json">&quot;usageStatisticsEnabled&quot;: false
 </code></pre>
@@ -1933,16 +2258,27 @@ that can be executed.</li>
 </ul>
 </li>
 <li>
-<p><strong><code>chatCompression</code></strong> (object):</p>
+<p><strong><code>chatCompression</code></strong> (object, legacy compatibility):</p>
 <ul>
-<li><strong>Description:</strong> Controls the settings for chat history compression, both automatic and
-when manually invoked through the /compress command.</li>
-<li><strong>Properties:</strong>
+<li>
+<p><strong>Description:</strong> Legacy root setting for chat history compression, both automatic and when manually invoked through the /compress command. New V2 configuration should use <code>model.compressionThreshold</code>.</p>
+</li>
+<li>
+<p><strong>Properties:</strong></p>
 <ul>
-<li><strong><code>contextPercentageThreshold</code></strong> (number): A value between 0 and 1 that specifies the token threshold for compression as a percentage of the model's total token limit. For example, a value of <code>0.6</code> will trigger compression when the chat history exceeds 60% of the token limit.</li>
+<li><strong><code>contextPercentageThreshold</code></strong> (number): A value between 0 and 1 that specifies the token threshold for compression as a percentage of the model's total token limit. For example, a value of <code>0.6</code> will trigger compression when the chat history exceeds 60% of the token limit. This is equivalent to <code>model.compressionThreshold</code>.</li>
 </ul>
 </li>
-<li><strong>Example:</strong><pre><code class="language-json">&quot;chatCompression&quot;: {
+<li>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">&quot;model&quot;: {
+  &quot;compressionThreshold&quot;: 0.6
+}
+</code></pre>
+</li>
+<li>
+<p><strong>Legacy example:</strong></p>
+<pre><code class="language-json">&quot;chatCompression&quot;: {
   &quot;contextPercentageThreshold&quot;: 0.6
 }
 </code></pre>
@@ -1962,7 +2298,7 @@ when manually invoked through the /compress command.</li>
 <li>
 <p><strong><code>emojiFilter</code></strong> (object):</p>
 <ul>
-<li><strong>Description:</strong> Controls emoji filtering in LLM responses and file operations. See <a href="../EMOJI-FILTER.html">Emoji Filter Guide</a> for detailed usage.</li>
+<li><strong>Description:</strong> Controls emoji filtering in LLM responses and file operations. See <a href="../emoji-filter.html">Emoji Filter Guide</a> for detailed usage.</li>
 <li><strong>Default:</strong> <code>{&quot;mode&quot;: &quot;auto&quot;}</code></li>
 <li><strong>Properties:</strong>
 <ul>
@@ -1996,33 +2332,39 @@ when manually invoked through the /compress command.</li>
 </ul>
 </li>
 <li>
-<p><strong><code>accessibility</code></strong> (object):</p>
+<p><strong><code>ui.accessibility</code></strong> (object):</p>
 <ul>
-<li><strong>Description:</strong> Configures accessibility features for the CLI.</li>
-<li><strong>Properties:</strong>
+<li>
+<p><strong>Description:</strong> V2 namespace for accessibility features for the CLI. Root <code>accessibility</code> remains accepted for legacy compatibility.</p>
+</li>
+<li>
+<p><strong>Properties:</strong></p>
 <ul>
 <li><strong><code>screenReader</code></strong> (boolean): Enables screen reader mode, which adjusts the TUI for better compatibility with screen readers. This can also be enabled with the <code>--screen-reader</code> command-line flag, which will take precedence over the setting.</li>
-<li><strong><code>disableLoadingPhrases</code></strong> (boolean): Disables the display of loading phrases during operations.</li>
+<li><strong><code>enableLoadingPhrases</code></strong> (boolean): Enables the display of loading phrases during operations.</li>
 </ul>
 </li>
-<li><strong>Default:</strong> <code>{&quot;screenReader&quot;: false, &quot;disableLoadingPhrases&quot;: false}</code></li>
-<li><strong>Example:</strong><pre><code class="language-json">&quot;accessibility&quot;: {
-  &quot;screenReader&quot;: true,
-  &quot;disableLoadingPhrases&quot;: true
+<li>
+<p><strong>Default:</strong> <code>{&quot;screenReader&quot;: false, &quot;enableLoadingPhrases&quot;: true}</code></p>
+</li>
+<li>
+<p><strong>Example:</strong></p>
+<pre><code class="language-json">&quot;ui&quot;: {
+  &quot;accessibility&quot;: {
+    &quot;screenReader&quot;: true,
+    &quot;enableLoadingPhrases&quot;: false
+  }
 }
 </code></pre>
 </li>
-</ul>
-</li>
-</ul>
-<h4>Additional Dialog Settings</h4>
-<p>The following settings are available in the <code>/settings</code> dialog:</p>
-<ul>
 <li>
-<p><strong><code>disableAutoUpdate</code></strong> (boolean):</p>
-<ul>
-<li><strong>Description:</strong> Disable automatic updates of LLxprt Code. When enabled, you will need to manually update the application.</li>
-<li><strong>Default:</strong> <code>false</code></li>
+<p><strong>Legacy example:</strong></p>
+<pre><code class="language-json">&quot;accessibility&quot;: {
+  &quot;screenReader&quot;: true,
+  &quot;enableLoadingPhrases&quot;: false
+}
+</code></pre>
+</li>
 </ul>
 </li>
 <li>
@@ -2147,7 +2489,6 @@ when manually invoked through the /compress command.</li>
   &quot;telemetry&quot;: {
     &quot;enabled&quot;: true,
     &quot;target&quot;: &quot;local&quot;,
-    &quot;otlpEndpoint&quot;: &quot;http://localhost:4317&quot;,
     &quot;logPrompts&quot;: true
   },
   &quot;usageStatisticsEnabled&quot;: true,
@@ -2173,11 +2514,11 @@ when manually invoked through the /compress command.</li>
 <ol>
 <li><code>.env</code> in the current directory</li>
 <li><code>.env</code> in parent directories (up to filesystem root)</li>
-<li><code>~/.llxprt/.env</code> (user-level)</li>
+<li><code>&lt;config&gt;/.env</code> (user-level — see <a href="../reference/application-directories.html">Application Directories</a>)</li>
 </ol>
 <p>String values in <code>settings.json</code> can reference environment variables using <code>$VAR_NAME</code> or <code>${VAR_NAME}</code> syntax.</p>
 <h2>Shell History</h2>
-<p>Shell command history is stored per-project at <code>~/.llxprt/tmp/&lt;project_hash&gt;/shell_history</code>.</p>
+<p>Shell command history is stored per-project under LLxprt's <a href="../reference/application-directories.html">log/state directory</a> at <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/shell_history</code> (overridable via <code>LLXPRT_LOG_HOME</code>).</p>
 <h2>See Also</h2>
 <p>These topics have dedicated documentation pages:</p>
 <ul>

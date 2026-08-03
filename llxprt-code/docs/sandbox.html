@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -142,7 +143,7 @@ export LLXPRT_SANDBOX=false                   # Disable
 </code></pre>
 <p><code>--sandbox-engine none</code> always wins, even when <code>LLXPRT_SANDBOX</code> is set.</p>
 <h2>Sandbox Profiles</h2>
-<p>Profiles are JSON files in <code>~/.llxprt/sandboxes/</code>. They control engine, image, resources, networking, SSH agent, and extra mounts. Default profiles are created automatically the first time you use <code>--sandbox-profile-load</code>.</p>
+<p>Profiles are JSON files in <code>&lt;config&gt;/sandboxes/</code> (see <a href="./reference/application-directories.html">Application Directories</a>). They control engine, image, resources, networking, SSH agent, and extra mounts. Default profiles are created automatically the first time you use <code>--sandbox-profile-load</code>.</p>
 <h3>Built-in Profiles</h3>
 <table>
 <thead>
@@ -267,8 +268,12 @@ export LLXPRT_SANDBOX=false                   # Disable
 </tbody>
 </table>
 <h3>Creating Custom Profiles</h3>
-<p>Create a JSON file in <code>~/.llxprt/sandboxes/</code>:</p>
-<pre><code class="language-bash">cat &gt; ~/.llxprt/sandboxes/beefy.json &lt;&lt; 'EOF'
+<p>Create a JSON file in <code>&lt;config&gt;/sandboxes/</code> (see <a href="./reference/application-directories.html">Application Directories</a>):</p>
+<pre><code class="language-bash"># SANDBOX_DIR=&lt;config&gt;/sandboxes — set this to your sandbox profiles directory.
+# The config dir resolves via the canonical resolver (LLXPRT_CONFIG_HOME, then
+# the platform default), consistent with sandbox-profiles docs.
+SANDBOX_DIR=&quot;${LLXPRT_CONFIG_HOME:-$(node --input-type=module -e &quot;import envPaths from 'env-paths'; process.stdout.write(envPaths('llxprt-code',{suffix:''}).config)&quot;)}/sandboxes&quot;
+cat &gt; &quot;$SANDBOX_DIR/beefy.json&quot; &lt;&lt; 'EOF'
 {
   &quot;engine&quot;: &quot;docker&quot;,
   &quot;resources&quot;: { &quot;cpus&quot;: 4, &quot;memory&quot;: &quot;8g&quot;, &quot;pids&quot;: 512 },

@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -96,45 +97,48 @@
 </tr>
 <tr>
 <td>Codex</td>
-<td>200,000</td>
+<td>262,144</td>
 <td>Premium</td>
 <td>General tasks, fast</td>
 </tr>
 <tr>
 <td>Gemini</td>
-<td>1,048,576</td>
+<td>1,048,576 (API key)</td>
 <td>Free/Paid</td>
-<td>Large context, free tier</td>
+<td>Large context</td>
 </tr>
 <tr>
 <td>Kimi</td>
-<td>262,144</td>
+<td>1,000,000</td>
 <td>Paid</td>
 <td>Deep reasoning, tool use</td>
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>Context windows can differ by auth variant (API key vs OAuth/subscription); the figures above use the practical API-key defaults.</p>
+</blockquote>
 <h2>Setting Up Multi-Provider Failover</h2>
 <h3>Step 1: Create Individual Model Profiles</h3>
 <p>First, set up and save profiles for each provider you want in your failover chain:</p>
 <pre><code class="language-bash"># Claude profile
 /provider anthropic
-/model claude-sonnet-4-5-20250929
+/model claude-opus-5
 /set context-limit 200000
 /keyfile ~/.anthropic_key
 /profile save model claude-primary
 
 # OpenAI profile (via Codex OAuth or API key)
 /provider openai
-/model gpt-5.2
+/model gpt-5.5
 /set context-limit 200000
 /keyfile ~/.openai_key
 /profile save model openai-backup
 
-# Gemini profile (free tier)
-/auth gemini enable
+# Gemini profile
+/key save gemini your-gemini-api-key
 /provider gemini
-/model gemini-3-flash-preview
+/model gemini-2.5-flash
 /set context-limit 200000
 /profile save model gemini-fallback
 </code></pre>
@@ -161,50 +165,50 @@
 <p><strong>Best for:</strong> Maximizing throughput when all providers are equally capable.</p>
 <h2>Cost-Optimized Configuration</h2>
 <p>Prioritize free/cheap providers, falling back to premium only when needed:</p>
-<pre><code class="language-bash"># Free tier first
-/auth gemini enable
+<pre><code class="language-bash"># Low-cost tier first
+/key save gemini your-gemini-api-key
 /provider gemini
-/model gemini-3-flash-preview
+/model gemini-2.5-flash
 /profile save model free-gemini
 
-# Free Qwen backup
-/auth qwen enable
+# Qwen backup (API key only — OAuth tier ended 2026-04-15)
 /provider qwen
-/model qwen3-coder-pro
-/profile save model free-qwen
+/keyfile ~/.qwen_key
+/model qwen3-coder-plus
+/profile save model cheap-qwen
 
 # Cheap paid fallback
 /provider anthropic
-/model claude-haiku-4-5-20251001
+/model claude-haiku-4-5
 /keyfile ~/.anthropic_key
 /profile save model cheap-claude
 
 # Premium last resort
-/model claude-sonnet-4-5-20250929
+/model claude-opus-5
 /profile save model premium-claude
 
 # Combine with failover
-/profile save loadbalancer cost-optimized failover free-gemini free-qwen cheap-claude premium-claude
+/profile save loadbalancer cost-optimized failover free-gemini cheap-qwen cheap-claude premium-claude
 </code></pre>
 <h2>Capability-Optimized Configuration</h2>
 <p>Use the best model for complex tasks:</p>
 <pre><code class="language-bash"># Best reasoning with thinking
 /provider anthropic
-/model claude-sonnet-4-5-20250929
+/model claude-opus-5
 /set reasoning.enabled true
 /set reasoning.budget_tokens 8192
 /keyfile ~/.anthropic_key
 /profile save model claude-thinking
 
-# Strong Kimi K2 alternative
+# Strong Kimi K3 alternative
 /provider kimi
-/model kimi-k2-thinking
+/model kimi-k3
 /keyfile ~/.kimi_key
 /profile save model kimi-thinking
 
 # Fast capable backup
 /provider openai
-/model gpt-5.2
+/model gpt-5.5
 /keyfile ~/.openai_key
 /profile save model openai-fast
 
@@ -227,9 +231,12 @@ chmod 600 ~/.anthropic_key ~/.openai_key
 <p>Use your existing subscriptions:</p>
 <pre><code class="language-bash">/auth anthropic enable   # Claude Pro/Max
 /auth codex enable       # ChatGPT Plus/Pro
-/auth gemini enable      # Gemini (free)
-/auth qwen enable        # Qwen (free)
-/auth kimi enable        # Kimi subscription
+</code></pre>
+<p>Gemini is now API-key-only (the free &quot;Login with Google&quot; flow was removed in mid-2026) — use a Gemini API key with <code>/key save gemini &lt;key&gt;</code> or <code>/keyfile</code>.</p>
+<p>Qwen is now API-key-only (OAuth tier ended 2026-04-15) — use a DashScope API key with <code>/keyfile</code>.</p>
+<p>Kimi uses an API key (not OAuth) — set it with <code>/key</code> or <code>/keyfile</code>:</p>
+<pre><code class="language-bash">/provider kimi
+/keyfile ~/.kimi_key     # Kimi API key
 </code></pre>
 <h3>Option 3: Multi-Bucket OAuth Failover</h3>
 <p>If you have multiple accounts (personal + work):</p>

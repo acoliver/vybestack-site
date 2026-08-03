@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -224,7 +225,7 @@ Non-interactive mode: false
 </code></pre>
 <p>Test a few tool executions to confirm expected behavior.</p>
 <h3>Step 3: Create Custom Policy File (Optional)</h3>
-<p>Create <code>~/.llxprt/my-policy.toml</code>:</p>
+<p>Create <code>&lt;config&gt;/my-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</p>
 <pre><code class="language-toml"># My custom policies - override defaults
 
 # Auto-approve read-only tools
@@ -265,14 +266,14 @@ decision = &quot;deny&quot;
 priority = 2.5
 </code></pre>
 <h3>Step 4: Configure Policy Path</h3>
-<p>Add to <code>~/.llxprt/settings.json</code>:</p>
+<p>Add to your <a href="../reference/application-directories.html">user <code>settings.json</code></a>:</p>
 <pre><code class="language-json">{
   &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/.llxprt/my-policy.toml&quot;
+    &quot;policyPath&quot;: &quot;/Users/yourname/Library/Preferences/llxprt-code/my-policy.toml&quot;
   }
 }
 </code></pre>
-<p><strong>Important:</strong> Use absolute paths, not <code>~</code> or relative paths.</p>
+<p><strong>Important:</strong> Use absolute paths, not <code>~</code> or relative paths. The example shows the macOS config-directory location; on Linux use <code>~/.config/llxprt-code/my-policy.toml</code> and on Windows use <code>%APPDATA%\llxprt-code\Config\my-policy.toml</code>. See <a href="../reference/application-directories.html">Application Directories</a> for the canonical paths on each OS.</p>
 <h3>Step 5: Verify and Test</h3>
 <p>Restart llxprt-code and check policies:</p>
 <pre><code class="language-bash">llxprt --command &quot;/policies&quot;
@@ -286,7 +287,7 @@ priority = 2.5
 
   // Keep these:
   &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/.llxprt/my-policy.toml&quot;
+    &quot;policyPath&quot;: &quot;/absolute/path/to/my-policy.toml&quot;
   }
 }
 </code></pre>
@@ -299,7 +300,7 @@ priority = 2.5
 </code></pre>
 <p><strong>Migration to policies:</strong></p>
 <ol>
-<li>Create <code>~/.llxprt/dev-policy.toml</code>:</li>
+<li>Create <code>&lt;config&gt;/dev-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</li>
 </ol>
 <pre><code class="language-toml"># Auto-approve write tools for development
 [[rule]]
@@ -335,7 +336,7 @@ priority = 2.5
 </ol>
 <pre><code class="language-json">{
   &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/.llxprt/dev-policy.toml&quot;
+    &quot;policyPath&quot;: &quot;/absolute/path/to/dev-policy.toml&quot;
   }
 }
 </code></pre>
@@ -347,7 +348,7 @@ priority = 2.5
 </code></pre>
 <p><strong>Migration to policies:</strong></p>
 <ol>
-<li>Create <code>~/.llxprt/secure-policy.toml</code>:</li>
+<li>Create <code>&lt;config&gt;/secure-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</li>
 </ol>
 <pre><code class="language-toml"># Read-only tools allowed
 [[rule]]
@@ -393,7 +394,7 @@ priority = 2.5
 </ol>
 <pre><code class="language-json">{
   &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/.llxprt/secure-policy.toml&quot;
+    &quot;policyPath&quot;: &quot;/Users/yourname/Library/Preferences/llxprt-code/secure-policy.toml&quot;
   }
 }
 </code></pre>
@@ -628,13 +629,13 @@ llxprt --config &quot;tools.policyPath=/tmp/test-policy.toml&quot;
 <pre><code class="language-json">{
   &quot;profiles&quot;: {
     &quot;dev&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/Users/me/.llxprt/dev-policy.toml&quot;
+      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/dev-policy.toml&quot;
     },
     &quot;secure&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/Users/me/.llxprt/secure-policy.toml&quot;
+      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/secure-policy.toml&quot;
     },
     &quot;demo&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/Users/me/.llxprt/demo-policy.toml&quot;
+      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/demo-policy.toml&quot;
     }
   }
 }
@@ -663,8 +664,8 @@ llxprt --profile secure
 <ul>
 <li>Read <a href="../message-bus.html">Message Bus Guide</a> for detailed feature overview</li>
 <li>Read <a href="../policy-configuration.html">Policy Configuration Guide</a> for TOML syntax and examples</li>
-<li>Review <a href="../architecture/message-bus-architecture.html">Architecture Document</a> for implementation details</li>
-<li>See <a href="https://github.com/vybestack/llxprt-code/tree/main/packages/core/src/policy/policies">example policies</a> in the repository</li>
+<li>Review the built-in policy files under <code>packages/core/src/policy/policies</code> in
+a repository checkout for worked examples</li>
 </ul>
 
           </div>

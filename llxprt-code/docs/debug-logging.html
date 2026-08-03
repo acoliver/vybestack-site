@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -154,7 +155,7 @@ llxprt --debug llxprt:openai:*,llxprt:gemini:*
 <ol>
 <li><strong>CLI arguments</strong> - <code>--debug</code> flag</li>
 <li><strong>Environment variables</strong> - <code>DEBUG</code>, <code>LLXPRT_DEBUG</code></li>
-<li><strong>User config</strong> - <code>~/.llxprt/settings.json</code></li>
+<li><strong>User config</strong> - your user <a href="./reference/application-directories.html">settings.json</a> in LLxprt's config directory</li>
 <li><strong>Project config</strong> - <code>.llxprt/config.json</code></li>
 <li><strong>Default config</strong> - Built-in defaults</li>
 </ol>
@@ -168,7 +169,7 @@ export DEBUG_ENABLED=true
 export DEBUG_LEVEL=verbose
 </code></pre>
 <h3>User Configuration</h3>
-<p>Edit <code>~/.llxprt/settings.json</code>:</p>
+<p>Edit your <a href="./reference/application-directories.html">settings.json</a>:</p>
 <pre><code class="language-json">{
   &quot;debug&quot;: {
     &quot;enabled&quot;: true,
@@ -176,13 +177,14 @@ export DEBUG_LEVEL=verbose
     &quot;level&quot;: &quot;debug&quot;,
     &quot;output&quot;: {
       &quot;target&quot;: &quot;file&quot;,
-      &quot;directory&quot;: &quot;~/.llxprt/debug&quot;
+      &quot;directory&quot;: &quot;&lt;log&gt;/debug&quot;
     },
     &quot;lazyEvaluation&quot;: true,
     &quot;redactPatterns&quot;: [&quot;apiKey&quot;, &quot;token&quot;, &quot;password&quot;, &quot;secret&quot;]
   }
 }
 </code></pre>
+<p>The <code>output.directory</code> above uses LLxprt's <a href="./reference/application-directories.html">log/state directory</a> (<code>&lt;log&gt;/debug</code>, overridable via <code>LLXPRT_LOG_HOME</code>). If you omit <code>directory</code>, the platform default is used automatically.</p>
 <h3>Project Configuration</h3>
 <p>Create <code>.llxprt/config.json</code> in your project root:</p>
 <pre><code class="language-json">{
@@ -195,7 +197,7 @@ export DEBUG_LEVEL=verbose
 </code></pre>
 <h2>Output Targets</h2>
 <h3>File Output (Default)</h3>
-<p>Debug logs are written to <code>~/.llxprt/debug/</code> in JSONL format:</p>
+<p>Debug logs are written to <code>&lt;log&gt;/debug/</code> (see <a href="./reference/application-directories.html">Application Directories</a>) in JSONL format:</p>
 <ul>
 <li><strong>One file per run</strong>, named by process id: <code>llxprt-debug-&lt;PID&gt;.jsonl</code></li>
 <li>Child processes inherit the same file when <code>LLXPRT_DEBUG</code> is set</li>
@@ -207,7 +209,7 @@ export DEBUG_LEVEL=verbose
   &quot;namespace&quot;: &quot;llxprt:openai:provider&quot;,
   &quot;level&quot;: &quot;debug&quot;,
   &quot;message&quot;: &quot;Sending request to OpenAI API&quot;,
-  &quot;args&quot;: [&quot;gpt-4&quot;],
+  &quot;args&quot;: [&quot;gpt-5.5&quot;],
   &quot;runId&quot;: &quot;12345&quot;,
   &quot;pid&quot;: 12345
 }
@@ -266,17 +268,17 @@ logger.debug(() =&gt; `Processing ${expensiveComputation()}`);
 <h3>In Interactive Mode</h3>
 <p>Debug output appears in the debug console (Ctrl+O) when using stderr output.</p>
 <h3>File Logs</h3>
-<pre><code class="language-bash"># View the current run log
-cat ~/.llxprt/debug/llxprt-debug-&lt;PID&gt;.jsonl
+<pre><code class="language-bash"># View the current run log (debug logs live under &lt;log&gt;/debug/ — see Application Directories)
+cat &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&lt;PID&gt;.jsonl&quot;
 
 # Pretty print with jq
-cat ~/.llxprt/debug/llxprt-debug-*.jsonl | jq '.'
+cat &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&quot;*.jsonl | jq '.'
 
 # Filter by namespace
-cat ~/.llxprt/debug/llxprt-debug-*.jsonl | jq 'select(.namespace | startswith(&quot;llxprt:openai&quot;))'
+cat &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&quot;*.jsonl | jq 'select(.namespace | startswith(&quot;llxprt:openai&quot;))'
 
 # Follow log in real-time
-tail -f ~/.llxprt/debug/llxprt-debug-&lt;PID&gt;.jsonl | jq '.'
+tail -f &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&lt;PID&gt;.jsonl&quot; | jq '.'
 </code></pre>
 <h2>Examples</h2>
 <h3>Debugging Provider Issues</h3>
@@ -323,7 +325,7 @@ llxprt --debug llxprt:*
 <li>Disable verbose components while keeping others</li>
 </ol>
 <h3>Can't Find Log Files?</h3>
-<p>Default location: <code>~/.llxprt/debug/</code></p>
+<p>Default location: <code>&lt;log&gt;/debug/</code> (see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <ul>
 <li>Files are named by date: <code>debug-YYYY-MM-DD.jsonl</code></li>
 <li>Check permissions on the directory</li>

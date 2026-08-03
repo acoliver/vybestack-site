@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -152,9 +153,9 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 /dumpcontext error    # Dump only when errors occur
 /dumpcontext off      # Stop dumping
 </code></pre>
-<p>Dumps are saved to <code>~/.llxprt/dumps/</code> as timestamped JSON files.</p>
+<p>Dumps are saved to <code>&lt;cache&gt;/dumps/</code> (see <a href="./reference/application-directories.html">Application Directories</a>) as timestamped JSON files.</p>
 <h3>/debug</h3>
-<p>Control the debug logger at runtime — same namespaces as <code>LLXPRT_DEBUG</code> but toggled without restarting:</p>
+<p>Control the debug logger at runtime — same namespaces as <code>LLXPRT_DEBUG</code> but toggled without restarting. In interactive mode, press <strong>F12</strong> to open the debug console.</p>
 <pre><code>/debug status                    # Show current debug state
 /debug enable                    # Enable all llxprt:* namespaces
 /debug enable llxprt:shell       # Enable a specific namespace
@@ -183,7 +184,7 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 <ul>
 <li><strong>macOS:</strong> <code>~/Library/Application Support/llxprt-code/secure-store/</code></li>
 <li><strong>Linux:</strong> <code>~/.local/share/llxprt-code/secure-store/</code></li>
-<li><strong>Windows:</strong> <code>%APPDATA%/llxprt-code/secure-store/</code></li>
+<li><strong>Windows:</strong> <code>%LOCALAPPDATA%\llxprt-code\Data\secure-store</code> (see <a href="./reference/application-directories.html">Application Directories</a>)</li>
 </ul>
 <p>To check which backend is active:</p>
 <pre><code class="language-bash">LLXPRT_DEBUG='*' llxprt 2&gt;&amp;1 | grep -i keyring
@@ -217,13 +218,18 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 <li>The provider dashboard shows the key as active</li>
 </ol>
 <p><strong><code>UNABLE_TO_GET_ISSUER_CERT_LOCALLY</code></strong></p>
-<p>You're behind a corporate proxy that intercepts TLS. Set:</p>
-<pre><code class="language-bash">export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt
+<p>You may be on a corporate network with a firewall that intercepts and inspects SSL/TLS traffic. This often requires a custom root CA certificate to be trusted by Node.js.</p>
+<p>First try setting <code>NODE_USE_SYSTEM_CA</code>; if that does not resolve the issue, set <code>NODE_EXTRA_CA_CERTS</code>:</p>
+<pre><code class="language-bash"># Try this first - use OS native certificate store
+export NODE_USE_SYSTEM_CA=1
+
+# If that doesn't work, point to your corporate CA cert
+export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt
 </code></pre>
 <h3>OAuth Troubleshooting</h3>
 <p>OAuth tokens are stored in the OS keyring (same as named keys). If authentication fails:</p>
 <ol>
-<li>Try logging out and re-authenticating: <code>/auth gemini logout</code> then <code>/auth gemini enable</code></li>
+<li>Try logging out and re-authenticating: <code>/auth anthropic logout</code> then <code>/auth anthropic enable</code></li>
 <li>If on a headless machine, use <code>--nobrowser</code> for manual code entry</li>
 <li>Check <code>LLXPRT_DEBUG='*'</code> output for token refresh errors</li>
 </ol>
@@ -253,9 +259,9 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 <p><strong><code>EADDRINUSE</code> (MCP server)</strong></p>
 <p>Another process is using that port. Stop it or configure a different port in your MCP server settings.</p>
 <p><strong><code>Command not found</code></strong></p>
-<p>LLxprt isn't in your PATH. If installed globally: check <code>npm root -g</code>. If from source: use <code>node packages/cli/dist/index.js</code>.</p>
+<p>LLxprt isn't in your PATH. If installed globally: check <code>npm root -g</code>. If from source: use <code>bun scripts/start.ts</code> (the dev launcher) or run <code>bun install</code> then <code>bun run start</code>.</p>
 <p><strong><code>MODULE_NOT_FOUND</code></strong></p>
-<p>Run <code>npm install</code> then <code>npm run build</code>.</p>
+<p>Run <code>bun install</code> to restore dependencies. If the error references a <code>dist/</code> file, run <code>bun run build</code> (or <code>npm run build</code>) to recompile the TypeScript sources.</p>
 <p><strong><code>Operation not permitted</code></strong></p>
 <p>Sandbox is blocking the operation. See <a href="./sandbox.html">Sandboxing</a> for how to adjust sandbox profiles.</p>
 <p><strong>CLI not interactive in CI environments</strong></p>
@@ -279,6 +285,11 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 <td>42</td>
 <td><code>FatalInputError</code></td>
 <td>Invalid input (non-interactive mode)</td>
+</tr>
+<tr>
+<td>43</td>
+<td>Launcher runtime failure</td>
+<td>Bundled Bun runtime missing, corrupt, wrong platform, or an unrecognized native format — reinstall <code>@vybestack/llxprt-code</code> or visit <a href="https://bun.sh">https://bun.sh</a></td>
 </tr>
 <tr>
 <td>44</td>
@@ -315,11 +326,33 @@ llxprt --sandbox-engine podman
 </code></pre>
 <h2>FAQs</h2>
 <p><strong>How do I update LLxprt Code?</strong></p>
-<p><code>npm install -g @vybestack/llxprt-code@latest</code> (global install) or pull and <code>npm run build</code> (from source).</p>
+<ul>
+<li><strong>npm (global install):</strong> <code>npm install -g @vybestack/llxprt-code@latest</code></li>
+<li><strong>Homebrew:</strong> <code>brew upgrade llxprt-code</code></li>
+<li><strong>From source:</strong> Pull the latest source, run <code>bun install</code>, then <code>bun run start</code> (or <code>bun scripts/start.ts</code> for the dev launcher).</li>
+</ul>
 <p><strong>Where are config files stored?</strong></p>
-<p><code>~/.llxprt/settings.json</code> (user) and <code>.llxprt/settings.json</code> (project). See <a href="./cli/configuration.html">Configuration</a>.</p>
+<p>User settings live in LLxprt's <a href="./reference/application-directories.html">config directory</a> (e.g. <code>~/.config/llxprt-code/settings.json</code> on Linux); project settings live at <code>.llxprt/settings.json</code> in your project root. See <a href="./cli/configuration.html">Configuration</a>.</p>
 <p><strong>Why don't I see cached token counts in /stats?</strong></p>
 <p>Cache metrics only appear when the provider supports and reports them. OAuth users may not see cache stats if the backend doesn't support cached content creation.</p>
+<h2>Building from Source</h2>
+<p>The CLI's installed command uses platform-native launchers (<code>packages/cli/bin/llxprt</code>) that resolve the package-bundled <a href="https://bun.sh">Bun</a> and execute the TypeScript entrypoint (<code>packages/cli/index.ts</code>) directly — no Node process is started on the installed path. No pre-compiled CLI <code>dist/</code> artifact or retired <code>bundle/llxprt.js</code> artifact is required for the CLI to run.</p>
+<p>To build from source:</p>
+<pre><code class="language-bash">git clone https://github.com/vybestack/llxprt-code.git
+cd llxprt-code
+bun install
+bun run start
+</code></pre>
+<p>For development, use the dev launcher:</p>
+<pre><code class="language-bash">bun scripts/start.ts
+</code></pre>
+<p>Type checking uses <code>tsc --noEmit</code> (no JavaScript output is produced):</p>
+<pre><code class="language-bash">bun run typecheck
+</code></pre>
+<h2>Platform Caveats</h2>
+<h3>Windows pty Behavior</h3>
+<p>On Windows, the <code>node-pty</code> module has a known terminal resize race condition (<code>Cannot resize a pty that has already exited</code>). The CLI silences this specific error at the process level and uses <code>@lydell/node-pty</code> (with <code>node-pty</code> as fallback) — <strong>not</strong> the Bun adapter. The <code>bun-pty</code> adapter (<code>packages/core/src/utils/bunPtyAdapter.ts</code>) is POSIX-only and is not used on Windows. If you encounter terminal sizing or resize issues on Windows, use a compatible terminal emulator; the resize race is in <code>node-pty</code> itself, not the Bun runtime.</p>
+<p>The <code>@lydell/node-pty</code> ConPTY path is verified under Bun on Windows by the nightly native-module smoke. A hosted Windows Server 2025 run passed with Bun 1.3.14, including streamed PTY data and a real zero exit callback, so Bun on Windows continues to use this path. See the <a href="https://github.com/vybestack/llxprt-code/actions/runs/29534151672/job/87741315456">hosted smoke result</a>.</p>
 <h2>See Also</h2>
 <ul>
 <li><a href="./cli/authentication.html">Authentication</a> — key management, keyring, OAuth</li>

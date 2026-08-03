@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -81,11 +82,6 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>Gemini</strong> (Google AI)</td>
-<td>Browser-based</td>
-<td>Browser opens automatically</td>
-</tr>
-<tr>
 <td><strong>Anthropic</strong></td>
 <td>Browser-based</td>
 <td>Browser opens automatically</td>
@@ -95,19 +91,15 @@
 <td>Browser-based</td>
 <td>Browser opens automatically</td>
 </tr>
-<tr>
-<td><strong>Qwen</strong> (Alibaba Cloud)</td>
-<td>Browser-based</td>
-<td>Browser opens automatically</td>
-</tr>
 </tbody>
 </table>
+<blockquote>
+<p><strong>Qwen is now API-key-only.</strong> Qwen's free OAuth tier ended 2026-04-15 and the OAuth provider has been removed. Use a DashScope API key (<code>DASHSCOPE_API_KEY</code>) or an OpenRouter API key with the <code>qwen</code> alias.</p>
+</blockquote>
 <h2>Enabling OAuth</h2>
 <p>Use the <code>/auth</code> command inside a session:</p>
-<pre><code>/auth gemini enable
-/auth anthropic enable
+<pre><code>/auth anthropic enable
 /auth codex enable
-/auth qwen enable
 </code></pre>
 <p>With <code>/auth &lt;provider&gt; enable</code>, authentication is <strong>lazy</strong> — nothing happens until you make your first request to that provider. At that point, a browser opens and you complete the login.</p>
 <p>If you use <code>/auth &lt;provider&gt; login</code> instead, the browser opens immediately.</p>
@@ -141,13 +133,13 @@
 </code></pre>
 <p>See <a href="./cli/profiles.html">Profiles</a> for more on multi-bucket failover.</p>
 <h2>Token Storage</h2>
-<p>OAuth tokens are stored in your <strong>OS keyring</strong> (macOS Keychain, GNOME Keyring, Windows Credential Vault) via <code>@napi-rs/keyring</code>. If the keyring is unavailable, tokens fall back to encrypted files in the OS-standard data directory (via <code>env-paths</code>):</p>
+<p>OAuth tokens are stored in your <strong>OS keyring</strong> (macOS Keychain, GNOME Keyring, Windows Credential Vault) via <code>@napi-rs/keyring</code>. If the keyring is unavailable, tokens fall back to encrypted files in LLxprt's <a href="./reference/application-directories.html">data directory</a> (overridable via <code>LLXPRT_DATA_HOME</code>):</p>
 <ul>
 <li><strong>macOS:</strong> <code>~/Library/Application Support/llxprt-code/secure-store/</code></li>
 <li><strong>Linux:</strong> <code>~/.local/share/llxprt-code/secure-store/</code></li>
-<li><strong>Windows:</strong> <code>%APPDATA%/llxprt-code/secure-store/</code></li>
+<li><strong>Windows:</strong> <code>%LOCALAPPDATA%\llxprt-code\Data\secure-store</code></li>
 </ul>
-<p>Tokens are <strong>not</strong> stored as plain JSON files. The old <code>~/.llxprt/oauth/*.json</code> file locations are obsolete.</p>
+<p>Tokens are <strong>not</strong> stored as plain JSON files. Legacy plaintext token files (<code>oauth_creds.json</code> under the old <code>~/.llxprt</code> directory, or <code>~/.gemini/oauth_creds.json</code> from Gemini CLI) are read <strong>only once</strong> during startup migration; LLxprt never creates them during normal operation. After migration, tokens live exclusively in the keyring or encrypted fallback above (see <a href="./reference/application-directories.html">Application Directories</a> for the migration details).</p>
 <p>Tokens refresh automatically when they approach expiration. You should never need to manage token files directly.</p>
 <h2>Authentication Precedence</h2>
 <p>When multiple credentials exist, LLxprt uses the highest-priority one:</p>

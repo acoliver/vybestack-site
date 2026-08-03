@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -81,7 +82,7 @@
 </thead>
 <tbody>
 <tr>
-<td>Provider offers OAuth (Gemini, Anthropic, etc.)</td>
+<td>Provider offers OAuth (Anthropic, Codex)</td>
 <td>OAuth</td>
 <td><code>/auth &lt;provider&gt; enable</code></td>
 </tr>
@@ -97,15 +98,17 @@
 </tr>
 </tbody>
 </table>
-<p>Some providers offer OAuth with free tiers (Gemini Code Assist, Qwen) or subscription pricing (Anthropic, OpenAI via Codex). Others only offer API keys. Both OAuth tokens and API keys are stored the same way — in your OS keyring.</p>
+<p>Two providers support OAuth: subscription-based logins (Anthropic/Claude Pro, OpenAI via Codex/ChatGPT Plus/Pro). Others, including Gemini and Qwen, offer API keys. Both OAuth tokens and API keys are stored the same way — in your OS keyring.</p>
 <h2>OAuth</h2>
-<p>Four providers support OAuth login: <strong>Gemini</strong>, <strong>Anthropic</strong>, <strong>Codex</strong> (OpenAI/ChatGPT), and <strong>Qwen</strong>.</p>
-<pre><code class="language-text">/auth gemini enable
-/auth anthropic enable
+<p>Two providers support OAuth login: <strong>Anthropic</strong> and <strong>Codex</strong> (OpenAI/ChatGPT).</p>
+<pre><code class="language-text">/auth anthropic enable
 /auth codex enable
-/auth qwen enable
 </code></pre>
-<p>Gemini uses the Gemini Code Assist login (free tier). Qwen's OAuth is also free. Anthropic and Codex use your existing subscription (Claude Pro, ChatGPT Plus/Pro, etc.) — you get subscription pricing rather than per-token API rates.</p>
+<p>Anthropic and Codex use your existing subscription (Claude Pro, ChatGPT Plus/Pro, etc.) — you get subscription pricing rather than per-token API rates.</p>
+<blockquote>
+<p><strong>Note on Gemini access (mid-2026):</strong> Google has removed the free consumer &quot;Login with Google&quot; access for the standalone Gemini CLI entirely. Use a Gemini API key (<code>GEMINI_API_KEY</code> or <code>/key save gemini &lt;key&gt;</code>) or Vertex AI / ADC methods instead.</p>
+<p><strong>Qwen is now API-key-only.</strong> Qwen's free OAuth tier ended 2026-04-15 and the OAuth provider has been removed. Use a DashScope API key (<code>DASHSCOPE_API_KEY</code>) with the <code>qwen</code> alias, or use the <code>openrouter</code> provider with an OpenRouter API key.</p>
+</blockquote>
 <p>Authentication happens lazily — the browser opens when you make your first request, not when you run the command. Once authenticated, tokens are stored in your OS keyring and refresh automatically.</p>
 <h3>Headless / Remote Machines</h3>
 <p>If you're on a machine without a browser (SSH, remote server), use <code>--nobrowser</code> to get a URL and code to enter on another device:</p>
@@ -185,9 +188,10 @@ llxprt --provider anthropic --key sk-ant-***your-key***
 <li>CLI flags (<code>--key</code>, <code>--keyfile</code>, <code>--key-name</code>)</li>
 <li>Profile settings (from <code>/profile save</code>)</li>
 <li>Keyring keys (from <code>/key save</code>)</li>
+<li>Environment variables (<code>ANTHROPIC_API_KEY</code>, <code>OPENAI_API_KEY</code>, etc.)</li>
 <li>OAuth tokens (from <code>/auth enable</code>)</li>
-<li>Environment variables</li>
 </ol>
+<p>If you have an API key or env var set and OAuth enabled, the key wins. Remove the key (or unset the env var) to fall back to OAuth.</p>
 <h2>Checking Auth Status</h2>
 <pre><code>/auth                      # Show OAuth status for all providers
 /auth anthropic status     # Detailed status for one provider

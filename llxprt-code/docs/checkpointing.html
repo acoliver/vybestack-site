@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -104,7 +105,7 @@ llxprt --delete-session &lt;id&gt;
 llxprt --delete-session 3
 </code></pre>
 <h3>How It Works</h3>
-<p>Sessions are recorded to <code>~/.llxprt/sessions/</code>. Each session file contains the full conversation history — model responses, tool calls and results, and thinking blocks. When you resume, the conversation is replayed into the model's context so it picks up with full awareness of what happened before.</p>
+<p>Sessions are recorded to LLxprt's <a href="./reference/application-directories.html">log/state directory</a> under <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/</code> (overridable via <code>LLXPRT_LOG_HOME</code>). Each session file contains the full conversation history — model responses, tool calls and results, and thinking blocks. When you resume, the conversation is replayed into the model's context so it picks up with full awareness of what happened before.</p>
 <p>Sessions are per-project. Running <code>llxprt --continue</code> in a different directory shows that directory's sessions.</p>
 <h2>Conversation Branching with /chat</h2>
 <p>The <code>/chat</code> command lets you save and restore conversation state within a session. This is useful when you want to try different approaches and branch back to a known-good state.</p>
@@ -125,14 +126,14 @@ llxprt --delete-session 3
 <p>It's disabled by default. Enable it with <code>--checkpointing</code>:</p>
 <pre><code class="language-bash">llxprt --checkpointing
 </code></pre>
-<p>Or in <code>~/.llxprt/settings.json</code>:</p>
+<p>Or in your <a href="./reference/application-directories.html">user <code>settings.json</code></a>:</p>
 <pre><code class="language-json">{
   &quot;checkpointing&quot;: {
     &quot;enabled&quot;: true
   }
 }
 </code></pre>
-<p>When enabled, LLxprt creates a shadow git snapshot (in <code>~/.llxprt/history/&lt;project_hash&gt;</code>, separate from your project's git) each time a <code>write_file</code> or <code>replace</code> tool is about to run. It also saves the conversation state and tool call details to <code>~/.llxprt/tmp/&lt;project_hash&gt;/checkpoints/</code>.</p>
+<p>When enabled, LLxprt creates a shadow git snapshot (in <code>&lt;data&gt;/history/&lt;project_hash&gt;</code> within LLxprt's <a href="./reference/application-directories.html">data directory</a>, separate from your project's git) each time a <code>write_file</code> or <code>replace</code> tool is about to run. It also saves the conversation state and tool call details to <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/checkpoints/</code> under LLxprt's <a href="./reference/application-directories.html">log/state directory</a>.</p>
 <p>The <code>/restore</code> command (only available when checkpointing is enabled) lets you roll back:</p>
 <pre><code>/restore                    # List available checkpoints
 /restore &lt;checkpoint&gt;       # Restore files and conversation to that point

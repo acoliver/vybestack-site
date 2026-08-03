@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -158,7 +159,6 @@ llxprt extensions enable my-extension --scope workspace
 <pre><code>llxprt extensions update --all
 </code></pre>
 <h3>Creating a new extension</h3>
-<!-- @plan PLAN-20250219-GMERGE021.R9.P03 -->
 <p>LLxprt Code includes several boilerplate templates to help you get started:
 <code>context</code>, <code>exclude-tools</code>, and <code>mcp-server</code>.</p>
 <pre><code>llxprt extensions new &lt;path&gt; [template]
@@ -200,18 +200,40 @@ don't have to run <code>llxprt extensions update</code> every time you make chan
 <pre><code class="language-bash">llxprt extensions validate ./my-extension
 </code></pre>
 <h2>How It Works</h2>
-<p>On startup, LLxprt Code looks for extensions in two locations:</p>
+<p>On startup, LLxprt Code discovers extensions from several roots, in this
+precedence order:</p>
 <ol>
+<li><strong>Trusted workspace roots</strong> (highest precedence):
+<ul>
 <li><code>&lt;workspace&gt;/.llxprt/extensions</code></li>
-<li><code>&lt;home&gt;/.llxprt/extensions</code></li>
+<li><code>&lt;workspace&gt;/.gemini/extensions</code> (Gemini CLI compatibility, read-only)</li>
+</ul>
+</li>
+<li><strong>Canonical user root</strong>: <code>&lt;data&gt;/extensions</code> — the user extensions directory
+under the canonical data directory (see
+<a href="./reference/application-directories.html">Application Directories</a>; on a
+default install this is <code>~/.local/share/llxprt-code/extensions</code> on Linux,
+<code>~/Library/Application Support/llxprt-code/extensions</code> on macOS, and
+<code>%LOCALAPPDATA%\llxprt-code\Data\extensions</code> on Windows).</li>
+<li><strong>Read-only Gemini CLI compatibility root</strong>: <code>~/.gemini/extensions</code> — scanned
+read-only so extensions installed by Gemini CLI keep working after migrating
+to LLxprt.</li>
 </ol>
-<p>LLxprt Code loads all extensions from both locations. If an extension with the
-same name exists in both locations, the extension in the workspace directory
-takes precedence.</p>
-<p>Within each location, individual extensions exist as a directory containing a
+<p>LLxprt Code loads all extensions from every root. When an extension with the
+same name exists in more than one root, the extension in the higher-precedence
+root wins (within a level, <code>.llxprt/extensions</code> takes precedence over
+<code>.gemini/extensions</code>).</p>
+<blockquote>
+<p><strong>Note:</strong> The legacy <code>~/.llxprt/extensions</code> directory is <strong>not</strong> an active
+root. On startup, the migration step copies any extensions it contains into
+the canonical <code>&lt;data&gt;/extensions</code> root (see
+<a href="./reference/application-directories.html">Application Directories</a>). To install
+a new user extension, place it under <code>&lt;data&gt;/extensions</code>.</p>
+</blockquote>
+<p>Within each root, individual extensions exist as a directory containing a
 <code>llxprt-extension.json</code> file (or <code>gemini-extension.json</code> for Gemini CLI
 extensions). For example:</p>
-<p><code>&lt;home&gt;/.llxprt/extensions/my-extension/llxprt-extension.json</code></p>
+<p><code>&lt;data&gt;/extensions/my-extension/llxprt-extension.json</code></p>
 <h3><code>llxprt-extension.json</code></h3>
 <p>The <code>llxprt-extension.json</code> file contains the configuration for the extension.
 LLxprt Code also accepts <code>gemini-extension.json</code> as a fallback — if no
@@ -294,7 +316,7 @@ and stores the secret in keychain storage.</li>
 </code></pre>
 <p>When a user installs this extension, they will be prompted to enter their API
 key. The value will be saved to a <code>.env</code> file in the extension's directory
-(e.g., <code>&lt;home&gt;/.llxprt/extensions/my-api-extension/.env</code>).</p>
+(e.g., <code>&lt;data&gt;/extensions/my-api-extension/.env</code> — see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <h2>Extension Commands</h2>
 <p>Extensions can provide <a href="./cli/commands.html#custom-commands">custom commands</a> by
 placing TOML files in a <code>commands/</code> subdirectory within the extension directory.
@@ -341,6 +363,85 @@ the command. If the helper is missing, Git will fail with
 <p>A warning is emitted whenever you install from an <code>sso://</code> URL to remind you to
 configure the helper. If you do not control the helper, fall back to <code>https://</code>
 or SSH URLs instead.</p>
+<h2>Hooks in Extensions</h2>
+<p>Extensions can bundle <a href="./hooks/index.html">hooks</a> alongside MCP servers, prompts, and custom commands. When you install an extension that includes hooks, those hooks are loaded automatically when the extension is enabled.</p>
+<h3>How Extension Hooks Work</h3>
+<p>An extension's <code>llxprt-extension.json</code> (or <code>gemini-extension.json</code>) can include a <code>hooks</code> key with hook definitions that follow the same schema as hooks in <a href="./cli/configuration.html"><code>settings.json</code></a>:</p>
+<pre><code class="language-json">{
+  &quot;name&quot;: &quot;my-security-extension&quot;,
+  &quot;version&quot;: &quot;1.0.0&quot;,
+  &quot;description&quot;: &quot;Adds security policy enforcement&quot;,
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;hooks&quot;: [
+          {
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;${extensionPath}${/}hooks${/}validate-tool.sh&quot;,
+            &quot;timeout&quot;: 5000
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<p><strong>Note:</strong> Use the <code>${extensionPath}</code> variable to reference scripts within your extension directory. See <a href="#variables">Variables</a> below.</p>
+<h3>Hook Scope and Precedence</h3>
+<p>When multiple hooks are configured across different scopes, LLxprt Code applies them in this order:</p>
+<ol>
+<li><strong>System hooks</strong> (configured by system administrators)</li>
+<li><strong>User hooks</strong> (in your <a href="./reference/application-directories.html">user settings.json</a>, in LLxprt's config directory)</li>
+<li><strong>Extension hooks</strong> (from enabled extensions)</li>
+<li><strong>Project hooks</strong> (in <code>.llxprt/settings.json</code>)</li>
+</ol>
+<p>Hooks at each level are executed in sequence. If any hook blocks an operation (e.g., returns <code>&quot;decision&quot;: &quot;deny&quot;</code>), the operation is blocked regardless of subsequent hooks.</p>
+<p>For more details on hook precedence and execution flow, see <a href="./hooks/best-practices.html">Hooks Best Practices</a>.</p>
+<h3>Security Considerations for Extension Hooks</h3>
+<blockquote>
+<p>[!WARNING] <strong>Extension hooks execute with your user privileges.</strong></p>
+</blockquote>
+<p>Extension hooks have the same capabilities as any other hook — they can read files, execute commands, modify tool inputs, and interact with external services. When installing an extension that includes hooks:</p>
+<ul>
+<li><strong>Review the hooks</strong> before installation. Check the <code>hooks</code> section in the extension's <code>llxprt-extension.json</code> and examine any referenced scripts.</li>
+<li><strong>Verify the source.</strong> Install extensions only from authors and repositories you trust.</li>
+<li><strong>Understand what the hooks do.</strong> Read the extension's documentation and inspect the hook scripts to understand their behavior.</li>
+<li><strong>Check for consent prompts.</strong> When an extension with new or modified hooks is first loaded, LLxprt Code will prompt you to trust those hooks (same as project-level hooks). Review the details carefully before approving.</li>
+</ul>
+<p>Extension hooks are particularly useful for:</p>
+<ul>
+<li><strong>Organization-wide security policies</strong>: Deploy a security extension across your team that enforces consistent rules.</li>
+<li><strong>Compliance and auditing</strong>: Automatically log all tool calls for regulatory compliance.</li>
+<li><strong>Custom workflows</strong>: Add project-specific automation that travels with the extension.</li>
+</ul>
+<p>However, malicious extension hooks can:</p>
+<ul>
+<li><strong>Exfiltrate data</strong>: Read sensitive files (<code>.env</code>, SSH keys) and send them to remote servers.</li>
+<li><strong>Modify operations</strong>: Change tool inputs to perform unintended actions.</li>
+<li><strong>Consume resources</strong>: Run expensive operations or create infinite loops.</li>
+</ul>
+<p>See <a href="./hooks/best-practices.html#using-hooks-securely">Using Hooks Securely</a> for a detailed threat model and mitigation strategies.</p>
+<h3>Enabling and Disabling Extension Hooks</h3>
+<p>Extension hooks are active when the extension is enabled and inactive when the extension is disabled. You can control this with the <code>llxprt extensions</code> commands:</p>
+<pre><code class="language-bash"># Disable an extension globally (hooks will not run)
+llxprt extensions disable my-security-extension
+
+# Re-enable the extension (hooks will run again)
+llxprt extensions enable my-security-extension
+
+# Disable only for the current workspace
+llxprt extensions disable my-security-extension --scope workspace
+</code></pre>
+<p>Disabling an extension immediately stops its hooks from running (takes effect on the next LLxprt session).</p>
+<h3>Hook Consent and Trust</h3>
+<p>When LLxprt Code loads an extension with hooks for the first time (or detects that the hooks have changed), it will:</p>
+<ol>
+<li><strong>Identify the hooks</strong> by generating a unique identity based on the hook's <code>name</code> and <code>command</code>.</li>
+<li><strong>Check trust status.</strong> If the hooks are not yet trusted, LLxprt Code will prompt you to review and approve them.</li>
+<li><strong>Require explicit approval.</strong> Extension hooks are <strong>not auto-trusted</strong> — you must explicitly approve them before they will run.</li>
+</ol>
+<p>This consent flow is identical to the one used for project-level hooks. Once you trust an extension's hooks, they will run automatically whenever the extension is enabled. If the extension updates its hooks, you will be prompted again.</p>
+<p>For more details on hook consent and trust, see <a href="./hooks/best-practices.html#project-hook-security">Hooks Best Practices</a>.</p>
 <h2>Variables</h2>
 <p>LLxprt Code extensions allow variable substitution in <code>llxprt-extension.json</code>.
 This can be useful if, for example, you need the current directory to run an MCP
@@ -357,7 +458,7 @@ server using an argument like
 <tbody>
 <tr>
 <td><code>${extensionPath}</code></td>
-<td>The fully-qualified path of the extension in the user's filesystem, e.g., <code>/Users/username/.llxprt/extensions/example-extension</code>. This will not unwrap symlinks.</td>
+<td>The fully-qualified path of the extension in the user's filesystem, e.g., <code>/home/username/.local/share/llxprt-code/extensions/example-extension</code> (see <a href="./reference/application-directories.html">Application Directories</a>). This will not unwrap symlinks.</td>
 </tr>
 <tr>
 <td><code>${workspacePath}</code></td>

@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -90,7 +91,7 @@
 /set unset emojifilter
 </code></pre>
 <h3>2. Default Configuration (Persistent)</h3>
-<p>Add to your <code>~/.llxprt/settings.json</code> file:</p>
+<p>Add to your user <a href="./reference/application-directories.html">settings.json</a> file (in LLxprt's config directory):</p>
 <pre><code class="language-json">{
   &quot;emojiFilter&quot;: {
     &quot;mode&quot;: &quot;auto&quot;
@@ -131,7 +132,6 @@
 <li>Converts functional emojis to text (✅ → [OK])</li>
 <li>Removes decorative emojis (🎉, 😀)</li>
 <li>No feedback messages</li>
-<li><strong>Requirement REQ-004.1 compliant</strong></li>
 </ul>
 <h3><code>warn</code> - Filter with Feedback</h3>
 <ul>
@@ -175,7 +175,7 @@
     &quot;anthropic&quot;: {
       &quot;enabled&quot;: true,
       &quot;apiKey&quot;: &quot;your-key&quot;,
-      &quot;model&quot;: &quot;claude-3-opus-20240229&quot;
+      &quot;model&quot;: &quot;claude-opus-5&quot;
     }
   },
   &quot;ui&quot;: {

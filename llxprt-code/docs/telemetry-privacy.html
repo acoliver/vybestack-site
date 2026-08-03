@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -84,7 +85,7 @@
 <p>When enabled, LLxprt logs conversations locally to help with debugging, analysis, and improving your AI interactions.</p>
 <h3>Storage Details</h3>
 <ul>
-<li><strong>Location</strong>: <code>~/.llxprt/conversations/</code></li>
+<li><strong>Location</strong>: <code>&lt;data&gt;/conversations/</code> (see <a href="./reference/application-directories.html">Application Directories</a>)</li>
 <li><strong>Format</strong>: JSONL (one JSON object per line)</li>
 <li><strong>File Naming</strong>: <code>conversation-YYYY-MM-DD.jsonl</code> (daily rotation)</li>
 <li><strong>Permissions</strong>: Files are readable only by your user account</li>
@@ -139,7 +140,7 @@
 <p><strong>Example Output:</strong></p>
 <pre><code>Conversation logging enabled. Data stored locally only.
 </code></pre>
-<p>After enabling, all new conversations will be logged to your local <code>~/.llxprt/conversations/</code> directory.</p>
+<p>After enabling, all new conversations will be logged to your local <code>&lt;data&gt;/conversations/</code> directory (see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <h3><code>/logging disable</code></h3>
 <p>Disables conversation logging. No future conversations will be logged.</p>
 <pre><code class="language-bash">/logging disable
@@ -198,7 +199,7 @@ To modify settings:
 <h2>Configuration Options</h2>
 <p>LLxprt's telemetry can be configured through settings files, environment variables, and command-line flags.</p>
 <h3>Settings File Configuration</h3>
-<p>Add telemetry configuration to your <code>~/.llxprt/settings.json</code> or workspace <code>.llxprt/settings.json</code>:</p>
+<p>Add telemetry configuration to your <a href="./reference/application-directories.html">user settings.json</a> (in LLxprt's config directory) or workspace <code>.llxprt/settings.json</code>:</p>
 <pre><code class="language-json">{
   &quot;telemetry&quot;: {
     &quot;logConversations&quot;: false,
@@ -208,7 +209,7 @@ To modify settings:
     &quot;redactUrls&quot;: true,
     &quot;redactEmails&quot;: true,
     &quot;redactPersonalInfo&quot;: true,
-    &quot;conversationLogPath&quot;: &quot;~/.llxprt/conversations&quot;,
+    &quot;conversationLogPath&quot;: &quot;&quot;,
     &quot;maxLogFiles&quot;: 10,
     &quot;maxLogSizeMB&quot;: 50,
     &quot;retentionDays&quot;: 30,
@@ -216,12 +217,13 @@ To modify settings:
   }
 }
 </code></pre>
+<p>Leave <code>conversationLogPath</code> empty (or omit it) to use the default <code>&lt;data&gt;/conversations</code> location; set it to an absolute path to override.</p>
 <h3>Configuration Options Reference</h3>
 <h4>Core Logging Settings</h4>
 <ul>
 <li><code>logConversations</code> (boolean): Enable conversation logging (default: <code>false</code>)</li>
 <li><code>logResponses</code> (boolean): Include full AI responses in logs (default: <code>false</code>)</li>
-<li><code>conversationLogPath</code> (string): Directory for log files (default: <code>~/.llxprt/conversations</code>)</li>
+<li><code>conversationLogPath</code> (string): Directory for log files (default: <code>&lt;data&gt;/conversations</code>, see <a href="./reference/application-directories.html">Application Directories</a>)</li>
 </ul>
 <h4>Data Retention Settings</h4>
 <ul>
@@ -250,7 +252,7 @@ To modify settings:
 <li><strong>Command-line flags</strong> (when using the <code>llxprt</code> CLI)</li>
 <li><strong>Environment variables</strong></li>
 <li><strong>Workspace settings</strong> (<code>.llxprt/settings.json</code> in current directory)</li>
-<li><strong>User settings</strong> (<code>~/.llxprt/settings.json</code> in home directory)</li>
+<li><strong>User settings</strong> (your user <code>settings.json</code> in LLxprt's <a href="./reference/application-directories.html">config directory</a>)</li>
 <li><strong>Default values</strong></li>
 </ol>
 <h2>Testing and Development</h2>
@@ -275,17 +277,20 @@ const telemetryConfig = {
 <li><strong>Enable logging</strong>: <code>/logging enable</code></li>
 <li><strong>Reproduce the issue</strong>: Run the problematic commands</li>
 <li><strong>View recent logs</strong>: <code>/logging show 20</code></li>
-<li><strong>Examine log files</strong>: Check <code>~/.llxprt/conversations/</code> for detailed JSONL data</li>
+<li><strong>Examine log files</strong>: Check <code>&lt;data&gt;/conversations/</code> (see <a href="./reference/application-directories.html">Application Directories</a>) for detailed JSONL data</li>
 </ol>
 <p>The log files contain structured data that can be analyzed with standard JSON tools:</p>
-<pre><code class="language-bash"># View today's conversation log
-cat ~/.llxprt/conversations/conversation-$(date +%Y-%m-%d).jsonl | jq '.'
+<pre><code class="language-bash"># View today's conversation log. This Linux example honors LLXPRT_DATA_HOME,
+# then LLXPRT_CONFIG_HOME, then the Linux default; see Application Directories
+# for the macOS and Windows defaults.
+DATA_DIR=&quot;${LLXPRT_DATA_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.local/share/llxprt-code}}&quot;
+cat &quot;${DATA_DIR}/conversations/conversation-$(date +%Y-%m-%d).jsonl&quot; | jq '.'
 
 # Filter for specific providers
-cat ~/.llxprt/conversations/conversation-*.jsonl | jq 'select(.provider == &quot;openai&quot;)'
+cat &quot;${DATA_DIR}/conversations/conversation-&quot;*.jsonl | jq 'select(.provider == &quot;openai&quot;)'
 
 # Count conversations by provider
-cat ~/.llxprt/conversations/conversation-*.jsonl | jq -r '.provider' | sort | uniq -c
+cat &quot;${DATA_DIR}/conversations/conversation-&quot;*.jsonl | jq -r '.provider' | sort | uniq -c
 </code></pre>
 <h2>Privacy Guarantees</h2>
 <h3>What LLxprt Does NOT Do</h3>
@@ -345,13 +350,16 @@ cat ~/.llxprt/conversations/conversation-*.jsonl | jq -r '.provider' | sort | un
 <h2>Support and Troubleshooting</h2>
 <h3>Common Issues</h3>
 <p><strong>Q: I enabled logging but don't see any log files</strong>
-A: Check that the log directory exists and you have write permissions. The default path is <code>~/.llxprt/conversations/</code>.</p>
+A: Check that the log directory exists and you have write permissions. The default path is <code>&lt;data&gt;/conversations/</code> (see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <p><strong>Q: My log files are very large</strong>
 A: Configure <code>maxLogSizeMB</code> and <code>maxLogFiles</code> in your settings to control file rotation and size limits.</p>
 <p><strong>Q: I see sensitive information in logs despite redaction being enabled</strong>
 A: Some patterns may not be caught by automatic redaction. Consider adding custom redaction patterns or disabling logging for sensitive workflows.</p>
 <p><strong>Q: How do I permanently delete all conversation logs?</strong>
-A: Remove the entire conversation log directory: <code>rm -rf ~/.llxprt/conversations/</code></p>
+A: Remove the entire conversation log directory. This Linux example honors <code>LLXPRT_DATA_HOME</code>, then <code>LLXPRT_CONFIG_HOME</code>, then the Linux default; see <a href="./reference/application-directories.html">Application Directories</a> for the macOS and Windows defaults:</p>
+<pre><code class="language-bash">DATA_DIR=&quot;${LLXPRT_DATA_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.local/share/llxprt-code}}&quot;
+rm -rf &quot;${DATA_DIR}/conversations/&quot;
+</code></pre>
 <h3>Getting Help</h3>
 <p>For privacy-related questions or concerns:</p>
 <ol>

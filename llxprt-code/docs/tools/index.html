@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -175,20 +176,12 @@
 </thead>
 <tbody>
 <tr>
-<td><code>google_web_search</code></td>
-<td>Search the web via Google</td>
-</tr>
-<tr>
 <td><code>exa_web_search</code></td>
-<td>Search the web via Exa AI</td>
+<td>Search the web via Exa AI (recommended)</td>
 </tr>
 <tr>
 <td><code>direct_web_fetch</code></td>
 <td>Fetch and convert a URL to text/markdown</td>
-</tr>
-<tr>
-<td><code>google_web_fetch</code></td>
-<td>Fetch a URL via Google's infrastructure</td>
 </tr>
 <tr>
 <td><code>codesearch</code></td>
@@ -248,7 +241,7 @@
 <li>Running shell commands</li>
 <li>Making web requests</li>
 </ul>
-<p>You control this through <strong>policies</strong> (in <code>settings.json</code> or <code>~/.llxprt/policies/</code>):</p>
+<p>You control this through <strong>policies</strong> (in <code>settings.json</code> or <code>&lt;config&gt;/policies/</code> — see <a href="../reference/application-directories.html">Application Directories</a>):</p>
 <pre><code class="language-json">{
   &quot;policies&quot;: {
     &quot;allow-write&quot;: true,

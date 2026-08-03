@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -96,7 +97,7 @@
         &quot;--provider&quot;,
         &quot;openai&quot;,
         &quot;--model&quot;,
-        &quot;hf:moonshotai/Kimi-K2-Thinking&quot;,
+        &quot;hf:moonshotai/Kimi-K3&quot;,
         &quot;--key-name&quot;,
         &quot;synthetic&quot;,
         &quot;--baseurl&quot;,
@@ -111,22 +112,22 @@
 <h2>Using Profiles (Recommended)</h2>
 <p>Profiles are the cleanest approach — they capture provider, model, key, base URL, and settings in one saved config so your Zed settings stay minimal. Create one in an interactive LLxprt session:</p>
 <pre><code>/provider openai
-/model hf:moonshotai/Kimi-K2-Thinking
+/model hf:moonshotai/Kimi-K3
 /key load synthetic
 /set base-url https://api.synthetic.new/openai/v1
-/profile save model kimi-k2
+/profile save model kimi-k3
 </code></pre>
 <p>Then reference it in Zed:</p>
 <pre><code class="language-json">{
   &quot;agent_servers&quot;: {
     &quot;llxprt&quot;: {
       &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
-      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;kimi-k2&quot;, &quot;--yolo&quot;]
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;kimi-k3&quot;, &quot;--yolo&quot;]
     }
   }
 }
 </code></pre>
-<h3>OAuth Providers (Codex, Gemini, Anthropic, Qwen)</h3>
+<h3>OAuth Providers (Codex, Anthropic)</h3>
 <p>If your profile uses OAuth instead of an API key, you must authenticate <strong>before</strong> launching Zed — the ACP mode can't open a browser for you. Run an interactive LLxprt session first:</p>
 <pre><code>/auth codex login
 </code></pre>
@@ -137,7 +138,7 @@
   &quot;agent_servers&quot;: {
     &quot;llxprt-kimi&quot;: {
       &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
-      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;kimi-k2&quot;, &quot;--yolo&quot;]
+      &quot;args&quot;: [&quot;--experimental-acp&quot;, &quot;--profile-load&quot;, &quot;kimi-k3&quot;, &quot;--yolo&quot;]
     },
     &quot;llxprt-gemini&quot;: {
       &quot;command&quot;: &quot;/opt/homebrew/bin/llxprt&quot;,
@@ -234,7 +235,7 @@
   }
 }
 </code></pre>
-<p>Logs go to <code>~/.llxprt/debug/</code>. Only enable when troubleshooting — they get large.</p>
+<p>Logs go to LLxprt's <a href="./reference/application-directories.html">log/state directory</a> under <code>&lt;log&gt;/debug/</code> (overridable via <code>LLXPRT_LOG_HOME</code>). Only enable when troubleshooting — they get large.</p>
 <h2>Troubleshooting</h2>
 <p><strong>Agent won't start</strong> — verify the path: <code>which llxprt</code>. Use the full absolute path in the <code>command</code> field.</p>
 <p><strong>Auth failures</strong> — make sure the key name matches what you saved. Check with <code>llxprt</code> then <code>/key list</code>. For OAuth providers, authenticate interactively first.</p>

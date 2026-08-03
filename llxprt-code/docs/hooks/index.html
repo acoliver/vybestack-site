@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -80,8 +81,8 @@
 <li><strong>Stop</strong> the agent entirely</li>
 </ul>
 <h2>Coming from Other Tools?</h2>
-<h3>From Gemini CLI</h3>
-<p>LLxprt Code's hook system is similar to Gemini CLI's hook configuration. The key differences:</p>
+<h3>From Gemini CLI (Compatibility)</h3>
+<p>LLxprt Code's hook system is compatible with Gemini CLI's hook configuration. The key points:</p>
 <ul>
 <li>Configuration uses the same <code>settings.json</code> format under the <code>hooks</code> key</li>
 <li>Event names are similar: <code>BeforeTool</code>, <code>AfterTool</code>, <code>BeforeModel</code>, <code>AfterModel</code></li>
@@ -96,15 +97,49 @@
 <li>Hooks can modify inputs, not just approve/deny them</li>
 <li>Multiple hooks can run for the same event with aggregated results</li>
 </ul>
+<h2>Security and Risks</h2>
+<blockquote>
+<p>[!WARNING] <strong>Hooks execute arbitrary code with your user privileges.</strong></p>
+</blockquote>
+<p>By configuring hooks, you are explicitly allowing LLxprt Code to run shell
+commands on your machine. Malicious or poorly configured hooks can:</p>
+<ul>
+<li><strong>Exfiltrate data</strong>: Read sensitive files (<code>.env</code>, ssh keys) and send them to
+remote servers.</li>
+<li><strong>Modify system</strong>: Delete files, install malware, or change system settings.</li>
+<li><strong>Consume resources</strong>: Run infinite loops or crash your system.</li>
+</ul>
+<p><strong>Project-level hooks</strong> (in <code>.llxprt/settings.json</code>) and <strong>Extension hooks</strong> are
+particularly risky when opening third-party projects or extensions from
+untrusted authors. LLxprt Code will <strong>warn you</strong> when it detects untrusted
+project hooks (identified by their name and command). Untrusted hooks are
+<strong>not auto-approved</strong> — they remain untrusted until you explicitly trust them.
+It is <strong>your responsibility</strong> to review these hooks (and any installed
+extensions) before trusting them.</p>
+<p>See <a href="best-practices.html#using-hooks-securely">Security Considerations</a> for a
+detailed threat model and mitigation strategies.</p>
 <h2>Quick Start</h2>
 <h3>1. Enable Hooks</h3>
-<p>Hooks are enabled by default. Verify in your <code>~/.llxprt/settings.json</code>:</p>
+<p>Hooks are <strong>disabled by default</strong> and require explicit opt-in. Add the
+following to your <a href="../reference/application-directories.html">user <code>settings.json</code></a>:</p>
 <pre><code class="language-json">{
-  &quot;enableHooks&quot;: true
+  &quot;hooks&quot;: {
+    &quot;enabled&quot;: true
+  }
 }
 </code></pre>
+<p>There is also an experimental gate (<code>tools.enableHooks</code>) that defaults to
+<code>true</code>. Both <code>hooks.enabled</code> and <code>tools.enableHooks</code> must be <code>true</code> for hooks
+to run.</p>
 <h3>2. Configure a Hook</h3>
-<p>Add hooks to your <code>settings.json</code>:</p>
+<p>Add hooks to your <code>settings.json</code>. Hook scripts can live anywhere — the
+<code>command</code> field accepts any path with <code>~</code> expansion. The example keeps the
+script under LLxprt's <a href="../reference/application-directories.html">config directory</a>
+(<code>$LLXPRT_CONFIG_HOME</code> if set, otherwise the platform default
+<code>~/.config/llxprt-code</code> on Linux / <code>~/Library/Preferences/llxprt-code</code> on macOS
+/ <code>%APPDATA%\llxprt-code\Config</code> on Windows). The shell snippets spell this out
+as <code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks</code> (the Linux default;
+swap in the macOS/Windows default for your platform):</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
     &quot;BeforeTool&quot;: [
@@ -112,7 +147,7 @@
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/security-policy.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/security-policy.sh&quot;
           }
         ]
       }
@@ -121,7 +156,7 @@
 }
 </code></pre>
 <h3>3. Write Your Hook Script</h3>
-<p>Create <code>~/.llxprt/hooks/security-policy.sh</code>:</p>
+<p>Create <code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/security-policy.sh</code> (or any location you prefer):</p>
 <pre><code class="language-bash">#!/bin/bash
 # Read JSON input from stdin
 INPUT=$(cat)
@@ -143,7 +178,7 @@ echo '{&quot;decision&quot;: &quot;allow&quot;}'
 exit 0
 </code></pre>
 <p>Make it executable:</p>
-<pre><code class="language-bash">chmod +x ~/.llxprt/hooks/security-policy.sh
+<pre><code class="language-bash">chmod +x &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/security-policy.sh&quot;
 </code></pre>
 <h3>4. Test It</h3>
 <p>Now when LLxprt Code tries to write to <code>/etc/passwd</code>, your hook will block it!</p>
@@ -205,9 +240,11 @@ exit 0
 </tr>
 </tbody>
 </table>
+<h2>Hooks in Extensions</h2>
+<p>Extensions can bundle hooks alongside MCP servers and prompts. When you install an extension that includes hooks, those hooks are loaded automatically when the extension is enabled.</p>
+<p>For details on how extension hooks work, including scope precedence and security considerations, see <a href="../extension.html#hooks-in-extensions">Hooks in Extensions</a>.</p>
 <h2>Next Steps</h2>
 <ul>
-<li><strong><a href="./architecture.html">Architecture Guide</a></strong> - Understand how hooks work internally</li>
 <li><strong><a href="./creating-custom-hooks.html">Creating Custom Hooks</a></strong> - Step-by-step tutorial with examples</li>
 <li><strong><a href="./api-reference.html">API Reference</a></strong> - Complete type definitions and interfaces</li>
 </ul>
@@ -221,9 +258,16 @@ if [[ &quot;$PATH_VALUE&quot; == /etc* || &quot;$PATH_VALUE&quot; == /var* ]]; t
 fi
 </code></pre>
 <h3>Audit Logging</h3>
-<p>Log all tool calls for compliance:</p>
-<pre><code class="language-bash"># Log to file
-echo &quot;$(date) - Tool: $TOOL_NAME, Path: $PATH_VALUE&quot; &gt;&gt; ~/.llxprt/audit.log
+<p>Log all tool calls for compliance. The recommended location is LLxprt's
+canonical log/state directory (<code>$LLXPRT_LOG_HOME</code>, falling back to
+<code>$LLXPRT_CONFIG_HOME</code>, then the platform default
+<code>~/.local/state/llxprt-code</code> on Linux / <code>~/Library/Logs/llxprt-code</code> on macOS
+/ <code>%LOCALAPPDATA%\llxprt-code\Log</code> on Windows); you may also write to a
+workspace-local <code>.llxprt/audit.log</code> or wherever your team's policy requires:</p>
+<pre><code class="language-bash"># Log to LLxprt's canonical log/state directory (or choose your own path)
+LOG_DIR=&quot;${LLXPRT_LOG_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.local/state/llxprt-code}}&quot;
+mkdir -p &quot;$LOG_DIR&quot;
+echo &quot;$(date) - Tool: $TOOL_NAME, Path: $PATH_VALUE&quot; &gt;&gt; &quot;$LOG_DIR/audit.log&quot;
 echo '{&quot;decision&quot;: &quot;allow&quot;}'
 exit 0
 </code></pre>

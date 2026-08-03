@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -91,7 +92,7 @@
 </tr>
 <tr>
 <td><code>global</code></td>
-<td><code>~/.llxprt/LLXPRT.md</code></td>
+<td><code>&lt;config&gt;/LLXPRT.md</code> (see <a href="../reference/application-directories.html">Application Directories</a>)</td>
 <td>Every session</td>
 </tr>
 <tr>
@@ -101,7 +102,7 @@
 </tr>
 <tr>
 <td><code>core.global</code></td>
-<td><code>~/.llxprt/.LLXPRT_SYSTEM</code></td>
+<td><code>&lt;config&gt;/.LLXPRT_SYSTEM</code> (see <a href="../reference/application-directories.html">Application Directories</a>)</td>
 <td>Every session (in system prompt)</td>
 </tr>
 </tbody>
@@ -110,7 +111,7 @@
 <h2>How Memory Files Are Discovered</h2>
 <p>Memory loading isn't just &quot;read one file.&quot; LLxprt Code discovers memory files across your directory hierarchy:</p>
 <h3>1. Global Memory (always loaded)</h3>
-<p><code>~/.llxprt/LLXPRT.md</code> is loaded in every session, regardless of where you are.</p>
+<p><code>&lt;config&gt;/LLXPRT.md</code> — the global memory file in LLxprt's <a href="../reference/application-directories.html">config directory</a> — is loaded in every session, regardless of where you are.</p>
 <h3>2. Upward Walk (project root to CWD)</h3>
 <p>Starting from your current working directory, LLxprt Code walks <strong>up</strong> to the project root (detected by <code>.git</code>, <code>package.json</code>, etc.), loading any <code>LLXPRT.md</code> or <code>.llxprt/LLXPRT.md</code> it finds at each directory level.</p>
 <p>This means if you have a monorepo:</p>
@@ -130,7 +131,7 @@
 <h3>Load Order</h3>
 <p>The final context includes memory from:</p>
 <ol>
-<li><strong>Global</strong> <code>~/.llxprt/LLXPRT.md</code></li>
+<li><strong>Global</strong> <code>&lt;config&gt;/LLXPRT.md</code> (see <a href="../reference/application-directories.html">Application Directories</a>)</li>
 <li><strong>Upward</strong> from project root down to CWD (outermost first)</li>
 <li><strong>Downward</strong> from CWD into subdirectories</li>
 <li><strong>JIT</strong> as the model touches new directories</li>
@@ -159,7 +160,7 @@
 </code></pre>
 <h2>Viewing and Managing</h2>
 <p>View your current memories by reading the files directly:</p>
-<pre><code>cat ~/.llxprt/LLXPRT.md
+<pre><code>cat &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/LLXPRT.md&quot;
 cat .llxprt/LLXPRT.md
 </code></pre>
 <p>Or use the <code>/memory</code> command:</p>

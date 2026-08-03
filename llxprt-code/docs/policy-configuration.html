@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -97,8 +98,8 @@ toolName = &quot;edit&quot;
 </code></pre>
 <p><strong>Built-in tool names:</strong></p>
 <ul>
-<li>Read-only: <code>glob</code>, <code>grep</code>, <code>ls</code>, <code>read_file</code>, <code>read_many_files</code>, <code>ripgrep</code>, <code>web_search</code></li>
-<li>Write: <code>edit</code>, <code>write_file</code>, <code>shell</code>, <code>memory</code>, <code>web_fetch</code></li>
+<li>Read-only: <code>glob</code>, <code>grep</code>, <code>ls</code>, <code>read_file</code>, <code>read_many_files</code>, <code>ripgrep</code>, <code>exa_web_search</code></li>
+<li>Write: <code>edit</code>, <code>write_file</code>, <code>shell</code>, <code>memory</code>, <code>direct_web_fetch</code></li>
 <li>Other: <code>task</code>, <code>write_todos</code>, <code>list_subagents</code>, <code>notebook_edit</code>, <code>slash_command</code>, <code>skill</code>, <code>mcp_tool</code></li>
 </ul>
 <p><strong>MCP tool names:</strong></p>
@@ -235,8 +236,54 @@ priority = 3.5    # Tier 3 - admin override
 </tr>
 </tbody>
 </table>
+<h2>Approval Mode Synchronization</h2>
+<p>Approval modes (<code>DEFAULT</code>, <code>AUTO_EDIT</code>, <code>YOLO</code>) control how aggressively tools
+are auto-approved. The PolicyEngine evaluates mode-specific rules <strong>dynamically</strong>
+at <code>evaluate()</code> time using the <code>modes</code> filter — no TOML reload is needed on
+mode transitions.</p>
+<h3>The <code>modes</code> Filter</h3>
+<p>Rules can declare a <code>modes</code> array to restrict which approval modes they are
+active in:</p>
+<pre><code class="language-toml"># Only active in AUTO_EDIT mode
+[[rule]]
+toolName = &quot;replace&quot;
+decision = &quot;allow&quot;
+priority = 1.015
+modes = [&quot;autoEdit&quot;]
+
+# Only active in YOLO mode
+[[rule]]
+decision = &quot;allow&quot;
+allowRedirection = true
+priority = 1.999
+modes = [&quot;yolo&quot;]
+</code></pre>
+<p>When the approval mode changes (Ctrl-Y / Ctrl-E), the PolicyEngine's
+<code>currentMode</code> is synchronously updated via <code>setApprovalMode()</code>. Rules with a
+<code>modes</code> filter that doesn't include the new mode are automatically skipped —
+rules without a <code>modes</code> filter always apply.</p>
+<h3>Mode Transition Mechanism</h3>
+<p>Mode-specific behavior is expressed declaratively via the <code>modes</code> field on
+individual rules. The PolicyEngine evaluates those rules dynamically at
+<code>evaluate()</code> time against <code>currentMode</code>, which is updated synchronously via
+<code>setApprovalMode()</code>. No rules are added or removed on transition — only the
+mode filter changes.</p>
+<p>When <code>Config.setApprovalMode()</code> is called, it calls
+<code>syncModeDerivedPolicyRules()</code> which calls <code>setApprovalMode()</code> on the engine.
+This ensures:</p>
+<ul>
+<li>YOLO→DEFAULT deactivates the mode-specific wildcard ALLOW</li>
+<li>AUTO_EDIT→DEFAULT deactivates the mode-specific editor ALLOW rules</li>
+<li>Non-mode rules and higher-priority rules remain active across transitions, so
+their configured decisions still take precedence</li>
+</ul>
+<h3>Initial CLI/Agent Parity</h3>
+<p>The <code>Config</code> constructor calls <code>syncModeDerivedPolicyRules()</code> after applying
+parameters, so an engine constructed with <code>approvalMode: YOLO</code> produces the
+same policy as an engine constructed in DEFAULT then transitioned to YOLO.
+This eliminates authorization desynchronization (issue #2659).</p>
 <h2>Complete Example</h2>
-<pre><code class="language-toml"># Custom policy file: ~/.llxprt/my-policy.toml
+<pre><code class="language-toml"># Custom policy file: &lt;config&gt;/my-policy.toml (see Application Directories)
 
 # Allow all read-only tools (override defaults)
 [[rule]]
@@ -425,7 +472,7 @@ priority = 2.6
 </code></pre>
 <h2>Creating Custom Policies</h2>
 <h3>Step 1: Create a TOML file</h3>
-<p>Create a new file (e.g., <code>~/.llxprt/my-policy.toml</code>):</p>
+<p>Create a new file (e.g., <code>&lt;config&gt;/my-policy.toml</code> in LLxprt's <a href="./reference/application-directories.html">config directory</a>):</p>
 <pre><code class="language-toml"># My custom policy
 
 [[rule]]
@@ -434,7 +481,7 @@ decision = &quot;allow&quot;
 priority = 2.5
 </code></pre>
 <h3>Step 2: Configure Settings</h3>
-<p>Add to <code>~/.llxprt/settings.json</code>:</p>
+<p>Add to your <a href="./reference/application-directories.html">settings.json</a>:</p>
 <pre><code class="language-json">{
   &quot;tools&quot;: {
     &quot;policyPath&quot;: &quot;/absolute/path/to/my-policy.toml&quot;
@@ -653,7 +700,8 @@ priority = 1.0
 <ul>
 <li>See <a href="message-bus.html">Message Bus Guide</a> for overview and architecture</li>
 <li>See <a href="migration/approval-mode-to-policies.html">Migration Guide</a> for migrating from legacy approval modes</li>
-<li>Review <a href="https://github.com/vybestack/llxprt-code/tree/main/packages/core/src/policy/policies">example policies</a> in the repository</li>
+<li>Review the built-in policy files under <code>packages/core/src/policy/policies</code> in
+a repository checkout for worked examples</li>
 </ul>
 
           </div>

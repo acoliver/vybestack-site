@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent Skills | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Agent Skills</h1>
+<p><em>Note: This is an experimental feature enabled via <code>experimental.skills</code>. You
+can also search for &quot;Skills&quot; within the <code>/settings</code> interactive UI to toggle
+this and manage other skill-related settings.</em></p>
+<p>Agent Skills allow you to extend LLxprt Code with specialized expertise,
+procedural workflows, and task-specific resources. Based on the
+<a href="https://agentskills.io">Agent Skills</a> open standard, a &quot;skill&quot; is a
+self-contained directory that packages instructions and assets into a
+discoverable capability.</p>
+<h2>Overview</h2>
+<p>Unlike general context files (<a href="../tools/memory.html"><code>LLXPRT.md</code></a>), which provide
+persistent workspace-wide background, Skills represent <strong>on-demand expertise</strong>.
+This allows LLxprt to maintain a vast library of specialized capabilities—such
+as security auditing, cloud deployments, or codebase migrations—without
+cluttering the model's immediate context window.</p>
+<p>LLxprt autonomously decides when to employ a skill based on your request and the
+skill's description. When a relevant skill is identified, the model &quot;pulls in&quot;
+the full instructions and resources required to complete the task using the
+<code>activate_skill</code> tool.</p>
+<h2>Key Benefits</h2>
+<ul>
+<li><strong>Shared Expertise:</strong> Package complex workflows (like a specific team's PR
+review process) into a folder that anyone can use.</li>
+<li><strong>Repeatable Workflows:</strong> Ensure complex multi-step tasks are performed
+consistently by providing a procedural framework.</li>
+<li><strong>Resource Bundling:</strong> Include scripts, templates, or example data alongside
+instructions so the agent has everything it needs.</li>
+<li><strong>Progressive Disclosure:</strong> Only skill metadata (name and description) is
+loaded initially. Detailed instructions and resources are only disclosed when
+the model explicitly activates the skill, saving context tokens.</li>
+</ul>
+<h2>Skill Discovery Tiers</h2>
+<p>LLxprt Code discovers skills from three primary locations:</p>
+<ol>
+<li><strong>Workspace Skills</strong> (<code>.llxprt/skills/</code>): Workspace-specific skills that are
+typically committed to version control and shared with the team.</li>
+<li><strong>User Skills</strong> (<code>&lt;config&gt;/skills/</code>, see <a href="../reference/application-directories.html">Application Directories</a>): Personal skills available across all
+your workspaces.</li>
+<li><strong>Extension Skills</strong>: Skills bundled within installed
+<a href="../extension.html">extensions</a>.</li>
+</ol>
+<p><strong>Precedence:</strong> If multiple skills share the same name, higher-precedence
+locations override lower ones: <strong>Workspace &gt; User &gt; Extension</strong>.</p>
+<h2>Managing Skills</h2>
+<h3>In an Interactive Session</h3>
+<p>Use the <code>/skills</code> slash command to view and manage available expertise:</p>
+<ul>
+<li><code>/skills list</code> (default): Shows all discovered skills and their status.</li>
+<li><code>/skills disable &lt;name&gt;</code>: Prevents a specific skill from being used.</li>
+<li><code>/skills enable &lt;name&gt;</code>: Re-enables a disabled skill.</li>
+<li><code>/skills reload</code>: Refreshes the list of discovered skills from all tiers.</li>
+</ul>
+<p><em>Note: <code>/skills disable</code> uses the <code>workspace</code> scope when workspace settings are
+available; otherwise, it falls back to <code>user</code>. <code>/skills enable</code> removes the
+skill from both workspace and user disabled lists.</em></p>
+<h3>From the Terminal</h3>
+<p>The <code>llxprt skills</code> command provides management utilities:</p>
+<pre><code class="language-bash"># List all discovered skills
+llxprt skills list
+
+# Install a skill from a Git repository, local directory, or zipped skill file (.skill)
+# Uses the user scope by default (&lt;config&gt;/skills — see Application Directories)
+llxprt skills install https://github.com/user/repo.git
+llxprt skills install /path/to/local/skill
+llxprt skills install /path/to/local/my-expertise.skill
+
+# Install a specific skill from a monorepo or subdirectory using --path
+llxprt skills install https://github.com/my-org/my-skills.git --path skills/frontend-design
+
+# Install to the workspace scope (.llxprt/skills)
+llxprt skills install /path/to/skill --scope workspace
+
+# Uninstall a skill by name
+llxprt skills uninstall my-expertise --scope workspace
+
+# Enable a skill (removes disabled entries from both workspace and user scopes)
+llxprt skills enable my-expertise
+
+# Disable a skill (defaults to workspace scope)
+llxprt skills disable my-expertise
+
+# Disable a skill in a specific scope
+llxprt skills disable my-expertise --scope workspace
+llxprt skills disable my-expertise --scope user
+</code></pre>
+<h2>Creating a Skill</h2>
+<p>A skill is a directory containing a <code>SKILL.md</code> file at its root. This file uses
+YAML frontmatter for metadata and Markdown for instructions.</p>
+<h3>Folder Structure</h3>
+<p>Skills are self-contained directories. At a minimum, a skill requires a
+<code>SKILL.md</code> file, but can include other resources:</p>
+<pre><code class="language-text">my-skill/
+├── SKILL.md       (Required) Instructions and metadata
+├── scripts/       (Optional) Executable scripts/tools
+├── references/    (Optional) Static documentation and examples
+└── assets/        (Optional) Templates and binary resources
+</code></pre>
+<h3>Basic Structure (<a href="http://SKILL.md">SKILL.md</a>)</h3>
+<pre><code class="language-markdown">---
+name: &lt;unique-name&gt;
+description: &lt;what the skill does and when LLxprt should use it&gt;
+---
+
+&lt;your instructions for how the agent should behave / use the skill&gt;
+</code></pre>
+<ul>
+<li><strong><code>name</code></strong>: A unique identifier (lowercase, alphanumeric, and dashes).</li>
+<li><strong><code>description</code></strong>: The most critical field. LLxprt uses this to decide when
+the skill is relevant. Be specific about the expertise provided.</li>
+<li><strong>Body</strong>: Everything below the second <code>---</code> is injected as expert procedural
+guidance for the model.</li>
+</ul>
+<h3>Example: Team Code Reviewer</h3>
+<p>Create <code>&lt;config&gt;/skills/code-reviewer/SKILL.md</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</p>
+<pre><code class="language-markdown">---
+name: code-reviewer
+description:
+  Expertise in reviewing code for style, security, and performance. Use when the
+  user asks for &quot;feedback,&quot; a &quot;review,&quot; or to &quot;check&quot; their changes.
+---
+
+# Code Reviewer
+
+You are an expert code reviewer. When reviewing code, follow this workflow:
+
+1.  **Analyze**: Review the staged changes or specific files provided. Ensure
+    that the changes are scoped properly and represent minimal changes required
+    to address the issue.
+2.  **Style**: Ensure code follows the workspace's conventions and idiomatic
+    patterns as described in the `LLXPRT.md` file.
+3.  **Security**: Flag any potential security vulnerabilities.
+4.  **Tests**: Verify that new logic has corresponding test coverage and that
+    the test coverage adequately validates the changes.
+
+Provide your feedback as a concise bulleted list of &quot;Strengths&quot; and
+&quot;Opportunities.&quot;
+</code></pre>
+<h3>Resource Conventions</h3>
+<p>While you can structure your skill directory however you like, the Agent Skills
+standard encourages these conventions:</p>
+<ul>
+<li><strong><code>scripts/</code></strong>: Executable scripts (bash, python, node) the agent can run.</li>
+<li><strong><code>references/</code></strong>: Static documentation, schemas, or example data for the
+agent to consult.</li>
+<li><strong><code>assets/</code></strong>: Code templates, boilerplate, or binary resources.</li>
+</ul>
+<p>When a skill is activated, LLxprt Code provides the model with a tree view of the
+entire skill directory, allowing it to discover and utilize these assets.</p>
+<h2>How it Works (Security &amp; Privacy)</h2>
+<ol>
+<li><strong>Discovery</strong>: At the start of a session, LLxprt Code scans the discovery
+tiers and injects the name and description of all enabled skills into the
+system prompt.</li>
+<li><strong>Activation</strong>: When LLxprt identifies a task matching a skill's
+description, it calls the <code>activate_skill</code> tool.</li>
+<li><strong>Consent</strong>: You will see a confirmation prompt in the UI detailing the
+skill's name, purpose, and the directory path it will gain access to.</li>
+<li><strong>Injection</strong>: Upon your approval:
+<ul>
+<li>The <code>SKILL.md</code> body and folder structure is added to the conversation
+history.</li>
+<li>The skill's directory is added to the agent's allowed file paths, granting
+it permission to read any bundled assets.</li>
+</ul>
+</li>
+<li><strong>Execution</strong>: The model proceeds with the specialized expertise active. It
+is instructed to prioritize the skill's procedural guidance within reason.</li>
+</ol>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

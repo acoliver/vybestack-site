@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Application Directories | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Application Directories</h1>
+<p>LLxprt Code stores its files in <strong>OS-standard, platform-appropriate locations</strong> organized into four categories. This page is the canonical reference for where files live on Linux, macOS, and Windows, how to override those locations, and how the legacy <code>~/.llxprt</code> layout is handled during migration.</p>
+<p>If you only read one thing, read the <a href="#quick-reference">Quick reference</a> table. Everything else is a deeper explanation of those four rows.</p>
+<h2>Why this matters</h2>
+<p>Older versions of LLxprt Code kept every file under <code>~/.llxprt</code>. That works on Linux but is wrong elsewhere: macOS users expect preferences in <code>~/Library/Preferences</code>, Windows users expect app data under <code>%LOCALAPPDATA%</code>, and none of those users expect secrets sitting next to editable config. The current layout follows the conventions each operating system already defines (the same conventions your browser, editor, and shell use), so backups, disk-cleanup tools, and IT policies do the right thing automatically.</p>
+<p>The migration is automatic: the first time you start a new version, LLxprt copies your existing <code>~/.llxprt</code> files into their new homes. You do not need to move anything by hand.</p>
+<h2>Quick reference</h2>
+<p>LLxprt splits its files across four categories. Each category has an environment variable override and a per-platform default.</p>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Holds</th>
+<th>Override (env var)</th>
+<th>Fallback override</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Config</strong></td>
+<td>User-editable settings, profiles, prompts, commands, skills, policies, sandbox profiles, subagents, hooks config, global memory, <code>.env</code></td>
+<td><code>LLXPRT_CONFIG_HOME</code></td>
+<td><em>(none — uses platform default)</em></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td>App-managed durable data: credentials/accounts, OAuth token fallback, conversations, history, todos, user extensions, secure store</td>
+<td><code>LLXPRT_DATA_HOME</code></td>
+<td><code>LLXPRT_CONFIG_HOME</code></td>
+</tr>
+<tr>
+<td><strong>Cache</strong></td>
+<td>Disposable caches and dumps — safe to delete at any time</td>
+<td><code>LLXPRT_CACHE_HOME</code></td>
+<td><code>LLXPRT_CONFIG_HOME</code></td>
+</tr>
+<tr>
+<td><strong>Log/state</strong></td>
+<td>Logs, debug output, temp dirs, checkpoints, shell history, OAuth advisory locks, OTEL telemetry artifacts</td>
+<td><code>LLXPRT_LOG_HOME</code></td>
+<td><code>LLXPRT_CONFIG_HOME</code></td>
+</tr>
+</tbody>
+</table>
+<p>The data, cache, and log/state categories all fall back to <code>LLXPRT_CONFIG_HOME</code> when their own override is unset. This keeps tests and single-root deployments simple: setting <code>LLXPRT_CONFIG_HOME</code> alone redirects everything.</p>
+<h3>Platform defaults</h3>
+<table>
+<thead>
+<tr>
+<th>Category</th>
+<th>Linux</th>
+<th>macOS</th>
+<th>Windows</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Config</strong></td>
+<td><code>~/.config/llxprt-code</code></td>
+<td><code>~/Library/Preferences/llxprt-code</code></td>
+<td><code>%APPDATA%\llxprt-code\Config</code></td>
+</tr>
+<tr>
+<td><strong>Data</strong></td>
+<td><code>~/.local/share/llxprt-code</code></td>
+<td><code>~/Library/Application Support/llxprt-code</code></td>
+<td><code>%LOCALAPPDATA%\llxprt-code\Data</code></td>
+</tr>
+<tr>
+<td><strong>Cache</strong></td>
+<td><code>~/.cache/llxprt-code</code></td>
+<td><code>~/Library/Caches/llxprt-code</code></td>
+<td><code>%LOCALAPPDATA%\llxprt-code\Cache</code></td>
+</tr>
+<tr>
+<td><strong>Log/state</strong></td>
+<td><code>~/.local/state/llxprt-code</code></td>
+<td><code>~/Library/Logs/llxprt-code</code></td>
+<td><code>%LOCALAPPDATA%\llxprt-code\Log</code></td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Windows note:</strong> Data, cache, and log/state live under <code>%LOCALAPPDATA%</code> (machine-local), <strong>not</strong> <code>%APPDATA%</code> (roaming). Credentials and logs should not roam between machines. The config category is the one exception — it lives under <code>%APPDATA%</code> (roaming) so your preferences follow you across machines, as is conventional for Windows applications.</p>
+</blockquote>
+<h3>Finding your effective paths</h3>
+<p>Because the effective location depends on both your platform and any environment variables you've set, prefer discovering the path at runtime rather than hard-coding it. From a shell:</p>
+<pre><code class="language-bash"># Print all four category defaults for this platform (ignores overrides)
+node -e &quot;import('env-paths').then(m =&gt; console.log(m.default('llxprt-code', { suffix: '' })))&quot;
+
+# Print the config directory, honoring LLXPRT_CONFIG_HOME
+LLXPRT_CONFIG_HOME=&quot;${LLXPRT_CONFIG_HOME:-}&quot; \
+  node -e &quot;console.log(process.env.LLXPRT_CONFIG_HOME || (await import('env-paths')).default('llxprt-code', { suffix: '' }).config)&quot;
+</code></pre>
+<p>If you're documenting a path inline and need a shorthand, use the category names: <code>&lt;config&gt;</code>, <code>&lt;data&gt;</code>, <code>&lt;cache&gt;</code>, and <code>&lt;log&gt;</code>. This page is the single place those shorthands are defined.</p>
+<h2>What lives in each category</h2>
+<h3>Config — things you edit</h3>
+<p>The config category holds files you are expected to open in a text editor. LLxprt will never overwrite these without your action.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;config&gt;/settings.json</code></td>
+<td>User-level settings (themes, model defaults, MCP servers, hooks, etc.)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/profiles/</code></td>
+<td>Saved provider/model profiles (<code>/profile save</code>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/prompts/</code></td>
+<td>Prompt overrides and installed prompt packs</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/commands/</code></td>
+<td>Custom slash commands (<code>/commands</code> authoring)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/skills/</code></td>
+<td>Personal agent skills (see <a href="../cli/skills.html">Skills</a>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/policies/</code></td>
+<td>TOML policy files (see <a href="../policy-configuration.html">Policy Configuration</a>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/sandboxes/</code></td>
+<td>Sandbox profiles (see <a href="../cli/sandbox-profiles.html">Sandbox Profiles</a>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/subagents/</code></td>
+<td>Subagent definitions (see <a href="../subagents.html">Subagents</a>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/LLXPRT.md</code></td>
+<td>Global memory / context file</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/.LLXPRT_SYSTEM</code></td>
+<td>Global system memory (added programmatically via <code>/memory add core.global</code>)</td>
+</tr>
+<tr>
+<td><code>&lt;config&gt;/.env</code></td>
+<td>User-level environment file loaded at startup</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Hooks defined <strong>in</strong> <code>settings.json</code> always live in config (because <code>settings.json</code> does). Hook <strong>scripts</strong> that those hooks invoke can live anywhere on your system — their path is whatever you put in the <code>command</code> field.</p>
+</blockquote>
+<h3>Data — things LLxprt manages</h3>
+<p>The data category holds durable files LLxprt writes and reads on your behalf. You usually don't edit these directly.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;data&gt;/provider_accounts.json</code></td>
+<td>Provider account registry</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/google_accounts.json</code></td>
+<td>Google account registry</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/mcp-oauth-tokens.json</code></td>
+<td>MCP server OAuth tokens</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/oauth_creds.json</code></td>
+<td>Legacy OAuth credentials filename (migration input)</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/secure-store/</code></td>
+<td>Encrypted fallback for secrets when the OS keyring is unavailable</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/extensions/</code></td>
+<td>User-installed extensions</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/providers/</code></td>
+<td>User-defined provider aliases (see <a href="../cli/providers.html">Providers</a>)</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/conversations/</code></td>
+<td>Conversation logs (when conversation logging is enabled)</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/history/&lt;hash&gt;/</code></td>
+<td>Per-project checkpoint shadow Git repository (used for undo/redo checkpoints, not shell history)</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/installation_id</code></td>
+<td>Anonymous installation identifier</td>
+</tr>
+<tr>
+<td><code>&lt;data&gt;/machine_secret</code></td>
+<td>Secret used to encrypt the secure-store fallback</td>
+</tr>
+</tbody>
+</table>
+<h3>Cache — safe to delete</h3>
+<p>The cache category holds regenerable data. Deleting it frees disk space without losing configuration or credentials.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;cache&gt;/cache/</code></td>
+<td>General-purpose cache</td>
+</tr>
+<tr>
+<td><code>&lt;cache&gt;/dumps/</code></td>
+<td>Context dumps (see <a href="../cli/context-dumping.html">Context Dumping</a>)</td>
+</tr>
+</tbody>
+</table>
+<h3>Log/state — ephemeral runtime artifacts</h3>
+<p>The log/state category holds logs, temp files, and short-lived runtime state.</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;log&gt;/debug/</code></td>
+<td>Debug logs (<code>LLXPRT_DEBUG</code>)</td>
+</tr>
+<tr>
+<td><code>&lt;log&gt;/tmp/&lt;projectHash&gt;/</code></td>
+<td>Per-project temp directory</td>
+</tr>
+<tr>
+<td><code>&lt;log&gt;/tmp/&lt;projectHash&gt;/checkpoints/</code></td>
+<td>Undo/redo checkpoints</td>
+</tr>
+<tr>
+<td><code>&lt;log&gt;/tmp/&lt;projectHash&gt;/shell_history</code></td>
+<td>Shell command history (per project)</td>
+</tr>
+<tr>
+<td><code>&lt;log&gt;/oauth/locks/</code></td>
+<td>OAuth refresh/advisory locks (contain no credentials)</td>
+</tr>
+<tr>
+<td><code>&lt;log&gt;/tmp/&lt;projectHash&gt;/otel/</code></td>
+<td>OpenTelemetry collector artifacts (when enabled)</td>
+</tr>
+</tbody>
+</table>
+<h2>Credential and token storage</h2>
+<p>OAuth tokens and API keys use a layered storage model:</p>
+<ol>
+<li><strong>OS keyring (primary)</strong> — macOS Keychain, GNOME Keyring / KWallet, or Windows Credential Vault, accessed via <code>@napi-rs/keyring</code>. This is encrypted at rest and requires authentication to read.</li>
+<li><strong>Encrypted file fallback (secondary)</strong> — if the keyring is unavailable, tokens fall back to encrypted files under <code>&lt;data&gt;/secure-store/&lt;service&gt;/</code>. These files are encrypted with a machine-local secret (<code>&lt;data&gt;/machine_secret</code>) and are <strong>not</strong> plain JSON.</li>
+<li><strong>OAuth advisory locks</strong> — short-lived, credential-free lock files under <code>&lt;log&gt;/oauth/locks/</code> that coordinate concurrent refresh attempts. They contain no secrets. Stale locks left behind by a crashed process are reclaimed <strong>only when the owner's PID is verifiably dead</strong> (probed via <code>process.kill(pid, 0)</code>); a malformed or tokenless lock carries no verifiable owner identity and is left in place (deferred to manual cleanup) as a conservative safety-over-availability choice. If you encounter a stuck lock, remove it manually only when no LLxprt process is running.</li>
+</ol>
+<p>The legacy <code>oauth_creds.json</code> plaintext token files (under the old <code>~/.llxprt</code> directory, or <code>~/.gemini/oauth_creds.json</code> from Gemini CLI) are obsolete. They are read <strong>only</strong> as a one-time migration input; LLxprt never creates them during normal operation.</p>
+<p>See <a href="../oauth-setup.html">OAuth Setup</a> for the user-facing OAuth workflow.</p>
+<h2>Override precedence</h2>
+<p>Each category resolves its directory in this order:</p>
+<ol>
+<li>Its own environment variable (e.g. <code>LLXPRT_DATA_HOME</code>).</li>
+<li><code>LLXPRT_CONFIG_HOME</code> (for data, cache, and log/state only).</li>
+<li>The platform default from <code>envPaths('llxprt-code')</code>.</li>
+</ol>
+<p>Config has no fallback — only <code>LLXPRT_CONFIG_HOME</code> or the platform default.</p>
+<p>All overrides must be <strong>absolute paths</strong>. Relative paths and empty strings are ignored, so an unset variable behaves the same as one set to <code>&quot;&quot;</code>.</p>
+<pre><code class="language-bash"># Example: redirect everything to a single portable directory
+export LLXPRT_CONFIG_HOME=/srv/llxprt-config
+# LLXPRT_DATA_HOME, LLXPRT_CACHE_HOME, LLXPRT_LOG_HOME are unset,
+# so all three fall back to /srv/llxprt-config.
+
+# Example: keep config under XDG but move large data elsewhere
+export LLXPRT_DATA_HOME=/big-disk/llxprt-data
+</code></pre>
+<h2>Workspace-local <code>.llxprt</code></h2>
+<p>A directory named <code>.llxprt</code> <strong>inside your project</strong> is always valid and is unrelated to the legacy global <code>~/.llxprt</code>. Workspace-local files override their user-level counterparts and are intended to be committed to version control so a team shares commands, skills, hooks, and project memory.</p>
+<p>Workspace paths are produced by <code>new Storage(projectRoot).&lt;method&gt;</code> and include:</p>
+<table>
+<thead>
+<tr>
+<th>Path</th>
+<th>Scope</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;project&gt;/.llxprt/settings.json</code></td>
+<td>Workspace settings (highest precedence)</td>
+</tr>
+<tr>
+<td><code>&lt;project&gt;/.llxprt/commands/</code></td>
+<td>Workspace custom commands</td>
+</tr>
+<tr>
+<td><code>&lt;project&gt;/.llxprt/skills/</code></td>
+<td>Workspace agent skills</td>
+</tr>
+<tr>
+<td><code>&lt;project&gt;/.llxprt/extensions/</code></td>
+<td>Workspace extensions</td>
+</tr>
+<tr>
+<td><code>&lt;project&gt;/.llxprt/LLXPRT.md</code></td>
+<td>Workspace memory / context file</td>
+</tr>
+</tbody>
+</table>
+<p>These are not affected by <code>LLXPRT_*_HOME</code> overrides. They live relative to your project root, period.</p>
+<h2>Legacy migration</h2>
+<p>On startup, LLxprt checks for a legacy <code>~/.llxprt</code> directory. If present and not previously migrated, it copies files into the correct categories above and writes a global one-time completion marker (<code>.migration-complete.json</code>) so the copy pass runs at most once. For global memory files (<code>LLXPRT.md</code>, <code>.LLXPRT_SYSTEM</code>), a separate reconciliation pass moves any copies the memory tool previously wrote into the <strong>data</strong> category into the canonical <strong>config</strong> category. This pass writes its own per-file completion marker (<code>.memory-reconcile-complete.json</code>) that records each reconciled filename's identity, so late-appearing or changed sources are still picked up while already-reconciled files are skipped.</p>
+<h3>Completion marker semantics</h3>
+<p>The two markers are distinct and serve different purposes:</p>
+<table>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Location</th>
+<th>Scope</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.migration-complete.json</code></td>
+<td><code>&lt;data&gt;</code></td>
+<td><strong>Global, one-time</strong></td>
+<td>Suppresses the entire legacy <code>~/.llxprt</code> → canonical copy pass after the first successful run. Once written, the copy pass is skipped on every subsequent startup.</td>
+</tr>
+<tr>
+<td><code>.memory-reconcile-complete.json</code></td>
+<td><code>&lt;data&gt;</code></td>
+<td><strong>Per-file identity</strong></td>
+<td>Records which default global memory filenames (<code>LLXPRT.md</code>, <code>.LLXPRT_SYSTEM</code>) have been reconciled from data to config. Unlike the global migration marker, this marker does NOT suppress a rescan: on every startup, the bounded set of data-side memory source paths is re-scanned, and any source whose per-file identity is not yet recorded (or whose content differs from its archived backup) is reconciled. This handles late-appearing or changed sources while skipping already-reconciled files.</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong><code>~/.llxprt</code> is an input only.</strong> LLxprt reads from it during migration; it never writes new files there during normal operation.</li>
+<li><strong>Migration is idempotent per file.</strong> Re-running with a file's marker present (and identity unchanged) is a no-op for that file.</li>
+<li><strong>Nothing is deleted.</strong> Your old files remain in place after migration; you can remove them manually once you've confirmed everything works.</li>
+<li><strong>Override interaction.</strong> Migration is skipped entirely when <code>LLXPRT_CONFIG_HOME</code> is set, on the assumption that you've taken control of your layout. To migrate into a custom location, unset the override for one run, then re-set it.</li>
+</ul>
+<p>If you want to import settings or memory from a legacy <code>~/.llxprt</code> after migration has already completed (for example, you deleted the new files and want to re-copy), see <a href="../gemini-cli-tips.html">Tips for Gemini CLI Users</a> for a manual import technique.</p>
+<h2>System-level settings (administrators)</h2>
+<p>Settings and policies can also be placed in system-wide locations that apply to all users on the machine. These are <strong>outside</strong> the four-category user layout:</p>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>System settings path</th>
+<th>Override env var</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Linux</td>
+<td><code>/etc/llxprt-code/settings.json</code></td>
+<td><code>LLXPRT_SYSTEM_SETTINGS_PATH</code></td>
+</tr>
+<tr>
+<td>macOS</td>
+<td><code>/Library/Application Support/LlxprtCode/settings.json</code></td>
+<td><code>LLXPRT_SYSTEM_SETTINGS_PATH</code></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><code>C:\ProgramData\llxprt-code\settings.json</code></td>
+<td><code>LLXPRT_SYSTEM_SETTINGS_PATH</code></td>
+</tr>
+</tbody>
+</table>
+<p>Both the CLI settings loader and the policy engine resolve the system settings
+path through the single canonical <code>Storage.getSystemSettingsPath()</code> authority.
+The system <code>policies/</code> directory always lives beside the resolved settings
+path.</p>
+<p>A legacy alias <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> is honored as a bounded
+backward-compatibility fallback inside Storage when the canonical env var is
+unset. Prefer <code>LLXPRT_SYSTEM_SETTINGS_PATH</code> for new deployments.</p>
+<p>System policies live in a <code>policies/</code> directory beside the system settings file.
+See <a href="../cli/enterprise.html">Enterprise Configuration</a> for details.</p>
+<h2>Related</h2>
+<ul>
+<li><a href="../cli/configuration.html">Configuration</a> — the user settings file and its precedence</li>
+<li><a href="../oauth-setup.html">OAuth Setup</a> — OAuth workflow and credential storage</li>
+<li><a href="../tools/memory.html">Memory</a> — global vs. project memory files</li>
+<li><a href="../policy-configuration.html">Policy Configuration</a> — TOML policy file locations</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -55,21 +55,22 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Profile File Reference</h1>
-<p>Profiles are JSON files stored in <code>~/.llxprt/profiles/&lt;name&gt;.json</code>. They capture your full provider/model/settings configuration so you can switch contexts with one command.</p>
+<p>Profiles are JSON files stored in <code>&lt;config&gt;/profiles/&lt;name&gt;.json</code> (see <a href="./application-directories.html">Application Directories</a>). They capture your full provider/model/settings configuration so you can switch contexts with one command.</p>
 <p>You almost never need to hand-edit these files. Use <code>/profile save</code>, <code>/profile load</code>, <code>/provider</code>, <code>/model</code>, <code>/baseurl</code>, <code>/key</code>, <code>/keyfile</code>, <code>/set</code>, and <code>/set modelparam</code> to build your configuration, then save it. This reference documents the file format for when you need to understand what's inside, troubleshoot, or automate profile creation.</p>
 <p>For guidance on which settings to tune and why, see <a href="../settings-and-profiles.html">Settings and Profiles</a>. For the complete list of ephemeral settings, see <a href="./ephemerals.html">Ephemeral Settings Reference</a>.</p>
 <h2>Standard Profile</h2>
@@ -120,7 +121,7 @@
 <td><code>model</code></td>
 <td>string</td>
 <td>yes</td>
-<td>Model identifier (e.g., <code>&quot;kimi-for-coding&quot;</code>, <code>&quot;zai-org/GLM-5-TEE&quot;</code>, <code>&quot;grok-3&quot;</code>, <code>&quot;gpt-5.3-codex&quot;</code>). This is what <code>/model</code> sets.</td>
+<td>Model identifier (e.g., <code>&quot;kimi-for-coding&quot;</code>, <code>&quot;zai-org/GLM-5-TEE&quot;</code>, <code>&quot;grok-4&quot;</code>, <code>&quot;gpt-5.3-codex&quot;</code>). This is what <code>/model</code> sets.</td>
 </tr>
 <tr>
 <td><code>modelParams</code></td>
@@ -152,7 +153,7 @@
 <p>These are set by the <code>/provider</code> and <code>/model</code> commands. The provider name must match a registered provider alias. The model name is passed to the provider's API — it must be a model that provider supports.</p>
 <pre><code class="language-json">{
   &quot;provider&quot;: &quot;xAI&quot;,
-  &quot;model&quot;: &quot;grok-3&quot;
+  &quot;model&quot;: &quot;grok-4&quot;
 }
 </code></pre>
 <p>When a profile is loaded, the provider alias's defaults (base URL, default ephemeral settings, model-specific defaults) are applied first, then the profile's values layer on top.</p>
@@ -222,7 +223,7 @@
     &quot;reasoning.includeInContext&quot;: true,
     &quot;reasoning.stripFromContext&quot;: &quot;none&quot;,
     &quot;context-limit&quot;: 200000,
-    &quot;tools.disabled&quot;: [&quot;google_web_fetch&quot;]
+    &quot;tools.disabled&quot;: [&quot;read_file&quot;]
   }
 }
 </code></pre>
@@ -392,17 +393,17 @@
 <li><strong>CLI flags</strong> — <code>--set</code>, <code>--key-name</code>, <code>--keyfile</code>, <code>--model</code>, <code>--provider</code>, <code>--baseurl</code></li>
 </ol>
 <p>This means CLI flags always win, so you can do one-off overrides without modifying the saved profile:</p>
-<pre><code class="language-bash">llxprt --profile-load kimi-k2 --key-name synthetic-alt --set context-limit=100000
+<pre><code class="language-bash">llxprt --profile-load kimi-k3 --key-name synthetic-alt --set context-limit=100000
 </code></pre>
 <h2>File Location</h2>
-<p>Profiles are stored in <code>~/.llxprt/profiles/</code>. The filename (minus <code>.json</code>) is the profile name:</p>
-<pre><code>~/.llxprt/profiles/
-├── kimi-k2.json
+<p>Profiles are stored in <code>&lt;config&gt;/profiles/</code> (see <a href="./application-directories.html">Application Directories</a>). The filename (minus <code>.json</code>) is the profile name:</p>
+<pre><code>&lt;config&gt;/profiles/
+├── kimi-k3.json
 ├── opus-thinking.json
 ├── codex-high.json
 └── my-lb-setup.json
 </code></pre>
-<p>The default profile (set via <code>/profile set-default &lt;name&gt;</code>) is recorded in <code>~/.llxprt/settings.json</code> and loads automatically on startup.</p>
+<p>The default profile (set via <code>/profile set-default &lt;name&gt;</code>) is recorded in your user <code>settings.json</code> in the <a href="./application-directories.html">config directory</a> and loads automatically on startup.</p>
 
           </div>
         </div>

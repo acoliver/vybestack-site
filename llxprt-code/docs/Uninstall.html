@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Uninstalling the CLI | LLxprt Code Docs</title>
+  <title>Uninstalling LLxprt Code | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -55,42 +55,124 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Uninstalling the CLI</h1>
-<p>Your uninstall method depends on how you ran the CLI. Follow the instructions for either npx or a global npm installation.</p>
-<h2>Method 1: Using npx</h2>
-<p>npx runs packages from a temporary cache without a permanent installation. To &quot;uninstall&quot; the CLI, you must clear this cache, which will remove gemini-cli and any other packages previously executed with npx.</p>
-<p>The npx cache is a directory named <code>_npx</code> inside your main npm cache folder. You can find your npm cache path by running <code>npm config get cache</code>.</p>
-<p><strong>For macOS / Linux</strong></p>
-<pre><code class="language-bash"># The path is typically ~/.npm/_npx
-rm -rf &quot;$(npm config get cache)/_npx&quot;
+            <h1>Uninstalling LLxprt Code</h1>
+<p>Your uninstall method depends on how you installed LLxprt Code.</p>
+<h2>Homebrew (macOS)</h2>
+<p>If you installed via Homebrew:</p>
+<pre><code class="language-bash">brew uninstall llxprt-code
 </code></pre>
-<p><strong>For Windows</strong></p>
-<p><em>Command Prompt</em></p>
-<pre><code class="language-cmd">:: The path is typically %LocalAppData%\npm-cache\_npx
-rmdir /s /q &quot;%LocalAppData%\npm-cache\_npx&quot;
+<p>You may also remove the tap if you no longer need it:</p>
+<pre><code class="language-bash">brew untap vybestack/homebrew-tap
 </code></pre>
-<p><em>PowerShell</em></p>
-<pre><code class="language-powershell"># The path is typically $env:LocalAppData\npm-cache\_npx
-Remove-Item -Path (Join-Path $env:LocalAppData &quot;npm-cache\_npx&quot;) -Recurse -Force
-</code></pre>
-<h2>Method 2: Using npm (Global Install)</h2>
-<p>If you installed the CLI globally (e.g., <code>npm install -g @vybestack/llxprt-code</code>), use the <code>npm uninstall</code> command with the <code>-g</code> flag to remove it.</p>
+<h2>Global npm installation</h2>
+<p>If you installed LLxprt Code globally with npm, uninstall it the same way:</p>
 <pre><code class="language-bash">npm uninstall -g @vybestack/llxprt-code
 </code></pre>
-<p>This command completely removes the package from your system.</p>
+<p>This removes the package and the <code>llxprt</code> command from your system.</p>
+<h2>Verify the removal</h2>
+<pre><code class="language-bash">llxprt --version
+</code></pre>
+<p>You should see <code>command not found</code> (or the equivalent for your shell).</p>
+<h2>npx does not permanently install anything</h2>
+<p>If you ran LLxprt Code via <code>npx @vybestack/llxprt-code</code>, there is no permanent
+or global installation to remove. <code>npx</code> runs packages from a temporary cache
+rather than adding a global install or a <code>llxprt</code> command to your PATH. It does,
+however, download package contents into the npm cache (see below for optional
+cache clearing).</p>
+<h2>Optional: Remove user data</h2>
+<p>Uninstalling the package does not delete your settings, conversation logs,
+profiles, credentials, or other user data. LLxprt Code stores files across
+four OS-standard category directories plus workspace-local <code>.llxprt</code>
+directories. See <a href="./reference/application-directories.html">Application Directories</a>
+for the exact paths on each platform.</p>
+<p>To remove everything:</p>
+<ol>
+<li>
+<p><strong>Config</strong> — user-editable settings, profiles, prompts, commands, skills,
+policies, hooks config, global memory (<code>.llxprt/LLXPRT.md</code>):</p>
+<ul>
+<li>Override: <code>LLXPRT_CONFIG_HOME</code></li>
+<li>Default: <code>~/.config/llxprt-code</code> (Linux),
+<code>~/Library/Preferences/llxprt-code</code> (macOS),
+<code>%APPDATA%\llxprt-code\Config</code> (Windows)</li>
+</ul>
+</li>
+<li>
+<p><strong>Data</strong> — credentials/accounts, conversations, history, extensions:</p>
+<ul>
+<li>Override: <code>LLXPRT_DATA_HOME</code> (falls back to <code>LLXPRT_CONFIG_HOME</code>)</li>
+<li>Default: <code>~/.local/share/llxprt-code</code> (Linux),
+<code>~/Library/Application Support/llxprt-code</code> (macOS),
+<code>%LOCALAPPDATA%\llxprt-code\Data</code> (Windows)</li>
+</ul>
+</li>
+<li>
+<p><strong>Cache</strong> — disposable caches and dumps (safe to delete):</p>
+<ul>
+<li>Override: <code>LLXPRT_CACHE_HOME</code> (falls back to <code>LLXPRT_CONFIG_HOME</code>)</li>
+<li>Default: <code>~/.cache/llxprt-code</code> (Linux),
+<code>~/Library/Caches/llxprt-code</code> (macOS),
+<code>%LOCALAPPDATA%\llxprt-code\Cache</code> (Windows)</li>
+</ul>
+</li>
+<li>
+<p><strong>Log/state</strong> — logs, debug output, checkpoints, shell history:</p>
+<ul>
+<li>Override: <code>LLXPRT_LOG_HOME</code> (falls back to <code>LLXPRT_CONFIG_HOME</code>)</li>
+<li>Default: <code>~/.local/state/llxprt-code</code> (Linux),
+<code>~/Library/Logs/llxprt-code</code> (macOS),
+<code>%LOCALAPPDATA%\llxprt-code\Log</code> (Windows)</li>
+</ul>
+</li>
+</ol>
+<p>Additionally:</p>
+<ul>
+<li><strong>Workspace-local <code>.llxprt/</code></strong> — each project may have a <code>.llxprt/</code> directory
+containing workspace settings, commands, skills, and project memory. Remove
+these individually from each project.</li>
+<li><strong>Legacy <code>~/.llxprt</code></strong> — older versions stored everything under <code>~/.llxprt</code>.
+If you migrated, the old directory is left in place as a read-only input; you
+can remove it manually once you've confirmed the new locations work.</li>
+<li><strong>OS keyring credentials</strong> — OAuth tokens and API keys may be stored in the
+OS keyring (macOS Keychain, GNOME Keyring/KWallet, Windows Credential Vault).
+These are not removed by deleting files. Remove them manually if needed.</li>
+</ul>
+<blockquote>
+<p><strong>Important:</strong> Deleting a single directory does not remove all data. LLxprt
+Code's files are split across the four category directories above. Check each
+one if you need a complete removal.</p>
+</blockquote>
+<h2>Optional: Clear the npx cache</h2>
+<blockquote>
+<p>[!WARNING]
+Clearing the npx cache deletes <strong>every</strong> package you have ever run with <code>npx</code>,
+not just LLxprt Code. Only do this if you understand the consequences.</p>
+</blockquote>
+<p>The npx cache lives in a <code>_npx</code> subdirectory inside your npm cache folder. Find
+your npm cache path dynamically — do not hard-code it:</p>
+<p><strong>macOS / Linux:</strong></p>
+<pre><code class="language-bash">rm -rf &quot;$(npm config get cache)/_npx&quot;
+</code></pre>
+<p><strong>Windows (PowerShell):</strong></p>
+<pre><code class="language-powershell">Remove-Item -Path (Join-Path (npm config get cache) &quot;_npx&quot;) -Recurse -Force
+</code></pre>
+<p><strong>Windows (Command Prompt):</strong></p>
+<pre><code class="language-cmd">for /f &quot;delims=&quot; %i in ('npm config get cache') do rmdir /s /q &quot;%i\_npx&quot;
+</code></pre>
 
           </div>
         </div>

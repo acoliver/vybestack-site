@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -112,7 +113,7 @@
 # Load this profile in a future session
 /profile load minimal-tools
 </code></pre>
-<p>Profiles are stored in <code>~/.llxprt/profiles/&lt;profile-name&gt;.json</code> and include your current disabled tools along with other settings like model parameters, provider configuration, and other ephemeral settings.</p>
+<p>Profiles are stored in your <a href="./reference/application-directories.html">profiles directory</a> (<code>&lt;config&gt;/profiles/&lt;profile-name&gt;.json</code>) and include your current disabled tools along with other settings like model parameters, provider configuration, and other ephemeral settings.</p>
 <h2>Agent Usage</h2>
 <p>Different agents can use different profiles, which means they can have different tool sets. When an agent is configured with a profile that has specific tools disabled, those tools will not be available to that agent, allowing for:</p>
 <ul>

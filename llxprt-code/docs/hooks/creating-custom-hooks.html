@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -76,13 +77,27 @@
 <li>Basic knowledge of bash or Python scripting</li>
 <li>Understanding of JSON</li>
 </ul>
+<blockquote>
+<p><strong>About the paths in this tutorial:</strong> Hook scripts can live anywhere on your
+system — the <code>command</code> field in <code>settings.json</code> accepts any path with <code>~</code>
+expansion. The global examples below keep scripts under LLxprt's
+<a href="../reference/application-directories.html">config directory</a> — that is,
+<code>$LLXPRT_CONFIG_HOME</code> if set, otherwise the platform default
+(<code>~/.config/llxprt-code</code> on Linux, <code>~/Library/Preferences/llxprt-code</code> on
+macOS, <code>%APPDATA%\llxprt-code\Config</code> on Windows). The shell snippets spell
+this out as <code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks</code> (the
+Linux default; swap in the macOS/Windows default for your platform). You may
+equally keep scripts under your project's workspace-local <code>.llxprt/hooks/</code>
+directory (shared with your team via version control) or any other directory
+you prefer. Your <code>settings.json</code> itself lives in that same config directory.</p>
+</blockquote>
 <h2>Tutorial 1: Your First Hook - Security Policy</h2>
 <p>Let's create a hook that blocks writes to sensitive directories.</p>
 <h3>Step 1: Create the Hook Directory</h3>
-<pre><code class="language-bash">mkdir -p ~/.llxprt/hooks
+<pre><code class="language-bash">mkdir -p &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks&quot;
 </code></pre>
 <h3>Step 2: Write the Hook Script</h3>
-<p>Create <code>~/.llxprt/hooks/block-sensitive-writes.sh</code>:</p>
+<p>Create <code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/block-sensitive-writes.sh</code>:</p>
 <pre><code class="language-bash">#!/bin/bash
 #
 # BeforeTool hook: Block writes to sensitive directories
@@ -126,10 +141,10 @@ echo '{&quot;decision&quot;: &quot;allow&quot;}'
 exit 0
 </code></pre>
 <p>Make it executable:</p>
-<pre><code class="language-bash">chmod +x ~/.llxprt/hooks/block-sensitive-writes.sh
+<pre><code class="language-bash">chmod +x &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/block-sensitive-writes.sh&quot;
 </code></pre>
 <h3>Step 3: Configure the Hook</h3>
-<p>Add to <code>~/.llxprt/settings.json</code>:</p>
+<p>Add to your <a href="../reference/application-directories.html">settings.json</a> (the user-level one in LLxprt's config directory, or your project's <code>.llxprt/settings.json</code>):</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
     &quot;BeforeTool&quot;: [
@@ -137,7 +152,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/block-sensitive-writes.sh&quot;,
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/block-sensitive-writes.sh&quot;,
             &quot;timeout&quot;: 5000
           }
         ]
@@ -155,7 +170,7 @@ LLxprt: I cannot complete this request. The security policy blocks writes to /et
 <h2>Tutorial 2: Audit Logging Hook</h2>
 <p>Create a hook that logs all tool executions.</p>
 <h3>Create the Script</h3>
-<p><code>~/.llxprt/hooks/audit-log.sh</code>:</p>
+<p><code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/audit-log.sh</code>:</p>
 <pre><code class="language-bash">#!/bin/bash
 #
 # AfterTool hook: Log all tool executions
@@ -170,8 +185,14 @@ TOOL_NAME=$(echo &quot;$INPUT&quot; | jq -r '.tool_name')
 TOOL_INPUT=$(echo &quot;$INPUT&quot; | jq -c '.tool_input')
 TOOL_RESPONSE=$(echo &quot;$INPUT&quot; | jq -c '.tool_response')
 
-# Log to file
-LOG_FILE=&quot;${HOME}/.llxprt/audit.log&quot;
+# Log to file. LLxprt's canonical log/state directory is LLXPRT_LOG_HOME,
+# falling back to LLXPRT_CONFIG_HOME, then the platform default
+# (~/.local/state/llxprt-code on Linux, ~/Library/Logs/llxprt-code on macOS,
+# %LOCALAPPDATA%\llxprt-code\Log on Windows). Write the audit log there, or
+# choose any path your policy requires.
+LOG_DIR=&quot;${LLXPRT_LOG_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.local/state/llxprt-code}}&quot;
+mkdir -p &quot;$LOG_DIR&quot;
+LOG_FILE=&quot;$LOG_DIR/audit.log&quot;
 echo &quot;{\&quot;timestamp\&quot;: \&quot;$TIMESTAMP\&quot;, \&quot;session\&quot;: \&quot;$SESSION_ID\&quot;, \&quot;tool\&quot;: \&quot;$TOOL_NAME\&quot;, \&quot;input\&quot;: $TOOL_INPUT, \&quot;response\&quot;: $TOOL_RESPONSE}&quot; &gt;&gt; &quot;$LOG_FILE&quot;
 
 # Always allow - this is just logging
@@ -186,7 +207,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/audit-log.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/audit-log.sh&quot;
           }
         ]
       }
@@ -197,7 +218,7 @@ exit 0
 <h2>Tutorial 3: Tool Input Modification</h2>
 <p>Create a hook that automatically adds safety flags to shell commands.</p>
 <h3>Create the Script</h3>
-<p><code>~/.llxprt/hooks/safe-shell.sh</code>:</p>
+<p><code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/safe-shell.sh</code>:</p>
 <pre><code class="language-bash">#!/bin/bash
 #
 # BeforeTool hook: Add safety flags to dangerous commands
@@ -237,7 +258,7 @@ exit 0
 <h2>Tutorial 4: Python Hook - Rate Limiting</h2>
 <p>Create a Python hook that implements rate limiting for API calls.</p>
 <h3>Create the Script</h3>
-<p><code>~/.llxprt/hooks/rate-limit.py</code>:</p>
+<p><code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/rate-limit.py</code>:</p>
 <pre><code class="language-python">#!/usr/bin/env python3
 &quot;&quot;&quot;
 BeforeModel hook: Rate limit LLM calls
@@ -250,7 +271,8 @@ from pathlib import Path
 
 # Rate limit config
 MAX_CALLS_PER_MINUTE = 10
-STATE_FILE = Path.home() / '.llxprt' / '.rate-limit-state.json'
+# State file location is your choice — this example uses a personal dotfile.
+STATE_FILE = Path.home() / '.llxprt-rate-limit-state.json'
 
 def load_state():
     &quot;&quot;&quot;Load call history from state file.&quot;&quot;&quot;
@@ -300,7 +322,7 @@ if __name__ == '__main__':
     main()
 </code></pre>
 <p>Make it executable:</p>
-<pre><code class="language-bash">chmod +x ~/.llxprt/hooks/rate-limit.py
+<pre><code class="language-bash">chmod +x &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/rate-limit.py&quot;
 </code></pre>
 <h3>Configure It</h3>
 <pre><code class="language-json">{
@@ -310,7 +332,7 @@ if __name__ == '__main__':
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/rate-limit.py&quot;,
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/rate-limit.py&quot;,
             &quot;timeout&quot;: 2000
           }
         ]
@@ -322,7 +344,7 @@ if __name__ == '__main__':
 <h2>Tutorial 5: Tool Selection Restriction</h2>
 <p>Limit which tools are available based on context.</p>
 <h3>Create the Script</h3>
-<p><code>~/.llxprt/hooks/restrict-tools.sh</code>:</p>
+<p><code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/restrict-tools.sh</code>:</p>
 <pre><code class="language-bash">#!/bin/bash
 #
 # BeforeToolSelection hook: Restrict tools based on directory
@@ -356,7 +378,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/restrict-tools.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/restrict-tools.sh&quot;
           }
         ]
       }
@@ -374,7 +396,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/validate-writes.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/validate-writes.sh&quot;
           }
         ]
       },
@@ -383,7 +405,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/validate-shell.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/validate-shell.sh&quot;
           }
         ]
       },
@@ -391,7 +413,7 @@ exit 0
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/audit-all.sh&quot;
+            &quot;command&quot;: &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/audit-all.sh&quot;
           }
         ]
       }
@@ -437,7 +459,12 @@ import sys
 import os
 
 logging.basicConfig(
-    filename=os.path.expanduser('~/.llxprt/hooks/debug.log'),
+    filename=os.path.join(
+        os.environ.get('LLXPRT_LOG_HOME')
+        or os.environ.get('LLXPRT_CONFIG_HOME')
+        or os.path.expanduser('~/.local/state/llxprt-code'),
+        'hooks-debug.log',
+    ),
     level=logging.DEBUG
 )
 
@@ -450,7 +477,7 @@ logging.info(f&quot;Processing {input_data.get('tool_name')}&quot;)
 # test-hook.sh
 
 echo '{&quot;tool_name&quot;: &quot;write_file&quot;, &quot;tool_input&quot;: {&quot;path&quot;: &quot;/etc/test&quot;}}' | \
-  ~/.llxprt/hooks/block-sensitive-writes.sh
+  &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/block-sensitive-writes.sh&quot;
 
 echo &quot;Exit code: $?&quot;
 </code></pre>
@@ -495,8 +522,8 @@ else:
 <h2>Troubleshooting</h2>
 <h3>Hook Not Running</h3>
 <ol>
-<li>Check the hook is executable: <code>ls -la ~/.llxprt/hooks/</code></li>
-<li>Check settings.json syntax: <code>jq . ~/.llxprt/settings.json</code></li>
+<li>Check the hook is executable: <code>ls -la &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/hooks/&quot;</code></li>
+<li>Check settings.json syntax: <code>jq . &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/settings.json&quot;</code></li>
 <li>Enable debug: <code>DEBUG=llxprt:core:hooks:* llxprt</code></li>
 </ol>
 <h3>Hook Output Not Parsed</h3>

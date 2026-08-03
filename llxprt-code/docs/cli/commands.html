@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -88,7 +89,7 @@
 </tr>
 <tr>
 <td><code>/model [name]</code></td>
-<td>Switch model (e.g., <code>/model grok-3</code>)</td>
+<td>Switch model (e.g., <code>/model grok-4</code>)</td>
 </tr>
 <tr>
 <td><code>/baseurl [url]</code></td>
@@ -447,13 +448,13 @@
 </tbody>
 </table>
 <h2>Custom Commands</h2>
-<p>You can create your own slash commands by placing executable files in <code>~/.llxprt/commands/</code> or <code>.llxprt/commands/</code> in your project.</p>
+<p>You can create your own slash commands by placing executable files in your <a href="../reference/application-directories.html">user <code>commands/</code> directory</a> (<code>&lt;config&gt;/commands/</code>) or <code>.llxprt/commands/</code> in your project.</p>
 <h3>How Custom Commands Work</h3>
 <p>When you type <code>/mycommand</code>, LLxprt looks for a matching executable in the commands directories. The command receives arguments and can return text that gets injected into the conversation.</p>
 <p><strong>Execution flow:</strong></p>
 <ol>
 <li>User types <code>/mycommand some arguments</code></li>
-<li>LLxprt finds <code>~/.llxprt/commands/mycommand</code> (or <code>.llxprt/commands/mycommand</code>)</li>
+<li>LLxprt finds <code>&lt;config&gt;/commands/mycommand</code> (or <code>.llxprt/commands/mycommand</code> in your project)</li>
 <li>Runs the executable with the arguments</li>
 <li>The command's stdout is sent to the model as context</li>
 </ol>
@@ -476,7 +477,7 @@
 <li><strong>Editing commands:</strong> Delete with <code>x</code>, change with <code>c</code>, insert with <code>i</code>, <code>a</code>, <code>o</code>, <code>O</code>; complex operations like <code>dd</code>, <code>cc</code>, <code>dw</code>, <code>cw</code></li>
 <li><strong>Count support:</strong> Prefix commands with numbers (e.g., <code>3h</code>, <code>5w</code>, <code>10G</code>)</li>
 <li><strong>Repeat last command:</strong> Use <code>.</code> to repeat the last editing operation</li>
-<li><strong>Persistent setting:</strong> Vim mode preference is saved to <code>~/.llxprt/settings.json</code> and restored between sessions</li>
+<li><strong>Persistent setting:</strong> Vim mode preference is saved to your <a href="../reference/application-directories.html">user settings.json</a> and restored between sessions</li>
 </ul>
 </li>
 <li><strong>Status indicator:</strong> When enabled, shows <code>[NORMAL]</code> or <code>[INSERT]</code> in the footer</li>
@@ -495,14 +496,14 @@
 <h4>File Locations &amp; Precedence</h4>
 <p>LLxprt Code discovers commands from two locations, loaded in a specific order:</p>
 <ol>
-<li><strong>User Commands (Global):</strong> Located in <code>~/.llxprt/commands/</code>. These commands are available in any project you are working on.</li>
+<li><strong>User Commands (Global):</strong> Located in <code>&lt;config&gt;/commands/</code> (see <a href="../reference/application-directories.html">Application Directories</a>). These commands are available in any project you are working on.</li>
 <li><strong>Project Commands (Local):</strong> Located in <code>&lt;your-project-root&gt;/.llxprt/commands/</code>. These commands are specific to the current project and can be checked into version control to be shared with your team.</li>
 </ol>
 <p>If a command in the project directory has the same name as a command in the user directory, the <strong>project command will always be used.</strong> This allows projects to override global commands with project-specific versions.</p>
 <h4>Naming and Namespacing</h4>
 <p>The name of a command is determined by its file path relative to its <code>commands</code> directory. Subdirectories are used to create namespaced commands, with the path separator (<code>/</code> or <code>\</code>) being converted to a colon (<code>:</code>).</p>
 <ul>
-<li>A file at <code>~/.llxprt/commands/test.toml</code> becomes the command <code>/test</code>.</li>
+<li>A file at <code>&lt;config&gt;/commands/test.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>) becomes the command <code>/test</code>.</li>
 <li>A file at <code>&lt;project&gt;/.llxprt/commands/git/commit.toml</code> becomes the namespaced command <code>/git:commit</code>.</li>
 </ul>
 <h4>TOML File Format (v1)</h4>
@@ -531,7 +532,6 @@ prompt = &quot;Please provide a code fix for the issue described here: {{args}}.
 <p>The model receives: <code>Please provide a code fix for the issue described here: &quot;Button is misaligned&quot;.</code></p>
 <p><strong>B. Using Arguments in Shell Commands (Inside <code>!{...}</code> Blocks)</strong></p>
 <p>When you use <code>{{args}}</code> inside a shell injection block (<code>!{...}</code>), the arguments are automatically <strong>shell-escaped</strong> before replacement. This allows you to safely pass arguments to shell commands, ensuring the resulting command is syntactically correct and secure while preventing command injection vulnerabilities.</p>
-<!-- @plan PLAN-20250219-GMERGE021.R9.P03 -->
 <p><strong>Example (custom command TOML):</strong></p>
 <pre><code class="language-toml">prompt = &quot;&quot;&quot;
 Please summarize the findings for the pattern `{{args}}`.
@@ -616,13 +616,16 @@ Please generate a Conventional Commit message based on the following git diff:
 <p>Let's create a global command that asks the model to refactor a piece of code.</p>
 <p><strong>1. Create the file and directories:</strong></p>
 <p>First, ensure the user commands directory exists, then create a <code>refactor</code> subdirectory for organization and the final TOML file.</p>
-<pre><code class="language-bash">mkdir -p ~/.llxprt/commands
-cat &gt; ~/.llxprt/commands/git-diff &lt;&lt; 'EOF'
+<pre><code class="language-bash">mkdir -p &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/commands&quot;
+cat &gt; &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/commands/git-diff&quot; &lt;&lt; 'EOF'
 #!/bin/bash
 git diff --stat
 EOF
-chmod +x ~/.llxprt/commands/git-diff
+chmod +x &quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}/commands/git-diff&quot;
 </code></pre>
+<blockquote>
+<p>The path above uses the Linux config default; see <a href="../reference/application-directories.html">Application Directories</a> for the macOS/Windows equivalents and the <code>LLXPRT_CONFIG_HOME</code> override.</p>
+</blockquote>
 <p>Now <code>/git-diff</code> will show your git changes and send the output to the model.</p>
 <h3>Command Format</h3>
 <p>Custom commands must output <strong>valid JSON</strong> with this structure:</p>

@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -72,49 +73,68 @@
 <p>This guide walks you through your first session — from installation to your first AI-assisted coding task.</p>
 <h2>Prerequisites</h2>
 <ul>
-<li><strong>Node.js 20+</strong> installed on your system</li>
+<li><strong>Node.js 24+</strong> installed on your system (not required for Homebrew)</li>
 <li>A terminal/command line</li>
 </ul>
+<blockquote>
+<p><strong>Note:</strong> LLxprt Code runs on the <a href="https://bun.sh">Bun</a> runtime under the covers. Node.js remains the compatibility target for invocation — the npm/npx/Homebrew install commands below work unchanged. The published package bundles Bun as a dependency, so most users never need to install Bun separately.</p>
+</blockquote>
 <h2>Install LLxprt Code</h2>
 <pre><code class="language-bash">npm install -g @vybestack/llxprt-code
 </code></pre>
 <p>Or run without installing:</p>
 <pre><code class="language-bash">npx @vybestack/llxprt-code
 </code></pre>
+<h3>Bun Runtime and Install Fallback</h3>
+<p>LLxprt Code is powered by the <a href="https://bun.sh">Bun</a> runtime. When you run <code>llxprt</code>, a platform-native launcher resolves the package-local Bun and execs the CLI under it. The launcher executes the TypeScript (<code>.ts</code>) entry point directly — the CLI's run path does not require a pre-compiled <code>dist/</code> artifact. No Node process is started on the installed command path, and Bun does not need to be on your <code>PATH</code>.</p>
+<p><strong>Bun resolution order (production launcher):</strong></p>
+<ol>
+<li>Package-local: <code>&lt;package&gt;/node_modules/bun/bin/bun.exe</code> (the package's pinned <code>bun</code> dependency)</li>
+<li>Hoisted (installed packages only): the enclosing <code>node_modules/bun/bin/bun.exe</code> (npm/Bun hoisting), stopping at the enclosing <code>node_modules</code> boundary — never climbing into consumer ancestors</li>
+<li>Workspace root (source workspace only): when the package is not under a <code>node_modules</code> and the repository root is a verified llxprt-code workspace, that verified root's <code>node_modules/bun/bin/bun.exe</code></li>
+</ol>
+<p>The launcher never scans <code>.bin</code> symlinks and never falls back to a global <code>bun</code> on <code>PATH</code>, so a separately installed Bun is not required. When an exact Bun pin is declared, a candidate whose version is missing or mismatched is rejected. If no package-local Bun is found, the launcher prints an error with instructions:</p>
+<blockquote>
+<p>LLxprt Code: bundled Bun runtime was not found. Reinstall the package with &quot;npm install @vybestack/llxprt-code&quot; to restore the bundled Bun dependency, or visit <a href="https://bun.sh">https://bun.sh</a></p>
+</blockquote>
+<p>To resolve this:</p>
+<ul>
+<li><strong>npm users:</strong> Re-run <code>npm install @vybestack/llxprt-code</code> (or <code>npm install -g @vybestack/llxprt-code</code>) to restore the bundled Bun dependency.</li>
+<li><strong>Homebrew users:</strong> Run <code>brew upgrade llxprt-code</code> to get the latest formula, or <code>brew reinstall llxprt-code</code> to restore a broken installation.</li>
+<li><strong>All users:</strong> If the bundled Bun dependency cannot be restored, reinstalling the package is the supported path. A separately installed global Bun is not used by the launcher.</li>
+</ul>
 <h2>Choose Your Path</h2>
 <p>LLxprt Code works with multiple AI providers. Pick the option that works for you:</p>
-<h3>Option A: Free Tier (No Credit Card Required)</h3>
-<p><strong>Gemini (Google)</strong> — Free tier with generous limits:</p>
+<h3>Option A: Free &amp; Low-Cost Tiers</h3>
+<blockquote>
+<p><strong>Note:</strong> Google removed the free &quot;Login with Google&quot; flow for Gemini CLI in mid-2026; use a Gemini API key or Vertex AI instead. Qwen's free OAuth tier ended 2026-04-15 — use a DashScope API key instead. See <a href="./cli/authentication.html">authentication</a> for current details.</p>
+</blockquote>
+<p><strong>Gemini (Google)</strong> — API key or Vertex AI:</p>
 <pre><code>llxprt
-/auth gemini enable
+/key save gemini your-gemini-api-key
 /provider gemini
 /model gemini-2.5-flash
 </code></pre>
-<p><strong>Qwen (Alibaba)</strong> — Free tier for coding tasks:</p>
-<pre><code>llxprt
-/auth qwen enable
+<p><strong>Qwen (Alibaba)</strong> — for coding tasks (API key via DashScope):</p>
+<pre><code class="language-bash">llxprt
 /provider qwen
-/model qwen-3-coder
+/key save qwen your-dashscope-key
+/key load qwen
+/model qwen3-coder-plus
 </code></pre>
 <h3>Option B: Use Your Existing Subscription (OAuth)</h3>
-<p>If you already pay for Claude, OpenAI, or Qwen, use your subscription directly — no separate API billing:</p>
+<p>If you already pay for Claude or OpenAI, use your subscription directly — no separate API billing:</p>
 <p><strong>Claude Pro/Max</strong> ($20–200/month):</p>
 <pre><code>llxprt
 /auth anthropic enable
 /provider anthropic
-/model claude-opus-4-6
+/model claude-opus-5
 </code></pre>
 <p><strong>OpenAI ChatGPT Plus/Pro:</strong></p>
 <pre><code>llxprt
 /auth codex enable
 /provider codex
-/model gpt-5.3-codex
-</code></pre>
-<p><strong>Qwen:</strong></p>
-<pre><code>llxprt
-/auth qwen enable
-/provider qwen
-/model qwen-3-coder
+/model gpt-5.6-sol
 </code></pre>
 <p>Each <code>/auth &lt;provider&gt; enable</code> command enables lazy OAuth — a browser opens automatically when you make your first request to that provider. Use <code>/auth &lt;provider&gt; login</code> to open the browser immediately.</p>
 <h3>Option C: API Keys</h3>
@@ -124,14 +144,14 @@
 /key save anthropic sk-ant-***your-key***
 /provider anthropic
 /key load anthropic
-/model claude-opus-4-6
+/model claude-opus-5
 </code></pre>
 <p><strong>OpenAI:</strong></p>
 <pre><code>llxprt
 /key save openai sk-***your-key***
 /provider openai
 /key load openai
-/model gpt-5.2
+/model gpt-5.5
 </code></pre>
 <p><strong>Open-weight models</strong> — providers like Synthetic, <a href="http://Z.ai">Z.ai</a>, Chutes, <a href="http://Kimi.com">Kimi.com</a>, and <a href="http://Deepseek.ai">Deepseek.ai</a> give you access to models like DeepSeek, Kimi, Minimax, GLM, and Qwen:</p>
 <p><strong>Synthetic:</strong></p>
@@ -146,7 +166,7 @@
 /key save zai zai-***your-key***
 /provider zai
 /key load zai
-/model hf:zai-org/GLM-4.7
+/model glm-5
 </code></pre>
 <p>After saving a key once, you only need <code>/key load &lt;name&gt;</code> in future sessions.</p>
 <h2>Your First Session</h2>
@@ -244,7 +264,7 @@ llxprt
 <li><strong>Be specific</strong> — &quot;Add error handling to the login function in src/auth.js&quot; works better than &quot;improve my code&quot;</li>
 <li><strong>Provide context</strong> — Mention relevant files, error messages, or constraints</li>
 <li><strong>Iterate</strong> — Follow up with clarifications or ask for alternatives</li>
-<li><strong>Use the right model</strong> — Larger models (claude-opus-4-6, gpt-5.3-codex) for complex tasks, faster models (gemini-flash, claude-haiku-4-5) for quick questions</li>
+<li><strong>Use the right model</strong> — Larger models (claude-opus-5, gpt-5.5) for complex tasks, faster models (gemini-2.5-flash, claude-haiku-4-5) for quick questions</li>
 <li><strong>Think bigger for bigger projects</strong> — This guide gets you started with quick tasks, but for larger projects you should have distinct requirements, planning, and execution phases. Check out the <a href="https://www.youtube.com/@AndrewOliver/podcasts">Beyond Vibe Coding</a> YouTube series for how to approach real-world autonomous development workflows</li>
 </ol>
 <h2>Security Tip: Sandboxing</h2>

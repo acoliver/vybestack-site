@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -97,6 +98,14 @@
 <td>Dismiss dialogs or cancel the current focus.</td>
 <td><code>Esc</code></td>
 </tr>
+<tr>
+<td>Cancel the current request or quit the CLI when input is empty.</td>
+<td><code>Ctrl + C</code></td>
+</tr>
+<tr>
+<td>Exit the CLI when the input buffer is empty.</td>
+<td><code>Ctrl + D</code></td>
+</tr>
 </tbody>
 </table>
 <h2>Cursor Movement</h2>
@@ -110,11 +119,35 @@
 <tbody>
 <tr>
 <td>Move the cursor to the start of the line.</td>
-<td><code>Ctrl + A</code><br /><code>Home</code></td>
+<td><code>Ctrl + A</code><br /><code>Home (no Ctrl, no Shift)</code></td>
 </tr>
 <tr>
 <td>Move the cursor to the end of the line.</td>
-<td><code>Ctrl + E</code><br /><code>End</code></td>
+<td><code>Ctrl + E</code><br /><code>End (no Ctrl, no Shift)</code></td>
+</tr>
+<tr>
+<td>Move the cursor up one line.</td>
+<td><code>Up Arrow (no Ctrl, no Cmd)</code></td>
+</tr>
+<tr>
+<td>Move the cursor down one line.</td>
+<td><code>Down Arrow (no Ctrl, no Cmd)</code></td>
+</tr>
+<tr>
+<td>Move the cursor one character to the left.</td>
+<td><code>Left Arrow (no Ctrl, no Cmd)</code><br /><code>Ctrl + B</code></td>
+</tr>
+<tr>
+<td>Move the cursor one character to the right.</td>
+<td><code>Right Arrow (no Ctrl, no Cmd)</code><br /><code>Ctrl + F</code></td>
+</tr>
+<tr>
+<td>Move the cursor one word to the left.</td>
+<td><code>Ctrl + Left Arrow</code><br /><code>Cmd + Left Arrow</code><br /><code>Cmd + B</code></td>
+</tr>
+<tr>
+<td>Move the cursor one word to the right.</td>
+<td><code>Ctrl + Right Arrow</code><br /><code>Cmd + Right Arrow</code><br /><code>Cmd + F</code></td>
 </tr>
 </tbody>
 </table>
@@ -136,31 +169,32 @@
 <td><code>Ctrl + U</code></td>
 </tr>
 <tr>
-<td>Clear all text in the input field (when the input prompt is focused).</td>
+<td>Clear all text in the input field.</td>
 <td><code>Ctrl + C</code></td>
 </tr>
 <tr>
 <td>Delete the previous word.</td>
-<td><code>Ctrl + Backspace</code><br /><code>Cmd + Backspace</code></td>
-</tr>
-</tbody>
-</table>
-<h2>Screen Control</h2>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>Keys</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Clear the terminal screen and redraw the UI.</td>
-<td><code>Ctrl + L</code></td>
+<td><code>Ctrl + Backspace</code><br /><code>Cmd + Backspace</code><br /><code>Ctrl + W</code></td>
 </tr>
 <tr>
-<td>Refresh keypress handling.</td>
-<td><code>Ctrl + Shift + R</code></td>
+<td>Delete the next word.</td>
+<td><code>Ctrl + Delete</code><br /><code>Cmd + Delete</code></td>
+</tr>
+<tr>
+<td>Delete the character to the left.</td>
+<td><code>Backspace</code><br /><code>Ctrl + H</code></td>
+</tr>
+<tr>
+<td>Delete the character to the right.</td>
+<td><code>Delete</code><br /><code>Ctrl + D</code></td>
+</tr>
+<tr>
+<td>Undo the most recent text edit.</td>
+<td><code>Ctrl + Z (no Shift)</code></td>
+</tr>
+<tr>
+<td>Redo the most recent undone text edit.</td>
+<td><code>Ctrl + Shift + Z</code></td>
 </tr>
 </tbody>
 </table>
@@ -174,27 +208,27 @@
 </thead>
 <tbody>
 <tr>
-<td>Scroll up one line.</td>
+<td>Scroll content up.</td>
 <td><code>Shift + Up Arrow</code></td>
 </tr>
 <tr>
-<td>Scroll down one line.</td>
+<td>Scroll content down.</td>
 <td><code>Shift + Down Arrow</code></td>
 </tr>
 <tr>
-<td>Scroll to the beginning.</td>
-<td><code>Home</code></td>
+<td>Scroll to the top.</td>
+<td><code>Ctrl + Home</code><br /><code>Shift + Home</code></td>
 </tr>
 <tr>
-<td>Scroll to the end.</td>
-<td><code>End</code></td>
+<td>Scroll to the bottom.</td>
+<td><code>Ctrl + End</code><br /><code>Shift + End</code></td>
 </tr>
 <tr>
-<td>Scroll up one page.</td>
+<td>Scroll up by one page.</td>
 <td><code>Page Up</code></td>
 </tr>
 <tr>
-<td>Scroll down one page.</td>
+<td>Scroll down by one page.</td>
 <td><code>Page Down</code></td>
 </tr>
 </tbody>
@@ -221,7 +255,7 @@
 <td><code>Ctrl + R</code></td>
 </tr>
 <tr>
-<td>Insert the selected reverse-search match.</td>
+<td>Submit the selected reverse-search match.</td>
 <td><code>Enter (no Ctrl)</code></td>
 </tr>
 <tr>
@@ -279,11 +313,11 @@
 <td><code>Down Arrow (no Shift)</code><br /><code>Ctrl + N (no Shift)</code></td>
 </tr>
 <tr>
-<td>Expand an inline suggestion when suggestion text is available.</td>
+<td>Expand an inline suggestion.</td>
 <td><code>Right Arrow</code></td>
 </tr>
 <tr>
-<td>Collapse an inline suggestion when suggestion text is available.</td>
+<td>Collapse an inline suggestion.</td>
 <td><code>Left Arrow</code></td>
 </tr>
 </tbody>
@@ -299,23 +333,12 @@
 <tbody>
 <tr>
 <td>Submit the current prompt.</td>
-<td><code>Enter (no Ctrl, no Shift, no Cmd, not Paste)</code></td>
+<td><code>Enter (no Ctrl, no Shift, no Cmd)</code></td>
 </tr>
 <tr>
 <td>Insert a newline without submitting.</td>
-<td><code>Ctrl + Enter</code><br /><code>Cmd + Enter</code><br /><code>Paste + Enter</code><br /><code>Shift + Enter</code><br /><code>Ctrl + J</code></td>
+<td><code>Ctrl + Enter</code><br /><code>Cmd + Enter</code><br /><code>Shift + Enter</code><br /><code>Ctrl + J</code></td>
 </tr>
-</tbody>
-</table>
-<h2>External Tools</h2>
-<table>
-<thead>
-<tr>
-<th>Action</th>
-<th>Keys</th>
-</tr>
-</thead>
-<tbody>
 <tr>
 <td>Open the current prompt in an external editor.</td>
 <td><code>Ctrl + X</code></td>
@@ -340,7 +363,7 @@
 <td><code>Ctrl + O</code></td>
 </tr>
 <tr>
-<td>Toggle IDE context details.</td>
+<td>Show IDE context details.</td>
 <td><code>Ctrl + G</code></td>
 </tr>
 <tr>
@@ -348,35 +371,40 @@
 <td><code>Cmd + M</code></td>
 </tr>
 <tr>
-<td>Toggle copy mode when the terminal is using the alternate buffer.</td>
+<td>Toggle copy mode when in alternate buffer mode.</td>
+<td><code>Ctrl + S</code></td>
+</tr>
+<tr>
+<td>Toggle YOLO (auto-approval) mode for tool calls.</td>
 <td><code>Ctrl + Y</code></td>
 </tr>
 <tr>
-<td>Expand a height-constrained response to show additional lines.</td>
+<td>Toggle Auto Edit (auto-accept edits) mode.</td>
+<td><code>Shift + Tab</code></td>
+</tr>
+<tr>
+<td>Expand a height-constrained response to show additional lines when not in alternate buffer mode.</td>
 <td><code>Ctrl + S</code></td>
 </tr>
 <tr>
 <td>Toggle focus between the shell and LLxprt input when an interactive shell is attached.</td>
 <td><code>Ctrl + F</code></td>
 </tr>
-</tbody>
-</table>
-<h2>Session Control</h2>
-<table>
-<thead>
 <tr>
-<th>Action</th>
-<th>Keys</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Cancel the current request or quit the CLI (global app shortcut).</td>
-<td><code>Ctrl + C</code></td>
+<td>Toggle focus into the interactive shell from LLxprt input.</td>
+<td><code>Tab (no Shift)</code></td>
 </tr>
 <tr>
-<td>Exit the CLI when the input buffer is empty.</td>
-<td><code>Ctrl + D</code></td>
+<td>Toggle focus out of the interactive shell and into LLxprt input.</td>
+<td><code>Tab (no Shift)</code><br /><code>Shift + Tab</code></td>
+</tr>
+<tr>
+<td>Clear the terminal screen and redraw the UI.</td>
+<td><code>Ctrl + L</code></td>
+</tr>
+<tr>
+<td>Refresh keypress handling.</td>
+<td><code>Ctrl + Shift + R</code></td>
 </tr>
 </tbody>
 </table>
@@ -410,7 +438,7 @@
 <tbody>
 <tr>
 <td>Toggle mouse event tracking.</td>
-<td><code>Ctrl + \</code><br /><code>FS (0x1C)</code></td>
+<td><code>Ctrl + \</code></td>
 </tr>
 </tbody>
 </table>

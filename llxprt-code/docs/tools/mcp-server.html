@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -74,7 +75,7 @@
 <h3>Via CLI</h3>
 <pre><code class="language-bash">llxprt mcp add my-server -- npx -y @example/mcp-server
 </code></pre>
-<p>This adds the server to your <code>~/.llxprt/settings.json</code> automatically.</p>
+<p>This adds the server to your <a href="../reference/application-directories.html">user <code>settings.json</code></a> automatically.</p>
 <h3>Via settings.json</h3>
 <p>Add entries under <code>mcpServers</code>:</p>
 <pre><code class="language-json">{
@@ -364,8 +365,10 @@ Discovery State: COMPLETED
 </ol>
 <h3>Debugging Tips</h3>
 <ol>
-<li><strong>Enable debug mode:</strong> Run the CLI with <code>--debug</code> for verbose output</li>
-<li><strong>Check stderr:</strong> MCP server stderr is captured and logged (INFO messages filtered)</li>
+<li><strong>Enable debug mode:</strong> Run the CLI with <code>--debug</code> for verbose output (use F12
+to open debug console in interactive mode)</li>
+<li><strong>Check stderr:</strong> MCP server stderr is captured and logged (INFO messages
+filtered)</li>
 <li><strong>Test isolation:</strong> Test your MCP server independently before integrating</li>
 <li><strong>Incremental setup:</strong> Start with simple tools before adding complex functionality</li>
 <li><strong>Use <code>/mcp</code> frequently:</strong> Monitor server status during development</li>
@@ -427,7 +430,7 @@ Discovery State: COMPLETED
 <p>MCP tools are not limited to returning simple text. You can return rich, multi-part content, including text, images, audio, and other binary data in a single tool response. This allows you to build powerful tools that can provide diverse information to the model in a single turn.</p>
 <p>All data returned from the tool is processed and sent to the model as context for its next generation, enabling it to reason about or summarize the provided information.</p>
 <h3>How It Works</h3>
-<p>To return rich content, your tool's response must adhere to the MCP specification for a <a href="https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-result"><code>CallToolResult</code></a>. The <code>content</code> field of the result should be an array of <code>ContentBlock</code> objects. The Gemini CLI will correctly process this array, separating text from binary data and packaging it for the model.</p>
+<p>To return rich content, your tool's response must adhere to the MCP specification for a <a href="https://modelcontextprotocol.io/specification/2025-06-18/server/tools#tool-result"><code>CallToolResult</code></a>. The <code>content</code> field of the result should be an array of <code>ContentBlock</code> objects. LLxprt Code will correctly process this array, separating text from binary data and packaging it for the model.</p>
 <p>You can mix and match different content block types in the <code>content</code> array. The supported block types include:</p>
 <ul>
 <li><code>text</code></li>
@@ -456,7 +459,7 @@ Discovery State: COMPLETED
   ]
 }
 </code></pre>
-<p>When the Gemini CLI receives this response, it will:</p>
+<p>When LLxprt Code receives this response, it will:</p>
 <ol>
 <li>Extract all the text and combine it into a single <code>functionResponse</code> part for the model.</li>
 <li>Present the image data as a separate <code>inlineData</code> part.</li>
@@ -516,7 +519,7 @@ await server.connect(transport);
 <h2>Managing MCP Servers with <code>llxprt mcp</code></h2>
 <p>While you can always configure MCP servers by manually editing your <code>settings.json</code> file, the LLxprt Code provides a convenient set of commands to manage your server configurations programmatically. These commands streamline the process of adding, listing, and removing MCP servers without needing to directly edit JSON files.</p>
 <h3>Adding a Server (<code>llxprt mcp add</code>)</h3>
-<p>The <code>add</code> command configures a new MCP server in your <code>settings.json</code>. Based on the scope (<code>-s, --scope</code>), it will be added to either the user config <code>~/.llxprt/settings.json</code> or the project config <code>.llxprt/settings.json</code> file.</p>
+<p>The <code>add</code> command configures a new MCP server in your <code>settings.json</code>. Based on the scope (<code>-s, --scope</code>), it will be added to either the user config (<code>&lt;config&gt;/settings.json</code> — see <a href="../reference/application-directories.html">Application Directories</a>) or the project config <code>&lt;project&gt;/.llxprt/settings.json</code> file.</p>
 <p><strong>Command:</strong></p>
 <pre><code class="language-bash">llxprt mcp add [options] &lt;name&gt; &lt;commandOrUrl&gt; [args...]
 </code></pre>

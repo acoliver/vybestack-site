@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -88,12 +89,12 @@ administrative rights.</p>
 settings files. These files allow you to define a baseline configuration
 (<code>system-defaults.json</code>) and a set of overrides (<code>settings.json</code>) that apply to
 all users on a machine. For a complete overview of configuration options, see
-the <a href="../get-started/configuration.html">Configuration documentation</a>.</p>
+the <a href="./configuration.html">Configuration documentation</a>.</p>
 <p>Settings are merged from four files. The precedence order for single-value
 settings (like <code>theme</code>) is:</p>
 <ol>
 <li>System Defaults (<code>system-defaults.json</code>)</li>
-<li>User Settings (<code>~/.llxprt/settings.json</code>)</li>
+<li>User Settings (your user <code>settings.json</code> in LLxprt's <a href="../reference/application-directories.html">config directory</a>)</li>
 <li>Workspace Settings (<code>&lt;project&gt;/.llxprt/settings.json</code>)</li>
 <li>System Overrides (<code>settings.json</code>)</li>
 </ol>
@@ -115,7 +116,7 @@ arrays (<code>includeDirectories</code>) or objects (<code>mcpServers</code>), t
 </code></pre>
 </li>
 <li>
-<p><strong>User <code>settings.json</code> (<code>~/.llxprt/settings.json</code>):</strong></p>
+<p><strong>User <code>settings.json</code></strong> (in LLxprt's <a href="../reference/application-directories.html">config directory</a>):</p>
 <pre><code class="language-json">{
   &quot;ui&quot;: {
     &quot;theme&quot;: &quot;user-preferred-dark-theme&quot;
@@ -218,9 +219,10 @@ Defaults, User, Workspace, and then System Overrides.</p>
 <ul>
 <li><strong>Linux</strong>: <code>/etc/llxprt-code/settings.json</code></li>
 <li><strong>Windows</strong>: <code>C:\ProgramData\llxprt-code\settings.json</code></li>
-<li><strong>macOS</strong>: <code>/Library/Application Support/LLxprt-Code/settings.json</code></li>
-<li>The path can be overridden using the <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code>
-environment variable.</li>
+<li><strong>macOS</strong>: <code>/Library/Application Support/LlxprtCode/settings.json</code></li>
+<li>The path can be overridden using the <code>LLXPRT_SYSTEM_SETTINGS_PATH</code>
+environment variable (a legacy alias <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code>
+is also honored for backward compatibility).</li>
 </ul>
 </li>
 <li>
@@ -232,7 +234,7 @@ modification by users.</p>
 <p>By using the system settings file, you can enforce the security and
 configuration patterns described below.</p>
 <h3>Enforcing system settings with a wrapper script</h3>
-<p>While the <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> environment variable provides
+<p>While the <code>LLXPRT_SYSTEM_SETTINGS_PATH</code> environment variable provides
 flexibility, a user could potentially override it to point to a different
 settings file, bypassing the centrally managed configuration. To mitigate this,
 enterprises can deploy a wrapper script or alias that ensures the environment
@@ -247,7 +249,7 @@ that appears earlier in the user's <code>PATH</code> than the actual LLxprt Code
 
 # Enforce the path to the corporate system settings file.
 # This ensures that the company's configuration is always applied.
-export LLXPRT_CODE_SYSTEM_SETTINGS_PATH=&quot;/etc/llxprt-code/settings.json&quot;
+export LLXPRT_SYSTEM_SETTINGS_PATH=&quot;/etc/llxprt-code/settings.json&quot;
 
 # Find the original llxprt executable.
 # This is a simple example; a more robust solution might be needed
@@ -262,7 +264,7 @@ fi
 # Pass all arguments to the real LLxprt Code executable.
 exec &quot;$REAL_LLXPRT_PATH&quot; &quot;$@&quot;
 </code></pre>
-<p>By deploying this script, the <code>LLXPRT_CODE_SYSTEM_SETTINGS_PATH</code> is set within
+<p>By deploying this script, the <code>LLXPRT_SYSTEM_SETTINGS_PATH</code> is set within
 the script's environment, and the <code>exec</code> command replaces the script process
 with the actual LLxprt Code process, which inherits the environment variable.
 This makes it significantly more difficult for a user to bypass the enforced
@@ -313,7 +315,7 @@ approval.</p>
 unintended tool execution.</p>
 <h2>Managing custom tools (MCP servers)</h2>
 <p>If your organization uses custom tools via
-<a href="../core/tools-api.html">Model-Context Protocol (MCP) servers</a>, it is crucial to
+<a href="../tools/index.html">Model-Context Protocol (MCP) servers</a>, it is crucial to
 understand how server configurations are managed to apply security policies
 effectively.</p>
 <h3>How MCP server configurations are merged</h3>
@@ -429,7 +431,7 @@ containerized environment.</p>
 </code></pre>
 <p>You can also specify a custom, hardened Docker image for the sandbox by building
 a custom <code>sandbox.Dockerfile</code> as described in the
-<a href="./sandbox.html">Sandboxing documentation</a>.</p>
+<a href="../sandbox.html">Sandboxing documentation</a>.</p>
 <h2>Controlling network access via proxy</h2>
 <p>In corporate environments with strict network policies, you can configure LLxprt Code
 CLI to route all outbound traffic through a corporate proxy. This can be set via
@@ -450,22 +452,27 @@ an environment variable, but it can also be enforced for custom tools via the
 }
 </code></pre>
 <h2>Telemetry and auditing</h2>
-<p>For auditing and monitoring purposes, you can configure LLxprt Code to send
-telemetry data to a central location. This allows you to track tool usage and
-other events. For more information, see the
-<a href="./telemetry.html">telemetry documentation</a>.</p>
-<p><strong>Example:</strong> Enable telemetry and send it to a local OTLP collector. If
-<code>otlpEndpoint</code> is not specified, it defaults to <code>http://localhost:4317</code>.</p>
+<p>LLxprt Code can emit telemetry (traces, metrics, logs) for auditing and
+monitoring. All telemetry output is <strong>local only</strong> — it is written to a file
+(<code>--telemetry-outfile</code>) or the console. The SDK does not construct OTLP or
+network exporters, so data cannot be sent to a remote collector regardless of
+the <code>target</code> or <code>otlpEndpoint</code> settings. For more information, see the
+<a href="../telemetry.html">telemetry documentation</a>.</p>
+<p><strong>Example:</strong> Enable telemetry and write it to a local file.</p>
 <pre><code class="language-json">{
   &quot;telemetry&quot;: {
     &quot;enabled&quot;: true,
-    &quot;target&quot;: &quot;gcp&quot;,
+    &quot;target&quot;: &quot;local&quot;,
+    &quot;outfile&quot;: &quot;/var/log/llxprt/telemetry.jsonl&quot;,
     &quot;logPrompts&quot;: false
   }
 }
 </code></pre>
-<p><strong>Note:</strong> Ensure that <code>logPrompts</code> is set to <code>false</code> in an enterprise setting to
-avoid collecting potentially sensitive information from user prompts.</p>
+<p><strong>Note:</strong> Set <code>logPrompts</code> to <code>false</code> in an enterprise setting to avoid
+including user prompt text in the <code>user_prompt</code> log event. Note that
+<code>logPrompts: false</code> does <strong>not</strong> redact hook input/output data — hook I/O is
+always included in <code>hook_call</code> events when telemetry is enabled. To prevent
+all hook data logging, disable telemetry entirely (<code>&quot;enabled&quot;: false</code>).</p>
 <h2>Authentication</h2>
 <p>You can enforce a specific authentication method for all users by setting the
 <code>enforcedAuthType</code> in the system-level <code>settings.json</code> file. This prevents users
@@ -530,8 +537,7 @@ CLI.</p>
   },
   &quot;telemetry&quot;: {
     &quot;enabled&quot;: true,
-    &quot;target&quot;: &quot;gcp&quot;,
-    &quot;otlpEndpoint&quot;: &quot;https://telemetry-prod.example.com:4317&quot;,
+    &quot;target&quot;: &quot;local&quot;,
     &quot;logPrompts&quot;: false
   },
   &quot;advanced&quot;: {

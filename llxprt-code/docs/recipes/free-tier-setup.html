@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Tier Setup Recipe | LLxprt Code Docs</title>
+  <title>Free / Low-Cost Tier Setup Recipe | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../../vybestack.css" />
 </head>
 <body>
@@ -55,27 +55,31 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Free Tier Setup Recipe</h1>
-<p>This recipe guides you through setting up LLxprt Code with free-tier AI providers. Both Gemini and Qwen offer generous free tiers perfect for getting started.</p>
+            <h1>Free / Low-Cost Tier Setup Recipe</h1>
+<p>This recipe guides you through setting up LLxprt Code with low-cost AI providers. Both Gemini and Qwen can be a great way to get started.</p>
+<blockquote>
+<p><strong>Important — tier availability changes:</strong> Google removed free consumer &quot;Login with Google&quot; Gemini-CLI access entirely in mid-2026; use a Gemini API key or Vertex AI instead. <strong>Qwen's free OAuth tier ended 2026-04-15</strong> and the OAuth provider has been removed — use a DashScope API key (<code>DASHSCOPE_API_KEY</code>) or an OpenRouter API key with the <code>qwen</code> alias. See <a href="../cli/authentication.html">authentication</a> for current details.</p>
+</blockquote>
 <h2>When to Use This Setup</h2>
 <ul>
-<li>You're exploring LLxprt Code without API costs</li>
-<li>You want to experiment with different models before committing to paid tiers</li>
+<li>You're exploring LLxprt Code at low cost</li>
+<li>You want to experiment with different models before committing to premium tiers</li>
 <li>You're building personal projects with moderate usage</li>
-<li>You want backup free providers for rate limit situations</li>
+<li>You want backup providers for rate limit situations</li>
 </ul>
 <h2>Provider Overview</h2>
 <table>
@@ -83,48 +87,51 @@
 <tr>
 <th>Provider</th>
 <th>Context Limit</th>
-<th>Free Tier Details</th>
+<th>Auth</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>Gemini</td>
-<td>1,048,576</td>
-<td>Free with Google account via OAuth</td>
+<td>1,048,576 (API key)</td>
+<td>Gemini API key or Vertex AI</td>
 </tr>
 <tr>
 <td>Qwen</td>
-<td>262,144</td>
-<td>Free with Alibaba Cloud account</td>
+<td>200,000</td>
+<td>DashScope API key</td>
 </tr>
 </tbody>
 </table>
-<h2>Gemini OAuth Setup (Free)</h2>
-<p>Gemini offers the largest context window (1M tokens) on its free tier.</p>
-<h3>Step 1: Enable OAuth</h3>
-<pre><code class="language-bash">/auth gemini enable
+<blockquote>
+<p>Context windows can differ between API-key and OAuth/subscription access; the figures above reflect API-key access.</p>
+</blockquote>
+<h2>Gemini Setup</h2>
+<p>Gemini offers the largest context window (1M tokens over API key).</p>
+<h3>Step 1: Set Your API Key</h3>
+<p>Set a Gemini API key:</p>
+<pre><code class="language-bash">/keyfile ~/.gemini_key
 </code></pre>
 <h3>Step 2: Set Your Model</h3>
-<pre><code class="language-bash">/model gemini-3-flash-preview
+<pre><code class="language-bash">/model gemini-2.5-flash
 </code></pre>
 <h3>Step 3: Configure Context Limit</h3>
 <pre><code class="language-bash">/set context-limit 1048576
 /set modelparam max_tokens 8192
 </code></pre>
 <h3>Step 4: Authenticate</h3>
-<p>Make any request to trigger OAuth:</p>
+<p>Make any request to verify your API key is working:</p>
 <pre><code class="language-bash">Hello, can you help me with a coding task?
 </code></pre>
-<p>Your browser will open for Google authentication. Grant permissions and you're set!</p>
 <h3>Step 5: Save Profile</h3>
 <pre><code class="language-bash">/profile save gemini-free
 </code></pre>
 <h3>Complete Gemini Free Profile JSON</h3>
-<p>Save this to <code>~/.llxprt/profiles/gemini-free.json</code>:</p>
+<p>Save this to <code>&lt;config&gt;/profiles/gemini-free.json</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;gemini&quot;,
-  &quot;model&quot;: &quot;gemini-3-flash-preview&quot;,
+  &quot;model&quot;: &quot;gemini-2.5-flash&quot;,
   &quot;modelParams&quot;: {
     &quot;temperature&quot;: 0.7,
     &quot;max_tokens&quot;: 8192
@@ -134,38 +141,34 @@
   }
 }
 </code></pre>
-<h2>Qwen OAuth Setup (Free)</h2>
-<p>Qwen offers excellent coding capabilities on its free tier.</p>
-<h3>Step 1: Enable OAuth</h3>
-<pre><code class="language-bash">/auth qwen enable
+<h2>Qwen Setup</h2>
+<p>Qwen offers excellent coding capabilities and is now API-key-only via Alibaba Cloud DashScope.</p>
+<h3>Step 1: Set Your API Key</h3>
+<p>Qwen's free OAuth tier ended 2026-04-15. Use a DashScope API key:</p>
+<pre><code class="language-bash">/keyfile ~/.qwen_key
 </code></pre>
 <h3>Step 2: Set Your Model</h3>
-<pre><code class="language-bash">/model qwen3-coder-pro
+<pre><code class="language-bash">/model qwen3-coder-plus
 </code></pre>
 <h3>Step 3: Configure Context Limit</h3>
-<pre><code class="language-bash">/set context-limit 262144
+<pre><code class="language-bash">/set context-limit 200000
 /set modelparam max_tokens 4096
 </code></pre>
-<h3>Step 4: Authenticate</h3>
-<p>Make any request to trigger the device code flow:</p>
-<pre><code class="language-bash">Hello, can you help me with a coding task?
-</code></pre>
-<p>You'll see a device code and URL. Visit the URL, enter the code, and grant permissions.</p>
-<h3>Step 5: Save Profile</h3>
+<h3>Step 4: Save Profile</h3>
 <pre><code class="language-bash">/profile save qwen-free
 </code></pre>
 <h3>Complete Qwen Free Profile JSON</h3>
-<p>Save this to <code>~/.llxprt/profiles/qwen-free.json</code>:</p>
+<p>Save this to <code>&lt;config&gt;/profiles/qwen-free.json</code>:</p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;qwen&quot;,
-  &quot;model&quot;: &quot;qwen3-coder-pro&quot;,
+  &quot;model&quot;: &quot;qwen3-coder-plus&quot;,
   &quot;modelParams&quot;: {
     &quot;temperature&quot;: 0.7,
     &quot;max_tokens&quot;: 4096
   },
   &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 262144
+    &quot;context-limit&quot;: 200000
   }
 }
 </code></pre>
@@ -190,19 +193,19 @@ llxprt --profile-load qwen-free
 </code></pre>
 <h2>Combined Free Tier Profile with Failover</h2>
 <p>For maximum availability, create a profile that uses Gemini as primary with Qwen as backup. This uses LLxprt's load balancer feature:</p>
-<p>Save this to <code>~/.llxprt/profiles/free-tier-lb.json</code>:</p>
+<p>Save this to <code>&lt;config&gt;/profiles/free-tier-lb.json</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;lb&quot;,
-  &quot;model&quot;: &quot;gemini-3-flash-preview&quot;,
+  &quot;model&quot;: &quot;gemini-2.5-flash&quot;,
   &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 262144,
+    &quot;context-limit&quot;: 200000,
     &quot;lb&quot;: {
       &quot;type&quot;: &quot;failover&quot;,
       &quot;buckets&quot;: [
         {
           &quot;provider&quot;: &quot;gemini&quot;,
-          &quot;model&quot;: &quot;gemini-3-flash-preview&quot;,
+          &quot;model&quot;: &quot;gemini-2.5-flash&quot;,
           &quot;modelParams&quot;: {
             &quot;temperature&quot;: 0.7,
             &quot;max_tokens&quot;: 8192
@@ -210,7 +213,7 @@ llxprt --profile-load qwen-free
         },
         {
           &quot;provider&quot;: &quot;qwen&quot;,
-          &quot;model&quot;: &quot;qwen3-coder-pro&quot;,
+          &quot;model&quot;: &quot;qwen3-coder-plus&quot;,
           &quot;modelParams&quot;: {
             &quot;temperature&quot;: 0.7,
             &quot;max_tokens&quot;: 4096
@@ -221,18 +224,13 @@ llxprt --profile-load qwen-free
   }
 }
 </code></pre>
-<p><strong>Note:</strong> When using failover, set <code>context-limit</code> to the smaller of the two providers (262,144) to ensure compatibility.</p>
+<p><strong>Note:</strong> When using failover, set <code>context-limit</code> to the smaller of the two providers (200,000) to ensure compatibility.</p>
 <h2>Troubleshooting</h2>
-<h3>OAuth Token Expired</h3>
-<p>If you get authentication errors:</p>
-<pre><code class="language-bash"># Re-authenticate
-/auth gemini logout
-/auth gemini enable
-
-# Or for Qwen
-/auth qwen logout
-/auth qwen enable
+<h3>API Key Issues</h3>
+<p>If you get authentication errors, verify your Gemini API key is set correctly:</p>
+<pre><code class="language-bash">/keyfile ~/.gemini_key
 </code></pre>
+<p>Qwen no longer supports OAuth — if you see Qwen auth errors, verify your DashScope API key is set correctly with <code>/keyfile ~/.qwen_key</code>.</p>
 <h3>Rate Limit Errors</h3>
 <p>Free tiers have rate limits. If you hit them:</p>
 <ol>
@@ -250,8 +248,8 @@ llxprt --profile-load qwen-free
 </code></pre>
 <h2>Best Practices</h2>
 <ol>
-<li><strong>Save both profiles</strong>: Have quick access to both free providers</li>
-<li><strong>Use Gemini for large contexts</strong>: Its 1M token limit handles big codebases</li>
+<li><strong>Save both profiles</strong>: Have quick access to both Gemini and Qwen</li>
+<li><strong>Use Gemini for large contexts</strong>: Its 1M token limit (API key) handles big codebases</li>
 <li><strong>Use Qwen for coding tasks</strong>: Excellent code generation and understanding</li>
 <li><strong>Monitor rate limits</strong>: Switch providers when one hits limits</li>
 <li><strong>Set a default</strong>: Choose your preferred provider as default for convenience</li>
@@ -259,7 +257,7 @@ llxprt --profile-load qwen-free
 <h2>Next Steps</h2>
 <ul>
 <li><a href="./high-availability.html">High Availability Setup</a> - Add paid providers for production use</li>
-<li><a href="./ci-cd-automation.html">CI/CD Automation</a> - Use free tiers in your pipelines</li>
+<li><a href="./index.html">All Recipes</a> - Browse the full recipe collection</li>
 <li><a href="../settings-and-profiles.html">Settings and Profiles</a> - Learn more about profile management</li>
 </ul>
 

@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -113,7 +114,7 @@ chmod +x .llxprt/hooks/log-tools.sh
           {
             &quot;name&quot;: &quot;tool-logger&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/log-tools.sh&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/log-tools.sh&quot;,
             &quot;description&quot;: &quot;Log all tool executions&quot;
           }
         ]
@@ -159,7 +160,7 @@ exit 0
           {
             &quot;name&quot;: &quot;secret-scanner&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
             &quot;description&quot;: &quot;Prevent committing secrets&quot;
           }
         ]
@@ -208,7 +209,7 @@ exit 0
           {
             &quot;name&quot;: &quot;auto-test&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/auto-test.sh&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/auto-test.sh&quot;,
             &quot;description&quot;: &quot;Run tests after code changes&quot;
           }
         ]
@@ -245,7 +246,7 @@ EOF
           {
             &quot;name&quot;: &quot;git-context&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/inject-context.sh&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-context.sh&quot;,
             &quot;description&quot;: &quot;Inject git commit history&quot;
           }
         ]
@@ -352,7 +353,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;init-assistant&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/init.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/init.js&quot;,
             &quot;description&quot;: &quot;Initialize Smart Workflow Assistant&quot;
           }
         ]
@@ -365,7 +366,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;inject-memories&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/inject-memories.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-memories.js&quot;,
             &quot;description&quot;: &quot;Inject relevant project memories&quot;
           }
         ]
@@ -378,7 +379,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;rag-filter&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/rag-filter.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/rag-filter.js&quot;,
             &quot;description&quot;: &quot;Filter tools using RAG&quot;
           }
         ]
@@ -391,7 +392,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;security-check&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/security.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/security.js&quot;,
             &quot;description&quot;: &quot;Prevent committing secrets&quot;
           }
         ]
@@ -404,7 +405,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;auto-test&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/auto-test.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/auto-test.js&quot;,
             &quot;description&quot;: &quot;Run tests after code changes&quot;
           }
         ]
@@ -417,7 +418,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;record-interaction&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/record.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/record.js&quot;,
             &quot;description&quot;: &quot;Record interaction for learning&quot;
           }
         ]
@@ -430,7 +431,7 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;consolidate-memories&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $GEMINI_PROJECT_DIR/.llxprt/hooks/consolidate.js&quot;,
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/consolidate.js&quot;,
             &quot;description&quot;: &quot;Extract and store session learnings&quot;
           }
         ]
@@ -448,7 +449,7 @@ const path = require('path');
 const fs = require('fs');
 
 async function main() {
-  const projectDir = process.env.GEMINI_PROJECT_DIR;
+  const projectDir = process.env.LLXPRT_PROJECT_DIR;
   const chromaPath = path.join(projectDir, '.llxprt', 'chroma');
 
   // Ensure chroma directory exists
@@ -503,13 +504,15 @@ async function main() {
     return;
   }
 
-  // Embed the prompt
-  const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genai.getGenerativeModel({ model: 'text-embedding-004' });
+  // Embed the prompt (uses LLXPRT_API_KEY; GEMINI_API_KEY also supported for compatibility)
+  const genai = new GoogleGenerativeAI(
+    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
+  );
+  const model = genai.getGenerativeModel({ model: 'gemini-embedding-001' });
   const result = await model.embedContent(prompt);
 
   // Search memories
-  const projectDir = process.env.GEMINI_PROJECT_DIR;
+  const projectDir = process.env.LLXPRT_PROJECT_DIR;
   const client = new ChromaClient({
     path: path.join(projectDir, '.llxprt', 'chroma'),
   });
@@ -581,8 +584,10 @@ async function main() {
     .join('\n');
 
   // Use fast model to extract task keywords
-  const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genai.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+  const genai = new GoogleGenerativeAI(
+    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
+  );
+  const model = genai.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   const result = await model.generateContent(
     `Extract 3-5 keywords describing needed tool capabilities from this request:\n\n${recentMessages}\n\nKeywords (comma-separated):`,
@@ -747,8 +752,8 @@ const path = require('path');
 async function main() {
   const input = JSON.parse(await readStdin());
   const { llm_request, llm_response } = input;
-  const projectDir = process.env.GEMINI_PROJECT_DIR;
-  const sessionId = process.env.GEMINI_SESSION_ID;
+  const projectDir = process.env.LLXPRT_PROJECT_DIR;
+  const sessionId = process.env.LLXPRT_SESSION_ID;
 
   const tempFile = path.join(
     projectDir,
@@ -803,8 +808,8 @@ const { ChromaClient } = require('chromadb');
 
 async function main() {
   const input = JSON.parse(await readStdin());
-  const projectDir = process.env.GEMINI_PROJECT_DIR;
-  const sessionId = process.env.GEMINI_SESSION_ID;
+  const projectDir = process.env.LLXPRT_PROJECT_DIR;
+  const sessionId = process.env.LLXPRT_SESSION_ID;
 
   const tempFile = path.join(
     projectDir,
@@ -833,8 +838,10 @@ async function main() {
   }
 
   // Extract memories using LLM
-  const genai = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-  const model = genai.getGenerativeModel({ model: 'gemini-2.0-flash-exp' });
+  const genai = new GoogleGenerativeAI(
+    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
+  );
+  const model = genai.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   const prompt = `Extract important project learnings from this session.
 Focus on: decisions, conventions, gotchas, patterns.
@@ -856,7 +863,7 @@ JSON:`;
     });
     const collection = await client.getCollection({ name: 'project_memories' });
     const embedModel = genai.getGenerativeModel({
-      model: 'text-embedding-004',
+      model: 'gemini-embedding-001',
     });
 
     for (const memory of memories) {
@@ -904,7 +911,7 @@ function readStdin() {
 readStdin().then(main).catch(console.error);
 </code></pre>
 <h3>Example session</h3>
-<pre><code>&gt; gemini
+<pre><code>&gt; llxprt
 
 🧠 3 memories loaded
 
@@ -954,8 +961,8 @@ readStdin().then(main).catch(console.error);
 <p>Demonstrates every hook event with practical use cases in a cohesive workflow.</p>
 <h3>Cost efficiency</h3>
 <ul>
-<li>Uses <code>gemini-2.0-flash-exp</code> for intent extraction (fast, cheap)</li>
-<li>Uses <code>text-embedding-004</code> for RAG (inexpensive)</li>
+<li>Uses <code>gemini-2.5-flash</code> for intent extraction (fast, cheap)</li>
+<li>Uses <code>gemini-embedding-001</code> for RAG (inexpensive)</li>
 <li>Caches tool descriptions (one-time cost)</li>
 <li>Minimal overhead per request (&lt;500ms typically)</li>
 </ul>

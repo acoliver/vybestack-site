@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -137,7 +138,7 @@
 <li>Multiple subagents can reuse the same profile.</li>
 </ul>
 <h2>Storage and files</h2>
-<p>Subagents are stored under <code>~/.llxprt/subagents/</code> as JSON files. Each file includes the profile, mode, system prompt, and timestamps. You can back these up or version them as needed.</p>
+<p>Subagents are stored under <code>&lt;config&gt;/subagents/</code> (see <a href="./reference/application-directories.html">Application Directories</a>) as JSON files. Each file includes the profile, mode, system prompt, and timestamps. You can back these up or version them as needed.</p>
 <h2>Examples</h2>
 <h3>Code review helper (manual)</h3>
 <pre><code class="language-bash">/subagent save code-reviewer work-claude manual &quot;Review changes for correctness, performance, and security. Provide actionable feedback.&quot;
@@ -155,11 +156,11 @@
 <p>Use a load balancer profile for resilient automated tasks that need high availability:</p>
 <pre><code class="language-bash"># First, create individual model profiles
 /provider anthropic
-/model claude-sonnet-4-5
+/model claude-sonnet-4-6
 /profile save model claude-primary
 
 /provider openai
-/model gpt-5.1
+/model gpt-5.5
 /profile save model openai-backup
 
 # Create a failover load balancer
@@ -178,7 +179,7 @@
 
 # Create profile with all buckets
 /provider anthropic
-/model claude-sonnet-4-5
+/model claude-sonnet-4-6
 /profile save model claude-team team1@company.com team2@company.com team3@company.com
 
 # Create subagent with bucket failover
@@ -193,7 +194,7 @@
 /profile save model gemini-fast
 
 /provider anthropic
-/model claude-opus-4-5
+/model claude-opus-5
 /profile save model claude-premium
 
 # Cheap subagent for routine tasks
@@ -212,7 +213,7 @@
 /profile save model fast-gemini
 
 /provider anthropic
-/model claude-sonnet-4-5
+/model claude-sonnet-4-6
 /profile save model claude-review
 
 # Step 2: Create specialized subagents
@@ -231,13 +232,13 @@
 <p>This approach uses the cheaper Gemini model for quick checks and Claude for nuanced review, optimizing both cost and quality.</p>
 <h3>Research and Implementation Workflow</h3>
 <p>This workflow demonstrates handoff between subagents for research and implementation tasks:</p>
-<pre><code class="language-bash"># Step 1: Create profiles (Gemini free tier for research, Claude for implementation)
+<pre><code class="language-bash"># Step 1: Create profiles (Gemini for research, Claude for implementation)
 /provider gemini
 /model gemini-2.5-flash
 /profile save model gemini-research
 
 /provider anthropic
-/model claude-sonnet-4-5
+/model claude-sonnet-4-6
 /profile save model claude-impl
 
 # Step 2: Create specialized subagents
@@ -253,7 +254,7 @@
 <li>Use <code>doc-analyst</code> to process specific documentation</li>
 <li>Feed research findings to <code>implementer</code> for actual code changes</li>
 </ol>
-<p>This leverages Gemini's free tier for high-volume research while using Claude's stronger reasoning for implementation.</p>
+<p>This leverages Gemini's large context and low cost for high-volume research while using Claude's stronger reasoning for implementation.</p>
 <h3>Automated CI/CD Analysis Pipeline</h3>
 <p>Combine load balancer profiles with specialized subagents for CI/CD integration:</p>
 <pre><code class="language-bash"># Create high-availability profile
@@ -288,7 +289,7 @@
 <p>When you update a profile, all subagents using that profile automatically inherit the changes:</p>
 <pre><code class="language-bash"># Initial setup
 /provider anthropic
-/model claude-sonnet-4-5
+/model claude-sonnet-4-6
 /profile save model team-claude
 
 /subagent save reviewer team-claude manual &quot;Review code.&quot;
@@ -297,10 +298,10 @@
 
 # Later: upgrade all subagents to a new model
 /provider anthropic
-/model claude-opus-4-5
+/model claude-opus-5
 /profile save model team-claude   # Overwrites existing profile
 
-# All three subagents now use claude-opus-4-5
+# All three subagents now use claude-opus-5
 </code></pre>
 <p>This pattern is especially useful for:</p>
 <ul>
@@ -318,7 +319,7 @@
 <p>Configure tool restrictions in your settings before saving a profile:</p>
 <pre><code class="language-bash"># Create a read-only profile
 /provider anthropic
-/model claude-sonnet-4-5-20250929
+/model claude-sonnet-4-6
 # Configure coreTools in settings to restrict to read-only tools
 /profile save model read-only-claude
 
@@ -350,6 +351,15 @@
 <li>Monitor subagent activity through session logs</li>
 <li>Consider using profiles with lower-capability models for routine tasks to limit potential impact</li>
 </ul>
+<h3>Subagent Turn Limits</h3>
+<p>Subagents enforce a turn cap via the <code>max_turns</code> parameter on the <code>task</code> tool or the <code>maxTurnsPerPrompt</code> profile ephemeral. Precedence (highest wins):</p>
+<ol>
+<li><strong>Explicit task <code>max_turns</code></strong> — passed directly to the <code>task</code> tool call.</li>
+<li><strong>Selected subagent profile <code>maxTurnsPerPrompt</code></strong> — the profile the subagent binds to.</li>
+<li><strong>Current foreground <code>maxTurnsPerPrompt</code></strong> — read dynamically at launch time from the parent session.</li>
+<li><strong>Fallback of 1000 turns</strong> — a subagent-specific safety net when none of the above are configured.</li>
+</ol>
+<p>A value of <code>-1</code> at the task, profile, or foreground layer means <strong>unlimited</strong> (no turn cap). An explicitly stored <code>-1</code> foreground value is inherited as unlimited. However, the orchestrator only inherits a <strong>currently materialized valid value</strong> — it does not directly inherit the foreground loop-detection registry's treatment of absent as <code>-1</code>. The foreground loop-detection layer independently treats an absent <code>maxTurnsPerPrompt</code> as <code>-1</code> (unlimited), but the orchestrator does not see that: it reads the foreground config's materialized value and accepts <code>-1</code> or a finite positive number. When the foreground value is absent, <code>NaN</code>, <code>Infinity</code>, a non-number, or zero, the orchestrator rejects it and falls through to the <strong>1000-turn fallback</strong>. The 1000-turn fallback is a fixed constant and does not interpret <code>-1</code>.</p>
 <h2>Related commands</h2>
 <ul>
 <li><code>/profile list</code> to see available profiles.</li>

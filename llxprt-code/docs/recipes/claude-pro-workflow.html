@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -88,7 +89,7 @@
 <tbody>
 <tr>
 <td>Context Limit</td>
-<td>200,000 tokens</td>
+<td>200,000 tokens (OAuth/subscription)</td>
 </tr>
 <tr>
 <td>Authentication</td>
@@ -104,12 +105,15 @@
 </tr>
 </tbody>
 </table>
+<blockquote>
+<p>Larger context windows (up to 1M) are available on Anthropic's API for eligible plans/credits; the 200,000 figure reflects the practical subscription/OAuth default used here.</p>
+</blockquote>
 <h2>Basic Claude OAuth Setup</h2>
 <h3>Step 1: Enable OAuth</h3>
 <pre><code class="language-bash">/auth anthropic enable
 </code></pre>
 <h3>Step 2: Set Your Model</h3>
-<pre><code class="language-bash">/model claude-sonnet-4-5-20250929
+<pre><code class="language-bash">/model claude-sonnet-4-6
 </code></pre>
 <h3>Step 3: Configure Context and Tokens</h3>
 <pre><code class="language-bash">/set context-limit 200000
@@ -123,7 +127,7 @@
 <h3>Step 5: Save Profile</h3>
 <pre><code class="language-bash">/profile save model claude-pro
 </code></pre>
-<p>The profile is saved to <code>~/.llxprt/profiles/claude-pro.json</code> automatically.</p>
+<p>The profile is saved to <code>&lt;config&gt;/profiles/claude-pro.json</code> automatically (see <a href="../reference/application-directories.html">Application Directories</a>).</p>
 <h2>Enabling Thinking Mode</h2>
 <p>Thinking mode allows Claude to reason through complex problems step-by-step before providing an answer.</p>
 <h3>Step 1: Enable Thinking</h3>
@@ -166,13 +170,13 @@
 <p>For production workflows, create profiles for each tier and combine them in a load balancer:</p>
 <pre><code class="language-bash"># Create primary profile with thinking
 /provider anthropic
-/model claude-sonnet-4-5-20250929
+/model claude-opus-5
 /set reasoning.enabled true
 /set reasoning.budget_tokens 8192
 /profile save model claude-primary
 
 # Create fallback profile (faster, cheaper)
-/model claude-haiku-4-5-20251001
+/model claude-haiku-4-5
 /set reasoning.enabled false
 /profile save model claude-fallback
 
@@ -218,7 +222,7 @@
 <pre><code class="language-bash">llxprt --profile-load claude-thinking
 </code></pre>
 <h3>One-off with Inline Profile</h3>
-<pre><code class="language-bash">llxprt --profile '{&quot;provider&quot;:&quot;anthropic&quot;,&quot;model&quot;:&quot;claude-sonnet-4-5-20250929&quot;,&quot;modelParams&quot;:{&quot;thinking&quot;:{&quot;type&quot;:&quot;enabled&quot;,&quot;budget_tokens&quot;:8192}}}' -p &quot;Analyze this code for security issues&quot;
+<pre><code class="language-bash">llxprt --profile '{&quot;provider&quot;:&quot;anthropic&quot;,&quot;model&quot;:&quot;claude-sonnet-4-6&quot;,&quot;modelParams&quot;:{&quot;thinking&quot;:{&quot;type&quot;:&quot;enabled&quot;,&quot;budget_tokens&quot;:8192}}}' -p &quot;Analyze this code for security issues&quot;
 </code></pre>
 <h2>Troubleshooting</h2>
 <h3>Rate Limit Errors</h3>
@@ -242,7 +246,7 @@
 /model
 
 # Switch to thinking-compatible model
-/model claude-sonnet-4-5-20250929
+/model claude-sonnet-4-6
 </code></pre>
 <h3>Context Limit Exceeded</h3>
 <pre><code class="language-bash"># Clear conversation

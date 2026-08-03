@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -98,7 +99,7 @@
 <tr>
 <td><code>/auth</code> (Google-only)</td>
 <td><code>/auth</code></td>
-<td>Multiple providers: gemini, anthropic, codex, qwen</td>
+<td>Multiple providers: anthropic, codex</td>
 </tr>
 </tbody>
 </table>
@@ -114,11 +115,14 @@
 <p>Or use a keyfile for CI/automation:</p>
 <pre><code class="language-bash">llxprt --provider xai --keyfile ~/.llxprt/keys/.xai_key
 </code></pre>
-<p>For OAuth providers (Gemini, Anthropic, Codex, Qwen), enable them:</p>
-<pre><code>/auth gemini enable
-/auth anthropic enable
+<p>For OAuth providers (Anthropic, Codex), enable any of them:</p>
+<pre><code>/auth anthropic enable
+/auth codex enable
 </code></pre>
 <p>With <code>/auth &lt;provider&gt; enable</code>, authentication is lazy — a browser opens automatically when you make your first request. Use <code>/auth &lt;provider&gt; login</code> to open the browser immediately.</p>
+<blockquote>
+<p><strong>Gemini is now API-key-only.</strong> Google removed the free consumer &quot;Login with Google&quot; access for Gemini CLI in mid-2026. Use a Gemini API key (<code>GEMINI_API_KEY</code> or <code>/keyfile</code>) or Vertex AI credentials instead.</p>
+</blockquote>
 <p>See <a href="./cli/authentication.html">Authentication</a> for full details.</p>
 <h2>Profiles Replace Manual Configuration</h2>
 <p>Instead of setting provider/model/parameters every session, save a profile:</p>
@@ -144,14 +148,18 @@ llxprt --sandbox docker
 </code></pre>
 <p>See <a href="./sandbox.html">Sandboxing</a>.</p>
 <h2>Syncing Configurations with Gemini CLI</h2>
-<p>If you run both tools, you can share some configuration via symlinks:</p>
-<pre><code class="language-bash"># Link context/memory files
-ln -s ~/.gemini/GEMINI.md ~/.llxprt/LLXPRT.md
+<p>If you're migrating from Gemini CLI, you may want to import existing configuration. LLxprt Code stores its files in <a href="./reference/application-directories.html">OS-standard directories</a> rather than <code>~/.llxprt</code>, so <strong>don't symlink into <code>~/.llxprt</code></strong> — copy your Gemini CLI files into LLxprt's config directory once instead.</p>
+<h3>One-time legacy import</h3>
+<pre><code class="language-bash"># Resolve LLxprt's config directory for your platform (see Application Directories)
+# Example on Linux: CONFIG_DIR=&quot;${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}&quot;
 
-# Link MCP server configs (usually compatible)
-ln -s ~/.gemini/settings.json ~/.llxprt/settings.json
+# Import your global memory/context file
+cp ~/.gemini/GEMINI.md &quot;$CONFIG_DIR/LLXPRT.md&quot;
+
+# Import settings (review first — not 100% compatible; see caveats below)
+cp ~/.gemini/settings.json &quot;$CONFIG_DIR/settings.json&quot;
 </code></pre>
-<p><strong>Caveats:</strong> Settings aren't 100% compatible. LLxprt Code has multi-provider auth, profiles, and settings that Gemini CLI doesn't. If you hit issues, maintain separate configs.</p>
+<p>After importing, review the settings file: LLxprt Code has multi-provider auth, profiles, and settings that Gemini CLI doesn't, so some keys may be ignored or need adjustment.</p>
 <h3>What Transfers Well</h3>
 <ul>
 <li>MCP server configurations (if paths are absolute)</li>

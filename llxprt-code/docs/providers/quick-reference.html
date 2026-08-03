@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -91,8 +92,7 @@
 /key your-api-key
 /model model-name
 </code></pre>
-<h2>Common Providers</h2>
-<h3>Model geometry and budgeting (all providers)</h3>
+<h2>Model Geometry and Budgeting (all providers)</h2>
 <p>When you set a model, configure both context-limit (ephemeral) and max_tokens (model param):</p>
 <ul>
 <li><strong>context-limit</strong>: The total tokens allowed for the entire request (prompt + output)</li>
@@ -112,151 +112,220 @@
 <li>Writing mode: context-limit 190000, max_tokens 8000 → prompt budget ≈ 181k (minus safety).</li>
 </ul>
 <blockquote>
-<p><strong>Reasoning tips:</strong><br>
-MiniMax M2.1 relies on interleaved thinking tokens, so keep prior reasoning in context (<code>/set reasoning.stripFromContext none</code>).<br>
-Kimi K2 can trim older reasoning when you need to manage its 256k window (<code>/set reasoning.stripFromContext allButLast</code> or <code>all</code>) while still surfacing recent thinking blocks.</p>
+<p><strong>Auth-variant note:</strong> Context windows often differ between API-key access and OAuth/subscription access for the same model. The numbers below name the variant where it matters. When in doubt, start lower and increase until you hit a provider limit error.</p>
 </blockquote>
-<h3>OpenAI (API Key)</h3>
-<pre><code class="language-bash">/provider openai
-/keyfile ~/.openai_key
-/model gpt-5.2
-</code></pre>
-<h4>Model geometry &amp; recommended settings (OpenAI)</h4>
-<p>Common models: gpt-5.2, gpt-5.2-nano</p>
-<p>Guidance:</p>
-<ul>
-<li>gpt-5.2 context: 200k (via Codex/API key), max output 32k</li>
-<li>gpt-5.2-nano: Faster, smaller variant for simpler tasks</li>
-<li><strong>Note</strong>: gpt-5.2 does NOT support temperature - use <code>/set reasoning.effort</code> instead</li>
-<li>Reasoning effort: <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code></li>
-<li>Example setup:</li>
-</ul>
-<pre><code class="language-bash">/set context-limit 200000
-/set modelparam max_tokens 4096
-/set reasoning.effort high  # replaces temperature for reasoning models
-</code></pre>
-<p><strong>Common models:</strong> <code>gpt-5.2</code>, <code>gpt-5.2-nano</code></p>
+<blockquote>
+<p><strong>Reasoning tips:</strong>
+Interleaved-thinking models (e.g. MiniMax, Kimi) rely on prior reasoning tokens, so keep recent reasoning in context (<code>/set reasoning.stripFromContext none</code>).
+When you need to manage a large window, trim older reasoning while surfacing recent thinking blocks (<code>/set reasoning.stripFromContext allButLast</code> or <code>all</code>).</p>
+</blockquote>
+<h2>Subscription &amp; OAuth Providers</h2>
 <h3>OpenAI Codex (ChatGPT Plus/Pro OAuth)</h3>
-<p>Use your ChatGPT Plus or Pro subscription directly:</p>
+<p>Use your ChatGPT Plus or Pro subscription directly — no API key needed:</p>
 <pre><code class="language-bash">/auth codex enable
 /provider codex
-/model gpt-5.2
+/model gpt-5.6-sol
 </code></pre>
-<p>This uses OAuth to authenticate with your ChatGPT subscription - no API key needed.</p>
-<h3>Kimi (Moonshot AI)</h3>
-<p>Kimi offers the K2 Thinking model with deep reasoning and multi-step tool orchestration.</p>
-<h4>Using OAuth (Subscription)</h4>
-<pre><code class="language-bash">/auth kimi enable
-/provider kimi
-/model kimi-k2-thinking
-</code></pre>
-<h4>Using API Key</h4>
-<pre><code class="language-bash">/provider kimi
-/keyfile ~/.kimi_key
-/model kimi-k2-thinking
-</code></pre>
-<h4>Model geometry &amp; recommended settings (Kimi)</h4>
+<p>This uses OAuth to authenticate with your ChatGPT subscription.</p>
+<h4>Model geometry &amp; recommended settings (Codex)</h4>
 <ul>
-<li>Context: 262,144 tokens</li>
-<li>Architecture: Trillion-parameter MoE (32B active)</li>
-<li>Strengths: Deep reasoning, 200-300 sequential tool calls, native thinking mode</li>
+<li>Context: 262,144 tokens (Codex OAuth)</li>
+<li>gpt-5.x reasoning models do NOT support temperature — use <code>/set reasoning.effort</code> instead</li>
+<li>Reasoning effort: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code></li>
 </ul>
-<p>Example setup:</p>
-<pre><code class="language-bash">/set context-limit 262000
+<pre><code class="language-bash">/set context-limit 262144
 /set modelparam max_tokens 8192
-/set reasoning.enabled true
-/set reasoning.includeInResponse true
+/set reasoning.effort high
 </code></pre>
-<p><strong>Profile JSON:</strong></p>
-<pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;provider&quot;: &quot;kimi&quot;,
-  &quot;model&quot;: &quot;kimi-k2-thinking&quot;,
-  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 8192 },
-  &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 262000,
-    &quot;reasoning.enabled&quot;: true,
-    &quot;reasoning.includeInResponse&quot;: true
-  }
-}
-</code></pre>
-<h4>Kimi K2 via Synthetic/Chutes</h4>
-<p>Kimi K2 Thinking is also available through third-party providers:</p>
-<pre><code class="language-bash"># Via Synthetic
-/provider synthetic
-/keyfile ~/.synthetic_key
-/model hf:moonshotai/Kimi-K2-Thinking
-
-# Via Chutes
-/provider chutes
-/keyfile ~/.chutes_key
-/model kimi-k2-thinking
-</code></pre>
+<p><strong>Common models:</strong> <code>gpt-5.6-sol</code> (default), <code>gpt-5.6-terra</code>, <code>gpt-5.6-luna</code>, <code>gpt-5.5</code></p>
 <h3>Anthropic (Claude)</h3>
 <h4>Using Alias (Recommended)</h4>
 <pre><code class="language-bash">/provider anthropic
 /key sk-ant-your-key
-/model claude-sonnet-4-5-20250929
+/model claude-opus-5
 </code></pre>
 <h4>Or OAuth (Claude Pro/Max)</h4>
 <pre><code class="language-bash">/auth anthropic enable
 </code></pre>
-<p>Note: OAuth is lazy - authentication happens when you first use the provider.</p>
+<p>Note: OAuth is lazy — authentication happens when you first use the provider.</p>
 <h4>Model geometry &amp; recommended settings (Anthropic)</h4>
-<p>Common models: claude-haiku-4-5-20251001, claude-sonnet-4-5-20250929, claude-opus-4-5-20251101</p>
+<p>Common models: <code>claude-opus-5</code>, <code>claude-sonnet-5</code>, <code>claude-sonnet-4-6</code>, <code>claude-haiku-4-5</code></p>
 <p>Guidance:</p>
 <ul>
-<li>Start with context-limit 200000.</li>
+<li>Default context-limit 200000 (Opus). Sonnet may support a larger window depending on your Anthropic plan; the very large (1M-class) windows are plan/credit-gated rather than always-on. Check Anthropic's documentation for your current limits.</li>
 <li>If you enable thinking, increase max_tokens as needed and keep ≥1k tokens of safety.</li>
-<li>Example setup:</li>
 </ul>
-<pre><code class="language-bash"> /set context-limit 200000
- /set modelparam max_tokens 4096
- /set modelparam temperature 0.7
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+/set reasoning.effort high
 </code></pre>
 <p><strong>Profile JSON:</strong></p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;anthropic&quot;,
-  &quot;model&quot;: &quot;claude-sonnet-4-5-20250929&quot;,
-  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;model&quot;: &quot;claude-opus-5&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096 },
   &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
 }
 </code></pre>
-<p><strong>Common models:</strong> <code>claude-haiku-4-5-20251001</code>, <code>claude-sonnet-4-5-20250929</code>, <code>claude-opus-4-5-20251101</code></p>
 <p><strong>Environment variable:</strong> <code>export ANTHROPIC_API_KEY=sk-ant-...</code></p>
 <h3>Google Gemini</h3>
 <h4>Using Alias</h4>
 <pre><code class="language-bash">/provider gemini
 /key your-gemini-key
-/model gemini-3-flash-preview
+/model gemini-2.5-pro
 </code></pre>
+<h4>Or API Key</h4>
+<pre><code class="language-bash">/key save gemini your-gemini-key
+</code></pre>
+<p>Note: Set the key before your first request to that provider.</p>
+<blockquote>
+<p><strong>Important (Gemini &quot;Login with Google&quot; removed):</strong> Google has removed the free consumer &quot;Login with Google&quot; flow for the Gemini CLI entirely. Use a Gemini <strong>API key</strong> (<code>GEMINI_API_KEY</code>) or <strong>Vertex AI</strong> credentials instead. See <a href="../cli/google-cloud-auth.html">Google Cloud auth</a>.</p>
+</blockquote>
 <h4>Model geometry &amp; recommended settings (Gemini)</h4>
-<p>Common models: gemini-3-flash-preview, gemini-3-pro-preview</p>
+<p>Common models: <code>gemini-2.5-pro</code>, <code>gemini-2.5-flash</code>, <code>gemini-2.5-flash-lite</code> (stable). Preview models <code>gemini-3-pro-preview</code> and <code>gemini-3-flash-preview</code> are also selectable.</p>
 <p>Guidance:</p>
 <ul>
-<li>Use context-limit 1048576 for Gemini 3 models; lower if you see provider limit errors.</li>
-<li>Max output tokens: 65536</li>
-<li>Example setup:</li>
+<li>Context-limit up to 1048576 (API key) for Gemini 2.5 models; lower if you see provider limit errors.</li>
+<li>Max output tokens: up to 65536</li>
 </ul>
 <pre><code class="language-bash">/set context-limit 1048576
-/set modelparam max_tokens 4096   # Gemini often uses camelCase params in native SDKs, but LLxprt forwards what you set
+/set modelparam max_tokens 4096
 </code></pre>
 <p><strong>Profile JSON:</strong></p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;gemini&quot;,
-  &quot;model&quot;: &quot;gemini-3-flash-preview&quot;,
+  &quot;model&quot;: &quot;gemini-2.5-pro&quot;,
   &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
   &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 1048576 }
 }
 </code></pre>
+<p><strong>Environment variable:</strong> <code>export GEMINI_API_KEY=...</code></p>
+<h3>Qwen</h3>
+<h4>Using Alias with API Key</h4>
+<pre><code class="language-bash">/provider qwen
+/key your-dashscope-key
+/model qwen3-coder-plus
+</code></pre>
+<blockquote>
+<p><strong>Qwen is now API-key-only.</strong> Qwen's free OAuth tier ended 2026-04-15 and the OAuth provider has been removed. Use a DashScope API key (<code>DASHSCOPE_API_KEY</code>) or an OpenRouter API key. See <a href="../cli/authentication.html">authentication</a> for details.</p>
+</blockquote>
+<h4>Model geometry &amp; recommended settings (Qwen)</h4>
+<p>Common models: <code>qwen3-coder-plus</code>, <code>qwen3-coder</code></p>
+<p>Guidance:</p>
+<ul>
+<li>Start with context-limit 200000; lower if you hit provider limits.</li>
+<li>This alias is for Qwen's own service. It is <strong>not</strong> used for Cerebras.</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;qwen&quot;,
+  &quot;model&quot;: &quot;qwen3-coder-plus&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
+}
+</code></pre>
+<h2>API-Key Providers (with aliases)</h2>
+<h3>OpenAI (API Key)</h3>
+<pre><code class="language-bash">/provider openai
+/keyfile ~/.openai_key
+/model gpt-5.6-sol
+</code></pre>
+<h4>Model geometry &amp; recommended settings (OpenAI)</h4>
+<p>Common models: <code>gpt-5.6</code> (Sol alias), <code>gpt-5.6-sol</code>, <code>gpt-5.6-terra</code>, <code>gpt-5.6-luna</code>, <code>gpt-5.5</code></p>
+<p>GPT-5.6+ models automatically use the Responses API on canonical OpenAI (<code>api.openai.com</code>); custom OpenAI-compatible base URLs stay on Chat Completions.</p>
+<p>Guidance:</p>
+<ul>
+<li>Context: up to 1,048,576 tokens on the OpenAI API (vs. 262,144 via Codex OAuth — see the Codex section above)</li>
+<li>gpt-5.x reasoning models do NOT support temperature — use <code>/set reasoning.effort</code> instead</li>
+<li>Reasoning effort: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>. <code>max</code> is model/provider-specific; project <code>minimal</code> maps to wire <code>none</code> for GPT-5.6 Responses.</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 400000 # adjust to your model's actual window (check provider docs)
+/set modelparam max_tokens 8192
+/set reasoning.effort high
+</code></pre>
+<h3>Kimi (Moonshot AI)</h3>
+<p>Kimi ships the K3 frontier model with deep reasoning, multi-step tool orchestration, and native multimodal vision. There are two ways to reach it:</p>
+<ul>
+<li><strong><code>kimi-for-coding</code></strong> — the subscription-served model (Kimi Code subscription). Use the <code>kimi</code> provider alias, which points at the <code>/coding/v1</code> endpoint. Thinking is always on.</li>
+<li><strong><code>kimi-k3</code></strong> — the pay-per-token model on the raw Moonshot API (<code>https://api.moonshot.ai/v1</code>). Same K3 capabilities, billed per token.</li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> The <code>kimi</code> alias's <code>defaultModel</code> is <code>kimi-for-coding</code> (the subscription path). To use the pay-per-token <code>kimi-k3</code> on the Moonshot API, point the alias at the raw endpoint with <code>/baseurl https://api.moonshot.ai/v1</code> and <code>/model kimi-k3</code>.</p>
+</blockquote>
+<h4>Using the subscription (kimi-for-coding)</h4>
+<pre><code class="language-bash">/provider kimi
+/keyfile ~/.kimi_key
+/model kimi-for-coding
+</code></pre>
+<h4>Using the Moonshot API pay-per-token (kimi-k3)</h4>
+<pre><code class="language-bash">/provider kimi
+/baseurl https://api.moonshot.ai/v1
+/keyfile ~/.moonshot_key
+/model kimi-k3
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Kimi K3)</h4>
+<ul>
+<li>Context: 1,000,000 tokens (1M)</li>
+<li>Max output: 131,072 tokens (default; up to 1,048,576 max)</li>
+<li>Architecture: Frontier MoE with always-on thinking</li>
+<li>Strengths: Deep reasoning, 200-300 sequential tool calls, native vision (images <strong>and</strong> video)</li>
+<li>Reasoning effort: <code>low</code> / <code>high</code> / <code>max</code> (default <code>max</code>). <strong>There is no <code>medium</code> for K3.</strong> Thinking is always on and cannot be disabled.</li>
+<li>Vision: Native, but requires base64 or <code>ms://&lt;file-id&gt;</code> inputs — public image URLs are not accepted.</li>
+</ul>
+<pre><code class="language-bash">/set context-limit 1000000
+/set modelparam max_tokens 131072
+/set reasoning.effort max
+/set reasoning.enabled true
+/set reasoning.includeInResponse true
+</code></pre>
+<p><strong>Profile JSON (pay-per-token kimi-k3 on the Moonshot API):</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;kimi&quot;,
+  &quot;model&quot;: &quot;kimi-k3&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 131072 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 1000000,
+    &quot;base-url&quot;: &quot;https://api.moonshot.ai/v1&quot;,
+    &quot;reasoning.effort&quot;: &quot;max&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.includeInResponse&quot;: true
+  }
+}
+</code></pre>
+<h4>Pricing (Kimi K3)</h4>
+<ul>
+<li><strong>Subscription (<code>kimi-for-coding</code>)</strong> — flat-rate Kimi Code subscription plan; usage is covered by the subscription.</li>
+<li><strong>Pay-per-token (<code>kimi-k3</code> on the Moonshot API)</strong> — $0.30 / 1M cached input tokens, $3.00 / 1M non-cached input tokens, $15.00 / 1M output tokens (flat).</li>
+</ul>
+<h4>Kimi K3 via Synthetic/Chutes</h4>
+<p>Kimi K3 is also available through third-party providers:</p>
+<pre><code class="language-bash"># Via Synthetic
+/provider synthetic
+/keyfile ~/.synthetic_key
+/model hf:moonshotai/Kimi-K3
+
+# Via Chutes
+/provider chutes-ai
+/keyfile ~/.chutes_key
+/model moonshotai/Kimi-K3
+</code></pre>
+<h3>Synthetic (Hugging Face Models)</h3>
+<pre><code class="language-bash">/provider synthetic
+/key your-synthetic-key
+/model hf:zai-org/GLM-4.7
+</code></pre>
 <h4>Model geometry &amp; recommended settings (Synthetic)</h4>
-<p>Popular models: hf:zai-org/GLM-4.7, hf:mistralai/Mixtral-8x7B</p>
+<p>Popular models: <code>hf:zai-org/GLM-4.7</code>, <code>hf:moonshotai/Kimi-K3</code></p>
 <p>Guidance:</p>
 <ul>
 <li>Context varies by model/runtime. Start with context-limit 200000 and adjust.</li>
-<li>Example setup:</li>
 </ul>
 <pre><code class="language-bash">/set context-limit 200000
 /set modelparam max_tokens 4096
@@ -267,64 +336,51 @@ Kimi K2 can trim older reasoning when you need to manage its 256k window (<code>
   &quot;provider&quot;: &quot;synthetic&quot;,
   &quot;model&quot;: &quot;hf:zai-org/GLM-4.7&quot;,
   &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
-  &quot;ephemeralSettings&quot;: {}
-}
-</code></pre>
-<h4>Or OAuth</h4>
-<pre><code class="language-bash">/auth gemini enable
-</code></pre>
-<p>Note: OAuth is lazy - authentication happens when you first use the provider.</p>
-<p><strong>Common models:</strong> <code>gemini-3-flash-preview</code>, <code>gemini-3-pro-preview</code></p>
-<p><strong>Environment variable:</strong> <code>export GEMINI_API_KEY=...</code></p>
-<h3>Synthetic (Hugging Face Models)</h3>
-<pre><code class="language-bash">/provider synthetic
-/key your-synthetic-key
-
-#### Model geometry &amp; recommended settings (Qwen)
-
-Common models: qwen3-coder-pro, qwen3-coder
-
-Guidance:
-- Use /auth qwen enable for OAuth (free) or /provider qwen for API key usage.
-- Start with context-limit 200000; lower if you hit provider limits.
-- Example setup:
-```bash
-/set context-limit 200000
-/set modelparam max_tokens 4096
-</code></pre>
-<p><strong>Important:</strong> This alias is for Qwen's own service. It is not used for Cerebras.</p>
-<p><strong>Profile JSON:</strong></p>
-<pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;provider&quot;: &quot;qwen&quot;,
-  &quot;model&quot;: &quot;qwen3-coder-pro&quot;,
-  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
   &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
 }
 </code></pre>
-<p>/model hf:zai-org/GLM-4.7</p>
-<pre><code>
-**Popular models:** `hf:zai-org/GLM-4.7`, `hf:mistralai/Mixtral-8x7B`
-
-### Qwen (Free)
-
-#### OAuth (Free)
-
-
-#### Model geometry &amp; recommended settings (xAI)
-
-Model: grok-3 (example)
-
-- Example setup:
-```bash
-/set context-limit 200000
+<h3>Chutes AI</h3>
+<pre><code class="language-bash">/provider chutes-ai    # Has built-in alias
+# OR
+/provider openai
+/baseurl https://api.chutes.ai/v1/
+/key your-chutes-key
+/model zai-org/GLM-5-TEE
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Chutes AI)</h4>
+<pre><code class="language-bash">/set context-limit 200000
 /set modelparam max_tokens 4096
+</code></pre>
+<h3>DeepSeek</h3>
+<pre><code class="language-bash">/provider deepseek
+/key your-deepseek-key
+/model deepseek-v4-flash
+</code></pre>
+<h3><a href="http://Z.AI">Z.AI</a></h3>
+<pre><code class="language-bash">/provider zai
+/key your-zai-key
+/model glm-5
+</code></pre>
+<h3>Makora</h3>
+<pre><code class="language-bash">/provider makora
+/key your-makora-key
+/model nvidia/Kimi-K2.6-NVFP4
+</code></pre>
+<h2>Models Requiring Custom BaseURL</h2>
+<p>These providers use the OpenAI-compatible endpoint approach (most also have built-in aliases shown above).</p>
+<h3>xAI (Grok)</h3>
+<pre><code class="language-bash">/provider xai          # Has built-in alias
+# OR
+/provider openai
+/baseurl https://api.x.ai/v1/
+/key your-xai-key
+/model grok-4
 </code></pre>
 <p><strong>Profile JSON:</strong></p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;grok-3&quot;,
+  &quot;model&quot;: &quot;grok-4&quot;,
   &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
   &quot;ephemeralSettings&quot;: {
     &quot;context-limit&quot;: 200000,
@@ -332,40 +388,19 @@ Model: grok-3 (example)
   }
 }
 </code></pre>
-<pre><code class="language-bash">/auth qwen enable
-</code></pre>
-<h4>Using Alias with API Key</h4>
-<pre><code class="language-bash">/provider qwen
-/key your-qwen-key
-/model qwen3-coder-pro
-</code></pre>
-<h3>Models Requiring Custom BaseURL</h3>
-<p>These providers use the OpenAI-compatible endpoint approach:</p>
-<h4>xAI (Grok)</h4>
-<pre><code class="language-bash">/provider openai
-/baseurl https://api.x.ai/v1/
-/key your-xai-key
-/model grok-3
-</code></pre>
-<h4>OpenRouter</h4>
-<pre><code class="language-bash">/provider openai
+<h3>OpenRouter</h3>
+<pre><code class="language-bash">/provider openrouter   # Has built-in alias
+# OR
+/provider openai
 /baseurl https://openrouter.ai/api/v1/
 /key your-openrouter-key
-
-#### Model geometry &amp; recommended settings (OpenRouter)
-
-Example model: qwen/qwen3-coder
-
-- Example setup:
-```bash
-/set context-limit 200000
-/set modelparam max_tokens 4096
+/model nvidia/nemotron-nano-9b-v2
 </code></pre>
 <p><strong>Profile JSON:</strong></p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
   &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;qwen/qwen3-coder&quot;,
+  &quot;model&quot;: &quot;nvidia/nemotron-nano-9b-v2&quot;,
   &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
   &quot;ephemeralSettings&quot;: {
     &quot;context-limit&quot;: 200000,
@@ -373,98 +408,61 @@ Example model: qwen/qwen3-coder
   }
 }
 </code></pre>
-<h4>Model geometry &amp; recommended settings (Fireworks)</h4>
-<p>Example model: accounts/fireworks/models/llama-v3p3-70b-instruct</p>
-<ul>
-<li>Example setup:</li>
-</ul>
-<pre><code class="language-bash">/set context-limit 200000
-/set modelparam max_tokens 4096
-</code></pre>
-<p><strong>Profile JSON:</strong></p>
-<pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;accounts/fireworks/models/llama-v3p3-70b-instruct&quot;,
-  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
-  &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 200000,
-    &quot;base-url&quot;: &quot;https://api.fireworks.ai/inference/v1&quot;
-  }
-}
-</code></pre>
-<h4>OpenRouter</h4>
-<pre><code class="language-bash">/provider openai
-/baseurl https://openrouter.ai/api/v1/
-/key your-openrouter-key
-/model qwen/qwen3-coder
-</code></pre>
-<h4>Fireworks</h4>
-<pre><code class="language-bash">/provider openai
+<h3>Fireworks</h3>
+<pre><code class="language-bash">/provider fireworks    # Has built-in alias
+# OR
+/provider openai
 /baseurl https://api.fireworks.ai/inference/v1/
 /key your-fireworks-key
-/model accounts/fireworks/models/llama-v3p3-70b-instruct
+/model fireworks/minimax-m3
 </code></pre>
-<h4>Cerebras (GLM-4.7)</h4>
-<pre><code class="language-bash">/provider openai
+<h3>Cerebras Code</h3>
+<pre><code class="language-bash">/provider cerebras-code   # Has built-in alias
+# OR
+/provider openai
 /baseurl https://api.cerebras.ai/v1/
 /key your-cerebras-key
-/model zai-glm-4.7
+/model qwen-3-coder-480b
 # Recommended runtime tuning:
 /set context-limit 131000
 /set modelparam max_tokens 10000
-/set modelparam temperature 1
 </code></pre>
 <p><strong>Notes:</strong></p>
 <ul>
-<li>GLM-4.7 model supports 200k context, but <strong>Cerebras endpoint limits to ~131k</strong>.</li>
-<li>Budget room for completions: effective prompt budget = context-limit − max_tokens − safety.</li>
-<li>The /provider qwen alias is for Qwen's own service, not for Cerebras.</li>
+<li>The Cerebras endpoint may limit context below a model's full window; budget room for completions.</li>
+<li>Effective prompt budget = context-limit − max_tokens − safety.</li>
+<li>The <code>/provider qwen</code> alias is for Qwen's own service, not for Cerebras.</li>
 </ul>
-<p><strong>Profile JSON:</strong></p>
-<pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;zai-glm-4.7&quot;,
-  &quot;modelParams&quot;: {
-    &quot;temperature&quot;: 1,
-    &quot;max_tokens&quot;: 10000
-  },
-  &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 131000,
-    &quot;base-url&quot;: &quot;https://api.cerebras.ai/v1&quot;,
-    &quot;shell-replacement&quot;: true
-  }
-}
+<h2>AI Gateways / Proxies</h2>
+<h3>LiteLLM</h3>
+<p><a href="https://github.com/BerriAI/litellm">LiteLLM</a> is an open-source AI gateway that provides a unified OpenAI-compatible interface to 100+ LLM providers (Azure OpenAI, AWS Bedrock, Vertex AI, Groq, Together, and more).</p>
+<pre><code class="language-bash">/provider litellm      # Has built-in alias
+/key your-litellm-key
+/model anthropic/claude-sonnet-4-20250514
 </code></pre>
-<h4>Chutes AI</h4>
-<pre><code class="language-bash">/provider chutes    # Has built-in alias
-# OR
-/provider openai
-/baseurl https://api.chutes.ai/v1/
-/key your-chutes-key
-/model your-model
+<p>Or without the alias:</p>
+<pre><code class="language-bash">/provider openai
+/baseurl http://127.0.0.1:4000/v1/
+/key your-litellm-key
+/model gpt-4o
 </code></pre>
-<h2>Local Models</h2>
-<h4>Model geometry &amp; recommended settings (Chutes AI)</h4>
-<ul>
-<li>Example setup:</li>
-</ul>
-<pre><code class="language-bash">/set context-limit 200000
+<h4>Model geometry &amp; recommended settings (LiteLLM)</h4>
+<p>Context and output limits depend on the underlying model routed through the proxy. Start with conservative defaults and adjust:</p>
+<pre><code class="language-bash">/set context-limit 128000
 /set modelparam max_tokens 4096
 </code></pre>
 <p><strong>Profile JSON:</strong></p>
 <pre><code class="language-json">{
   &quot;version&quot;: 1,
-  &quot;provider&quot;: &quot;openai&quot;,
-  &quot;model&quot;: &quot;your-model&quot;,
-  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096, &quot;temperature&quot;: 0.7 },
-  &quot;ephemeralSettings&quot;: {
-    &quot;context-limit&quot;: 200000,
-    &quot;base-url&quot;: &quot;https://api.chutes.ai/v1&quot;
-  }
+  &quot;provider&quot;: &quot;litellm&quot;,
+  &quot;model&quot;: &quot;anthropic/claude-sonnet-4-20250514&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
 }
 </code></pre>
+<p><strong>Environment variable:</strong> <code>export LITELLM_API_KEY=sk-...</code></p>
+<h2>Local Models</h2>
+<p>For complete local-model guidance, see <a href="../local-models.html">Using Local Models</a>.</p>
 <h3>LM Studio</h3>
 <pre><code class="language-bash">/provider lm-studio    # Has built-in alias
 # OR
@@ -476,33 +474,25 @@ Example model: qwen/qwen3-coder
 <pre><code class="language-bash">/provider llama-cpp    # Has built-in alias
 # OR
 /provider openai
-
-### Model geometry &amp; recommended settings (Local)
-
-Context depends on your local runtime and model build. Start with:
-```bash
-/set context-limit 32000
+/baseurl http://localhost:8080/v1/
+/model your-model
+</code></pre>
+<h4>Model geometry &amp; recommended settings (Local)</h4>
+<p>Context depends on your local runtime and model build. Start small and increase:</p>
+<pre><code class="language-bash">/set context-limit 32000
 /set modelparam max_tokens 2048
-# Increase gradually as your runtime allows.
 </code></pre>
-<p><strong>Ollama tip:</strong></p>
+<h3>Ollama</h3>
+<p>Ollama exposes an OpenAI-compatible endpoint. Use the <code>openai</code> provider with a local base URL (there is no separate local <code>ollama</code> alias; the built-in <code>ollama-cloud</code> alias is for the hosted <a href="http://ollama.com">ollama.com</a> service):</p>
 <pre><code class="language-bash">/provider openai
-/baseurl http://localhost:11434/v1
-/key dummy-key
-/model codellama:13b
-</code></pre>
-<p>/baseurl <a href="http://localhost:8080/v1/">http://localhost:8080/v1/</a>
-/model your-model</p>
-<pre><code>
-### Ollama
-
-```bash
-/provider ollama      # Has built-in alias
-# OR
-/provider openai
 /baseurl http://localhost:11434/v1/
-/key dummy-key        # Ollama may require a dummy key
-/model codellama:13b
+/key dummy-key        # Ollama may require a non-empty key
+/model qwen2.5-coder
+</code></pre>
+<p>For the hosted Ollama Cloud service:</p>
+<pre><code class="language-bash">/provider ollama-cloud
+/key your-ollama-key
+/model kimi-k2.6
 </code></pre>
 <h2>Authentication Methods</h2>
 <h3>API Keys</h3>
@@ -514,11 +504,10 @@ Context depends on your local runtime and model build. Start with:
 /keyfile ~/.keys/your-provider.key
 </code></pre>
 <h3>OAuth</h3>
-<p>Three providers support OAuth for authentication:</p>
+<p><strong>Two</strong> providers support OAuth for authentication: Anthropic and Codex (ChatGPT).</p>
 <pre><code class="language-bash"># Enable OAuth provider (lazy authentication - happens on first use)
 /auth anthropic enable
-/auth gemini enable
-/auth qwen enable
+/auth codex enable
 
 # Check OAuth status
 /auth

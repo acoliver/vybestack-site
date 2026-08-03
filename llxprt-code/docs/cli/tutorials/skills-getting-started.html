@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multi-line Input in LLxprt Code | LLxprt Code Docs</title>
-  <link rel="stylesheet" href="../../vybestack.css" />
+  <title>Getting Started with Agent Skills | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../../vybestack.css" />
 </head>
 <body>
 
@@ -69,31 +69,105 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Multi-line Input in LLxprt Code</h1>
-<p>LLxprt Code supports multi-line input, allowing you to enter complex prompts or code snippets that span multiple lines.</p>
-<h2>How to Insert Line Breaks</h2>
-<p>You can insert a line break (newline) in your input using any of these methods:</p>
-<ul>
-<li><strong>Alt+Enter</strong> (Option+Enter on macOS) - Insert a new line</li>
-<li><strong>Ctrl+Enter</strong> - Insert a new line</li>
-<li><strong>Paste multi-line content</strong> - When you paste content containing line breaks, they are preserved</li>
-</ul>
-<h2>Example Usage</h2>
-<pre><code>User input with Alt+Enter:
-This is line 1 [Alt+Enter]
-This is line 2 [Alt+Enter]
-This is line 3 [Enter to submit]
+            <h1>Getting Started with Agent Skills</h1>
+<p>Agent Skills allow you to extend LLxprt Code with specialized expertise. This
+tutorial will guide you through creating your first skill, enabling it, and
+using it in a session.</p>
+<h2>1. Enable Agent Skills</h2>
+<p>Agent Skills are currently an experimental feature and must be enabled in your
+settings.</p>
+<h3>Via the interactive UI</h3>
+<ol>
+<li>Start a LLxprt Code session by running <code>llxprt</code>.</li>
+<li>Type <code>/settings</code> to open the interactive settings dialog.</li>
+<li>Search for &quot;Skills&quot;.</li>
+<li>Toggle <strong>Agent Skills</strong> to <code>true</code>.</li>
+<li>Press <code>Esc</code> to save and exit. You may need to restart the CLI for the
+changes to take effect.</li>
+</ol>
+<h3>Via <code>settings.json</code></h3>
+<p>Alternatively, you can manually edit your global settings file in LLxprt's <a href="../../reference/application-directories.html">config directory</a> (create it if it doesn't exist):</p>
+<pre><code class="language-json">{
+  &quot;experimental&quot;: {
+    &quot;skills&quot;: true
+  }
+}
 </code></pre>
-<h2>Regular Enter Key Behavior</h2>
+<h2>2. Create Your First Skill</h2>
+<p>A skill is a directory containing a <code>SKILL.md</code> file. Let's create an <strong>API
+Auditor</strong> skill that helps you verify if local or remote endpoints are
+responding correctly.</p>
+<ol>
+<li>
+<p><strong>Create the skill directory structure:</strong></p>
+<pre><code class="language-bash">mkdir -p .llxprt/skills/api-auditor/scripts
+</code></pre>
+</li>
+<li>
+<p><strong>Create the <code>SKILL.md</code> file:</strong> Create a file at
+<code>.llxprt/skills/api-auditor/SKILL.md</code> with the following content:</p>
+<pre><code class="language-markdown">---
+name: api-auditor
+description:
+  Expertise in auditing and testing API endpoints. Use when the user asks to
+  &quot;check&quot;, &quot;test&quot;, or &quot;audit&quot; a URL or API.
+---
+
+# API Auditor Instructions
+
+You act as a QA engineer specialized in API reliability. When this skill is
+active, you MUST:
+
+1.  **Audit**: Use the bundled `scripts/audit.js` utility to check the
+    status of the provided URL.
+2.  **Report**: Analyze the output (status codes, latency) and explain any
+    failures in plain English.
+3.  **Secure**: Remind the user if they are testing a sensitive endpoint
+    without an `https://` protocol.
+</code></pre>
+</li>
+<li>
+<p><strong>Create the bundled Node.js script:</strong> Create a file at
+<code>.llxprt/skills/api-auditor/scripts/audit.js</code>. This script will be used by
+the agent to perform the actual check:</p>
+<pre><code class="language-javascript">// .llxprt/skills/api-auditor/scripts/audit.js
+const url = process.argv[2];
+
+if (!url) {
+  console.error('Usage: node audit.js &lt;url&gt;');
+  process.exit(1);
+}
+
+console.log(`Auditing ${url}...`);
+fetch(url, { method: 'HEAD' })
+  .then((r) =&gt; console.log(`Result: Success (Status ${r.status})`))
+  .catch((e) =&gt; console.error(`Result: Failed (${e.message})`));
+</code></pre>
+</li>
+</ol>
+<h2>3. Verify the Skill is Discovered</h2>
+<p>Use the <code>/skills</code> slash command (or <code>llxprt skills list</code> from your terminal) to
+see if LLxprt Code has found your new skill.</p>
+<p>In a LLxprt Code session:</p>
+<pre><code>/skills list
+</code></pre>
+<p>You should see <code>api-auditor</code> in the list of available skills.</p>
+<h2>4. Use the Skill in a Chat</h2>
+<p>Now, let's see the skill in action. Start a new session and ask a question about
+an endpoint.</p>
+<p><strong>User:</strong> &quot;Can you audit <a href="http://geminili.com">http://geminili.com</a>&quot;</p>
+<p>LLxprt will recognize the request matches the <code>api-auditor</code> description and will
+ask for your permission to activate it.</p>
+<p><strong>Model:</strong> (After calling <code>activate_skill</code>) &quot;I've activated the <strong>api-auditor</strong>
+skill. I'll run the audit script now...&quot;</p>
+<p>LLxprt will then use the <code>run_shell_command</code> tool to execute your bundled Node
+script:</p>
+<p><code>node .llxprt/skills/api-auditor/scripts/audit.js http://geminili.com</code></p>
+<h2>Next Steps</h2>
 <ul>
-<li><strong>Enter</strong> without modifiers - Submits the current input</li>
-<li><strong>Enter</strong> when line ends with <code>\</code> - Inserts a newline (line continuation)</li>
-</ul>
-<h2>Implementation Details</h2>
-<p>The feature is implemented in:</p>
-<ul>
-<li><code>packages/cli/src/ui/components/InputPrompt.tsx</code> - Handles the key combinations</li>
-<li><code>packages/cli/src/ui/hooks/useKeypress.ts</code> - Detects Alt/Meta key through escape sequences</li>
+<li>Explore <a href="../skills.html#creating-a-skill">Agent Skills Authoring Guide</a> to learn
+about more advanced skill features.</li>
+<li>Learn how to share skills via <a href="../../extension.html">Extensions</a>.</li>
 </ul>
 
           </div>

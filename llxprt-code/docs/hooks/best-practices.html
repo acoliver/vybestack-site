@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -165,7 +166,7 @@ ls -la third-party-hook.sh
 <p>For maximum security, consider running untrusted hooks in isolated environments:</p>
 <pre><code class="language-bash"># Run hook in Docker container
 docker run --rm \
-  -v &quot;$GEMINI_PROJECT_DIR:/workspace:ro&quot; \
+  -v &quot;$LLXPRT_PROJECT_DIR:/workspace:ro&quot; \
   -i untrusted-hook-image \
   /hook-script.sh &lt; input.json
 </code></pre>
@@ -341,10 +342,13 @@ else
 fi
 </code></pre>
 <h3>Enable telemetry</h3>
-<p>Hook execution is logged when <code>telemetry.logPrompts</code> is enabled:</p>
+<p>Hook execution is logged when telemetry is enabled (<code>telemetry.enabled: true</code>).
+Note: the <code>telemetry.logPrompts</code> setting does <strong>not</strong> control hook I/O logging —
+hook input and output are always included in the <code>hook_call</code> telemetry event
+when telemetry is enabled, regardless of the <code>logPrompts</code> value.</p>
 <pre><code class="language-json">{
   &quot;telemetry&quot;: {
-    &quot;logPrompts&quot;: true
+    &quot;enabled&quot;: true
   }
 }
 </code></pre>
@@ -411,7 +415,7 @@ git commit -m &quot;Add project hooks for security and testing&quot;
           {
             &quot;name&quot;: &quot;secret-scanner&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
             &quot;description&quot;: &quot;Scans code changes for API keys, passwords, and other secrets before writing&quot;
           }
         ]
@@ -456,10 +460,10 @@ chmod +x .llxprt/hooks/my-hook.sh
 </code></pre>
 <p><strong>Verify script path:</strong></p>
 <pre><code class="language-bash"># Check path expansion
-echo &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot;
+echo &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot;
 
 # Verify file exists
-test -f &quot;$GEMINI_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot; &amp;&amp; echo &quot;File exists&quot;
+test -f &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot; &amp;&amp; echo &quot;File exists&quot;
 </code></pre>
 <h3>Hook timing out</h3>
 <p><strong>Check configured timeout:</strong></p>
@@ -589,8 +593,8 @@ trap cleanup EXIT
 <p><strong>Check if variable is set:</strong></p>
 <pre><code class="language-bash">#!/usr/bin/env bash
 
-if [ -z &quot;$GEMINI_PROJECT_DIR&quot; ]; then
-  echo &quot;GEMINI_PROJECT_DIR not set&quot; &gt;&amp;2
+if [ -z &quot;$LLXPRT_PROJECT_DIR&quot; ]; then
+  echo &quot;LLXPRT_PROJECT_DIR not set&quot; &gt;&amp;2
   exit 1
 fi
 
@@ -606,23 +610,26 @@ fi
 env &gt; .llxprt/hook-env.log
 
 # Check specific variables
-echo &quot;GEMINI_PROJECT_DIR: $GEMINI_PROJECT_DIR&quot; &gt;&gt; .llxprt/hook-env.log
-echo &quot;GEMINI_SESSION_ID: $GEMINI_SESSION_ID&quot; &gt;&gt; .llxprt/hook-env.log
-echo &quot;GEMINI_API_KEY: ${GEMINI_API_KEY:+&lt;set&gt;}&quot; &gt;&gt; .llxprt/hook-env.log
+echo &quot;LLXPRT_PROJECT_DIR: $LLXPRT_PROJECT_DIR&quot; &gt;&gt; .llxprt/hook-env.log
+echo &quot;LLXPRT_SESSION_ID: $LLXPRT_SESSION_ID&quot; &gt;&gt; .llxprt/hook-env.log
+echo &quot;LLXPRT_API_KEY: ${LLXPRT_API_KEY:+&lt;set&gt;}&quot; &gt;&gt; .llxprt/hook-env.log
 </code></pre>
 <p><strong>Use .env files:</strong></p>
 <pre><code class="language-bash">#!/usr/bin/env bash
 
 # Load .env file if it exists
-if [ -f &quot;$GEMINI_PROJECT_DIR/.env&quot; ]; then
-  source &quot;$GEMINI_PROJECT_DIR/.env&quot;
+if [ -f &quot;$LLXPRT_PROJECT_DIR/.env&quot; ]; then
+  source &quot;$LLXPRT_PROJECT_DIR/.env&quot;
 fi
 </code></pre>
 <h2>Privacy considerations</h2>
-<p>Hook inputs and outputs may contain sensitive information. LLxprt Code respects
-the <code>telemetry.logPrompts</code> setting for hook data logging.</p>
+<p>Hook inputs and outputs may contain sensitive information. The
+<code>telemetry.logPrompts</code> setting does <strong>not</strong> control hook I/O logging — hook
+input and output are always included in the <code>hook_call</code> telemetry event when
+telemetry is enabled (see <code>logHookCall</code> in <code>packages/telemetry/src/telemetry/loggers.ts</code>).
+To prevent hook I/O from being logged, disable telemetry entirely.</p>
 <h3>What data is collected</h3>
-<p>Hook telemetry may include:</p>
+<p>When telemetry is enabled, hook telemetry includes:</p>
 <ul>
 <li><strong>Hook inputs:</strong> User prompts, tool arguments, file contents</li>
 <li><strong>Hook outputs:</strong> Hook responses, decision reasons, added context</li>
@@ -630,31 +637,29 @@ the <code>telemetry.logPrompts</code> setting for hook data logging.</p>
 <li><strong>Execution metadata:</strong> Hook name, event type, duration, success/failure</li>
 </ul>
 <h3>Privacy settings</h3>
-<p><strong>Enabled (default):</strong></p>
+<p><strong>Telemetry enabled (default: off):</strong></p>
 <p>Full hook I/O is logged to telemetry. Use this when:</p>
 <ul>
 <li>Developing and debugging hooks</li>
-<li>Telemetry is redirected to a trusted enterprise system</li>
+<li>Telemetry output stays on your local machine (file or console)</li>
 <li>You understand and accept the privacy implications</li>
 </ul>
-<p><strong>Disabled:</strong></p>
-<p>Only metadata is logged (event name, duration, success/failure). Hook inputs and
-outputs are excluded. Use this when:</p>
+<p><strong>Telemetry disabled:</strong></p>
+<p>No hook data is logged at all. Use this when:</p>
 <ul>
-<li>Sending telemetry to third-party systems</li>
 <li>Working with sensitive data</li>
 <li>Privacy regulations require minimizing data collection</li>
 </ul>
 <h3>Configuration</h3>
-<p><strong>Disable PII logging in settings:</strong></p>
+<p><strong>Disable telemetry entirely:</strong></p>
 <pre><code class="language-json">{
   &quot;telemetry&quot;: {
-    &quot;logPrompts&quot;: false
+    &quot;enabled&quot;: false
   }
 }
 </code></pre>
-<p><strong>Disable via environment variable:</strong></p>
-<pre><code class="language-bash">export GEMINI_TELEMETRY_LOG_PROMPTS=false
+<p><strong>Disable via CLI flag (single session):</strong></p>
+<pre><code class="language-bash">llxprt --no-telemetry
 </code></pre>
 <h3>Sensitive data in hooks</h3>
 <p>If your hooks process sensitive data:</p>
@@ -689,9 +694,175 @@ console.log(JSON.stringify(sanitizeOutput(hookOutput)));
 <ul>
 <li><a href="index.html">Hooks Reference</a> - Complete API reference</li>
 <li><a href="writing-hooks.html">Writing Hooks</a> - Tutorial and examples</li>
-<li><a href="../cli/configuration.html">Configuration</a> - LLxprt Code settings</li>
-<li><a href="../hooks-design.html">Hooks Design Document</a> - Technical architecture</li>
+<li><a href="../cli/configuration.html">Configuration</a> - LLxprt Code settings
+// Start requests concurrently
+const p1 = fetch(url1).then((r) =&gt; r.json());
+const p2 = fetch(url2).then((r) =&gt; r.json());
+const p3 = fetch(url3).then((r) =&gt; r.json());</li>
 </ul>
+<p>// Wait for all results
+const [data1, data2, data3] = await Promise.all([p1, p2, p3]);</p>
+<h2>Using Hooks Securely</h2>
+<h3>Threat Model</h3>
+<p>Understanding where hooks come from and what they can do is critical for secure
+usage.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Hook Source</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>System</strong></td>
+<td style="text-align:left">Configured by system administrators (e.g., <code>/etc/llxprt-code/settings.json</code>, <code>/Library/...</code>). Assumed to be the <strong>safest</strong>.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>User</strong> (your <a href="../reference/application-directories.html">settings.json</a>)</td>
+<td style="text-align:left">Configured by you. You are responsible for ensuring they are safe.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Extensions</strong></td>
+<td style="text-align:left">You explicitly approve and install these. Security depends on the extension source (integrity).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Project</strong> (<code>./.llxprt/...</code>)</td>
+<td style="text-align:left"><strong>Untrusted by default.</strong> Safest in trusted internal repos; higher risk in third-party/public repos.</td>
+</tr>
+</tbody>
+</table>
+<h4>Project Hook Security</h4>
+<p>When you open a project with hooks defined in <code>.llxprt/settings.json</code>:</p>
+<ol>
+<li><strong>Detection</strong>: LLxprt Code detects the hooks.</li>
+<li><strong>Identification</strong>: A unique identity is generated for each hook based on its
+<code>name</code> and <code>command</code>.</li>
+<li><strong>Warning</strong>: If this specific hook identity has not been seen before, a
+<strong>warning</strong> is displayed.</li>
+<li><strong>Execution</strong>: The hook is executed (unless specific security settings block
+it).</li>
+<li><strong>Trust</strong>: The hook is marked as &quot;trusted&quot; for this project.</li>
+</ol>
+<blockquote>
+<p>[!IMPORTANT] <strong>Modification Detection</strong>: If the <code>command</code> string of a project
+hook is changed (e.g., by a <code>git pull</code>), its identity changes. LLxprt Code will
+treat it as a <strong>new, untrusted hook</strong> and warn you again. This prevents
+malicious actors from silently swapping a verified command for a malicious
+one.</p>
+</blockquote>
+<h3>Risks</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Risk</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>Arbitrary Code Execution</strong></td>
+<td style="text-align:left">Hooks run as your user. They can do anything you can do (delete files, install software).</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Data Exfiltration</strong></td>
+<td style="text-align:left">A hook could read your input (prompts), output (code), or environment variables (<code>LLXPRT_API_KEY</code>) and send them to a remote server.</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>Prompt Injection</strong></td>
+<td style="text-align:left">Malicious content in a file or web page could trick an LLM into running a tool that triggers a hook in an unexpected way.</td>
+</tr>
+</tbody>
+</table>
+<h3>Mitigation Strategies</h3>
+<h4>Verify the source</h4>
+<p><strong>Verify the source</strong> of any project hooks or extensions before enabling them.</p>
+<ul>
+<li>For open-source projects, a quick review of the hook scripts is recommended.</li>
+<li>For extensions, ensure you trust the author or publisher (e.g., verified
+publishers, well-known community members).</li>
+<li>Be cautious with obfuscated scripts or compiled binaries from unknown sources.</li>
+</ul>
+<h4>Sanitize Environment</h4>
+<p>Hooks inherit the environment of the LLxprt Code process, which may include
+sensitive API keys. LLxprt Code attempts to sanitize sensitive variables, but you
+should be cautious.</p>
+<ul>
+<li><strong>Avoid printing environment variables</strong> to stdout/stderr unless necessary.</li>
+<li><strong>Use <code>.env</code> files</strong> to securely manage sensitive variables, ensuring they are
+excluded from version control.</li>
+</ul>
+<p><strong>System Administrators:</strong> You can enforce environment variable redaction by
+default in the system configuration (e.g., <code>/etc/llxprt-code/settings.json</code>):</p>
+<pre><code class="language-json">{
+  &quot;security&quot;: {
+    &quot;environmentVariableRedaction&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;blocked&quot;: [&quot;MY_SECRET_KEY&quot;],
+      &quot;allowed&quot;: [&quot;SAFE_VAR&quot;]
+    }
+  }
+}
+</code></pre>
+<h2>Authoring Secure Hooks</h2>
+<p>When writing your own hooks, follow these practices to ensure they are robust
+and secure.</p>
+<h3>Validate all inputs</h3>
+<p>Never trust data from hooks without validation. Hook inputs often come from the
+LLM or user prompts, which can be manipulated.</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+input=$(cat)
+
+# Validate JSON structure
+if ! echo &quot;$input&quot; | jq empty 2&gt;/dev/null; then
+  echo &quot;Invalid JSON input&quot; &gt;&amp;2
+  exit 1
+fi
+
+# Validate tool_name explicitly
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name // empty')
+if [[ &quot;$tool_name&quot; != &quot;write_file&quot; &amp;&amp; &quot;$tool_name&quot; != &quot;read_file&quot; ]]; then
+  echo &quot;Unexpected tool: $tool_name&quot; &gt;&amp;2
+  exit 1
+fi
+</code></pre>
+<h3>Use timeouts</h3>
+<p>Prevent denial-of-service (hanging agents) by enforcing timeouts. LLxprt Code
+defaults to 60 seconds, but you should set stricter limits for fast hooks.</p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;fast-validator&quot;,
+            &quot;command&quot;: &quot;./hooks/validate.sh&quot;,
+            &quot;timeout&quot;: 5000 // 5 seconds
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Limit permissions</h3>
+<p>Run hooks with minimal required permissions:</p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+# Don't run as root
+if [ &quot;$EUID&quot; -eq 0 ]; then
+  echo &quot;Hook should not run as root&quot; &gt;&amp;2
+  exit 1
+fi
+
+# Check file permissions before writing
+if [ -w &quot;$file_path&quot; ]; then
+  # Safe to write
+else
+  echo &quot;Insufficient permissions&quot; &gt;&amp;2
+  exit 1
+fi
+</code></pre>
 
           </div>
         </div>

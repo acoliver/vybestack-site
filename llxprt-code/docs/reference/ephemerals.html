@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -89,14 +90,14 @@
 <td>boolean</td>
 <td><code>false</code></td>
 <td>yes</td>
-<td>Turn on thinking mode. Required for models like Kimi K2-Thinking, Claude with thinking, o3.</td>
+<td>Turn on thinking mode. Required for models like Kimi K3, Claude with thinking, GPT-5.x reasoning effort. (For Kimi K3, thinking is always on and cannot be disabled.)</td>
 </tr>
 <tr>
 <td><code>reasoning.effort</code></td>
 <td>enum</td>
 <td>provider default</td>
 <td>yes</td>
-<td>How hard the model thinks: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>. Higher = slower + more tokens but better results. Anthropic Opus defaults to <code>high</code>. Codex defaults to <code>medium</code>.</td>
+<td>How hard the model thinks: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>. Higher = slower + more tokens but better results. <code>max</code> is model/provider-specific; not all models support all levels. Anthropic Opus defaults to <code>high</code>. Codex defaults to <code>medium</code>. Project <code>minimal</code> maps to OpenAI wire <code>none</code> for GPT-5.6 Responses.</td>
 </tr>
 <tr>
 <td><code>reasoning.maxTokens</code></td>
@@ -387,7 +388,7 @@
 <td>number</td>
 <td><code>-1</code> (unlimited)</td>
 <td>yes</td>
-<td>Hard limit on turns per prompt. Set to a positive integer to cap runaway sessions.</td>
+<td>Hard limit on turns per prompt. Set to a positive integer to cap runaway sessions. The foreground loop-detection layer independently treats an absent value as <code>-1</code> (unlimited). Subagents, however, only inherit a <strong>currently materialized valid foreground value</strong> — explicitly stored <code>-1</code> is inherited as unlimited, but absent/invalid (NaN, Infinity, non-number, zero) causes the orchestrator to fall back to a subagent-specific cap of <strong>1000</strong> turns. The 1000-turn fallback is a fixed constant and does not interpret <code>-1</code>.</td>
 </tr>
 <tr>
 <td><code>loopDetectionEnabled</code></td>
@@ -662,7 +663,7 @@
 <td>boolean</td>
 <td><code>false</code></td>
 <td>yes</td>
-<td>Load tool-specific prompt files from <code>~/.llxprt/prompts/tools/</code>. Adds specialized instructions per tool.</td>
+<td>Load tool-specific prompt files from <code>&lt;config&gt;/prompts/tools/</code> (see <a href="./application-directories.html">Application Directories</a>). Adds specialized instructions per tool.</td>
 </tr>
 <tr>
 <td><code>include-folder-structure</code></td>
@@ -802,7 +803,7 @@
 <td>enum</td>
 <td>—</td>
 <td>yes</td>
-<td>Dump API request body to <code>~/.llxprt/dumps/</code> on errors: <code>enabled</code> or <code>disabled</code>.</td>
+<td>Dump API request body to <code>&lt;cache&gt;/dumps/</code> on errors (see <a href="./application-directories.html">Application Directories</a>): <code>enabled</code> or <code>disabled</code>.</td>
 </tr>
 <tr>
 <td><code>dumpcontext</code></td>

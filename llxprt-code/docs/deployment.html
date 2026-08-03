@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -132,7 +133,7 @@ llxprt --sandbox-engine podman
 <p><strong>Development Mode:</strong>
 This method provides hot-reloading and is useful for active development.</p>
 <pre><code class="language-bash"># From the root of the repository
-npm run start
+bun run start
 </code></pre>
 </li>
 <li>
@@ -162,15 +163,15 @@ npx https://github.com/vybestack/llxprt-code
 </ul>
 <p>These packages are used when performing the standard installation and when running LLxprt Code from the source.</p>
 <p><strong>Build and packaging processes</strong></p>
-<p>There are two distinct build processes used, depending on the distribution channel:</p>
+<p>LLxprt Code runs on the <a href="https://bun.sh">Bun</a> runtime. The CLI's installed command (<code>llxprt</code>) uses platform-native launchers that resolve the package-bundled Bun and execute the TypeScript (<code>.ts</code>) entry point directly, without starting Node. No pre-compiled CLI <code>dist/</code> artifact or retired <code>bundle/llxprt.js</code> artifact is required for the CLI to run. This applies to both distribution channels:</p>
 <ul>
-<li>
-<p><strong>NPM publication:</strong> For publishing to the NPM registry, the TypeScript source code in <code>@vybestack/llxprt-code-core</code> and <code>@vybestack/llxprt-code</code> is transpiled into standard JavaScript using the TypeScript Compiler (<code>tsc</code>). The resulting <code>dist/</code> directory is what gets published in the NPM package. This is a standard approach for TypeScript libraries.</p>
-</li>
-<li>
-<p><strong>GitHub <code>npx</code> execution:</strong> When running the latest version of LLxprt Code directly from GitHub, a different process is triggered by the <code>prepare</code> script in <code>package.json</code>. This script uses <code>esbuild</code> to bundle the entire application and its dependencies into a single, self-contained JavaScript file. This bundle is created on-the-fly on the user's machine and is not checked into the repository.</p>
-</li>
+<li><strong>NPM publication:</strong> The published NPM package exposes <code>packages/cli/bin/llxprt</code> as the <code>llxprt</code> binary. On POSIX, a valid <code>#!/bin/sh</code> shebang makes it directly execve-compatible; the launcher resolves the package-local Bun and execs the <code>.ts</code> source entrypoint. On Windows, the CLI workspace <code>postinstall</code> (<code>packages/cli/scripts/install-native-launchers.cjs</code>) replaces npm's cmd-shim with a native <code>.cmd</code> / <code>.ps1</code> launcher that invokes the same package-local Bun. <code>tsc --noEmit</code> is used for type-checking during development.</li>
 </ul>
+<p>The CLI's own runtime entry (<code>index.ts</code>) is never compiled to <code>dist/</code> — Bun executes the TypeScript source directly. The release pipeline still runs <code>npm run build:packages</code> to compile the internal workspace dependency packages (tools, storage, auth, etc.) whose <code>main</code>/<code>types</code> point at <code>dist/</code>, but the CLI package itself does not consume or ship a <code>dist/</code> artifact for its own runtime.</p>
+<ul>
+<li><strong>GitHub <code>npx</code> execution:</strong> When running the latest version of LLxprt Code directly from GitHub, the postinstall bootstrap ensures dependencies are available, and the native launcher executes the <code>.ts</code> source through Bun.</li>
+</ul>
+<p>Testing uses <a href="https://vitest.dev">vitest</a>, which is retained as the test runner.</p>
 <p><strong>Docker sandbox image</strong></p>
 <p>The Docker-based execution method is supported by the <code>llxprt-code-sandbox</code> container image, published at <code>ghcr.io/vybestack/llxprt-code/sandbox</code>. This image contains a pre-installed, global version of LLxprt Code.</p>
 <pre><code class="language-bash">docker run --rm -it ghcr.io/vybestack/llxprt-code/sandbox:0.7.0
@@ -178,7 +179,7 @@ npx https://github.com/vybestack/llxprt-code
 <h2>Release process</h2>
 <p>The release process is automated through GitHub Actions. The release workflow performs the following actions:</p>
 <ol>
-<li>Build the NPM packages using <code>tsc</code>.</li>
+<li>Validate type-checking and tests (<code>tsc --noEmit</code>, vitest); no compilation to <code>dist/</code> is required — the Bun launcher runs <code>.ts</code> source directly.</li>
 <li>Publish the NPM packages to the artifact registry.</li>
 <li>Create GitHub releases with bundled assets.</li>
 </ol>

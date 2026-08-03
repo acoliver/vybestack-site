@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -85,32 +86,32 @@
 <tr>
 <td>Anthropic</td>
 <td><code>anthropic</code></td>
-<td>claude-opus-4-6</td>
+<td>claude-opus-5</td>
 <td>OAuth or API key</td>
 </tr>
 <tr>
 <td>Google Gemini</td>
 <td><code>gemini</code></td>
 <td>gemini-2.5-pro</td>
-<td>OAuth or API key</td>
+<td>API key or Vertex AI</td>
 </tr>
 <tr>
 <td>OpenAI (API)</td>
 <td><code>openai</code></td>
-<td>gpt-5.2</td>
+<td>gpt-5.5</td>
 <td>API key</td>
 </tr>
 <tr>
 <td>OpenAI (ChatGPT subscription)</td>
 <td><code>codex</code></td>
-<td>gpt-5.3-codex</td>
+<td>gpt-5.6-sol</td>
 <td>OAuth</td>
 </tr>
 <tr>
 <td>Qwen</td>
 <td><code>qwen</code></td>
 <td>qwen3-coder-plus</td>
-<td>OAuth or API key</td>
+<td>API key</td>
 </tr>
 <tr>
 <td>xAI</td>
@@ -122,6 +123,18 @@
 <td>Kimi</td>
 <td><code>kimi</code></td>
 <td>kimi-for-coding</td>
+<td>API key</td>
+</tr>
+<tr>
+<td>DeepSeek</td>
+<td><code>deepseek</code></td>
+<td>deepseek-v4-flash</td>
+<td>API key</td>
+</tr>
+<tr>
+<td><a href="http://Z.AI">Z.AI</a></td>
+<td><code>zai</code></td>
+<td>glm-5</td>
 <td>API key</td>
 </tr>
 <tr>
@@ -157,19 +170,31 @@
 <tr>
 <td>Fireworks</td>
 <td><code>fireworks</code></td>
-<td>fireworks/minimax-m2p5</td>
+<td>fireworks/minimax-m3</td>
+<td>API key</td>
+</tr>
+<tr>
+<td>Makora</td>
+<td><code>makora</code></td>
+<td>nvidia/Kimi-K2.6-NVFP4</td>
+<td>API key</td>
+</tr>
+<tr>
+<td>Ollama Cloud</td>
+<td><code>ollama-cloud</code></td>
+<td>kimi-k2.6</td>
 <td>API key</td>
 </tr>
 <tr>
 <td>LM Studio</td>
 <td><code>lm-studio</code></td>
-<td>—</td>
+<td>gemma-3b-it</td>
 <td>None (local)</td>
 </tr>
 <tr>
 <td>llama.cpp</td>
 <td><code>llama-cpp</code></td>
-<td>—</td>
+<td>local-model</td>
 <td>None (local)</td>
 </tr>
 </tbody>
@@ -185,11 +210,9 @@ llxprt --provider Synthetic
 </code></pre>
 <h2>Authentication</h2>
 <h3>OAuth (Recommended for Subscriptions)</h3>
-<p>If you have an existing subscription with Anthropic, OpenAI (via Codex), Google, or Qwen, use OAuth — no API key needed:</p>
+<p>If you have an existing subscription with Anthropic or OpenAI (via Codex), use OAuth — no API key needed:</p>
 <pre><code class="language-text">/auth anthropic enable
 /auth codex enable
-/auth gemini enable
-/auth qwen enable
 </code></pre>
 <p>From the command line:</p>
 <pre><code class="language-bash">llxprt --provider codex
@@ -216,12 +239,12 @@ llxprt --provider Synthetic --key-name synthetic
 </blockquote>
 <h2>Model Selection</h2>
 <p>Select a model with <code>/model</code>:</p>
-<pre><code class="language-text">/model claude-opus-4-6
+<pre><code class="language-text">/model claude-opus-5
 /model gemini-2.5-pro
-/model grok-3
+/model grok-4
 </code></pre>
 <p>From the command line:</p>
-<pre><code class="language-bash">llxprt --provider anthropic --model claude-opus-4-6
+<pre><code class="language-bash">llxprt --provider anthropic --model claude-opus-5
 </code></pre>
 <p>Use <code>/model</code> with no arguments to see available models for the current provider.</p>
 <h2>Custom Base URL</h2>
@@ -247,7 +270,7 @@ llxprt --provider Synthetic --key-name synthetic
 </code></pre>
 <p>The new alias appears immediately in <code>/provider</code> and persists across sessions.</p>
 <h3>Manual Alias Files</h3>
-<p>Create <code>~/.llxprt/providers/&lt;alias&gt;.config</code>:</p>
+<p>Create <code>&lt;data&gt;/providers/&lt;alias&gt;.config</code> in LLxprt's <a href="../reference/application-directories.html">data directory</a> (overridable via <code>LLXPRT_DATA_HOME</code>, with <code>LLXPRT_CONFIG_HOME</code> as a compatibility fallback):</p>
 <pre><code class="language-json">{
   &quot;baseProvider&quot;: &quot;openai&quot;,
   &quot;base-url&quot;: &quot;https://api.myprovider.com/v1/&quot;,

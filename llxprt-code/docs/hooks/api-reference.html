@@ -55,15 +55,16 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
           <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
           <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
           <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
-          <li><a href="/llxprt-code/docs/EMOJI-FILTER.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
           <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
-          <li><a href="/llxprt-code/docs/CONTRIBUTING.html">Contributing Guide</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
         </ul>
       </nav>
         <div class="docs-content">
@@ -114,7 +115,7 @@ type HookConfig = CommandHookConfig;
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/security.sh&quot;,
+            &quot;command&quot;: &quot;~/bin/llxprt-hooks/security.sh&quot;,
             &quot;timeout&quot;: 5000
           }
         ]
@@ -125,7 +126,7 @@ type HookConfig = CommandHookConfig;
         &quot;hooks&quot;: [
           {
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;~/.llxprt/hooks/audit.sh&quot;
+            &quot;command&quot;: &quot;~/bin/llxprt-hooks/audit.sh&quot;
           }
         ]
       }
@@ -133,6 +134,11 @@ type HookConfig = CommandHookConfig;
   }
 }
 </code></pre>
+<p>The <code>command</code> field accepts any path on your system (with <code>~</code> expansion). You
+can keep hook scripts under your project's <code>.llxprt/hooks/</code> directory, under a
+personal scripts directory, or anywhere else you choose — see
+<a href="../reference/application-directories.html">Application Directories</a> for where
+LLxprt itself stores configuration.</p>
 <h2>Hook Event Types</h2>
 <pre><code class="language-typescript">enum HookEventName {
   BeforeTool = 'BeforeTool',
@@ -363,7 +369,69 @@ type HookDecision = 'ask' | 'block' | 'deny' | 'approve' | 'allow' | undefined;
 
     /** Synthetic response (skips actual LLM call) */
     llm_response?: LLMResponse;
+
+    /** Pending-content boundary for hook-modified contents (enables compression for full-replacement hooks) */
+    llm_request_boundary?: HookLLMRequestBoundary;
   };
+}
+
+interface HookLLMRequestBoundary {
+  /** Schema version (currently 1) */
+  version?: 1;
+
+  /** 0-based index where the pending (new, unsent) suffix starts */
+  pendingMessageStartIndex: number;
+
+  /** Number of pending messages; defaults to the rest of the messages */
+  pendingMessageCount?: number;
+
+  /** Policy when the boundary is invalid: 'skip-compression' (default) or 'throw' */
+  onInvalidBoundary?: 'skip-compression' | 'throw';
+}
+</code></pre>
+<p><code>llm_request_boundary</code> is only relevant when the hook modifies
+<code>llm_request.messages</code>. When a hook replaces or restructures the conversation,
+the runtime can no longer tell which trailing messages are the new (unsent)
+&quot;pending&quot; content versus prior history. Without that boundary, context
+compression is skipped (the modified contents are sent as-is under the context
+limit, and a clear error is thrown when they exceed it).</p>
+<p>The metadata declares that the messages from <code>pendingMessageStartIndex</code> onward
+(<code>pendingMessageCount</code> items, defaulting to the rest) are the pending suffix —
+these are preserved verbatim through compression. The prefix <strong>before</strong> that
+index is declared history-semantics: if compression runs, that prefix is
+<strong>replaced</strong> by the compressed real history from the history service. Hooks
+that need history-side rewrites to survive compression must <strong>not</strong> supply this
+metadata (they should accept skip-compression instead).</p>
+<p>The boundary must describe a suffix of the modified messages:
+<code>pendingMessageStartIndex + pendingMessageCount</code> must equal <code>messages.length</code>.
+Otherwise the boundary is invalid and <code>onInvalidBoundary</code> applies
+(<code>'skip-compression'</code> by default, or <code>'throw'</code>). Malformed (structurally
+invalid) metadata is treated as invalid, not ignored — the hook explicitly
+attempted to control the boundary, so differential recovery is not used.</p>
+<p>When <code>llm_request_boundary</code> is absent, the runtime attempts deterministic
+differential analysis (comparing the pre-hook and post-hook messages) to
+recover the boundary automatically. Pending-side modifications — append and
+modify-pending — are recovered without any hook changes. Prepends are
+detected but intentionally left unrecoverable: the prepended content lives on
+the history side of the boundary and would be silently discarded if
+compression rebuilt that prefix, so compression is skipped instead.</p>
+<p><strong>Example - Full replacement with a boundary:</strong></p>
+<pre><code class="language-json">{
+  &quot;hookSpecificOutput&quot;: {
+    &quot;hookEventName&quot;: &quot;BeforeModel&quot;,
+    &quot;llm_request&quot;: {
+      &quot;messages&quot;: [
+        { &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;Summarized earlier conversation...&quot; },
+        { &quot;role&quot;: &quot;model&quot;, &quot;content&quot;: &quot;Understood.&quot; },
+        { &quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;The new (pending) user message&quot; }
+      ]
+    },
+    &quot;llm_request_boundary&quot;: {
+      &quot;version&quot;: 1,
+      &quot;pendingMessageStartIndex&quot;: 2,
+      &quot;onInvalidBoundary&quot;: &quot;skip-compression&quot;
+    }
+  }
 }
 </code></pre>
 <h3>AfterModelOutput</h3>
