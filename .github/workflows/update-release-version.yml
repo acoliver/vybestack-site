@@ -5,6 +5,10 @@ on:
     # Check every 6 hours
     - cron: '0 */6 * * *'
   workflow_dispatch:
+  # Let vybestack/llxprt-code push-notify us the moment a stable release ships,
+  # so the site never depends solely on the polling schedule.
+  repository_dispatch:
+    types: [llxprt-release]
 
 permissions:
   contents: write
@@ -66,18 +70,26 @@ jobs:
           }
           EOF
 
-      - name: Update install commands with version
+      - name: Stamp latest version into pages
         if: steps.check.outputs.changed == 'true'
         run: |
+          set -euo pipefail
           TAG="${{ steps.release.outputs.tag }}"
-          sed -i "s|<span id=\"latest-version\">[^<]*</span>|<span id=\"latest-version\">${TAG}</span>|g" llxprt-code.html 2>/dev/null || true
+          # Any span carrying the "latest-version" class is rewritten, so the tag
+          # from release-version.json is the single source of truth for every page.
+          # The class list is preserved, allowing markers like "product-tag latest-version".
+          for f in index.html llxprt-code.html; do
+            sed -i -E "s|(<span class=\"[^\"]*\blatest-version\b[^\"]*\">)[^<]*(</span>)|\1${TAG}\2|g" "$f"
+            grep -Eq "class=\"[^\"]*\blatest-version\b[^\"]*\">${TAG}</span>" "$f" \
+              || { echo "::error::failed to stamp ${TAG} into $f"; exit 1; }
+          done
 
       - name: Commit and push
         if: steps.check.outputs.changed == 'true'
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add release-version.json llxprt-code.html
+          git add release-version.json index.html llxprt-code.html
           git diff --cached --quiet || git commit -m "chore: update latest release to ${{ steps.release.outputs.tag }}"
           git push
 
