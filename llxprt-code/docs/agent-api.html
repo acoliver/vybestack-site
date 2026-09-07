@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Agent API Reference | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Agent API Reference</h1>
+<p>The Agent API is the embeddable surface for driving an LLxprt Code agent from
+your own code — without the CLI. You create an agent, send it input, and consume
+a typed event stream. The same primitives the <code>llxprt</code> CLI uses are available
+here so you can build chat loops, automation pipelines, and custom front-ends.</p>
+<h2>Purpose, audience, and stability</h2>
+<p>This page targets <strong>developers embedding an LLxprt Code agent in their own
+program</strong>. If you use the <code>llxprt</code> command-line tool, see the
+<a href="getting-started.html">getting started guide</a> instead.</p>
+<p>The API ships from the <strong><code>@vybestack/llxprt-code-agents</code></strong> npm package, which is
+currently at version <strong>0.x</strong>. Under semver conventions for pre-1.0 packages, a
+minor version bump may include breaking changes. The import surfaces break down
+as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Import specifier</th>
+<th>Stability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@vybestack/llxprt-code-agents</code></td>
+<td><strong>Supported.</strong> The curated public Agent API.</td>
+</tr>
+<tr>
+<td><code>@vybestack/llxprt-code-agents/app-service.js</code></td>
+<td><strong>Supported.</strong> Durable config functions (no live agent needed).</td>
+</tr>
+<tr>
+<td><code>@vybestack/llxprt-code-agents/internals.js</code></td>
+<td><strong>Experimental.</strong> Low-level primitives; may change without a major version bump.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Experimental callout.</strong> The <code>internals.js</code> subpath exposes low-level
+primitives (<code>AgentClient</code>, <code>ChatSession</code>, <code>CoreToolScheduler</code>, and similar).
+It exists so existing consumers can migrate off the package root, but it has
+no stability guarantee. Build against the curated root whenever possible.</p>
+</blockquote>
+<h2>Entry package and imports</h2>
+<p>The public Agent API is exported from <strong><code>@vybestack/llxprt-code-agents</code></strong> — not
+from <code>@vybestack/llxprt-code-core</code>. The agent runtime, chat loop, and
+orchestration live in the <code>agents</code> package, which depends on <code>core</code>.</p>
+<p>Install it like any other dependency:</p>
+<pre><code class="language-bash">npm install @vybestack/llxprt-code-agents
+</code></pre>
+<blockquote>
+<p><strong>Tool-confirmation outcomes.</strong> The <code>onApproval</code> handler returns a
+<code>ToolConfirmationOutcome</code> value (for example <code>ProceedOnce</code> or <code>Cancel</code>). That
+enum is defined in <strong><code>@vybestack/llxprt-code-tools</code></strong> — the agents package
+depends on it and uses it in its own types, but does <strong>not</strong> re-export it. If
+your code references <code>ToolConfirmationOutcome</code> directly (as the confirmation
+examples below do), install the tools package as well:</p>
+<pre><code class="language-bash">npm install @vybestack/llxprt-code-tools
+</code></pre>
+<p>Consumers that never name <code>ToolConfirmationOutcome</code> directly (for example,
+handlers that return a string literal the enum accepts) do not need it.</p>
+</blockquote>
+<p>Import the primary entry point:</p>
+<pre><code class="language-ts">import { createAgent } from '@vybestack/llxprt-code-agents';
+</code></pre>
+<h2>Quick start</h2>
+<p>The quickest way to get a runnable example is the built-in <code>'fake'</code> provider,
+which replays responses from a JSONL fixture instead of calling a real model.
+The fake provider is registered automatically when the <code>LLXPRT_FAKE_RESPONSES</code>
+environment variable points to a fixture file:</p>
+<pre><code class="language-bash">export LLXPRT_FAKE_RESPONSES=/path/to/fixture.jsonl
+</code></pre>
+<p>With that set, <code>provider: 'fake'</code> becomes a fully working provider and the
+example below runs end-to-end:</p>
+<pre><code class="language-ts">import { createAgent } from '@vybestack/llxprt-code-agents';
+
+const agent = await createAgent({
+  provider: 'fake',
+  model: 'fake-model',
+});
+
+try {
+  for await (const event of agent.stream({ text: 'Write me a haiku.' })) {
+    switch (event.type) {
+      case 'text':
+        process.stdout.write(event.text);
+        break;
+      case 'tool-call':
+        console.log(`\n[tool-call] ${event.call.name}`, event.call.args);
+        break;
+      case 'done':
+        // Exactly one terminal 'done' ends every stream.
+        console.log(`\n[done] reason=${event.reason}`);
+        break;
+      default:
+        // 'thinking', 'usage', 'notice', ... — see Events below.
+        break;
+    }
+  }
+} finally {
+  await agent.dispose();
+}
+</code></pre>
+<p>For real work, swap <code>provider: 'fake'</code> for an actual provider (for example
+<code>'openai'</code>, <code>'anthropic'</code>, <code>'gemini'</code>) and supply credentials via the <code>auth</code>
+field (see <a href="#authentication-and-precedence">Authentication and precedence</a>).
+The event stream contract does not change between providers.</p>
+<blockquote>
+<p><strong>Always call <code>dispose()</code>.</strong> An agent owns a runtime context, a message bus,
+and tool schedulers. Call <code>await agent.dispose()</code> — for example in a <code>finally</code>
+block — to tear these down deterministically.</p>
+</blockquote>
+<h2>Configuration: <code>createAgent</code> and <code>AgentConfig</code></h2>
+<pre><code class="language-ts">export async function createAgent(rawConfig: AgentConfig): Promise&lt;Agent&gt;;
+</code></pre>
+<p><code>createAgent</code> validates the config, builds an isolated runtime context,
+activates the provider and model, resolves auth, and returns a ready-to-use
+<code>Agent</code>. It is <code>async</code> — always <code>await</code> it.</p>
+<h3>Required fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>provider</code></td>
+<td><code>string</code></td>
+<td>Provider name, e.g. <code>'fake'</code>, <code>'openai'</code>.</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td><code>string</code></td>
+<td>Model id for that provider.</td>
+</tr>
+</tbody>
+</table>
+<h3>Commonly used optional fields</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>modelParams</code></td>
+<td><code>Readonly&lt;Record&lt;string, unknown&gt;&gt;</code></td>
+<td>Provider/model knobs (temperature, etc.).</td>
+</tr>
+<tr>
+<td><code>auth</code></td>
+<td><code>AgentAuth</code></td>
+<td>Credentials — see <a href="#authentication-and-precedence">Authentication and precedence</a>.</td>
+</tr>
+<tr>
+<td><code>tools</code></td>
+<td><code>readonly string[]</code></td>
+<td>Allow-list of tool names to enable.</td>
+</tr>
+<tr>
+<td><code>excludeTools</code></td>
+<td><code>readonly string[]</code></td>
+<td>Tools to exclude.</td>
+</tr>
+<tr>
+<td><code>mcpServers</code></td>
+<td><code>Record&lt;string, AgentMcpServerConfig&gt;</code></td>
+<td>MCP servers to wire at startup.</td>
+</tr>
+<tr>
+<td><code>approvalMode</code></td>
+<td><code>ApprovalMode</code></td>
+<td>Tool-confirmation policy.</td>
+</tr>
+<tr>
+<td><code>systemPrompt</code></td>
+<td><code>string</code></td>
+<td>System instruction.</td>
+</tr>
+<tr>
+<td><code>workingDir</code></td>
+<td><code>string</code></td>
+<td>Workspace root for file tools.</td>
+</tr>
+<tr>
+<td><code>sessionId</code></td>
+<td><code>string</code></td>
+<td>Stable runtime id (defaults to a generated one).</td>
+</tr>
+<tr>
+<td><code>sandbox</code></td>
+<td><code>AgentSandboxConfig</code></td>
+<td>Sandbox configuration. See the <a href="sandbox.html">sandbox documentation</a>.</td>
+</tr>
+<tr>
+<td><code>hooks</code></td>
+<td><code>AgentHooks</code></td>
+<td>Lifecycle hooks keyed by event name.</td>
+</tr>
+<tr>
+<td><code>streamIdleTimeoutMs</code></td>
+<td><code>number</code></td>
+<td>Idle-timeout for a stream turn.</td>
+</tr>
+<tr>
+<td><code>streamFirstResponseTimeoutMs</code></td>
+<td><code>number</code></td>
+<td>First-response (time-to-first-content) watchdog in milliseconds. Default <code>300000</code>; <code>0</code> or a negative value disables it. A provider liveness signal disarms it.</td>
+</tr>
+<tr>
+<td><code>onApproval</code></td>
+<td><code>ApprovalHandler</code></td>
+<td>Callback invoked for tool confirmations.</td>
+</tr>
+<tr>
+<td><code>onOAuthPrompt</code></td>
+<td><code>OAuthPromptHandler</code></td>
+<td>Callback invoked when an OAuth flow needs the user.</td>
+</tr>
+<tr>
+<td><code>editorCallbacks</code></td>
+<td><code>EditorCallbacks</code></td>
+<td>Hooks for opening/closing an external editor.</td>
+</tr>
+</tbody>
+</table>
+<p><code>AgentConfig</code> carries additional long-tail fields (telemetry, compression,
+recording, file filtering, policy, extensions, skills, IDE mode, and more).</p>
+<h3>Harness defaults and production gating</h3>
+<p><code>createAgent</code> is optimized for the embedder/fixture path. By default it applies
+three harness gates that make fixtures and interactive embedding convenient but
+may be unsuitable for production callers:</p>
+<table>
+<thead>
+<tr>
+<th>Gate</th>
+<th>Default</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forceInteractive</code></td>
+<td><code>true</code></td>
+<td>Overwrites <code>interactive</code> to <code>true</code> so the confirmation coordinator does not throw.</td>
+</tr>
+<tr>
+<td><code>forceConfirmations</code></td>
+<td><code>true</code></td>
+<td>Injects a high-priority ASK policy rule so every tool surfaces a confirmation request.</td>
+</tr>
+<tr>
+<td><code>includeProcessCwd</code></td>
+<td><code>true</code></td>
+<td>Adds <code>process.cwd()</code> to the workspace context so fixture paths resolve within the workspace.</td>
+</tr>
+</tbody>
+</table>
+<p>Production callers can disable any combination through <code>harness</code>:</p>
+<pre><code class="language-ts">const agent = await createAgent({
+  provider: 'openai',
+  model: 'gpt-5.5',
+  interactive: false,
+  approvalMode: ApprovalMode.DEFAULT,
+  harness: {
+    forceInteractive: false, // respect caller interactive: false
+    forceConfirmations: false, // do not inject the confirmation-forcing rule
+    includeProcessCwd: false, // do not mutate workspace with process.cwd()
+  },
+});
+</code></pre>
+<p>When all three are disabled, <code>createAgent</code> honors the caller's <code>interactive</code> and
+<code>approvalMode</code> values verbatim, injects no extra policy rules, and leaves the
+workspace context untouched.</p>
+<blockquote>
+<p><strong>Note.</strong> <a href="#adopting-an-existing-config-fromconfig"><code>fromConfig</code></a> adopts an
+already-constructed config and never applies these harness gates.</p>
+</blockquote>
+<h3>The <code>settings</code> escape hatch</h3>
+<pre><code class="language-ts">readonly settings?: Readonly&lt;Record&lt;string, unknown&gt;&gt;;
+</code></pre>
+<p><code>settings</code> is an <strong>experimental</strong> escape hatch for long-tail configuration not
+yet promoted to a typed <code>AgentConfig</code> field. Its contents are merged into the
+runtime configuration by the adapter, and it throws if a key shadows a typed
+field. It is <strong>not covered by the stability contract</strong> and may change without
+notice — prefer typed fields whenever one exists.</p>
+<h2>Lifecycle and control-plane operations</h2>
+<p>An <code>Agent</code> is the live runtime facade. It exposes top-level methods for sending
+turns, switching provider/model/params, and managing session state, plus
+read-only sub-surfaces for focused control.</p>
+<h3>Sending turns</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stream(input, opts?)</code></td>
+<td>Returns an <code>AsyncIterable&lt;AgentEvent&gt;</code> — the streaming turn. Emits a terminal <code>done</code> event.</td>
+</tr>
+<tr>
+<td><code>chat(input, opts?)</code></td>
+<td>Buffers a turn and returns an <code>AgentResult</code> (text + toolCalls + finishReason). Does <strong>not</strong> emit events.</td>
+</tr>
+<tr>
+<td><code>generate(input, opts?)</code></td>
+<td>One-shot text generation returning a <code>string</code>.</td>
+</tr>
+<tr>
+<td><code>generateJson(contents, schema, opts?)</code></td>
+<td>Schema-constrained JSON generation.</td>
+</tr>
+<tr>
+<td><code>generateEmbedding(texts)</code></td>
+<td>Returns embedding vectors.</td>
+</tr>
+</tbody>
+</table>
+<p><code>input</code> is an <code>AgentInput</code>: a string, an array of content blocks, an
+<code>{ text: string; role?: 'user' | 'system' }</code> object, or a message object.</p>
+<p><code>opts</code> (<code>TurnOptions</code>) may carry:</p>
+<ul>
+<li><code>signal</code> — an <code>AbortSignal</code> to cancel the turn.</li>
+<li><code>maxTurns</code> — maximum number of agentic turns.</li>
+<li><code>mcpDiscovery</code> — <code>'await'</code> or <code>'skip'</code>.</li>
+</ul>
+<h3>Provider, model, and params</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>getProvider()</code> / <code>setProvider(provider, model?)</code></td>
+<td>Read / switch the active provider (preserves context).</td>
+</tr>
+<tr>
+<td><code>getModel()</code> / <code>setModel(model)</code></td>
+<td>Read / switch the active model (preserves context).</td>
+</tr>
+<tr>
+<td><code>getProviderStatus()</code></td>
+<td>Returns <code>ProviderStatus</code> (provider, model, authStatus, baseUrl, …).</td>
+</tr>
+<tr>
+<td><code>getModelParams()</code> / <code>setModelParam(key, value)</code> / <code>clearModelParam(key)</code></td>
+<td>Read / mutate model params.</td>
+</tr>
+<tr>
+<td><code>getCurrentSequenceModel()</code></td>
+<td>Current load-balancer sequence model, or <code>null</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Switching the provider or model on a live agent <strong>preserves conversation
+context</strong> — the next turn continues the conversation rather than starting fresh.</p>
+<h3>Approval mode</h3>
+<p>Read and mutate the live approval mode — the tool-confirmation policy the agent
+applies on every turn:</p>
+<pre><code class="language-ts">import { createAgent, ApprovalMode } from '@vybestack/llxprt-code-agents';
+
+const agent = await createAgent({ provider: 'fake', model: 'fake-model' });
+
+agent.getApprovalMode(); // → ApprovalMode.DEFAULT (default)
+agent.setApprovalMode(ApprovalMode.AUTO_EDIT);
+agent.getApprovalMode(); // → ApprovalMode.AUTO_EDIT
+</code></pre>
+<p><code>ApprovalMode</code> is a runtime enum exported from the public root:</p>
+<table>
+<thead>
+<tr>
+<th>Member</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>DEFAULT</code></td>
+<td>Read-only tools are allowed automatically; write tools ask for confirmation.</td>
+</tr>
+<tr>
+<td><code>AUTO_EDIT</code></td>
+<td>Edit-class tools are auto-approved; shell and other tools still ask.</td>
+</tr>
+<tr>
+<td><code>YOLO</code></td>
+<td>Auto-approve all tools (no confirmation). Dangerous command blocking applies.</td>
+</tr>
+</tbody>
+</table>
+<p>These mode meanings match the built-in policy stack described in
+<a href="tool-permissions.html">Controlling Tool Execution</a>. The <code>ApprovalMode</code> enum value
+itself only selects which mode-specific policy rules are active — it does not
+inject rules of its own.</p>
+<blockquote>
+<p><strong>Important — harness defaults override this in <code>createAgent</code>.</strong> By default
+<code>createAgent</code> applies <code>forceConfirmations: true</code>, which injects a
+high-priority ask rule so <strong>every</strong> tool surfaces a confirmation request,
+regardless of approval mode. To observe the enum's native behaviour, disable
+that harness gate (see <a href="#harness-defaults-and-production-gating">Harness defaults and production gating</a>).</p>
+</blockquote>
+<blockquote>
+<p><strong>Warning — untrusted folders.</strong> <code>setApprovalMode</code> throws
+<code>&quot;Cannot enable privileged approval modes in an untrusted folder.&quot;</code> for any
+non-<code>DEFAULT</code> mode when the working directory is not trusted. The error
+propagates unchanged — it is not caught or normalized.</p>
+</blockquote>
+<h3>History, stats, and compression</h3>
+<p><code>getHistory</code>, <code>setHistory</code>, <code>addHistory</code>, <code>restoreHistory</code>, and <code>resetChat</code>
+manage conversation history. <code>compress(opts?)</code> runs context compression.
+<code>getStats()</code> returns <code>SessionStats</code> and <code>onStats(cb)</code> subscribes to updates.
+<code>listProviders()</code> and <code>listTools()</code> are instance-scoped discovery helpers.</p>
+<h3>Sub-surfaces</h3>
+<p>The <code>Agent</code> exposes the following <code>readonly</code> sub-surface properties:</p>
+<h4><code>agent.tools</code></h4>
+<p>Live tool registry and confirmation wiring. Key methods:</p>
+<ul>
+<li><code>list()</code> — returns a snapshot of every registered tool with name, display
+name, description, source (<code>'builtin'</code>, <code>'mcp'</code>, <code>'extension'</code>, <code>'skill'</code>),
+enabled state, and optional parameters schema.</li>
+<li><code>get(name)</code> — returns a handle wrapping the named tool, or <code>undefined</code> when
+no tool is registered under <code>name</code>. The handle exposes <code>build(params)</code> and
+<code>buildAndExecute(params, signal)</code> for direct invocation.</li>
+<li><code>setEnabled(names)</code> — enable a specific set of tools.</li>
+<li><code>onConfirmationRequest(cb)</code> / <code>respondToConfirmation(confirmationId, decision)</code>
+— wire and respond to tool confirmations.</li>
+<li><code>keys</code> — a nested control for built-in tool API-key storage:
+<code>supported()</code>, <code>status(toolName)</code> (masked), <code>save(toolName, key)</code>,
+<code>delete(toolName)</code>, <code>setKeyFile(toolName, path)</code>, <code>getKeyFile(toolName)</code>.</li>
+</ul>
+<blockquote>
+<p><strong>Security — masked only.</strong> Raw secret values are never returned. <code>status()</code>
+surfaces only a masked preview and a key-file path reference. The full key is
+write-only through <code>save()</code>.</p>
+</blockquote>
+<h4><code>agent.mcp</code></h4>
+<p>Runtime-only view of MCP servers. Key methods: <code>listServers()</code>, <code>status()</code>,
+<code>toolsByServer()</code>, <code>auth(server)</code>, <code>discoveryState()</code>, <code>refresh(server?)</code>,
+<code>reload()</code>, <code>authenticate(server)</code>, <code>details(opts?)</code>.</p>
+<p><code>authenticate(server)</code> runs the real OAuth flow against a server that requires
+auth, then refreshes that server's tool declarations. <code>details(opts?)</code> returns a
+structured snapshot of every server (auth status, tools/prompts/resources as
+requested) plus any servers blocked by an extension.</p>
+<p><code>refresh(server?)</code> restarts the target server (or all servers when called with
+no argument) and re-publishes its tool declarations. <code>reload()</code> hot-applies MCP
+configuration changes without restarting the process — it throws
+<code>&quot;MCP server reload is not available in this composition.&quot;</code> when unavailable.</p>
+<blockquote>
+<p><strong>Durable MCP operations.</strong> Adding or removing MCP server configuration is a
+durable concern available on the
+<a href="#durable-app-service-functions"><code>app-service.js</code></a> subpath, not on the live
+agent.</p>
+</blockquote>
+<h4><code>agent.auth</code></h4>
+<p>Provider authentication. Key methods: <code>login(provider, opts?)</code>,
+<code>logout(provider, opts?)</code>, <code>status(provider?)</code>, <code>enableOAuth(provider)</code>,
+<code>disableOAuth(provider)</code>, <code>listBuckets(provider?)</code>,
+<code>switchBucket(provider, bucket)</code>, <code>mcpLogin(server)</code>, <code>setBaseUrl(baseUrl)</code>,
+and a nested <code>keys</code> control (<code>list</code>, <code>save</code>, <code>use</code>, <code>delete</code>, <code>setRaw</code>,
+<code>setKeyFile</code>).</p>
+<p>Additional inspection methods: <code>detailedStatus(provider)</code>,
+<code>getHigherPriorityAuth(provider)</code>, <code>listBucketStatuses(provider)</code>.</p>
+<blockquote>
+<p><strong>Security — masked only.</strong> These methods return metadata only:
+authenticated flags, expiry timestamps, and reference names. Raw token
+strings are never returned.</p>
+</blockquote>
+<h4><code>agent.profiles</code></h4>
+<p>Runtime profile operations: <code>list()</code>, <code>get(name)</code>, <code>getDefault()</code>,
+<code>apply(name)</code> (rebinds the live runtime), <code>setDefault(name)</code>, <code>create(name, detail)</code>,
+<code>saveCurrent(name)</code>, <code>delete(name)</code>.</p>
+<h4><code>agent.session</code></h4>
+<p>Session lifecycle: <code>resume(target, options?)</code>, <code>resumeSession(ref)</code>,
+<code>listSessions()</code>, <code>nameCurrentSession(name)</code>, <code>deleteSession(ref)</code>,
+<code>createCheckpoint(name)</code>, <code>forkFromCheckpoint(ref)</code>, <code>listCheckpoints()</code>,
+<code>renameCheckpoint(ref, name)</code>, <code>deleteCheckpoint(ref)</code>, <code>setRecording(state)</code>,
+<code>getRecording()</code>.</p>
+<h4><code>agent.hooks</code></h4>
+<p>Lifecycle hooks: <code>onHookExecution(cb)</code>, <code>triggerSessionStart()</code>,
+<code>triggerSessionEnd()</code>, <code>clear()</code>. Hook administration: <code>listHooks()</code>,
+<code>getDisabledHooks()</code>, <code>setDisabledHooks(names)</code>, <code>enable(name)</code>,
+<code>disable(name)</code>.</p>
+<p>When no hook system is present, <code>listHooks()</code> returns <code>[]</code> and the setters are
+no-ops.</p>
+<h4><code>agent.policy</code></h4>
+<p>Read-only inspection of the engine policy: <code>getRules()</code>, <code>getDefaultDecision()</code>,
+<code>isNonInteractive()</code>. <code>PolicyDecision</code> is a runtime enum exported from the
+public root: <code>ALLOW</code>, <code>DENY</code>, <code>ASK_USER</code>.</p>
+<h4><code>agent.tasks</code></h4>
+<p>Undefined-safe async-task administration: <code>list()</code>, <code>listRunning()</code>,
+<code>get(id)</code>, <code>cancel(id)</code>, <code>cancelAllRunning()</code>.</p>
+<p>When no async-task manager is present, <code>list()</code> / <code>listRunning()</code> return <code>[]</code>,
+<code>get(id)</code> returns <code>undefined</code>, <code>cancel(id)</code> returns <code>false</code>, and
+<code>cancelAllRunning()</code> returns <code>0</code>.</p>
+<h4><code>agent.memory</code></h4>
+<p>Runtime memory operations: <code>getMemory()</code>, <code>setMemory(content)</code>,
+<code>getFileCount()</code>, <code>getFilePaths()</code>, <code>getCoreMemory()</code>, <code>getCoreFileCount()</code>,
+<code>setCoreMemory(content)</code>, <code>refresh()</code>, <code>onMemoryChanged(cb)</code>.</p>
+<h4><code>agent.skills</code></h4>
+<p>Skills query/reload: <code>list(opts?)</code>, <code>get(name)</code>, <code>reload()</code>,
+<code>isAdminEnabled()</code>.</p>
+<h4><code>agent.workspace</code></h4>
+<p>Workspace accessors: <code>getDirectories()</code>, <code>addDirectory(path)</code>,
+<code>getWorkingDirectory()</code>, <code>getProjectRoot()</code>.</p>
+<h4><code>agent.lsp</code></h4>
+<p>Read-only LSP status: <code>status()</code> returns a snapshot with <code>disabled</code>,
+<code>servers</code>, and optional <code>unavailableReason</code>.</p>
+<h4><code>agent.ide</code></h4>
+<p>IDE integration: <code>current()</code>, <code>detected()</code>, <code>trust(name)</code>, <code>status()</code>,
+<code>openEditor()</code>, <code>closeEditor()</code>.</p>
+<h2>Events</h2>
+<p>Every <code>stream()</code> turn yields a sequence of <code>AgentEvent</code> values discriminated by
+<code>type</code>. There are 19 variants:</p>
+<table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>Payload</th>
+<th>Terminal?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>text</code></td>
+<td><code>text: string</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>thinking</code></td>
+<td><code>thought: ThoughtSummary</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>tool-call</code></td>
+<td><code>call: AgentToolCall</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>tool-result</code></td>
+<td><code>result: AgentToolResult</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>tool-confirmation</code></td>
+<td><code>confirmation: ToolConfirmation</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>tool-status</code></td>
+<td><code>update: ToolUpdate</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>usage</code></td>
+<td><code>usage: UsageMetadataValue</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>model-info</code></td>
+<td><code>info: ModelInfo</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>notice</code></td>
+<td><code>message: string</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>compression</code></td>
+<td><code>info: ChatCompressionInfo | null</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>context-warning</code></td>
+<td><code>estimatedRequestTokenCount</code>, <code>remainingTokenCount</code></td>
+<td>No (precedes done)</td>
+</tr>
+<tr>
+<td><code>retry</code></td>
+<td><em>(none)</em></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>citation</code></td>
+<td><code>citation: string</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>loop-detected</code></td>
+<td><em>(none)</em></td>
+<td>No (precedes done)</td>
+</tr>
+<tr>
+<td><code>idle-timeout</code></td>
+<td><code>error: StructuredError</code></td>
+<td>No (precedes done)</td>
+</tr>
+<tr>
+<td><code>invalid-stream</code></td>
+<td><em>(none)</em></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>hook-blocked</code></td>
+<td><code>info: AgentStopInfo</code></td>
+<td>No</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>error: StructuredError</code></td>
+<td>No (precedes done)</td>
+</tr>
+<tr>
+<td><code>done</code></td>
+<td><code>reason: DoneReason</code>, <code>finished?</code>, <code>stop?</code></td>
+<td><strong>Yes</strong></td>
+</tr>
+</tbody>
+</table>
+<h3><code>DoneReason</code></h3>
+<p>There are two ways to consume a turn's outcome, and they surface the finish
+reason differently:</p>
+<ul>
+<li><strong><code>stream()</code></strong> yields an <code>AgentEvent</code> sequence that terminates with
+<strong>exactly one</strong> <code>done</code> event carrying a <code>reason</code> from the table below.
+Errors surface as an <code>error</code> event followed by exactly one <code>done</code> with
+<code>reason: 'error'</code>.</li>
+<li><strong><code>chat()</code></strong> returns an <code>AgentResult</code> directly. It does <strong>not</strong> emit events.
+The finish reason is available on <code>result.finishReason</code>, and a failed turn
+populates <code>result.error</code> (an <code>AgentError</code>) alongside
+<code>finishReason: 'error'</code>.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Reason</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>stop</code></td>
+<td>Normal completion.</td>
+</tr>
+<tr>
+<td><code>aborted</code></td>
+<td>The turn was cancelled (for example via an <code>AbortSignal</code>).</td>
+</tr>
+<tr>
+<td><code>max-turns</code></td>
+<td>The turn exceeded the configured maximum number of agentic turns.</td>
+</tr>
+<tr>
+<td><code>context-overflow</code></td>
+<td>The context window was exceeded.</td>
+</tr>
+<tr>
+<td><code>loop-detected</code></td>
+<td>A repetition loop was detected.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>The turn failed. Preceded by an <code>error</code> event.</td>
+</tr>
+<tr>
+<td><code>hook-stopped</code></td>
+<td>A lifecycle hook stopped the turn.</td>
+</tr>
+<tr>
+<td><code>refusal</code></td>
+<td>The model's safety classifier declined the request.</td>
+</tr>
+</tbody>
+</table>
+<p>Errors surface as an <code>error</code> event <strong>followed by exactly one</strong>
+<code>done</code> with <code>reason: 'error'</code>. The error event is informational; the <code>done</code> is
+the terminator. Treat <code>aborted</code> and <code>error</code> as distinct cases — <code>aborted</code> means
+the turn was cancelled, <code>error</code> means it failed.</p>
+<p><code>refusal</code> indicates the turn completed (HTTP 200) but the model declined to
+produce an actionable answer. Surface a user-visible notice rather than treating
+it as a hard error.</p>
+<blockquote>
+<p><strong>Note — idle-timeout.</strong> A stream idle-timeout emits an <code>idle-timeout</code> event
+and then terminates the turn with <code>done</code> carrying <code>reason: 'error'</code>.</p>
+</blockquote>
+<h2>Tool confirmations and safe denial</h2>
+<p>Tools that require confirmation surface a <code>tool-confirmation</code> event and a
+<code>tool-status</code> update with <code>status: 'awaiting-approval'</code>. To approve or deny,
+wire a handler in one of two ways:</p>
+<ol>
+<li>Provide <code>onApproval</code> at <code>createAgent</code> time, <strong>or</strong></li>
+<li>Subscribe via <code>agent.tools.onConfirmationRequest(cb)</code> and respond with
+<code>agent.tools.respondToConfirmation(confirmationId, decision)</code>.</li>
+</ol>
+<p><strong>Wired handler that rejects or throws — safe denial.</strong> When a handler is wired
+but its promise rejects (or it throws), the confirmation is answered with a
+<code>Cancel</code> outcome so the scheduler cancels the tool and the loop proceeds. The
+loop never hangs.</p>
+<p><strong>No handler wired — clear error.</strong> When <code>onApproval</code> is not provided, the
+confirmation cannot be answered. In non-interactive contexts the agent surfaces
+a structured error
+(<code>&quot;requires user confirmation, which is not supported in non-interactive mode&quot;</code>),
+emits an <code>error</code> event, and terminates the turn with exactly one
+<code>done</code> carrying <code>reason: 'error'</code>. The agent does <strong>not</strong> silently proceed and
+does <strong>not</strong> silently deny.</p>
+<p>Wire <code>onApproval</code> at <code>createAgent</code> time, or subscribe and respond via
+<code>agent.tools</code> — do not leave confirmations unhandled.</p>
+<h2>Authentication and precedence</h2>
+<p>Authentication is configured up-front via <code>AgentConfig.auth</code> and adjusted at
+runtime via <code>agent.auth</code> and <code>agent.auth.keys</code>.</p>
+<h3>Auth precedence (highest to lowest)</h3>
+<p>The auth source that wins is determined in this order:</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Source</th>
+<th>How it is set</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>raw</code></td>
+<td>A raw key set at runtime via <code>agent.auth.keys.setRaw(value)</code>.</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>keyName</code></td>
+<td>A named key reference selected via <code>agent.auth.keys.use(name)</code>.</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>inline</code></td>
+<td>An inline <code>auth.apiKey</code> supplied in <code>AgentConfig</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>keyfile</code></td>
+<td>A key file path (<code>auth.apiKeyFile</code> or <code>setKeyFile</code>).</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>oauth</code></td>
+<td>An OAuth-authenticated provider.</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>none</code></td>
+<td>No credential; <code>authStatus</code> is <code>'unauthenticated'</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>getProviderStatus()</code> reflects the winner: it surfaces <code>keyName</code> only when the
+winner is <code>keyName</code>, and <code>keyFile</code> only when the winner is <code>keyfile</code>. Secret
+values are never copied onto status or profile objects — only the reference
+(name or path) surfaces. In-memory named keys live in a per-agent store that
+dies with the agent and never touches disk or the host keychain.</p>
+<h2>Errors and disposal</h2>
+<h3><code>dispose()</code></h3>
+<pre><code class="language-ts">dispose(): Promise&lt;void&gt;;
+</code></pre>
+<p>Tears down the runtime context, message bus, and any tool schedulers the agent
+owns. Always call it when finished.</p>
+<h3>Ownership and <code>dispose()</code></h3>
+<p><code>createAgent</code> <strong>builds and owns</strong> its own config and client — <code>agent.dispose()</code>
+tears them down.</p>
+<p><code>fromConfig</code> <strong>adopts</strong> a caller-supplied config — <code>agent.dispose()</code> tears down
+the agent's runtime context, message bus, and tool schedulers, but does <strong>not</strong>
+dispose the caller-supplied config. The config remains usable after the agent is
+disposed.</p>
+<h3>Runtime identity</h3>
+<pre><code class="language-ts">agent.getRuntimeId(): string;
+</code></pre>
+<p>Returns a stable, non-empty string identifying this runtime instance. It is set
+at construction time (from <code>AgentConfig.sessionId</code> if provided, otherwise
+generated) and does not change for the lifetime of the agent. Use it for logging,
+telemetry, or correlating events.</p>
+<h2>Examples</h2>
+<h3>Minimal chat turn</h3>
+<pre><code class="language-ts">import { createAgent } from '@vybestack/llxprt-code-agents';
+
+const agent = await createAgent({
+  provider: 'openai',
+  model: 'gpt-5.5',
+  auth: { apiKey: process.env.OPENAI_API_KEY },
+});
+
+try {
+  const result = await agent.chat({ text: 'What is 2 + 2?' });
+  console.log(result.text);
+} finally {
+  await agent.dispose();
+}
+</code></pre>
+<h3>Switching provider with context preservation</h3>
+<pre><code class="language-ts">// The conversation history survives the switch.
+await agent.setProvider('anthropic', 'claude-fable-5');
+const continued = await agent.chat({ text: 'Continuing our conversation...' });
+</code></pre>
+<h3>Inspecting tools</h3>
+<pre><code class="language-ts">import { createAgent } from '@vybestack/llxprt-code-agents';
+
+const agent = await createAgent({ provider: 'fake', model: 'fake-model' });
+
+for (const info of agent.tools.list()) {
+  console.log(info.displayName ?? info.name, info.source, info.enabled);
+}
+
+const handle = agent.tools.get('read_many_files');
+if (handle) {
+  const result = await handle.buildAndExecute(
+    { paths: ['src/**/*.ts'] },
+    new AbortController().signal,
+  );
+  console.log(result.llmContent);
+}
+</code></pre>
+<h3>Wiring tool confirmations</h3>
+<p>This example references <code>ToolConfirmationOutcome</code>, which lives in the tools
+package — install <code>@vybestack/llxprt-code-tools</code> alongside the agents package
+to run it (see <a href="#entry-package-and-imports">Entry package and imports</a>).</p>
+<pre><code class="language-ts">import { createAgent } from '@vybestack/llxprt-code-agents';
+import { ToolConfirmationOutcome } from '@vybestack/llxprt-code-tools';
+
+const agent = await createAgent({
+  provider: 'openai',
+  model: 'gpt-5.5',
+  auth: { apiKey: process.env.OPENAI_API_KEY },
+  onApproval: (confirmation) =&gt; {
+    console.log(`Confirming: ${confirmation.name}`);
+    return ToolConfirmationOutcome.ProceedOnce;
+  },
+});
+</code></pre>
+<h2>Durable app-service functions</h2>
+<p>Durable configuration concerns — profile persistence, MCP server add/remove,
+memory file edits, skill/extension management, settings mutation, and
+diagnostics — are available as standalone functions that do <strong>not</strong> require a
+live agent:</p>
+<pre><code class="language-ts">import {
+  saveCurrentProfile,
+  listProfiles,
+  deleteProfile,
+  addMcpServer,
+  removeMcpServer,
+  editMemory,
+  manageSkills,
+  manageExtensions,
+  getAbout,
+  getDiagnostics,
+  mutateSettings,
+  COMMAND_API_MAP,
+} from '@vybestack/llxprt-code-agents/app-service.js';
+</code></pre>
+<h3><code>COMMAND_API_MAP</code></h3>
+<p><code>COMMAND_API_MAP</code> is the canonical slash-command to API mapping. Each entry is
+one of three kinds:</p>
+<ul>
+<li><code>runtime</code> — a live <code>Agent</code> method path (affects the active conversation).</li>
+<li><code>subpath</code> — a durable app-service function.</li>
+<li><code>cli-local</code> — pure UI/UX with no core dependency.</li>
+</ul>
+<h2>Adopting an existing config: <code>fromConfig</code></h2>
+<p>In addition to <code>createAgent</code>, the public API exposes <code>fromConfig</code> for adopting a
+caller-supplied config object. This is the seam the CLI uses to inject an
+already-constructed config into an agent without the agent rebuilding its own
+runtime from scratch.</p>
+<pre><code class="language-ts">import { fromConfig } from '@vybestack/llxprt-code-agents';
+
+// `config` is a caller-owned config built however you like.
+const agent = await fromConfig({ config });
+
+console.log(agent.getRuntimeId());
+</code></pre>
+<p>To drive turns that issue tool calls requiring confirmation, supply an
+<code>onApproval</code> handler. As above, <code>ToolConfirmationOutcome</code> is exported from the
+tools package (<code>@vybestack/llxprt-code-tools</code>), not the agents package:</p>
+<pre><code class="language-ts">import { fromConfig } from '@vybestack/llxprt-code-agents';
+import { ToolConfirmationOutcome } from '@vybestack/llxprt-code-tools';
+
+const agent = await fromConfig({
+  config,
+  onApproval: () =&gt; ToolConfirmationOutcome.ProceedOnce,
+});
+</code></pre>
+<h2>Related guides</h2>
+<ul>
+<li><a href="getting-started.html">Getting started</a> — using the <code>llxprt</code> CLI.</li>
+<li><a href="sandbox.html">Sandbox</a> — configuring process and file sandboxing.</li>
+<li><a href="settings-and-profiles.html">Settings and profiles</a> — configuring LLxprt Code.</li>
+<li><a href="policy-configuration.html">Policy configuration</a> — tool-confirmation policies.</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

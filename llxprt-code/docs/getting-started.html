@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -89,19 +92,33 @@
 <p>LLxprt Code is powered by the <a href="https://bun.sh">Bun</a> runtime. When you run <code>llxprt</code>, a platform-native launcher resolves the package-local Bun and execs the CLI under it. The launcher executes the TypeScript (<code>.ts</code>) entry point directly — the CLI's run path does not require a pre-compiled <code>dist/</code> artifact. No Node process is started on the installed command path, and Bun does not need to be on your <code>PATH</code>.</p>
 <p><strong>Bun resolution order (production launcher):</strong></p>
 <ol>
-<li>Package-local: <code>&lt;package&gt;/node_modules/bun/bin/bun.exe</code> (the package's pinned <code>bun</code> dependency)</li>
-<li>Hoisted (installed packages only): the enclosing <code>node_modules/bun/bin/bun.exe</code> (npm/Bun hoisting), stopping at the enclosing <code>node_modules</code> boundary — never climbing into consumer ancestors</li>
-<li>Workspace root (source workspace only): when the package is not under a <code>node_modules</code> and the repository root is a verified llxprt-code workspace, that verified root's <code>node_modules/bun/bin/bun.exe</code></li>
+<li>Package-local: <code>&lt;package&gt;/node_modules/bun/bin/bun.exe</code> (the package's pinned <code>bun</code> dependency)
+<ul>
+<li><strong>Fallback:</strong> <code>@oven/bun-&lt;platform&gt;/bin/bun[.exe]</code> variant (probed only when <code>bun/bin/bun.exe</code> is absent)</li>
+</ul>
+</li>
+<li>Hoisted (installed packages only): the enclosing <code>node_modules/bun/bin/bun.exe</code> (npm/Bun hoisting), stopping at the enclosing <code>node_modules</code> boundary — never climbing into consumer ancestors
+<ul>
+<li><strong>Fallback:</strong> <code>@oven/bun-&lt;platform&gt;</code> variant within the enclosing <code>node_modules</code></li>
+</ul>
+</li>
+<li>Workspace root (source workspace only): when the package is not under a <code>node_modules</code> and the repository root is a verified llxprt-code workspace, that verified root's <code>node_modules/bun/bin/bun.exe</code>
+<ul>
+<li><strong>Fallback:</strong> <code>@oven/bun-&lt;platform&gt;</code> variant at the workspace root</li>
+</ul>
+</li>
 </ol>
-<p>The launcher never scans <code>.bin</code> symlinks and never falls back to a global <code>bun</code> on <code>PATH</code>, so a separately installed Bun is not required. When an exact Bun pin is declared, a candidate whose version is missing or mismatched is rejected. If no package-local Bun is found, the launcher prints an error with instructions:</p>
+<p>On macOS, a Bun already on <code>PATH</code> that meets the pinned version floor is preferred over all of the above (issue #2962).</p>
+<p>The launcher never scans <code>.bin</code> symlinks. When an exact Bun pin is declared, a candidate whose version is missing or mismatched is rejected. Only after every candidate above has been probed and rejected — each level and its <code>@oven</code> fallback, plus the macOS <code>PATH</code> preference — does the launcher give up and print an error with instructions:</p>
 <blockquote>
 <p>LLxprt Code: bundled Bun runtime was not found. Reinstall the package with &quot;npm install @vybestack/llxprt-code&quot; to restore the bundled Bun dependency, or visit <a href="https://bun.sh">https://bun.sh</a></p>
 </blockquote>
-<p>To resolve this:</p>
+<p><strong>npm v12 note:</strong> npm v12 disables dependency install scripts by default (RFC 0054). Since <code>bun</code> ships its binary via a postinstall script, the binary may not materialize under default-deny. LLxprt Code declares the 16 <code>@oven/bun-&lt;platform&gt;</code> packages as its own <code>optionalDependencies</code>; these contain only <code>bin/bun[.exe]</code> with no scripts, so they materialize under default-deny and serve as the fallback above.</p>
+<p>To resolve the error above:</p>
 <ul>
 <li><strong>npm users:</strong> Re-run <code>npm install @vybestack/llxprt-code</code> (or <code>npm install -g @vybestack/llxprt-code</code>) to restore the bundled Bun dependency.</li>
 <li><strong>Homebrew users:</strong> Run <code>brew upgrade llxprt-code</code> to get the latest formula, or <code>brew reinstall llxprt-code</code> to restore a broken installation.</li>
-<li><strong>All users:</strong> If the bundled Bun dependency cannot be restored, reinstalling the package is the supported path. A separately installed global Bun is not used by the launcher.</li>
+<li><strong>All users:</strong> If the bundled Bun dependency cannot be restored, reinstalling the package is the supported path. Outside the macOS <code>PATH</code> preference noted above, a separately installed global Bun is not used by the launcher.</li>
 </ul>
 <h2>Choose Your Path</h2>
 <p>LLxprt Code works with multiple AI providers. Pick the option that works for you:</p>

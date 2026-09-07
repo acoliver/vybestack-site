@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -385,10 +388,43 @@
 </ul>
 <h4><code>sessionRetention</code></h4>
 <ul>
-<li><strong><code>sessionRetention</code></strong> (object):
+<li>
+<p><strong><code>sessionRetention.enabled</code></strong> (boolean):</p>
 <ul>
-<li><strong>Description:</strong> Settings for automatic session cleanup.</li>
+<li><strong>Description:</strong> Enable automatic session cleanup. Set to false to disable all janitorial mutations.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sessionRetention.maxTotalSizeMB</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Machine-wide aggregate size limit for all session recordings and cold archives, in MiB (see the default property).</li>
+<li><strong>Default:</strong> <code>4096</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sessionRetention.maxAge</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Maximum age of sessions to keep (e.g. &quot;30d&quot;, &quot;7d&quot;, &quot;24h&quot;). No default age limit.</li>
 <li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sessionRetention.maxCount</code></strong> (number):</p>
+<ul>
+<li><strong>Description:</strong> Maximum number of sessions to keep (most recent). No default count limit.</li>
+<li><strong>Default:</strong> <code>undefined</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
+<p><strong><code>sessionRetention.minRetention</code></strong> (string):</p>
+<ul>
+<li><strong>Description:</strong> Minimum retention period (safety floor, defaults to &quot;1d&quot;).</li>
+<li><strong>Default:</strong> <code>&quot;1d&quot;</code></li>
 <li><strong>Requires restart:</strong> No</li>
 </ul>
 </li>
@@ -615,6 +651,14 @@
 </ul>
 </li>
 <li>
+<p><strong><code>ui.alwaysDisplayFullShellCommand</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Display complete shell commands without truncation.</li>
+<li><strong>Default:</strong> <code>true</code></li>
+<li><strong>Requires restart:</strong> No</li>
+</ul>
+</li>
+<li>
 <p><strong><code>ui.showLineNumbers</code></strong> (boolean):</p>
 <ul>
 <li><strong>Description:</strong> Show line numbers in the chat.</li>
@@ -780,6 +824,15 @@
 <ul>
 <li><strong>Description:</strong> Render output in plain-text to be more screen reader accessible.</li>
 <li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>ui.unicode</code></strong> (enum):</p>
+<ul>
+<li><strong>Description:</strong> Control rendering of Unicode box-drawing and spinner glyphs. Use &quot;off&quot; on terminals that show &quot;?&quot; for borders/spinners (e.g. legacy Windows PowerShell).</li>
+<li><strong>Default:</strong> <code>&quot;auto&quot;</code></li>
+<li><strong>Values:</strong> <code>&quot;auto&quot;</code>, <code>&quot;force&quot;</code>, <code>&quot;off&quot;</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
 </li>
@@ -1060,6 +1113,14 @@
 <p><strong><code>security.disableYoloMode</code></strong> (boolean):</p>
 <ul>
 <li><strong>Description:</strong> Disable YOLO mode, even if enabled by a flag.</li>
+<li><strong>Default:</strong> <code>false</code></li>
+<li><strong>Requires restart:</strong> Yes</li>
+</ul>
+</li>
+<li>
+<p><strong><code>security.disableOsKeyring</code></strong> (boolean):</p>
+<ul>
+<li><strong>Description:</strong> Disable use of the OS keyring/keychain for credential storage and use the encrypted file fallback. Can also be set with the LLXPRT_DISABLE_OS_KEYRING=1 environment variable.</li>
 <li><strong>Default:</strong> <code>false</code></li>
 <li><strong>Requires restart:</strong> Yes</li>
 </ul>
@@ -2033,6 +2094,7 @@ that can be executed.</li>
 <p><strong><code>mcpServers</code></strong> (object):</p>
 <ul>
 <li><strong>Description:</strong> Configures connections to one or more Model-Context Protocol (MCP) servers for discovering and using custom tools. LLxprt Code attempts to connect to each configured MCP server to discover available tools. If multiple MCP servers expose a tool with the same name, the tool names will be prefixed with the server alias you defined in the configuration (e.g., <code>serverAlias__actualToolName</code>) to avoid conflicts. Note that the system might strip certain schema properties from MCP tool definitions for compatibility. At least one of <code>command</code>, <code>url</code>, or <code>httpUrl</code> must be provided. If multiple are specified, the order of precedence is <code>httpUrl</code>, then <code>url</code>, then <code>command</code>.</li>
+<li><strong>Reloading:</strong> Run <code>/mcp reload</code> in an active interactive session after changing persisted MCP settings. The command adds, removes, or reconnects affected servers without restarting the session while preserving startup profile, extension, administrative, and command-line restrictions. <code>/mcp refresh</code> only reconnects servers already loaded in memory.</li>
 <li><strong>Default:</strong> Empty</li>
 <li><strong>Properties:</strong>
 <ul>
@@ -2042,8 +2104,9 @@ that can be executed.</li>
 <li><code>args</code> (array of strings, optional): Arguments to pass to the command.</li>
 <li><code>env</code> (object, optional): Environment variables to set for the server process.</li>
 <li><code>cwd</code> (string, optional): The working directory in which to start the server.</li>
-<li><code>url</code> (string, optional): The URL of an MCP server that uses Server-Sent Events (SSE) for communication.</li>
-<li><code>httpUrl</code> (string, optional): The URL of an MCP server that uses streamable HTTP for communication.</li>
+<li><code>url</code> (string, optional): The URL of an MCP server that uses Server-Sent Events (SSE) or Streamable HTTP for communication. Use with the <code>type</code> field to specify the transport type (<code>&quot;sse&quot;</code>, <code>&quot;http&quot;</code>, or <code>&quot;streamable-http&quot;</code> as an alias for <code>&quot;http&quot;</code>).</li>
+<li><code>httpUrl</code> (string, optional): The URL of an MCP server that uses streamable HTTP for communication. (Deprecated; use <code>url</code> with <code>type: &quot;http&quot;</code> instead.)</li>
+<li><code>type</code> (string, optional): Transport type. Use <code>&quot;stdio&quot;</code> for local command, <code>&quot;sse&quot;</code> for Server-Sent Events, <code>&quot;http&quot;</code> for Streamable HTTP, or <code>&quot;streamable-http&quot;</code> as an alias for <code>&quot;http&quot;</code>. When set, disables automatic HTTP→SSE fallback.</li>
 <li><code>headers</code> (object, optional): A map of HTTP headers to send with requests to <code>url</code> or <code>httpUrl</code>.</li>
 <li><code>timeout</code> (number, optional): Timeout in milliseconds for requests to this MCP server.</li>
 <li><code>trust</code> (boolean, optional): Trust this server and bypass all tool call confirmations.</li>
@@ -2117,20 +2180,38 @@ that can be executed.</li>
 <li>
 <p><strong><code>telemetry</code></strong> (object)</p>
 <ul>
-<li><strong>Description:</strong> Configures logging and metrics collection for LLxprt Code. For more information, see <a href="../telemetry.html">Telemetry</a>. Telemetry data is always local (file or console); the SDK does not construct OTLP/network exporters.</li>
-<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false, &quot;target&quot;: &quot;local&quot;, &quot;logPrompts&quot;: true}</code></li>
+<li><strong>Description:</strong> Configures local logging and metrics collection for LLxprt Code. For more information, see <a href="../telemetry.html">Telemetry</a>. Telemetry is written only to a configured local file or the console.</li>
+<li><strong>Default:</strong> <code>{&quot;enabled&quot;: false, &quot;logPrompts&quot;: true}</code></li>
 <li><strong>Properties:</strong>
 <ul>
 <li><strong><code>enabled</code></strong> (boolean): Whether or not telemetry is enabled. Defaults to <code>false</code>.</li>
-<li><strong><code>target</code></strong> (string): Intended destination category. Note: regardless of this setting, data is only written locally (file or console); no OTLP or network exporter is constructed by the SDK.</li>
-<li><strong><code>otlpEndpoint</code></strong> (string): Read into configuration but not currently used by the SDK (no OTLP exporter is constructed).</li>
-<li><strong><code>logPrompts</code></strong> (boolean): Controls whether user prompt text is included in the <code>user_prompt</code> log event. Does not affect hook I/O logging (hook input/output is always included in <code>hook_call</code> events when telemetry is enabled).</li>
+<li><strong><code>logPrompts</code></strong> (boolean): Controls whether user prompt text is included in the <code>user_prompt</code> log event. Also gates API request/response bodies. Does not affect hook I/O logging (hook input/output is always included in <code>hook_call</code> events when telemetry is enabled).</li>
+<li><strong><code>logApiBodies</code></strong> (boolean): Whether full request/response bodies are included in <code>api_request</code>/<code>api_response</code> events. Defaults to <code>false</code>. Bodies are emitted only when <code>logApiBodies</code> and <code>logPrompts</code> are both <code>true</code>, and are truncated to <code>logApiBodyMaxChars</code>.</li>
+<li><strong><code>logApiBodyMaxChars</code></strong> (number): Maximum characters of a request/response body included when <code>logApiBodies</code> is enabled. Defaults to <code>4000</code>.</li>
+<li><strong><code>outfile</code></strong> (string): Optional local file path for traces, metrics, and logs. Without it, telemetry is written to the console.</li>
+<li><strong><code>outfileMaxBytes</code></strong> (number): Size cap in bytes that triggers rotation of the outfile. Defaults to <code>104857600</code> (100 MiB). The active file is renamed to <code>&lt;outfile&gt;.&lt;timestamp&gt;-&lt;suffix&gt;</code> and a fresh file is started; a single record larger than the cap is still written whole.</li>
+<li><strong><code>outfileMaxFiles</code></strong> (number): Number of rotated outfile files to retain. Defaults to <code>10</code>. The oldest rotated files are deleted first.</li>
+<li><strong><code>perf</code></strong> (object): Client-side performance telemetry, written only to local perf files. Independent of <code>telemetry.enabled</code> — <code>perf.enabled</code> is its own master switch.
+<ul>
+<li><strong><code>enabled</code></strong> (boolean): Master switch for local performance telemetry. Defaults to <code>false</code>. When <code>false</code>, no perf files are created, no observers are installed, and no memory ring is allocated.</li>
+<li><strong><code>memory</code></strong> (boolean): Records a memory sample (RSS and heap) every 60 seconds into a 120-sample ring, giving roughly two hours of in-session history. Surfaced by the <code>/perf</code> command. Defaults to <code>false</code>, and is effective <strong>only</strong> when <code>perf.enabled</code> is also <code>true</code>.</li>
+<li><strong>Note:</strong> Performance telemetry starts only for interactive sessions; non-interactive runs do not initialize it.</li>
 </ul>
+</li>
+</ul>
+</li>
+<li><strong>Example — enabling the in-session memory trend:</strong><pre><code class="language-json">&quot;telemetry&quot;: {
+  &quot;perf&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;memory&quot;: true
+  }
+}
+</code></pre>
 </li>
 <li><strong>Example:</strong><pre><code class="language-json">&quot;telemetry&quot;: {
   &quot;enabled&quot;: true,
-  &quot;target&quot;: &quot;local&quot;,
-  &quot;logPrompts&quot;: false
+  &quot;logPrompts&quot;: false,
+  &quot;outfile&quot;: &quot;/var/log/llxprt/telemetry.jsonl&quot;
 }
 </code></pre>
 </li>
@@ -2488,7 +2569,6 @@ that can be executed.</li>
   },
   &quot;telemetry&quot;: {
     &quot;enabled&quot;: true,
-    &quot;target&quot;: &quot;local&quot;,
     &quot;logPrompts&quot;: true
   },
   &quot;usageStatisticsEnabled&quot;: true,
@@ -2517,6 +2597,20 @@ that can be executed.</li>
 <li><code>&lt;config&gt;/.env</code> (user-level — see <a href="../reference/application-directories.html">Application Directories</a>)</li>
 </ol>
 <p>String values in <code>settings.json</code> can reference environment variables using <code>$VAR_NAME</code> or <code>${VAR_NAME}</code> syntax.</p>
+<h3>Agent observation variables (<code>--jsp-bootstrap</code>, <code>LLXPRT_JSP_BOOTSTRAP_FILE</code>, <code>LLXPRT_JSP_NO_CONTENT</code>)</h3>
+<p>These optional inputs enable agent-observation and status reporting to a supervising process (for example, a session manager that surfaces agent state in an external UI). They are normally written by that supervisor — not set by hand — and the env var is inherited by descendant processes.</p>
+<p>Bootstrap source precedence (highest to lowest):</p>
+<ol>
+<li><strong><code>--jsp-bootstrap &lt;path&gt;</code></strong> — explicit CLI flag.</li>
+<li><strong><code>LLXPRT_JSP_BOOTSTRAP_FILE</code></strong> — environment-variable fallback.</li>
+<li><strong>Disabled</strong> — no observation producer is started.</li>
+</ol>
+<p>The bootstrap file is a mode-0600, credential-bearing artifact (it carries the <code>publisher_credential</code>, <code>agent_id</code>, and <code>lifecycle_generation</code> for the session). To prevent unrelated descendant processes (subagents, shell tools, MCP servers) from inheriting a per-process identity pointer that may already have been rotated away, the CLI captures <code>LLXPRT_JSP_BOOTSTRAP_FILE</code> and removes it from its own environment at the very first executable line of startup — before debug logging, help/version handling, settings loading, memory relaunch, or argument parsing. No descendant inherits the variable.</p>
+<p>When the CLI performs an intentional direct-replacement relaunch (a memory relaunch or a sandbox hop) and the bootstrap path came from the environment, that path is transported to the child <strong>only</strong> via the hidden argv option <code>--jsp-bootstrap-internal-env-path</code>. The variable is never restored to the environment, and only the nonsecret path travels on argv — the credential itself stays inside the bootstrap file and is never placed on the command line.</p>
+<p>When the resolved bootstrap file <strong>cannot be read</strong> (it is missing, is a directory, or is unreadable for any reason), observation is disabled and the CLI prints a single warning to <strong>stderr</strong> naming the source channel (<code>--jsp-bootstrap</code> or <code>LLXPRT_JSP_BOOTSTRAP_FILE</code>), the escaped path, and the errno code, then continues normally. This keeps <code>stdout</code> clean for <code>-p</code> piping and lets a stale inherited pointer (which outlives the session that wrote the file) degrade gracefully. When the file <strong>exists but is wrong</strong> — malformed JSON, an endpoint that is not a loopback address, or an unsupported protocol version — startup <strong>aborts with exit code 52 on purpose</strong>, because an operator deliberately wrote that file for this run.</p>
+<ul>
+<li><strong><code>LLXPRT_JSP_NO_CONTENT</code></strong>: Set to <code>true</code> or <code>1</code> to suppress assistant message text in the published observation documents while preserving status fields and timestamps.</li>
+</ul>
 <h2>Shell History</h2>
 <p>Shell command history is stored per-project under LLxprt's <a href="../reference/application-directories.html">log/state directory</a> at <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/shell_history</code> (overridable via <code>LLXPRT_LOG_HOME</code>).</p>
 <h2>See Also</h2>

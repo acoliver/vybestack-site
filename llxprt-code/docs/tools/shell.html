@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Example Proxy Script | LLxprt Code Docs</title>
+  <title>Shell Tool (`run_shell_command`) | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../../vybestack.css" />
 </head>
 <body>
@@ -72,84 +72,102 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Example Proxy Script</h1>
-<p>The following is an example of a proxy script that can be used with the <code>LLXPRT_SANDBOX_PROXY_COMMAND</code> environment variable. This script only allows <code>HTTPS</code> connections to <code>example.com:443</code> and declines all other requests.</p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-
-/**
- * @license
- * Copyright 2025 Google LLC
- * SPDX-License-Identifier: Apache-2.0
- */
-
-// Example proxy server that listens on :::8877 and only allows HTTPS connections to example.com.
-// Set `LLXPRT_SANDBOX_PROXY_COMMAND=scripts/example-proxy.js` to run proxy alongside sandbox
-// Test via `curl https://example.com` inside sandbox (in shell mode or via shell tool)
-
-import http from 'http';
-import net from 'net';
-import { URL } from 'url';
-import console from 'console';
-
-const PROXY_PORT = 8877;
-const ALLOWED_DOMAINS = ['example.com', 'googleapis.com'];
-const ALLOWED_PORT = '443';
-
-const server = http.createServer((req, res) =&gt; {
-  // Deny all requests other than CONNECT for HTTPS
-  console.log(
-    `[PROXY] Denying non-CONNECT request for: ${req.method} ${req.url}`,
-  );
-  res.writeHead(405, { 'Content-Type': 'text/plain' });
-  res.end('Method Not Allowed');
-});
-
-server.on('connect', (req, clientSocket, head) =&gt; {
-  // req.url will be in the format &quot;hostname:port&quot; for a CONNECT request.
-  const { port, hostname } = new URL(`http://${req.url}`);
-
-  console.log(`[PROXY] Intercepted CONNECT request for: ${hostname}:${port}`);
-
-  if (
-    ALLOWED_DOMAINS.some(
-      (domain) =&gt; hostname == domain || hostname.endsWith(`.${domain}`),
-    ) &amp;&amp;
-    port === ALLOWED_PORT
-  ) {
-    console.log(`[PROXY] Allowing connection to ${hostname}:${port}`);
-
-    // Establish a TCP connection to the original destination.
-    const serverSocket = net.connect(port, hostname, () =&gt; {
-      clientSocket.write('HTTP/1.1 200 Connection Established\r\n\r\n');
-      // Create a tunnel by piping data between the client and the destination server.
-      serverSocket.write(head);
-      serverSocket.pipe(clientSocket);
-      clientSocket.pipe(serverSocket);
-    });
-
-    serverSocket.on('error', (err) =&gt; {
-      console.error(`[PROXY] Error connecting to destination: ${err.message}`);
-      clientSocket.end(`HTTP/1.1 502 Bad Gateway\r\n\r\n`);
-    });
-  } else {
-    console.log(`[PROXY] Denying connection to ${hostname}:${port}`);
-    clientSocket.end('HTTP/1.1 403 Forbidden\r\n\r\n');
-  }
-
-  clientSocket.on('error', (err) =&gt; {
-    // This can happen if the client hangs up.
-    console.error(`[PROXY] Client socket error: ${err.message}`);
-  });
-});
-
-server.listen(PROXY_PORT, () =&gt; {
-  const address = server.address();
-  console.log(`[PROXY] Proxy listening on ${address.address}:${address.port}`);
-  console.log(
-    `[PROXY] Allowing HTTPS connections to domains: ${ALLOWED_DOMAINS.join(', ')}`,
-  );
-});
-</code></pre>
+            <h1>Shell Tool (<code>run_shell_command</code>)</h1>
+<p>The <code>run_shell_command</code> tool executes a shell command and returns the output,
+exit code, and process information.</p>
+<h2>Platform Behavior</h2>
+<table>
+<thead>
+<tr>
+<th>Platform</th>
+<th>Shell</th>
+<th>Invocation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Windows</td>
+<td>PowerShell (<code>powershell.exe</code> or <code>pwsh</code>)</td>
+<td><code>-NoProfile -Command &lt;command&gt;</code></td>
+</tr>
+<tr>
+<td>POSIX</td>
+<td>Bash</td>
+<td><code>bash -c &lt;command&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p>On Windows, quote paths containing spaces with single quotes (for example,
+<code>New-Item -ItemType Directory -Force -Path 'C:\My Folder'</code>) and represent an
+apostrophe inside a single-quoted path with two single quotes.</p>
+<h2>Background Jobs (<code>is_background</code>)</h2>
+<p>When <code>is_background</code> is <code>true</code>, the command is launched as a <strong>managed
+background job</strong> and the tool returns immediately with a stable job id.
+The command output is <strong>not</strong> returned inline. Use
+<a href="./index.html#agents-and-tasks"><code>check_async_tasks</code></a> (<code>action: 'list'</code>,
+<code>'peek'</code>, or <code>'cancel'</code>) or the <code>/task list</code> / <code>/task end &lt;id&gt;</code> slash commands
+to inspect output or cancel a running job.</p>
+<p>The <code>timeout_seconds</code> parameter is <strong>not</strong> applied to background jobs at all —
+neither to the launch nor to the job's lifetime. A background job may run
+indefinitely, but may be cancelled (via <code>check_async_tasks</code> <code>action: 'cancel'</code>)
+or forcibly terminated by lifecycle management (<code>dispose</code>) or log-cap
+enforcement.</p>
+<h3>POSIX Details</h3>
+<p>On POSIX, a trailing <code>&amp;</code> in the command is detected via AST parsing and
+automatically promoted to a managed job. The job runs in its own process group.
+Cancellation targets the group with SIGTERM, escalating to SIGKILL after a
+short grace period.</p>
+<h3>Windows Details</h3>
+<p>On Windows, background jobs are launched via PowerShell <code>Start-Process</code>:</p>
+<ul>
+<li>The model's command is passed as an <code>-EncodedCommand</code> (base64 of UTF-16LE),
+which eliminates all quoting and escaping concerns.</li>
+<li><code>$ProgressPreference = 'SilentlyContinue'</code> is prepended to suppress progress
+records that would otherwise pollute the output.</li>
+<li>Stdout and stderr are written to <strong>two separate log files</strong>.</li>
+<li>Exit-code propagation relies on caching the process handle before waiting
+(<code>$null = $p.Handle</code> → <code>$p.WaitForExit()</code> → <code>$p.ExitCode</code>).</li>
+</ul>
+<p>On an ordinary Windows session, a background job keeps running after the LLxprt
+process that started it exits. That is not guaranteed in every environment: when
+LLxprt runs inside a Windows job object that terminates its processes when the
+job closes, the background job is torn down along with LLxprt. This has been
+observed on GitHub Actions Windows runners. Treat survival past the LLxprt
+process as environment dependent rather than as a guarantee.</p>
+<p>To <strong>cancel</strong> a Windows background job, use <code>check_async_tasks</code> with
+<code>action: 'cancel'</code>, or <code>taskkill /T /F /PID &lt;pid&gt;</code> from a shell (the <code>pid</code> is
+available from <code>check_async_tasks</code> with <code>action: 'peek'</code>). The <code>/T</code> flag ensures
+the entire process tree is reaped.</p>
+<p>CLIXML-encoded error records in the stderr log are decoded automatically for
+readable display.</p>
+<h3>Settings</h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell-max-background-jobs</code></td>
+<td>10</td>
+<td>Maximum concurrent background jobs.</td>
+</tr>
+<tr>
+<td><code>shell-background-log-max-bytes</code></td>
+<td>8 MiB</td>
+<td>Maximum log output per job before forced cancel.</td>
+</tr>
+</tbody>
+</table>
+<h2>Related</h2>
+<ul>
+<li><a href="./index.html">Tools Overview</a></li>
+<li><a href="../sandbox.html">Sandboxing</a> — running in a container</li>
+<li><a href="../settings-and-profiles.html">Settings</a> — configuring tool behavior</li>
+</ul>
 
           </div>
         </div>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -552,16 +555,24 @@ interface HookToolConfig {
 <td><code>LLXPRT_PROJECT_DIR</code></td>
 <td>Current working directory</td>
 </tr>
-<tr>
-<td><code>GEMINI_PROJECT_DIR</code></td>
-<td>Alias for compatibility</td>
-</tr>
-<tr>
-<td><code>CLAUDE_PROJECT_DIR</code></td>
-<td>Alias for compatibility</td>
-</tr>
 </tbody>
 </table>
+<p><code>LLXPRT_PROJECT_DIR</code> is the only environment variable LLxprt Code adds to the
+hook environment; the rest of the environment is inherited from the LLxprt Code
+process.</p>
+<p>Inside a hook's <code>command</code> string, two layers of expansion apply:</p>
+<ol>
+<li><strong>LLxprt Code expands <code>$LLXPRT_PROJECT_DIR</code> itself.</strong> Before invoking the
+shell, LLxprt Code replaces every <code>$LLXPRT_PROJECT_DIR</code> token with the
+current working directory, shell-escaping the value first to prevent
+injection. No other LLxprt-specific token is substituted by LLxprt Code.</li>
+<li><strong>The platform shell then performs its normal expansion.</strong> Because the
+resulting string is handed to a real shell, ordinary shell features such as
+<code>${VAR:-default}</code>, <code>$HOME</code>, <code>~</code>, command substitution, and quoting all work
+as they would in any shell script. For example,
+<code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}</code> resolves correctly inside
+a <code>command</code> because the shell evaluates it at run time.</li>
+</ol>
 <h2>MessageBus Contracts</h2>
 <p>For advanced integration via the internal message bus:</p>
 <h3>HookExecutionRequest</h3>

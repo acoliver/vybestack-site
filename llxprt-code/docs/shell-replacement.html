@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -93,6 +96,27 @@
 </tr>
 </tbody>
 </table>
+<h2>Per-Shell Parsing</h2>
+<p>LLxprt Code selects a structural parser <strong>matching the execution shell when
+one is available</strong> rather than applying one generic grammar to every command
+(#3181):</p>
+<ul>
+<li><strong>Bash</strong> execution → <code>tree-sitter-bash</code> grammar.</li>
+<li><strong>PowerShell</strong> execution under Bun → <code>tree-sitter-pwsh</code> grammar.</li>
+<li><strong>cmd.exe</strong> execution → falls back to the Bash grammar (no dedicated cmd grammar exists; this is the same as pre-#3181 behavior).</li>
+</ul>
+<p>Parsing does <strong>not</strong> always match the execution shell: under Node, PowerShell
+structural validation intentionally fails closed (the PowerShell WASM is unstable
+under Node), and cmd.exe always uses the Bash legacy fallback. In these cases
+validation preserves the documented fail-closed or legacy fallback behavior
+instead of silently treating PowerShell as Bash.</p>
+<h3>PowerShell Substitution Semantics</h3>
+<p>PowerShell substitution differs from Bash:</p>
+<ul>
+<li>PowerShell <strong>backticks</strong> (<code>`</code>) are escape/line-continuation characters, <strong>not</strong> command substitution. They are not treated as substitution in any mode.</li>
+<li>PowerShell <strong><code>$()</code></strong> subexpressions are substitution and follow the configured mode.</li>
+<li>PowerShell <strong><code>.NET</code> invocations</strong> (e.g., <code>[System.Diagnostics.Process]::Start(...)</code>) are detected as expression targets. In strict allowlist mode they fail closed because they cannot be compared honestly against a command allowlist.</li>
+</ul>
 <h2>Configuring</h2>
 <h3>Session Setting</h3>
 <pre><code>/set shell-replacement allowlist    # Default — validate nested commands
@@ -112,6 +136,62 @@
 <h2>How Allowlist Mode Works</h2>
 <p>In <code>allowlist</code> mode (the default), LLxprt Code uses tree-sitter to parse the command and extract all nested commands, including those inside <code>$()</code> or backticks. Each nested command is validated against the coreTools configuration. If a nested command isn't on the allowlist, the entire command is blocked.</p>
 <p>This gives you command substitution where it's safe while preventing unexpected commands from running inside substitutions.</p>
+<h2>Runtime Compatibility</h2>
+<p>The PowerShell grammar (<code>tree-sitter-pwsh</code>) loads under the <strong>Bun</strong> runtime — the shipped CLI runtime — where it is stable. Under <strong>Node</strong> (used by core library consumers, A2A, and other server paths), the PowerShell WASM causes a V8 out-of-memory crash at process shutdown. To prevent this, the codebase uses an <code>isBunRuntime()</code> guard so that:</p>
+<ul>
+<li><strong>Bun</strong>: Both Bash and PowerShell grammars load. PowerShell structural validation works.</li>
+<li><strong>Node</strong>: Only the Bash grammar loads. PowerShell validation <strong>fails closed</strong> with a truthful diagnostic (<code>PowerShell command rejected because the structural parser is unavailable</code>). PowerShell commands are never silently accepted without validation.</li>
+</ul>
+<p>cmd.exe execution maps to the Bash grammar because no dedicated cmd grammar exists and cmd syntax is not PowerShell. This is the same behavior as before #3181 and does not make a false claim about the language.</p>
+<h2>Case-Insensitive Matching (PowerShell)</h2>
+<p>PowerShell command resolution is case-insensitive. Blocklist and allowlist matching for PowerShell commands is therefore case-insensitive: <code>ShellTool(Get-Process)</code> matches <code>GET-PROCESS</code>, <code>get-process</code>, and <code>Get-Process</code>. Bash matching remains strictly case-sensitive. The case-insensitivity is PowerShell-scoped and does not affect Bash behavior.</p>
+<p>Literal call targets (<code>&amp; 'C:/tools/tool.exe'</code>) and dot-source paths (<code>. ./script.ps1</code>) normalize to the basename before matching, so policy patterns do not require broad wildcards like <code>ShellTool(&amp;)</code>.</p>
+<h2>Wrapper and Evaluator Bypass Prevention</h2>
+<p>PowerShell evaluators and shell wrappers are recursively validated to prevent statically resolvable payloads from bypassing an allowlist or blocklist:</p>
+<table>
+<thead>
+<tr>
+<th>Construct</th>
+<th>Literal payload</th>
+<th>Dynamic payload</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Invoke-Expression</code> / <code>iex</code></td>
+<td>Recursively parsed with PowerShell grammar</td>
+<td>Fails closed under a strict allowlist</td>
+</tr>
+<tr>
+<td><code>powershell -Command</code> / <code>pwsh -Command</code></td>
+<td>Recursively parsed with PowerShell grammar</td>
+<td>Fails closed under a strict allowlist</td>
+</tr>
+<tr>
+<td><code>bash -c</code> / <code>sh -c</code></td>
+<td>Recursively parsed with Bash grammar</td>
+<td>Fails closed under a strict allowlist</td>
+</tr>
+<tr>
+<td><code>cmd /c</code> / <code>cmd.exe /c</code></td>
+<td>No dedicated grammar; treated as unresolved expression</td>
+<td>Fails closed under a strict allowlist</td>
+</tr>
+<tr>
+<td><code>Start-Process</code> / <code>saps</code> / <code>start</code></td>
+<td>Static target extracted as command name</td>
+<td>Dynamic target fails closed under a strict allowlist</td>
+</tr>
+<tr>
+<td>Literal call-operator forms such as <code>&amp; &quot;pwsh&quot;</code></td>
+<td>Handled like the corresponding direct wrapper</td>
+<td>Fails closed under a strict allowlist</td>
+</tr>
+</tbody>
+</table>
+<p>Ordinary quoted strings and static here-strings are decoded before recursive parsing. Statically resolvable nested blocklisted commands are therefore still checked when wrapped in these constructs. Dynamic payloads cannot be compared honestly with a command allowlist and are hard-denied when a strict global or session allowlist applies; an <code>excludeTools</code> blocklist alone is not a complete sandbox for dynamically generated command text.</p>
+<h2>Blocklist Recursion Across Modes</h2>
+<p>Blocklist (<code>excludeTools</code>) checks recurse into all nested commands — script blocks, subexpressions, pipelines, and wrapper payloads — in every mode (<code>none</code>, <code>allowlist</code>, <code>all</code>). A blocklisted command nested inside <code>ForEach-Object { ... }</code> or <code>$(...)</code> is caught even in <code>all</code> mode, which only relaxes substitution restrictions, not blocklist enforcement.</p>
 <h2>Security Notes</h2>
 <ul>
 <li><strong><code>none</code> mode</strong> is appropriate if you're running untrusted code or want maximum safety — it blocks all substitution patterns entirely.</li>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -241,6 +244,21 @@
 <p><strong>Auth failures</strong> — make sure the key name matches what you saved. Check with <code>llxprt</code> then <code>/key list</code>. For OAuth providers, authenticate interactively first.</p>
 <p><strong>Agent appears but doesn't respond</strong> — try enabling debug logging. Check that the model name is valid for your provider.</p>
 <p><strong>Profile not found</strong> — list profiles with <code>llxprt</code> then <code>/profile list</code>. Names are case-sensitive.</p>
+<h2>Extension Namespace (<code>llxprt/</code>)</h2>
+<p>LLxprt reserves the <code>llxprt/</code> prefix for vendor-specific ACP extension methods and notifications. This namespace is documented for future use; no <code>llxprt/</code>-prefixed extension methods are implemented yet.</p>
+<p>When a concrete use case arrives (e.g. subagent status, memory operations, debug toggles, provider hints), the method name will be <code>llxprt/&lt;feature&gt;</code> and will be advertised here. Clients that do not recognize a <code>llxprt/</code> method MUST ignore it per the ACP <a href="https://agentclientprotocol.com/protocol/extensibility">extensibility</a> rules (<code>_meta</code> / extension handling).</p>
+<h2>Session Metadata</h2>
+<p>LLxprt emits ACP <code>session_info_update</code> notifications carrying:</p>
+<ul>
+<li><strong><code>title</code></strong> — a truncated preview of the first user prompt (derived once, consistent with the on-disk session listing).</li>
+<li><strong><code>updatedAt</code></strong> — an ISO 8601 timestamp refreshed after every turn (success, cancel, or error).</li>
+</ul>
+<p>This metadata also populates the <code>listSessions</code> response so Zed's session sidebar shows descriptive names and freshness without reading the recording files.</p>
+<p>When a session has both a durable on-disk recording and live in-memory metadata (e.g. the agent process is still running), <code>listSessions</code> merges them: the durable recording's title takes precedence (it is the authoritative first-user-message preview), while <code>updatedAt</code> is the newer of the two. A session with no durable recording yet shows the live title and <code>updatedAt</code> only.</p>
+<h2>Terminal Integration</h2>
+<p>When the client advertises the <code>terminal</code> capability (<code>terminal: true</code> in <code>ClientCapabilities</code>), LLxprt creates an ACP terminal for each shell tool call via <code>connection.createTerminal</code>. This delegates command execution to Zed's native terminal renderer, giving the user live inline output as the command runs.</p>
+<p>The terminal is correlated to the originating tool call (by command and working directory) and embedded in the tool call's content as a <code>terminal</code> content block. The terminal is released after the tool call completes, and killed and released on cancel or session dispose.</p>
+<p>When the terminal capability is absent (or <code>false</code>), shell output is captured as text and emitted via the standard <code>content</code> content block — the same behavior as non-terminal ACP clients.</p>
 <h2>Related</h2>
 <ul>
 <li><a href="https://zed.dev/docs/ai/external-agents">Zed External Agents Documentation</a></li>

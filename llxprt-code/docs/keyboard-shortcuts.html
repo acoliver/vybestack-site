@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -73,6 +76,9 @@
 <p>Default keyboard shortcuts for editing, navigation, and UI control.</p>
 <blockquote>
 <p><strong>macOS note:</strong> Where you see <code>Ctrl</code>, use <code>Cmd</code> on macOS for most shortcuts. Exceptions are noted — some shortcuts (like <code>Ctrl+C</code> to cancel) use <code>Ctrl</code> on all platforms.</p>
+</blockquote>
+<blockquote>
+<p><strong>Windows note (Ctrl+Enter steering):</strong> Windows consoles deliver <code>Ctrl+Enter</code> as a bare line feed, indistinguishable from <code>Ctrl+J</code>. So on Windows <code>Ctrl+Enter</code> and <code>Ctrl+J</code> are the same key: while the agent is streaming they <strong>steer</strong> the active turn (see &quot;Steer the active agent…&quot; in the Text Input table below) — or, on an empty input with queued messages, steer all queued messages into the active turn — and they insert a newline when the agent is idle, or when there is nothing to steer (empty input with no queued messages). On macOS and Linux <code>Ctrl+J</code> and <code>Ctrl+Enter</code> are distinct keys and behave exactly as listed. This platform alias is applied at runtime only; the binding table below is intentionally platform-neutral.</p>
 </blockquote>
 <p><strong>Quick tips:</strong></p>
 <ul>
@@ -336,6 +342,10 @@
 <td><code>Enter (no Ctrl, no Shift, no Cmd)</code></td>
 </tr>
 <tr>
+<td>Steer the active agent mid-turn by injecting input at the next tool-call boundary (only during streaming).</td>
+<td><code>Ctrl + Enter</code></td>
+</tr>
+<tr>
 <td>Insert a newline without submitting.</td>
 <td><code>Ctrl + Enter</code><br /><code>Cmd + Enter</code><br /><code>Shift + Enter</code><br /><code>Ctrl + J</code></td>
 </tr>
@@ -424,6 +434,21 @@
 <tr>
 <td>Toggle tool descriptions display.</td>
 <td><code>Ctrl + T</code></td>
+</tr>
+</tbody>
+</table>
+<h2>Queued Messages</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Keys</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Toggle the queued messages panel visibility.</td>
+<td><code>Ctrl + ]</code></td>
 </tr>
 </tbody>
 </table>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LLxprt Code Execution and Deployment | LLxprt Code Docs</title>
+  <title>Installing and Running LLxprt Code | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -69,12 +72,11 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>LLxprt Code Execution and Deployment</h1>
-<p>This document describes how to run LLxprt Code and explains the deployment architecture that LLxprt Code uses.</p>
-<h2>Running LLxprt Code</h2>
-<p>There are several ways to run LLxprt Code. The option you choose depends on how you intend to use LLxprt Code.</p>
-<hr>
-<h3>1. Standard installation (Recommended for typical users)</h3>
+            <h1>Installing and Running LLxprt Code</h1>
+<p>There are several ways to run LLxprt Code. The option you choose depends on how
+you intend to use it.</p>
+<h2>Standard installation</h2>
+<p>Recommended for most users.</p>
 <ul>
 <li>
 <p><strong>npm (global install):</strong></p>
@@ -98,12 +100,13 @@ llxprt
 <p><strong>Nightly builds:</strong></p>
 <pre><code class="language-bash">npm install -g @vybestack/llxprt-code@nightly
 </code></pre>
-<p>Nightly builds are published from the latest commit on main. They may contain unreleased features and breaking changes.</p>
+<p>Nightly builds are published from the latest commit on main. They may contain
+unreleased features and breaking changes.</p>
 </li>
 </ul>
-<hr>
-<h3>2. Running in a sandbox (Docker or Podman)</h3>
-<p>LLxprt Code can run inside a container for security isolation. Both Docker and Podman are supported.</p>
+<h2>Running in a sandbox</h2>
+<p>LLxprt Code can run inside a container for security isolation. Both Docker and
+Podman are supported.</p>
 <ul>
 <li>
 <p><strong>Using the <code>--sandbox</code> flag:</strong></p>
@@ -124,65 +127,17 @@ llxprt --sandbox-engine podman
 </code></pre>
 </li>
 </ul>
-<p>See <a href="./sandbox.html">Sandboxing</a> for full documentation including credential proxying, SSH agent passthrough, and custom sandbox profiles.</p>
-<hr>
-<h3>3. Running from source (Recommended for LLxprt Code contributors)</h3>
-<p>Contributors to the project will want to run the CLI directly from the source code.</p>
-<ul>
-<li>
-<p><strong>Development Mode:</strong>
-This method provides hot-reloading and is useful for active development.</p>
-<pre><code class="language-bash"># From the root of the repository
-bun run start
-</code></pre>
-</li>
-<li>
-<p><strong>Production-like mode (Linked package):</strong>
-This method simulates a global installation by linking your local package. It's useful for testing a local build in a production workflow.</p>
-<pre><code class="language-bash"># Link the local cli package to your global node_modules
-npm link packages/cli
-
-# Now you can run your local version using the `llxprt` command
-llxprt
-</code></pre>
-</li>
-</ul>
-<hr>
-<h3>4. Running the latest LLxprt Code commit from GitHub</h3>
-<p>You can run the most recently committed version of LLxprt Code directly from the GitHub repository. This is useful for testing features still in development.</p>
+<p>See <a href="./sandbox.html">Sandboxing</a> for full documentation including credential
+proxying, SSH agent passthrough, and custom sandbox profiles.</p>
+<h2>Running the latest commit from GitHub</h2>
+<p>You can run the most recently committed version of LLxprt Code directly from
+the GitHub repository. This is useful for testing features still in development.</p>
 <pre><code class="language-bash"># Execute the CLI directly from the main branch on GitHub
 npx https://github.com/vybestack/llxprt-code
 </code></pre>
-<h2>Deployment architecture</h2>
-<p>The execution methods described above are made possible by the following architectural components and processes:</p>
-<p><strong>NPM packages</strong></p>
-<p>LLxprt Code project is a monorepo that publishes two core packages to the NPM registry:</p>
-<ul>
-<li><code>@vybestack/llxprt-code-core</code>: The backend, handling logic and tool execution.</li>
-<li><code>@vybestack/llxprt-code</code>: The user-facing frontend.</li>
-</ul>
-<p>These packages are used when performing the standard installation and when running LLxprt Code from the source.</p>
-<p><strong>Build and packaging processes</strong></p>
-<p>LLxprt Code runs on the <a href="https://bun.sh">Bun</a> runtime. The CLI's installed command (<code>llxprt</code>) uses platform-native launchers that resolve the package-bundled Bun and execute the TypeScript (<code>.ts</code>) entry point directly, without starting Node. No pre-compiled CLI <code>dist/</code> artifact or retired <code>bundle/llxprt.js</code> artifact is required for the CLI to run. This applies to both distribution channels:</p>
-<ul>
-<li><strong>NPM publication:</strong> The published NPM package exposes <code>packages/cli/bin/llxprt</code> as the <code>llxprt</code> binary. On POSIX, a valid <code>#!/bin/sh</code> shebang makes it directly execve-compatible; the launcher resolves the package-local Bun and execs the <code>.ts</code> source entrypoint. On Windows, the CLI workspace <code>postinstall</code> (<code>packages/cli/scripts/install-native-launchers.cjs</code>) replaces npm's cmd-shim with a native <code>.cmd</code> / <code>.ps1</code> launcher that invokes the same package-local Bun. <code>tsc --noEmit</code> is used for type-checking during development.</li>
-</ul>
-<p>The CLI's own runtime entry (<code>index.ts</code>) is never compiled to <code>dist/</code> — Bun executes the TypeScript source directly. The release pipeline still runs <code>npm run build:packages</code> to compile the internal workspace dependency packages (tools, storage, auth, etc.) whose <code>main</code>/<code>types</code> point at <code>dist/</code>, but the CLI package itself does not consume or ship a <code>dist/</code> artifact for its own runtime.</p>
-<ul>
-<li><strong>GitHub <code>npx</code> execution:</strong> When running the latest version of LLxprt Code directly from GitHub, the postinstall bootstrap ensures dependencies are available, and the native launcher executes the <code>.ts</code> source through Bun.</li>
-</ul>
-<p>Testing uses <a href="https://vitest.dev">vitest</a>, which is retained as the test runner.</p>
-<p><strong>Docker sandbox image</strong></p>
-<p>The Docker-based execution method is supported by the <code>llxprt-code-sandbox</code> container image, published at <code>ghcr.io/vybestack/llxprt-code/sandbox</code>. This image contains a pre-installed, global version of LLxprt Code.</p>
-<pre><code class="language-bash">docker run --rm -it ghcr.io/vybestack/llxprt-code/sandbox:0.7.0
-</code></pre>
-<h2>Release process</h2>
-<p>The release process is automated through GitHub Actions. The release workflow performs the following actions:</p>
-<ol>
-<li>Validate type-checking and tests (<code>tsc --noEmit</code>, vitest); no compilation to <code>dist/</code> is required — the Bun launcher runs <code>.ts</code> source directly.</li>
-<li>Publish the NPM packages to the artifact registry.</li>
-<li>Create GitHub releases with bundled assets.</li>
-</ol>
+<h2>Contributing</h2>
+<p>If you want to contribute to LLxprt Code — build from source, run tests, or
+prepare a pull request — see <a href="../CONTRIBUTING.html">CONTRIBUTING.md</a>.</p>
 
           </div>
         </div>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -72,13 +75,13 @@
             <h1>Context Dumping</h1>
 <p>The <code>/dumpcontext</code> command captures complete API request/response data for debugging provider interactions. Dumps are saved in OpenAI-compliant JSON format, making them easy to replay with curl or analyze for troubleshooting.</p>
 <h2>Quick Start</h2>
-<pre><code class="language-bash"># In an interactive session, enable dumping for the next request only
+<pre><code class="language-bash"># In an interactive session, immediately dump the current conversation context
 /dumpcontext now
 
-# Enable dumping for all requests
+# Enable dumping for every request in the session (foreground and subagents)
 /dumpcontext on
 
-# Enable dumping only when errors occur
+# Enable dumping only when errors occur (foreground and subagents)
 /dumpcontext error
 
 # Check current status
@@ -98,7 +101,7 @@
 <tbody>
 <tr>
 <td><code>now</code></td>
-<td>Dump context on the next request only</td>
+<td>Dump the current conversation context immediately (no model request is sent)</td>
 </tr>
 <tr>
 <td><code>status</code></td>
@@ -106,18 +109,40 @@
 </tr>
 <tr>
 <td><code>on</code></td>
-<td>Dump context before every request</td>
+<td>Dump context before every request in the session (foreground and subagent requests)</td>
 </tr>
 <tr>
 <td><code>error</code></td>
-<td>Dump context only when errors occur</td>
+<td>Dump context only when errors occur in the session (foreground and subagent requests)</td>
 </tr>
 <tr>
 <td><code>off</code></td>
-<td>Disable context dumping</td>
+<td>Disable context dumping for the session (foreground and subagent requests)</td>
 </tr>
 </tbody>
 </table>
+<h2>Session-Wide Scope</h2>
+<p>The transport modes (<code>on</code>, <code>error</code>, <code>off</code>) are <strong>session-wide</strong>. After you run
+<code>/dumpcontext on</code>, every subsequent provider request in the current session is
+dumped — including requests made by <strong>subagents</strong> launched via the <code>task</code> tool.
+This is essential for debugging subagent orchestration, prompts, provider
+behavior, and tool calls.</p>
+<ul>
+<li>A mode change affects the <strong>next</strong> provider invocation from both foreground
+and already-created subagent runtimes.</li>
+<li>An invocation that is already in flight retains its own immutable settings
+snapshot and is unaffected by a mid-request mode change.</li>
+<li><code>/dumpcontext status</code> reports the current <strong>effective mode</strong> (the value
+consumed by both foreground and subagent requests), but does not indicate
+whether the mode originates from a session override or a profile-local
+fallback.</li>
+<li>If a subagent's own profile specifies <code>dumpcontext</code>, the <strong>session value takes
+precedence</strong> — including session <code>off</code> overriding a profile-local <code>on</code>.</li>
+<li>A brand-new session starts with no inherited dump mode.</li>
+</ul>
+<p><code>/dumpcontext now</code> is a separate immediate operation: it dumps the current
+foreground conversation history to disk right away and does not change the
+session-wide transport mode.</p>
 <h2>Dump Location</h2>
 <p>Dumps are saved to <code>&lt;cache&gt;/dumps/</code> (see <a href="../reference/application-directories.html">Application Directories</a>) with filenames in the format:</p>
 <pre><code class="language-text">YYYYMMDD-HHMMSS-&lt;provider&gt;-&lt;random&gt;.json
@@ -254,6 +279,9 @@ llxprt --debug llxprt:*
 <ul>
 <li>Authorization headers are <strong>never</strong> included in dumps</li>
 <li>Dumps may contain sensitive conversation content</li>
+<li>When <code>on</code> or <code>error</code> mode is active, dumps may also include <strong>subagent
+prompts, conversation history, and tool-call data</strong> (including tool
+arguments and results), which can be especially sensitive</li>
 <li>Store dumps securely and clean up when no longer needed</li>
 <li>Consider redacting sensitive data before sharing dumps</li>
 </ul>

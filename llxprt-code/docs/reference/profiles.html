@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -266,6 +269,7 @@
 </tbody>
 </table>
 <p>When <code>type</code> is <code>&quot;oauth&quot;</code>, LLxprt tries each bucket in order until one succeeds. This is useful for providers like Anthropic where you might have multiple accounts or token pools.</p>
+<p>A successful explicitly named <code>/auth &lt;provider&gt; login &lt;bucket&gt;</code> makes that bucket the active in-memory selection when the active profile uses the same provider and does not define <code>auth.buckets</code> (or defines an empty <code>auth.buckets: []</code>, which is treated as unbucketed). The selection is scoped to that profile and lasts only for the current process; LLxprt does not modify or save the profile. An explicit nonempty <code>auth.buckets</code> list always keeps its configured order and precedence.</p>
 <p>When <code>type</code> is <code>&quot;apikey&quot;</code>, the key comes from <code>auth-key-name</code> (preferred — looks up a named key in the OS keyring), or the deprecated <code>auth-key</code>/<code>auth-keyfile</code> settings.</p>
 <p>If <code>auth</code> is omitted entirely, the profile uses whatever authentication is available (named keyring key, environment variables, or OAuth).</p>
 <h2>Load Balancer Profile</h2>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -123,14 +126,18 @@ detailed threat model and mitigation strategies.</p>
 <p>Hooks are <strong>disabled by default</strong> and require explicit opt-in. Add the
 following to your <a href="../reference/application-directories.html">user <code>settings.json</code></a>:</p>
 <pre><code class="language-json">{
-  &quot;hooks&quot;: {
+  &quot;hooksConfig&quot;: {
     &quot;enabled&quot;: true
   }
 }
 </code></pre>
 <p>There is also an experimental gate (<code>tools.enableHooks</code>) that defaults to
-<code>true</code>. Both <code>hooks.enabled</code> and <code>tools.enableHooks</code> must be <code>true</code> for hooks
-to run.</p>
+<code>true</code>. Both <code>hooksConfig.enabled</code> and <code>tools.enableHooks</code> must be <code>true</code> for
+hooks to run.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>hooks.enabled</code> key is a legacy form. LLxprt Code migrates it to
+<code>hooksConfig.enabled</code> automatically, but prefer the canonical key.</p>
+</blockquote>
 <h3>2. Configure a Hook</h3>
 <p>Add hooks to your <code>settings.json</code>. Hook scripts can live anywhere — the
 <code>command</code> field accepts any path with <code>~</code> expansion. The example keeps the
@@ -165,12 +172,15 @@ INPUT=$(cat)
 TOOL_NAME=$(echo &quot;$INPUT&quot; | jq -r '.tool_name')
 
 # Parse the path if it's a file operation
-PATH_VALUE=$(echo &quot;$INPUT&quot; | jq -r '.tool_input.path // empty')
+PATH_VALUE=$(echo &quot;$INPUT&quot; | jq -r '.tool_input.absolute_path // .tool_input.file_path // empty')
 
-# Block writes to /etc
+# Block writes to /etc.
+# A structured decision goes to stdout and MUST exit 0 — LLxprt Code only
+# parses stdout when the exit code is 0. Exiting non-zero here would discard
+# the decision and let the tool run.
 if [[ &quot;$TOOL_NAME&quot; == &quot;write_file&quot; &amp;&amp; &quot;$PATH_VALUE&quot; == /etc* ]]; then
   echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Writing to /etc is prohibited&quot;}'
-  exit 2
+  exit 0
 fi
 
 # Allow everything else
@@ -245,7 +255,7 @@ exit 0
 <p>For details on how extension hooks work, including scope precedence and security considerations, see <a href="../extension.html#hooks-in-extensions">Hooks in Extensions</a>.</p>
 <h2>Next Steps</h2>
 <ul>
-<li><strong><a href="./creating-custom-hooks.html">Creating Custom Hooks</a></strong> - Step-by-step tutorial with examples</li>
+<li><strong><a href="./writing-hooks.html">Writing Hooks</a></strong> - Step-by-step tutorial with examples</li>
 <li><strong><a href="./api-reference.html">API Reference</a></strong> - Complete type definitions and interfaces</li>
 </ul>
 <h2>Example Use Cases</h2>
@@ -254,7 +264,7 @@ exit 0
 <pre><code class="language-bash"># Deny writes to system directories
 if [[ &quot;$PATH_VALUE&quot; == /etc* || &quot;$PATH_VALUE&quot; == /var* ]]; then
   echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;System directory access denied&quot;}'
-  exit 2
+  exit 0
 fi
 </code></pre>
 <h3>Audit Logging</h3>
@@ -293,11 +303,12 @@ estimated_tokens = total_chars // 4
 if estimated_tokens &gt; 100000:
     print(json.dumps({
         &quot;continue&quot;: False,
-        &quot;reason&quot;: f&quot;Request exceeds token limit (~{estimated_tokens} tokens)&quot;
+        &quot;stopReason&quot;: f&quot;Request exceeds token limit (~{estimated_tokens} tokens)&quot;
     }))
-    sys.exit(2)
+    sys.exit(0)
 
 print(json.dumps({&quot;continue&quot;: True}))
+sys.exit(0)
 </code></pre>
 <h3>Project-Specific Rules</h3>
 <p>Apply rules based on working directory:</p>
@@ -305,7 +316,7 @@ print(json.dumps({&quot;continue&quot;: True}))
 CWD=$(echo &quot;$INPUT&quot; | jq -r '.cwd')
 if [[ &quot;$CWD&quot; == */production/* &amp;&amp; &quot;$TOOL_NAME&quot; != &quot;read_file&quot; ]]; then
   echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Only read operations allowed in production&quot;}'
-  exit 2
+  exit 0
 fi
 </code></pre>
 

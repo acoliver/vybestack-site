@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -330,10 +333,6 @@ LLXPRT_CONFIG_HOME=&quot;${LLXPRT_CONFIG_HOME:-}&quot; \
 <td><code>&lt;log&gt;/oauth/locks/</code></td>
 <td>OAuth refresh/advisory locks (contain no credentials)</td>
 </tr>
-<tr>
-<td><code>&lt;log&gt;/tmp/&lt;projectHash&gt;/otel/</code></td>
-<td>OpenTelemetry collector artifacts (when enabled)</td>
-</tr>
 </tbody>
 </table>
 <h2>Credential and token storage</h2>
@@ -341,8 +340,23 @@ LLXPRT_CONFIG_HOME=&quot;${LLXPRT_CONFIG_HOME:-}&quot; \
 <ol>
 <li><strong>OS keyring (primary)</strong> — macOS Keychain, GNOME Keyring / KWallet, or Windows Credential Vault, accessed via <code>@napi-rs/keyring</code>. This is encrypted at rest and requires authentication to read.</li>
 <li><strong>Encrypted file fallback (secondary)</strong> — if the keyring is unavailable, tokens fall back to encrypted files under <code>&lt;data&gt;/secure-store/&lt;service&gt;/</code>. These files are encrypted with a machine-local secret (<code>&lt;data&gt;/machine_secret</code>) and are <strong>not</strong> plain JSON.</li>
-<li><strong>OAuth advisory locks</strong> — short-lived, credential-free lock files under <code>&lt;log&gt;/oauth/locks/</code> that coordinate concurrent refresh attempts. They contain no secrets. Stale locks left behind by a crashed process are reclaimed <strong>only when the owner's PID is verifiably dead</strong> (probed via <code>process.kill(pid, 0)</code>); a malformed or tokenless lock carries no verifiable owner identity and is left in place (deferred to manual cleanup) as a conservative safety-over-availability choice. If you encounter a stuck lock, remove it manually only when no LLxprt process is running.</li>
+<li><strong>OAuth advisory locks</strong> — short-lived, credential-free lock files under <code>&lt;log&gt;/oauth/locks/</code> that coordinate concurrent refresh and interactive login attempts. Versioned lock metadata records a random owner token, PID, hostname, and process-start identity. The start-time source quality is tracked (<code>canonical</code> for OS-observed, <code>approximate</code> for computed-from-uptime, <code>unavailable</code>); only <code>canonical</code> start times may be used for PID-reuse proof, so approximate/unavailable owners are never reclaimed on a start-time mismatch. LLxprt reclaims a versioned lock only when it can prove that its local owner process is dead (ESRCH or canonical start-time mismatch); live owners, different-host owners, malformed metadata, legacy metadata, and unverifiable process identities are never age-stolen. Recovery carries the exact inspected owner identity through a fenced takeover, verifies the record is unchanged, and re-probes it under the fence before unlinking, so concurrent recovery cannot remove a successor lock. Legacy v0.10 locks (<code>{pid,timestamp,token}</code>) lack hostname and process-start identity, so even local ESRCH cannot distinguish local residue from a remote process sharing the path. They are always unverifiable and require acknowledged force recovery. If manual cleanup is unavoidable, stop every LLxprt process first.</li>
 </ol>
+<h3>Auth lock status and recovery</h3>
+<p>When a lock is stuck or you see a lock-acquisition failure, use the built-in commands:</p>
+<pre><code class="language-bash"># Inspect lock status (default bucket if omitted)
+/auth &lt;provider&gt; lock status [bucket]
+
+# Attempt fenced recovery of a proven-dead lock
+/auth &lt;provider&gt; unlock [bucket]
+
+# Force-remove a stuck lock (legacy/malformed/unverifiable)
+# Requires acknowledging all LLxprt processes sharing the path are stopped
+/auth &lt;provider&gt; unlock [bucket] --force --i-have-stopped-all-processes
+</code></pre>
+<p>Normal <code>/auth unlock</code> runs the same fenced, proof-based recovery as automatic recovery: it only succeeds for an unchanged versioned lock whose owner is re-proven dead under the fence. Force unlock refuses verified-live owners; for legacy, malformed, or unverifiable residue it requires <code>--i-have-stopped-all-processes</code> to acknowledge that all LLxprt processes sharing the path have been stopped. Force unlock removes only the lock file — it never deletes tokens.</p>
+<p>Lock status and recovery are driven by the lock file, independently of credential storage. Status reports token visibility as <code>valid</code>, <code>invalid</code>, or <code>unknown</code>; an <code>unknown</code> result includes the keyring diagnostic. A keyring failure cannot prevent filesystem lock inspection or either recovery path.</p>
+<p>On macOS the current lock path is <code>~/Library/Logs/llxprt-code/oauth/locks/</code>.</p>
 <p>The legacy <code>oauth_creds.json</code> plaintext token files (under the old <code>~/.llxprt</code> directory, or <code>~/.gemini/oauth_creds.json</code> from Gemini CLI) are obsolete. They are read <strong>only</strong> as a one-time migration input; LLxprt never creates them during normal operation.</p>
 <p>See <a href="../oauth-setup.html">OAuth Setup</a> for the user-facing OAuth workflow.</p>
 <h2>Override precedence</h2>

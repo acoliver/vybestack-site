@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -173,8 +176,10 @@ llxprt --sandbox-engine none
 <ul>
 <li><code>on</code>: default networking</li>
 <li><code>off</code>: launches container with network disabled</li>
-<li><code>proxied</code>: accepted by schema, but currently not implemented as a dedicated mode. Runtime logs a warning and falls back to default networking.</li>
+<li><code>proxied</code>: requires a non-whitespace <code>LLXPRT_SANDBOX_PROXY_COMMAND</code>. Docker and Podman use the existing isolated sandbox network plus proxy-container network; invalid configuration fails before setup or launch. Seatbelt selects its built-in permissive proxied profile unless a non-empty <code>SEATBELT_PROFILE</code> explicitly overrides profile selection.</li>
 </ul>
+<p>Network environment precedence is nullish: <code>LLXPRT_SANDBOX_NETWORK</code> wins when defined, including when it is an empty string; otherwise <code>SANDBOX_NETWORK</code> is used. In Seatbelt mode, <code>off</code>, <code>proxied</code>, and all other values map to <code>permissive-closed</code>, <code>permissive-proxied</code>, and <code>permissive-open</code>, respectively. A non-empty <code>SEATBELT_PROFILE</code> remains the exact explicit built-in or custom profile override. The built-in <code>permissive-proxied</code> and <code>restrictive-proxied</code> profiles still require the proxy command.</p>
+<p>On Linux, <code>off</code> remains compatible with the direct mounted Unix credential socket. On macOS, Docker and Podman credential bridges require networking, so <code>off</code> fails before credential proxy or container resources are started; enable networking or use Linux for network-off sandboxing.</p>
 <h3><code>sshAgent</code></h3>
 <p>Type: <code>&quot;auto&quot; | &quot;on&quot; | &quot;off&quot;</code></p>
 <ul>
@@ -223,7 +228,7 @@ llxprt --sandbox-engine none
 <ul>
 <li>launchd SSH socket paths are often unusable in VM bridge paths</li>
 <li>SSH and credential proxy bridges require <code>--network=host</code></li>
-<li>conflicting <code>--network</code> values can disable bridge setup</li>
+<li>an existing non-host <code>--network</code> value causes optional SSH forwarding to warn and return before connection lookup or tunnel allocation; credential bridge conflicts remain fatal</li>
 <li>VM memory must exceed the container <code>resources.memory</code> limit, or the process gets OOM-killed (exit code 137). See <a href="../sandbox.html#podman-macos-oom-killed-with-exit-code-137">Sandbox troubleshooting</a>.</li>
 </ul>
 <p>If SSH forwarding is unreliable, use a dedicated socket path (the location is your choice — this example uses a path in your home directory):</p>

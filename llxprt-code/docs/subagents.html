@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -360,11 +363,80 @@
 <li><strong>Fallback of 1000 turns</strong> — a subagent-specific safety net when none of the above are configured.</li>
 </ol>
 <p>A value of <code>-1</code> at the task, profile, or foreground layer means <strong>unlimited</strong> (no turn cap). An explicitly stored <code>-1</code> foreground value is inherited as unlimited. However, the orchestrator only inherits a <strong>currently materialized valid value</strong> — it does not directly inherit the foreground loop-detection registry's treatment of absent as <code>-1</code>. The foreground loop-detection layer independently treats an absent <code>maxTurnsPerPrompt</code> as <code>-1</code> (unlimited), but the orchestrator does not see that: it reads the foreground config's materialized value and accepts <code>-1</code> or a finite positive number. When the foreground value is absent, <code>NaN</code>, <code>Infinity</code>, a non-number, or zero, the orchestrator rejects it and falls through to the <strong>1000-turn fallback</strong>. The 1000-turn fallback is a fixed constant and does not interpret <code>-1</code>.</p>
+<h3>Subagent Aggregate Output Budget</h3>
+<p>A turn cap alone does not bound a looping subagent. A subagent that emits a
+maximum-length response, accomplishes nothing, and repeats stays inside every
+per-response limit while generating an enormous amount of text: 1000 turns
+against a model with a 16,384-token output ceiling is 16.4 million tokens.</p>
+<p>Subagents therefore also enforce an aggregate budget on the total output tokens
+generated across the whole run, via <code>max_output_tokens_total</code> on the <code>task</code>
+tool's run config or the <code>subagent-max-output-tokens-total</code> ephemeral.
+Precedence matches the turn cap (highest wins):</p>
+<ol>
+<li><strong>Explicit task <code>max_output_tokens_total</code></strong></li>
+<li><strong>Selected subagent profile <code>subagent-max-output-tokens-total</code></strong></li>
+<li><strong>Current foreground <code>subagent-max-output-tokens-total</code></strong></li>
+<li><strong>Derived default</strong> — <code>max_turns</code> multiplied by the resolved model output
+ceiling, clamped to 2,000,000 tokens. When no model ceiling is resolvable the
+flat 2,000,000 is used.</li>
+</ol>
+<p>A value of <code>-1</code> at any layer means <strong>unlimited</strong> and omits the budget entirely.</p>
+<p>The clamp is the part that matters. Deriving the default purely from
+<code>max_turns * modelMaxOutputTokens</code> reproduces the bound that failed in practice,
+because the turn cap is itself generous.</p>
+<p>Measured against 8,138 real responses, typical output is 122 tokens per turn
+(mean 339). At that rate 2,000,000 tokens is roughly 16,000 turns, so the turn
+cap stops an ordinary run thousands of turns before the budget is anywhere near
+reached. At the other end, 2,000,000 is 122 consecutive maximum-length
+16,384-token responses, and a subagent still emitting maximum-length responses
+after 122 turns is looping rather than working.</p>
+<p>That gap is deliberate: the budget is sized to be unreachable in normal use and
+to catch the case where a subagent generates far more than a working one would.</p>
+<p><strong>What the budget does not catch.</strong> Because it measures total volume, a subagent
+that loops with small responses never approaches it. A 253-turn loop of typical
+122-token responses uses about 1.5% of the budget. What bounds memory in that
+case is the per-chunk retention limits in the streaming path, not this budget.
+See issue #3344.</p>
+<p>When the budget is exceeded the run terminates with <code>MAX_OUTPUT</code> and the final
+message names the budget and the observed total, so the parent agent can decide
+whether to relaunch with a larger budget or change approach.</p>
+<p>Cumulative output is counted from provider-reported usage metadata where
+available. Providers that omit usage fall back to a character-based estimate, so
+a provider that reports nothing cannot make the budget unenforceable. Reasoning
+tokens count towards the budget: they are generated output, and on high-effort
+reasoning profiles they can exceed the visible text by a wide margin.</p>
+<p>The budget is evaluated as soon as a turn's output is counted, so a subagent
+over budget stops before another request goes out. The turn and time limits are
+checked at the start of each turn instead, so a subagent on its final allowed
+turn still runs the tool calls it just requested rather than discarding them.</p>
 <h2>Related commands</h2>
+<h3>Session Diagnostics: <code>/dumpcontext</code></h3>
+<p>The <code>/dumpcontext on|error|off</code> transport modes are <strong>session-wide</strong> and apply to
+subagent provider requests as well as foreground ones. After <code>/dumpcontext on</code>,
+subagent requests are dumped just like foreground requests, which is useful for
+debugging subagent prompts, provider behavior, and tool calls. See
+<a href="cli/context-dumping.html">Context Dumping</a> for details.</p>
 <ul>
-<li><code>/profile list</code> to see available profiles.</li>
-<li><code>/profile save model ...</code> or <code>/profile save loadbalancer ...</code> to create profiles.</li>
-<li><code>/task</code> to invoke subagents programmatically.</li>
+<li>
+<p>The session value takes precedence over a subagent profile's own <code>dumpcontext</code>
+setting (including session <code>off</code> overriding profile <code>on</code>).</p>
+</li>
+<li>
+<p>Only <code>dumpcontext</code> is inherited; each subagent's provider, model, endpoint,
+authentication, reasoning, and tool settings remain fully isolated.</p>
+</li>
+<li>
+<p>Subagent dumps may contain sensitive subagent prompts, history, and tool data.</p>
+</li>
+<li>
+<p><code>/profile list</code> to see available profiles.</p>
+</li>
+<li>
+<p><code>/profile save model ...</code> or <code>/profile save loadbalancer ...</code> to create profiles.</p>
+</li>
+<li>
+<p><code>/task</code> to invoke subagents programmatically.</p>
+</li>
 </ul>
 
           </div>

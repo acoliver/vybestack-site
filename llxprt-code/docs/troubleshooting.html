@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -203,6 +206,49 @@ LLXPRT_DEBUG='llxprt:tools:*,llxprt:shell' llxprt
 <li><strong>Linux containers:</strong> Same situation. Use <code>--keyfile</code> or <code>--key</code> if the encrypted fallback doesn't work.</li>
 <li><strong>macOS:</strong> Keychain should work out of the box. If not, check <code>security list-keychains</code> in Terminal.</li>
 </ul>
+<h4>macOS: Repeated Keychain Password Prompts (Ad-hoc / Unsigned Bun)</h4>
+<p>On macOS, the launcher prefers a Bun already on <code>PATH</code> when it meets the pinned version floor (so npm re-installs do not unlink a running session — see <a href="https://github.com/vybestack/llxprt-code/issues/2962">#2962</a>). But on macOS the <strong>code signature</strong> of that binary decides whether it can hold a durable Keychain grant, and a Bun that is ad-hoc signed or otherwise lacks a stable team identity (for example the Homebrew <code>homebrew/core</code> formula, which compiles from source and discards Oven's Developer ID) cannot.</p>
+<p>The launcher inspects the selected Bun's designated code-signing requirement on startup and prints a single advisory warning to stderr when codesign inspection fails OR when a successful inspection lacks Oven's required team identity (<code>certificate leaf[subject.OU] = &quot;7FRXF46ZSN&quot;</code>), for example:</p>
+<pre><code class="language-text">LLxprt Code: the Bun on your PATH is ad-hoc signed or otherwise
+lacks a stable team identity, so it cannot hold a persistent macOS
+Keychain grant. You will be prompted for your login password on every
+credential read, and &quot;Always Allow&quot; will not persist (#3020).
+Install the official Bun release signed by Oven:
+    brew uninstall bun &amp;&amp; brew install oven-sh/bun/bun
+    curl -fsSL https://bun.com/install | bash
+</code></pre>
+<p><strong>Why &quot;Always Allow&quot; does not work:</strong> the Keychain ACL stored on each item is identity-based, so it matches any Oven-signed Bun anywhere on disk. A binary that is ad-hoc signed or has no team ID can never satisfy that requirement. The structural fact, confirmed in source: every LLxprt credential item is created through macOS <code>SecKeychainAddGenericPassword</code>, which takes no access-control parameter, so the item's ACL is the macOS default <code>SecAccess</code>. That default carries the required <strong>owner</strong> entry authorizing <code>change_acl</code> with an <strong>empty</strong> trusted-application list. Per Apple's documentation an empty list means no application is trusted to amend the ACL <strong>without user confirmation</strong> (unlike a null list, which means any application may). No layer of the dependency chain (<code>@napi-rs/keyring</code> 1.3.0 → <code>keyring-core</code> → <code>apple-native-keyring-store</code> 1.0.1 → <code>security-framework</code> 3.7.0) exposes any way to supply a different <code>SecAccess</code>, so LLxprt cannot construct or repair the ACL of these items from TypeScript. The exact <code>securityd</code> mechanism by which the observed &quot;Always Allow&quot; grant fails to persist is not established by this work — confirming it would require a native ACL inspection of the item immediately before and after a grant — but the symptom (the prompt recurs on every credential read) is consistent with it. Installing an Oven-signed Bun with a stable team identity clears the symptom in practice.</p>
+<p><strong>Why it is a warning, not a hard failure:</strong> a Bun that is ad-hoc signed or has no team identity runs LLxprt Code correctly in every respect except Keychain access, and some users keep no credentials in the Keychain at all. Failing closed would break those working setups. Skipping it and falling through to the bundled Bun would silently re-enable the npm-unlink failure mode that #2962 exists to prevent, so the launcher warns and continues to use the selected Bun.</p>
+<p>To install an Oven-signed Bun (either remedy clears the warning):</p>
+<pre><code class="language-bash"># Homebrew: use the official oven-sh tap instead of homebrew/core
+brew uninstall bun &amp;&amp; brew install oven-sh/bun/bun
+
+# Or the official installer
+curl -fsSL https://bun.com/install | bash
+</code></pre>
+<p>Verify the team identity afterward (it should report <code>7FRXF46ZSN</code>):</p>
+<pre><code class="language-bash">codesign -dv --requirements - &quot;$(command -v bun)&quot; 2&gt;&amp;1
+</code></pre>
+<p>This check is macOS-only; Linux and Windows never key credential access on code identity.</p>
+<h5>Runtime diagnostic: &quot;the grant is not being persisted&quot;</h5>
+<p>If the launcher warning was not present at startup (for example, you started LLxprt Code from an Oven-signed Bun but the grant is still not sticking), LLxprt Code watches for the symptom itself: when the <strong>same</strong> credential has to be authorized interactively a second time in a session — after an earlier authorization for it had already completed — it prints a one-time notice to stderr explaining that the grant is not being persisted and that the prompt will keep recurring. This is a heuristic based on how long a successful credential read blocked, so a pathologically slow keychain can also trigger it. Credential access is <strong>not</strong> interrupted by this notice — the value is still read and returned, so your session keeps working. The notice fires at most once per process.</p>
+<h5>Recovery: disable the OS keyring</h5>
+<p>If you cannot install an Oven-signed Bun right now, you can route LLxprt's own SecureStore credentials through the encrypted file fallback and leave the Keychain alone:</p>
+<pre><code class="language-bash">export LLXPRT_DISABLE_OS_KEYRING=1
+</code></pre>
+<p>Add this to your shell profile so it persists; do not toggle it per-invocation (see the caveats below). Only the exact value <code>1</code> opts out. With it set:</p>
+<ul>
+<li><strong>SecureStore credentials</strong> (named API keys and similar) are stored in the encrypted file store under your OS data directory (<code>~/Library/Application Support/llxprt-code/secure-store/</code> on macOS), using the same AES-256-GCM envelope as the automatic fallback.</li>
+<li>Existing Keychain items are <strong>left in place</strong> — nothing is deleted and nothing is migrated. You will re-authenticate once so the credential is written to the file store.</li>
+</ul>
+<p><strong>Limitations of this escape hatch (read before relying on it):</strong></p>
+<ul>
+<li><strong>MCP server OAuth tokens are not covered.</strong> MCP server OAuth uses <code>KeychainTokenStorage</code>, which requires the OS keyring and throws when it is unavailable. While this variable is set, MCP server OAuth is unavailable. This is the same pre-existing limitation that already applies on hosts with no keyring at all (headless Linux, containers); it is not specific to this variable.</li>
+<li><strong>Stores with <code>fallbackPolicy: 'deny'</code> still fail.</strong> A store constructed with a deny policy raises <code>UNAVAILABLE</code> rather than writing a file. The opt-out deliberately does not defeat a deny policy.</li>
+<li><strong>The machine secret can change, and v:2 fallback files are tied to it.</strong> When the machine secret lives only in the OS keyring, disabling the keyring makes machine-secret resolution fall through to the file path and generate a <em>different</em> secret. Existing v:2 fallback files then fail to decrypt with a <code>CORRUPT</code> error, and files written while opted out likewise fail to decrypt after the variable is removed. This is a loud, visible failure (not silent), which is why the variable should be set persistently rather than toggled per-invocation.</li>
+<li><strong>Re-enabling reads the Keychain first.</strong> After the variable is removed, <code>SecureStore.get()</code> consults the keyring before the fallback file, so a credential you re-authenticated while opted out is silently shadowed by the older Keychain value, and a delete performed while opted out leaves the Keychain item in place. This silent behavior is the other reason to treat the variable as persistent.</li>
+</ul>
+<p>This is the interim escape hatch for <a href="https://github.com/vybestack/llxprt-code/issues/3020">#3020</a>. The full, settings-driven keyring opt-out is tracked in <a href="https://github.com/vybestack/llxprt-code/issues/2928">#2928</a>.</p>
 <h3>Common Authentication Errors</h3>
 <p><strong><code>Failed to login. Message: Request contains an invalid argument</code></strong></p>
 <p>Google Workspace or Google Cloud accounts may not qualify for the free Gemini API tier. Workarounds:</p>
@@ -256,6 +302,12 @@ export NODE_EXTRA_CA_CERTS=/path/to/your/corporate-ca.crt
 +path/to/file.txt
 </code></pre>
 <h2>Common Error Messages</h2>
+<p><strong>Image generation is unavailable</strong></p>
+<p>Image generation runs on your Codex account and is independent of the provider
+you are chatting with. If it reports that it is unavailable, Codex OAuth is
+almost always not set up. Run <code>/auth codex enable</code>, then retry — the browser
+login opens on that first request. See
+<a href="./tools/image-generation.html">Image Generation</a> for the full guide.</p>
 <p><strong><code>EADDRINUSE</code> (MCP server)</strong></p>
 <p>Another process is using that port. Stop it or configure a different port in your MCP server settings.</p>
 <p><strong><code>Command not found</code></strong></p>

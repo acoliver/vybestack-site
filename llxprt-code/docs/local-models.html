@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -121,6 +124,9 @@
 /set context-limit 1048576  # 1M context (advanced setups)
 </code></pre>
 <p><strong>Important</strong>: This should match the context size configured in your local server (LM Studio, llama.cpp, etc.). Mismatched settings can cause truncation or errors.</p>
+<blockquote>
+<p><strong>Rule</strong>: <code>context-limit</code> must always be strictly greater than <code>max_tokens</code> / <code>maxOutputTokens</code>. The completion budget is reserved inside <code>context-limit</code>, so a <code>context-limit</code> at or below the budget leaves zero room for prompts. For small-context local models (e.g. 32K), explicitly set a smaller <code>maxOutputTokens</code> (e.g. <code>/set maxOutputTokens 8192</code>) or the compression trigger will fire on every send. See <a href="./providers/models-and-limits.html">Provider Models and Limits</a> for details.</p>
+</blockquote>
 <h3>Socket Configuration for Stability</h3>
 <p>Local AI servers can sometimes have connection stability issues. Configure socket settings for more reliable connections:</p>
 <pre><code class="language-bash">/set socket-timeout 120000      # 2 minute timeout for long responses
@@ -158,6 +164,7 @@
 /key clear
 /model your-model-name
 /set context-limit 32768  # Match LM Studio's context setting
+/set maxOutputTokens 16384  # Reserve a smaller budget for small-context models
 </code></pre>
 <h3>Ollama</h3>
 <p>Ollama provides a simple command-line interface for local models:</p>

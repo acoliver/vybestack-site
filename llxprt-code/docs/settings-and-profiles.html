@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -220,7 +223,7 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </tbody>
 </table>
 <h3>Reasoning Settings</h3>
-<p>These control extended thinking / chain-of-thought for models that support it (Kimi K3, Claude with thinking, GPT-5.x reasoning effort, etc.).</p>
+<p>Use these settings for models that support thinking or reasoning effort.</p>
 <table>
 <thead>
 <tr>
@@ -232,13 +235,33 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 <tbody>
 <tr>
 <td><code>reasoning.enabled</code></td>
-<td>Enable thinking/reasoning mode</td>
+<td>Enable or disable reasoning</td>
 <td><code>false</code></td>
 </tr>
 <tr>
 <td><code>reasoning.effort</code></td>
 <td>Effort (<code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>)</td>
 <td>provider default</td>
+</tr>
+<tr>
+<td><code>reasoning.effortWireFormat</code></td>
+<td>Select the provider request shape for effort</td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td><code>reasoning.enabledWireFormat</code></td>
+<td>Select the provider request shape for enablement</td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td><code>reasoning.effortMap</code></td>
+<td>Map generic effort values to model values or numeric budgets</td>
+<td>no map</td>
+</tr>
+<tr>
+<td><code>reasoning.enabledMap</code></td>
+<td>Map generic booleans to provider values</td>
+<td>no map</td>
 </tr>
 <tr>
 <td><code>reasoning.includeInResponse</code></td>
@@ -257,18 +280,53 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </tr>
 <tr>
 <td><code>reasoning.adaptiveThinking</code></td>
-<td>Let provider auto-tune thinking budget</td>
+<td>Let a supported provider choose a thinking budget</td>
 <td><code>false</code></td>
 </tr>
 </tbody>
 </table>
-<p>When you set <code>reasoning.enabled true</code>, the other defaults are already sensible — thinking is shown in the terminal, kept in context, and nothing is stripped. You typically only need <code>/set reasoning.enabled true</code>.</p>
-<p><strong>Why these matter:</strong></p>
-<ul>
-<li><strong><code>includeInResponse</code></strong> — if <code>false</code>, the model still thinks but you don't see it. Useful if you want reasoning quality without the noise.</li>
-<li><strong><code>includeInContext</code></strong> — if <code>false</code>, thinking blocks are discarded before the next turn. The model loses access to its own reasoning, which can hurt multi-step tasks. Keep this <code>true</code> unless you're tight on context.</li>
-<li><strong><code>stripFromContext</code></strong> — controls context growth for long sessions. <code>none</code> keeps all thinking (best quality, most tokens). <code>allButLast</code> keeps only the most recent thinking block (good balance). <code>all</code> strips everything (saves context but the model can't reference prior reasoning). For models with large context windows like K3 (1M), <code>none</code> is fine. For smaller windows, <code>allButLast</code> or <code>all</code> helps.</li>
-</ul>
+<h4>Run a local server that accepts <code>reasoning_effort</code></h4>
+<p>Save a profile like this when a custom OpenAI-compatible Chat server accepts a
+top-level <code>reasoning_effort</code> field:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;local-reasoning-model&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8000/v1&quot;,
+    &quot;requires-auth&quot;: false,
+    &quot;responses-mode&quot;: &quot;chat&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openai&quot;
+  }
+}
+</code></pre>
+<p>Load the profile with <code>llxprt --profile-load &lt;name&gt;</code>. The resulting Chat request
+contains <code>&quot;reasoning_effort&quot;: &quot;high&quot;</code>. For a server whose chat template reads
+kwargs instead, use <code>template-kwargs</code>; see the
+<a href="./providers/reasoning-wire-formats.html#vllm-chat_template_kwargs">vLLM profile example</a>.</p>
+<p>The four wire settings resolve independently in this order, highest precedence
+first: explicit profile or session value, last matched model default, provider
+alias default, then <code>auto</code> for selectors or no map for maps. Later matching
+model rules win.</p>
+<p>Maps replace as a whole. A profile map does not inherit entries from an alias or
+matched model map. Missing keys in a string-valued <code>reasoning.effortMap</code> use the
+generic effort unchanged. For example, a map containing only
+<code>{ &quot;minimal&quot;: &quot;low&quot; }</code> still sends <code>high</code> unchanged when the generic effort is
+<code>high</code>.</p>
+<p><code>reasoning.budgetTokens</code> is a direct Anthropic budget. Generic effort does not
+automatically produce a token budget because no universal conversion exists.
+To derive a budget from effort, select <code>anthropic-budget</code> and provide an explicit
+numeric effort map.</p>
+<p>See <a href="./providers/reasoning-wire-formats.html">Reasoning Wire Formats</a> for all
+selector values, request shapes, warnings, model restrictions, and profile
+examples.</p>
+<p><code>reasoning.includeInResponse</code> controls terminal display.
+<code>reasoning.includeInContext</code> controls whether thinking remains available on the
+next turn. <code>reasoning.stripFromContext</code> controls how older thinking is pruned as
+the conversation grows.</p>
 <h3>Context and Output Limits</h3>
 <p>These settings control how much information flows between you, the model, and the tools. Getting them right is the difference between a model that works efficiently and one that drowns in its own output.</p>
 <table>
@@ -334,6 +392,24 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </table>
 <p><strong>How they interact:</strong> Every tool result goes into the conversation history. If <code>tool-output-max-tokens</code> is 50K and the model makes 3 tool calls in a row, that's potentially 150K tokens of tool output added to context — which on a 200K model means rapid compression (and loss of earlier context). Lowering these limits forces the model to be more surgical with its queries, which often produces better results anyway.</p>
 <p><code>tool-output-truncate-mode</code> controls what happens when a tool exceeds its limits. <code>warn</code> drops the output entirely and tells the model the results were too large — the model gets nothing back, just a message suggesting it narrow its query. <code>truncate</code> cuts the output to fit and silently includes what fits. <code>sample</code> picks evenly-spaced lines from the output to give a representative cross-section. <code>warn</code> is the default because it forces the model to be more surgical, which usually produces better results than shoveling truncated output into context.</p>
+<h3>Shell output acquisition</h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Description</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell-output-retention-max-bytes</code></td>
+<td>Shell bytes retained in memory while a command runs; excess is represented by bounded head/tail output and metadata</td>
+<td><code>4194304</code></td>
+</tr>
+</tbody>
+</table>
+<p>This byte budget is enforced while output is acquired, before the separate model-facing token limiter. Commands continue to drain and complete after the budget fills. For PTY commands, the same budget also constrains in-memory terminal display scrollback when its byte-derived line limit is lower than <code>ptyScrollbackLimit</code>. Values are clamped to a minimum of 1024 bytes and a hard maximum of 64 MiB; <code>-1</code> selects that finite hard maximum rather than disabling the bound.</p>
 <h3>Timeouts</h3>
 <table>
 <thead>
@@ -351,7 +427,7 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </tr>
 <tr>
 <td><code>shell-max-timeout-seconds</code></td>
-<td>Maximum shell command timeout</td>
+<td>Ceiling for shell command timeout (set <code>-1</code> for no ceiling)</td>
 <td><code>900</code> (15 min)</td>
 </tr>
 <tr>
@@ -361,7 +437,7 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </tr>
 <tr>
 <td><code>task-max-timeout-seconds</code></td>
-<td>Maximum subagent task timeout</td>
+<td>Ceiling for subagent task timeout (set <code>-1</code> for no ceiling)</td>
 <td><code>1800</code> (30 min)</td>
 </tr>
 <tr>
@@ -371,7 +447,8 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 </tr>
 </tbody>
 </table>
-<p>Some models will kick off commands that wait for user interaction (like an interactive installer or a server that doesn't exit) and then hang indefinitely. The timeouts prevent this from blocking your session forever. If you're running long builds or test suites, increase <code>shell-max-timeout-seconds</code>. For subagent-heavy workflows, increase <code>task-max-timeout-seconds</code>.</p>
+<p>Some models will kick off commands that wait for user interaction (like an interactive installer or a server that doesn't exit) and then hang indefinitely. The timeouts prevent this from blocking your session forever. The <code>*-max-timeout-seconds</code> settings are <strong>ceilings only</strong>: they bound a request upward but never override a shorter one, so a model can always ask for a shorter run. A request above the ceiling — including a <code>-1</code> &quot;unlimited&quot; request — is clamped to the ceiling and the result tells the model its request was reduced. To remove a ceiling entirely (genuinely unbounded), set the corresponding <code>*-max-timeout-seconds</code> to <code>-1</code>.</p>
+<p><code>-1</code> on a <strong>default</strong> setting (<code>shell-default-timeout-seconds</code> / <code>task-default-timeout-seconds</code>) means unlimited <em>by the default</em>, but it is still subject to the configured maximum — so a default of <code>-1</code> resolves to the maximum unless the maximum itself is <code>-1</code>. An explicit <code>timeout_seconds</code> argument always takes precedence over the configured default. Precedence for a run is: the explicit <code>timeout_seconds</code> argument (or the configured default when the argument is omitted), bounded upward by the configured <code>*-max-timeout-seconds</code>. If you're running long builds or test suites, increase <code>shell-max-timeout-seconds</code>. For subagent-heavy workflows, increase <code>task-max-timeout-seconds</code>.</p>
 <h3>Prompt and Caching</h3>
 <table>
 <thead>
@@ -460,12 +537,23 @@ llxprt --profile-load kimi-k3 --model gpt-5.5
 <pre><code class="language-bash">llxprt --profile-load kimi-k3 --set streaming=disabled
 </code></pre>
 <h2>Provider Alias Defaults</h2>
-<p>Some provider aliases ship with tuned defaults for their models — you get reasonable settings just by using <code>/provider &lt;name&gt;</code> without configuring anything. These are a good starting point; you can override any of them with <code>/set</code>.</p>
-<p><strong>Anthropic</strong> — sets <code>maxOutputTokens</code> to 40K globally and <code>context-limit</code> to 200K. For Claude models specifically, enables reasoning with adaptive thinking (lets the model decide how much to think). For Claude Opus models, sets <code>reasoning.effort</code> to <code>high</code>.</p>
-<p><strong>Codex</strong> — defaults to GPT-5.6 Sol and lists the Sol, Terra, and Luna tiers. It sets <code>context-limit</code> to 262K, enables 24-hour prompt caching, sets <code>reasoning.effort</code> to <code>medium</code>, and enables reasoning summaries. Use <code>reasoning.effort max</code> when maximum GPT-5.6 reasoning is worth the additional latency and tokens.</p>
-<p><strong>Kimi</strong> — sets <code>context-limit</code> to 262K and <code>max_tokens</code> to 32K. For Kimi models specifically, enables reasoning with <code>includeInResponse</code>, <code>includeInContext</code>, and <code>stripFromContext: none</code> — full thinking visibility with nothing discarded. The <code>kimi-k3</code> model overrides these with its shipped geometry: <code>context-limit</code> 1M, <code>max_tokens</code> 131072 (K3's default output allocation; the server supports up to 1048576), and <code>reasoning.effort</code> <code>max</code> (K3 accepts only <code>low</code> / <code>high</code> / <code>max</code>; <code>medium</code> is invalid for K3).</p>
-<p><strong>Gemini, OpenAI, xAI, OpenRouter, Fireworks</strong> — minimal defaults (just endpoint URL and default model). You configure behavior yourself.</p>
-<p>When you load a provider alias, its defaults apply first, then any <code>/set</code> overrides or profile settings layer on top. You can inspect what a provider alias sets by looking at its config file in the source, or just check your active settings with <code>/set</code> after loading a provider.</p>
+<p>Some provider aliases supply model settings in addition to their endpoint and
+default model. You can inspect the active values with <code>/set</code> and override them
+with a profile or session setting.</p>
+<p><strong>Anthropic and Claude Code</strong> enable reasoning for Claude models. Claude Opus 5
+uses adaptive thinking, Anthropic effort, and an effort default of <code>high</code>.</p>
+<p><strong>Codex</strong> defaults to GPT-5.6 Sol. Sol, Terra, and Luna use the Responses effort
+shape. The alias sets effort to <code>medium</code>, summary to <code>auto</code>, and prompt caching
+to <code>24h</code>.</p>
+<p><strong>Kimi</strong> uses different reasoning policies for Kimi K3 and Kimi for Coding K2.7.
+K3 accepts <code>low</code>, <code>high</code>, and <code>max</code>, so its model map normalizes the generic
+ladder. K2.7 coding uses enabled thinking and no effort field.</p>
+<p><strong>OpenRouter</strong> selects its nested <code>reasoning</code> object. <strong><a href="http://Z.AI">Z.AI</a></strong>, <strong>DeepSeek</strong>, and
+<strong>Fireworks</strong> have model-specific defaults only where a documented model and
+request shape are known. <strong>Gemini</strong> owns its native <code>thinkingConfig</code>.</p>
+<p>See the <a href="./providers/reasoning-wire-formats.html#shipped-model-restrictions">reasoning alias and model matrix</a>
+for the exact selectors, maps, and restrictions. Alias defaults are applied
+below explicit profile and session values.</p>
 <h2>Tuning for Your Model</h2>
 <p>Good model ergonomics require tuning to a model's specific strengths and weaknesses. The alias defaults are a starting point, but with experience you'll find the sweet spots.</p>
 <p><strong>The core tradeoff:</strong> letting the model put more information in the context means fewer round-trips (fewer tool calls, faster completion) — but too much context introduces distractors, can overwhelm the model, and triggers frequent compressions that lose earlier work. Conversely, keeping tool output small means more steps (more tool calls, more turns) which can also go sideways. The goal is finding the balance where the model doesn't hurt itself.</p>

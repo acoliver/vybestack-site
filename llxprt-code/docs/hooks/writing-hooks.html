@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,41 +73,74 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Writing hooks for LLxprt Code</h1>
-<p>This guide will walk you through creating hooks for LLxprt Code, from a simple
-logging hook to a comprehensive workflow assistant that demonstrates all hook
-events working together.</p>
+<p>This tutorial walks you through creating hooks — external scripts that LLxprt
+Code runs at key points during execution to enforce policies, modify tool
+inputs, log activity, and add context. You will go from a minimal logging hook
+to advanced patterns that combine multiple hook events.</p>
+<h2>Goal and audience</h2>
+<p>You are a developer, administrator, or power user who wants to extend LLxprt
+Code beyond its built-in behavior. After finishing this tutorial you will be
+able to write, configure, test, and troubleshoot hook scripts that block
+operations, modify tool calls, restrict the available tools, and inject
+context into the conversation.</p>
+<p>For the complete type definitions, event inputs, output fields, and exit-code
+semantics, see the <a href="api-reference.html">API Reference</a>. For security, performance,
+and privacy guidance, see <a href="best-practices.html">Best Practices</a>.</p>
 <h2>Prerequisites</h2>
-<p>Before you start, make sure you have:</p>
 <ul>
-<li>LLxprt Code installed and configured</li>
-<li>Basic understanding of shell scripting or JavaScript/Node.js</li>
-<li>Familiarity with JSON for hook input/output</li>
+<li><strong>Node.js 24+</strong> — required to run LLxprt Code itself.</li>
+<li>LLxprt Code installed and configured.</li>
+<li>Basic familiarity with shell scripting (bash) or Python.</li>
+<li>Comfort reading and writing JSON.</li>
 </ul>
+<p>Hooks are <strong>disabled by default</strong>. Before any hook you configure will run, you
+must enable the hook system. Add the following to your
+<a href="../reference/application-directories.html">user <code>settings.json</code></a>:</p>
+<pre><code class="language-json">{
+  &quot;hooksConfig&quot;: {
+    &quot;enabled&quot;: true
+  }
+}
+</code></pre>
+<p>There is also an experimental gate (<code>tools.enableHooks</code>) that defaults to
+<code>true</code>. Both <code>hooksConfig.enabled</code> and <code>tools.enableHooks</code> must be <code>true</code> for
+hooks to execute.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>hooks.enabled</code> key is a legacy form. LLxprt Code migrates it
+to <code>hooksConfig.enabled</code> automatically, but prefer the canonical key going
+forward.</p>
+</blockquote>
 <h2>Quick start</h2>
-<p>Let's create a simple hook that logs all tool executions to understand the
-basics.</p>
-<h3>Step 1: Create your hook script</h3>
-<p>Create a directory for hooks and a simple logging script:</p>
+<p>Create a minimal hook that logs every tool execution. This is the fastest way
+to confirm hooks are wired up correctly.</p>
+<h3>1. Write the hook script</h3>
+<p>Hook scripts can live anywhere on your system — the <code>command</code> field accepts
+any path. The examples below keep scripts under your project's workspace-local
+<code>.llxprt/hooks/</code> directory so they are easy to share via version control. You
+may equally keep scripts under LLxprt's
+<a href="../reference/application-directories.html">config directory</a> or any other
+directory you prefer.</p>
 <pre><code class="language-bash">mkdir -p .llxprt/hooks
 cat &gt; .llxprt/hooks/log-tools.sh &lt;&lt; 'EOF'
 #!/usr/bin/env bash
-# Read hook input from stdin
+# Read JSON input from stdin
 input=$(cat)
 
-# Extract tool name
+# Extract the tool name
 tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name')
 
-# Log to file
+# Log to a file
 echo &quot;[$(date)] Tool executed: $tool_name&quot; &gt;&gt; .llxprt/tool-log.txt
 
-# Return success (exit 0) - output goes to user in transcript mode
+# Return success (exit 0) — stdout is shown to the user in transcript mode
 echo &quot;Logged: $tool_name&quot;
 EOF
 
 chmod +x .llxprt/hooks/log-tools.sh
 </code></pre>
-<h3>Step 2: Configure the hook</h3>
-<p>Add the hook configuration to <code>.llxprt/settings.json</code>:</p>
+<h3>2. Configure the hook</h3>
+<p>Add the hook to <code>.llxprt/settings.json</code> (project-level) or your user-level
+<code>settings.json</code>:</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
     &quot;AfterTool&quot;: [
@@ -123,28 +159,175 @@ chmod +x .llxprt/hooks/log-tools.sh
   }
 }
 </code></pre>
-<h3>Step 3: Test your hook</h3>
-<p>Run LLxprt Code and execute any command that uses tools:</p>
+<h3>3. Test the hook</h3>
+<p>Run LLxprt Code and ask it to perform any tool-based action:</p>
 <pre><code>&gt; Read the README.md file
 
-[Agent uses read_file tool]
+[Agent uses the read_file tool]
 
 Logged: read_file
 </code></pre>
-<p>Check <code>.llxprt/tool-log.txt</code> to see the logged tool executions.</p>
-<h2>Practical examples</h2>
-<h3>Security: Block secrets in commits</h3>
-<p>Prevent committing files containing API keys or passwords.</p>
+<p>Check <code>.llxprt/tool-log.txt</code> to see the logged tool executions. If nothing
+appears, see <a href="#troubleshooting">Troubleshooting</a> below.</p>
+<h2>How hooks work</h2>
+<p>Every hook is a command (typically a shell script) that receives JSON input on
+<strong>stdin</strong> and returns JSON output on <strong>stdout</strong>. Based on the exit code and the
+JSON output, LLxprt Code can block an operation, modify a tool input, inject
+context, or simply continue.</p>
+<h3>Exit codes and output streams</h3>
+<table>
+<thead>
+<tr>
+<th>Exit code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Success — execution continues.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Non-blocking error (warning) — execution continues.</td>
+</tr>
+<tr>
+<td><code>2</code></td>
+<td>Blocking error — the operation is blocked or denied.</td>
+</tr>
+</tbody>
+</table>
+<p>The exit code and the output stream you choose <strong>together</strong> determine how
+LLxprt Code interprets your hook. There are two reliable ways to block an
+operation — pick one and use it consistently:</p>
+<ol>
+<li><strong>Structured decision (stdout + exit 0).</strong> Write a JSON object such as
+<code>{&quot;decision&quot;:&quot;deny&quot;,&quot;reason&quot;:&quot;...&quot;}</code> to <strong>stdout</strong> and exit <code>0</code>. When the
+exit code is <code>0</code>, LLxprt Code parses stdout as JSON. Use this when you want
+full control over every field of the decision.</li>
+<li><strong>Plain-text denial (stderr + exit 2).</strong> Write a human-readable message to
+<strong>stderr</strong> and exit <code>2</code>. When the exit code is <code>2</code>, LLxprt Code converts the
+stderr text into <code>{&quot;decision&quot;:&quot;deny&quot;,&quot;reason&quot;:&quot;&lt;stderr text&gt;&quot;}</code>. Use this
+for quick scripts that do not need structured output.</li>
+</ol>
+<blockquote>
+<p><strong>Warning:</strong> Do <strong>not</strong> write deny JSON to stdout and exit <code>2</code>. When the exit
+code is non-zero, LLxprt Code ignores stdout entirely and reads only stderr.
+If stderr is empty, the hook produces no decision at all and the tool call
+is <strong>allowed</strong> — your hook silently fails open.</p>
+</blockquote>
+<p>When stdout is plain text (not JSON) and the exit code is <code>0</code>, LLxprt Code
+converts it to <code>{ &quot;decision&quot;: &quot;allow&quot;, &quot;systemMessage&quot;: ... }</code>. This is useful
+for returning informational messages.</p>
+<h3>Variables in the <code>command</code> string</h3>
+<p>Hook <code>command</code> strings are handed to a real platform shell, so two layers of
+expansion apply:</p>
+<ol>
+<li>
+<p><strong>LLxprt Code substitutes <code>$LLXPRT_PROJECT_DIR</code>.</strong> Before invoking the
+shell, LLxprt Code replaces every <code>$LLXPRT_PROJECT_DIR</code> token with the
+current working directory, shell-escaping the value first. This lets you
+reference project-relative paths regardless of where LLxprt Code is
+launched from:</p>
+<pre><code class="language-json">{
+  &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/my-hook.sh&quot;
+}
+</code></pre>
+</li>
+<li>
+<p><strong>The shell then performs its normal expansion.</strong> Because the string runs
+through your platform shell, ordinary shell features also work —
+<code>${VAR:-default}</code>, <code>$HOME</code>, <code>~</code>, command substitution, and quoting. For
+example, <code>${LLXPRT_CONFIG_HOME:-$HOME/.config/llxprt-code}</code> resolves
+correctly inside a <code>command</code> because the shell evaluates it at run time.</p>
+</li>
+</ol>
+<p>LLxprt Code only substitutes <code>$LLXPRT_PROJECT_DIR</code> itself; every other
+expansion is done by the shell, not by LLxprt Code.</p>
+<h3>Matcher patterns</h3>
+<p>Each <code>HookDefinition</code> accepts an optional <code>matcher</code> field that controls which
+invocations the hook applies to:</p>
+<ul>
+<li>For <strong>tool events</strong> (<code>BeforeTool</code>, <code>AfterTool</code>), the matcher is tested
+against the tool name. It is treated as a regular expression; if the pattern
+is not valid regex, an exact string match is used instead.</li>
+<li>For <strong>session events</strong> (<code>SessionStart</code>, <code>SessionEnd</code>), the matcher is tested
+against the source or reason (for example, <code>startup</code>, <code>resume</code>, <code>clear</code>,
+<code>exit</code>).</li>
+<li>Omitting the matcher, or setting it to <code>&quot;&quot;</code> or <code>&quot;*&quot;</code>, matches everything.</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;matcher&quot;: &quot;write_file|replace&quot;,
+  &quot;hooks&quot;: [ ... ]
+}
+</code></pre>
+<p>For the full list of events and their input/output schemas, see the
+<a href="api-reference.html">API Reference</a>.</p>
+<h2>Step-by-step examples</h2>
+<p>The following examples cover the most common hook use cases. Each one is
+self-contained: write the script, add the configuration block, and test.</p>
+<h3>Block writes to sensitive directories</h3>
+<p>A <code>BeforeTool</code> hook that prevents writes to system directories.</p>
+<p><strong><code>.llxprt/hooks/block-sensitive-writes.sh</code>:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+#
+# BeforeTool hook: block writes to sensitive directories.
+#
+input=$(cat)
+
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name // empty')
+
+# Only check write operations
+if [[ &quot;$tool_name&quot; != &quot;write_file&quot; &amp;&amp; &quot;$tool_name&quot; != &quot;replace&quot; ]]; then
+  echo '{&quot;decision&quot;: &quot;allow&quot;}'
+  exit 0
+fi
+
+# write_file and replace both use &quot;absolute_path&quot; as the primary path field
+target_path=$(echo &quot;$input&quot; | jq -r '.tool_input.absolute_path // .tool_input.file_path // empty')
+
+# Block writes to system directories
+sensitive_dirs=(&quot;/etc&quot; &quot;/var&quot; &quot;/usr&quot; &quot;/System&quot; &quot;/Library&quot;)
+for dir in &quot;${sensitive_dirs[@]}&quot;; do
+  if [[ &quot;$target_path&quot; == &quot;$dir&quot;* ]]; then
+    echo &quot;{\&quot;decision\&quot;: \&quot;deny\&quot;, \&quot;reason\&quot;: \&quot;Writing to $dir is prohibited by security policy\&quot;}&quot;
+    exit 0
+  fi
+done
+
+echo '{&quot;decision&quot;: &quot;allow&quot;}'
+exit 0
+</code></pre>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;write_file|replace&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;block-sensitive-writes&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/block-sensitive-writes.sh&quot;,
+            &quot;timeout&quot;: 5000
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Prevent committing secrets</h3>
+<p>A <code>BeforeTool</code> hook that scans file content for API keys and passwords before
+writes.</p>
 <p><strong><code>.llxprt/hooks/block-secrets.sh</code>:</strong></p>
 <pre><code class="language-bash">#!/usr/bin/env bash
 input=$(cat)
 
-# Extract content being written
 content=$(echo &quot;$input&quot; | jq -r '.tool_input.content // .tool_input.new_string // &quot;&quot;')
 
-# Check for secrets
 if echo &quot;$content&quot; | grep -qE 'api[_-]?key|password|secret'; then
-  echo '{&quot;decision&quot;:&quot;deny&quot;,&quot;reason&quot;:&quot;Potential secret detected&quot;}' &gt;&amp;2
+  echo 'Potential secret detected' &gt;&amp;2
   exit 2
 fi
 
@@ -161,7 +344,7 @@ exit 0
             &quot;name&quot;: &quot;secret-scanner&quot;,
             &quot;type&quot;: &quot;command&quot;,
             &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;,
-            &quot;description&quot;: &quot;Prevent committing secrets&quot;
+            &quot;description&quot;: &quot;Prevent writing files that contain secrets&quot;
           }
         ]
       }
@@ -169,35 +352,336 @@ exit 0
   }
 }
 </code></pre>
-<h3>Auto-testing after code changes</h3>
-<p>Automatically run tests when code files are modified.</p>
+<blockquote>
+<p><strong>Note:</strong> For more robust secret-detection patterns (AWS keys, GitHub tokens,
+OpenAI keys), see the <a href="best-practices.html#scan-for-secrets">secret-scanning guidance</a>
+in Best Practices.</p>
+</blockquote>
+<h3>Audit-log all tool executions</h3>
+<p>An <code>AfterTool</code> hook that records every tool call to a log file.</p>
+<p><strong><code>.llxprt/hooks/audit-log.sh</code>:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+#
+# AfterTool hook: log all tool executions.
+#
+input=$(cat)
+
+# Extract the scalar fields we want to record. jq -r yields raw (unquoted)
+# strings, which we then pass back to jq as --arg values so they are encoded
+# correctly no matter what characters they contain.
+timestamp=$(echo &quot;$input&quot; | jq -r '.timestamp')
+session_id=$(echo &quot;$input&quot; | jq -r '.session_id')
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name')
+
+# Write to LLxprt's canonical log/state directory, or choose any path your
+# policy requires.
+log_dir=&quot;${LLXPRT_LOG_HOME:-${LLXPRT_CONFIG_HOME:-$HOME/.local/state/llxprt-code}}&quot;
+mkdir -p &quot;$log_dir&quot;
+log_file=&quot;$log_dir/audit.log&quot;
+
+# Build the JSON record with jq -n, passing the scalar fields as --arg strings
+# and embedding tool_input / tool_response as proper JSON values (--argjson)
+# taken directly from the input. This guarantees valid JSON even when the data
+# contains quotes, newlines, or control characters.
+jq -n \
+  --arg timestamp &quot;$timestamp&quot; \
+  --arg session &quot;$session_id&quot; \
+  --arg tool &quot;$tool_name&quot; \
+  --argjson payload &quot;$input&quot; \
+  '{timestamp: $timestamp, session: $session, tool: $tool,
+    input: $payload.tool_input, response: $payload.tool_response}' &gt;&gt; &quot;$log_file&quot;
+
+exit 0
+</code></pre>
+<blockquote>
+<p><strong>Warning: audit logs are sensitive.</strong> Tool inputs and responses can contain
+file contents, environment values, API keys, or other secrets. Before
+enabling an audit hook, set restrictive file permissions on the log file
+(for example, <code>chmod 600</code>), and decide on a redaction and retention policy
+that matches your organization's requirements. A shared or world-readable
+audit log can become a concentrated store of secrets.</p>
+</blockquote>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;AfterTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;audit-log&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/audit-log.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Modify tool input (add safety flags)</h3>
+<p>A <code>BeforeTool</code> hook that automatically inserts the <code>-i</code> flag into <code>rm</code>
+commands before they execute.</p>
+<p><strong><code>.llxprt/hooks/safe-shell.sh</code>:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+#
+# BeforeTool hook: add safety flags to dangerous shell commands.
+#
+input=$(cat)
+tool_name=$(echo &quot;$input&quot; | jq -r '.tool_name')
+
+if [[ &quot;$tool_name&quot; != &quot;run_shell_command&quot; ]]; then
+  exit 0
+fi
+
+command=$(echo &quot;$input&quot; | jq -r '.tool_input.command')
+
+# Add -i (interactive) to rm if not already present
+if [[ &quot;$command&quot; == rm\ * ]]; then
+  if [[ &quot;$command&quot; != *&quot;-i&quot;* &amp;&amp; &quot;$command&quot; != *&quot;--interactive&quot;* ]]; then
+    safe_command=$(echo &quot;$command&quot; | sed 's/^rm /rm -i /')
+    # Build the structured response with jq -n so $safe_command is encoded as a
+    # proper JSON string. Interpolating it into a raw echo would break on
+    # quotes, backslashes, or newlines in the command.
+    jq -n \
+      --arg command &quot;$safe_command&quot; \
+      '{decision: &quot;allow&quot;, hookSpecificOutput: {tool_input: {command: $command}}}'
+    exit 0
+  fi
+fi
+
+exit 0
+</code></pre>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeTool&quot;: [
+      {
+        &quot;matcher&quot;: &quot;run_shell_command&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;safe-shell&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/safe-shell.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Restrict available tools by directory</h3>
+<p>A <code>BeforeToolSelection</code> hook that limits the model to read-only tools in
+production directories.</p>
+<p><strong><code>.llxprt/hooks/restrict-tools.sh</code>:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+#
+# BeforeToolSelection hook: restrict tools based on working directory.
+#
+input=$(cat)
+cwd=$(echo &quot;$input&quot; | jq -r '.cwd')
+
+# In production directories, only allow read operations
+if [[ &quot;$cwd&quot; == */production/* || &quot;$cwd&quot; == */prod/* ]]; then
+  echo '{
+    &quot;hookSpecificOutput&quot;: {
+      &quot;toolConfig&quot;: {
+        &quot;mode&quot;: &quot;AUTO&quot;,
+        &quot;allowedFunctionNames&quot;: [&quot;read_file&quot;, &quot;read_many_files&quot;, &quot;glob&quot;, &quot;search_file_content&quot;, &quot;list_directory&quot;]
+      }
+    }
+  }'
+  exit 0
+fi
+
+exit 0
+</code></pre>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeToolSelection&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;restrict-tools&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/restrict-tools.sh&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Rate-limit model calls</h3>
+<p>A Python <code>BeforeModel</code> hook that enforces a maximum number of LLM calls per
+minute.</p>
+<p><strong><code>.llxprt/hooks/rate-limit.py</code>:</strong></p>
+<pre><code class="language-python">#!/usr/bin/env python3
+&quot;&quot;&quot;
+BeforeModel hook: rate-limit LLM calls.
+&quot;&quot;&quot;
+import json
+import sys
+import time
+from pathlib import Path
+
+MAX_CALLS_PER_MINUTE = 10
+STATE_FILE = Path.home() / '.llxprt-rate-limit-state.json'
+
+
+def load_state():
+    if STATE_FILE.exists():
+        try:
+            with open(STATE_FILE) as f:
+                return json.load(f)
+        except (json.JSONDecodeError, IOError):
+            pass
+    return {'calls': []}
+
+
+def save_state(state):
+    STATE_FILE.parent.mkdir(parents=True, exist_ok=True)
+    # Write to a temporary file then atomically rename, so a crash mid-write
+    # never leaves a truncated JSON file behind.
+    tmp = STATE_FILE.with_suffix('.tmp')
+    with open(tmp, 'w') as f:
+        json.dump(state, f)
+    tmp.replace(STATE_FILE)
+
+
+def main():
+    json.load(sys.stdin)  # read and discard input
+
+    state = load_state()
+    now = time.time()
+
+    # Drop calls older than 60 seconds
+    state['calls'] = [t for t in state['calls'] if now - t &lt; 60]
+
+    if len(state['calls']) &gt;= MAX_CALLS_PER_MINUTE:
+        wait_time = int(60 - (now - state['calls'][0]))
+        print(json.dumps({
+            'continue': False,
+            'stopReason': f'Rate limit exceeded. Please wait {wait_time} seconds.'
+        }))
+        sys.exit(0)
+
+    state['calls'].append(now)
+    save_state(state)
+
+    print(json.dumps({'continue': True}))
+    sys.exit(0)
+
+
+if __name__ == '__main__':
+    main()
+</code></pre>
+<p>Make it executable:</p>
+<pre><code class="language-bash">chmod +x .llxprt/hooks/rate-limit.py
+</code></pre>
+<blockquote>
+<p><strong>Note: this example is not safe for concurrent sessions.</strong> The read-modify-
+write cycle in <code>main()</code> has a race condition: two <code>BeforeModel</code> invocations
+running at the same time can both read the same state, both pass the limit,
+and then overwrite each other's updates, letting through more calls than
+<code>MAX_CALLS_PER_MINUTE</code> allows. The atomic replace in <code>save_state</code> protects
+against a crash truncating the JSON, but it does <strong>not</strong> serialize access. If
+you need correct behavior across parallel sessions, add file locking (for
+example, Python's <code>fcntl.flock</code>) or move the counter to a small database
+with atomic increments.</p>
+</blockquote>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeModel&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;rate-limit&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/rate-limit.py&quot;,
+            &quot;timeout&quot;: 2000
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Inject dynamic context</h3>
+<p>A <code>BeforeAgent</code> hook that adds recent git history to the conversation before
+the model processes the prompt.</p>
+<p><strong><code>.llxprt/hooks/inject-context.sh</code>:</strong></p>
+<pre><code class="language-bash">#!/usr/bin/env bash
+
+context=$(git log -5 --oneline 2&gt;/dev/null || echo &quot;No git history&quot;)
+
+# Build the structured response with jq -n --arg so the commit text is encoded
+# as a proper JSON string. A heredoc would break on quotes, newlines, or
+# control characters that git commit messages can contain.
+jq -n \
+  --arg context &quot;Recent commits:\n$context&quot; \
+  '{hookSpecificOutput: {hookEventName: &quot;BeforeAgent&quot;, additionalContext: $context}}'
+</code></pre>
+<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<pre><code class="language-json">{
+  &quot;hooks&quot;: {
+    &quot;BeforeAgent&quot;: [
+      {
+        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;git-context&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-context.sh&quot;,
+            &quot;description&quot;: &quot;Inject recent git commit history&quot;
+          }
+        ]
+      }
+    ]
+  }
+}
+</code></pre>
+<h3>Run tests after code changes</h3>
+<p>An <code>AfterTool</code> hook that automatically runs the test file corresponding to a
+source file you just edited.</p>
 <p><strong><code>.llxprt/hooks/auto-test.sh</code>:</strong></p>
 <pre><code class="language-bash">#!/usr/bin/env bash
 input=$(cat)
 
-file_path=$(echo &quot;$input&quot; | jq -r '.tool_input.file_path')
+file_path=$(echo &quot;$input&quot; | jq -r '.tool_input.absolute_path // .tool_input.file_path // empty')
 
 # Only test .ts files
 if [[ ! &quot;$file_path&quot; =~ \.ts$ ]]; then
   exit 0
 fi
 
-# Find corresponding test file
 test_file=&quot;${file_path%.ts}.test.ts&quot;
 
 if [ ! -f &quot;$test_file&quot; ]; then
-  echo &quot;⚠️ No test file found&quot;
+  echo &quot;No test file found for $file_path&quot;
   exit 0
 fi
 
-# Run tests
-if npx vitest run &quot;$test_file&quot; --silent 2&gt;&amp;1 | head -20; then
-  echo &quot;✅ Tests passed&quot;
-else
-  echo &quot;❌ Tests failed&quot;
-fi
+# Capture the test output and its real exit status separately. Piping
+# directly into `head` would lose the test command's exit code (the pipeline
+# would report head's status instead), so a failing test run could be
+# reported as a success.
+test_output=$(bun test &quot;$test_file&quot; 2&gt;&amp;1 | head -20)
+test_status=${PIPESTATUS[0]}
 
-exit 0
+if [ &quot;$test_status&quot; -eq 0 ]; then
+  echo &quot;Tests passed&quot;
+  exit 0
+else
+  # Report the failure on stderr with exit 2 so LLxprt Code surfaces it as a
+  # blocking decision rather than silently treating it as a success.
+  echo &quot;Tests failed for $test_file&quot; &gt;&amp;2
+  exit 2
+fi
 </code></pre>
 <p><strong><code>.llxprt/settings.json</code>:</strong></p>
 <pre><code class="language-json">{
@@ -218,36 +702,39 @@ exit 0
   }
 }
 </code></pre>
-<h3>Dynamic context injection</h3>
-<p>Add relevant project context before each agent interaction.</p>
-<p><strong><code>.llxprt/hooks/inject-context.sh</code>:</strong></p>
-<pre><code class="language-bash">#!/usr/bin/env bash
-
-# Get recent git commits for context
-context=$(git log -5 --oneline 2&gt;/dev/null || echo &quot;No git history&quot;)
-
-# Return as JSON
-cat &lt;&lt;EOF
-{
-  &quot;hookSpecificOutput&quot;: {
-    &quot;hookEventName&quot;: &quot;BeforeAgent&quot;,
-    &quot;additionalContext&quot;: &quot;Recent commits:\n$context&quot;
-  }
-}
-EOF
-</code></pre>
-<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<h2>Advanced patterns</h2>
+<h3>Multiple hooks with matchers</h3>
+<p>You can configure different hooks for different tools within the same event.
+Hooks without a matcher run for every invocation.</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
-    &quot;BeforeAgent&quot;: [
+    &quot;BeforeTool&quot;: [
       {
-        &quot;matcher&quot;: &quot;*&quot;,
+        &quot;matcher&quot;: &quot;write_file|replace&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;git-context&quot;,
+            &quot;name&quot;: &quot;validate-writes&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-context.sh&quot;,
-            &quot;description&quot;: &quot;Inject git commit history&quot;
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/validate-writes.sh&quot;
+          }
+        ]
+      },
+      {
+        &quot;matcher&quot;: &quot;run_shell_command&quot;,
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;validate-shell&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/validate-shell.sh&quot;
+          }
+        ]
+      },
+      {
+        &quot;hooks&quot;: [
+          {
+            &quot;name&quot;: &quot;audit-all&quot;,
+            &quot;type&quot;: &quot;command&quot;,
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/audit-all.sh&quot;
           }
         ]
       }
@@ -255,35 +742,22 @@ EOF
   }
 }
 </code></pre>
-<h2>Advanced features</h2>
-<h3>RAG-based tool filtering</h3>
-<p>Use <code>BeforeToolSelection</code> to intelligently reduce the tool space based on the
-current task. Instead of sending all 100+ tools to the model, filter to the most
-relevant ~15 tools using semantic search or keyword matching.</p>
-<p>This improves:</p>
+<p>In this configuration:</p>
 <ul>
-<li><strong>Model accuracy:</strong> Fewer similar tools reduce confusion</li>
-<li><strong>Response speed:</strong> Smaller tool space is faster to process</li>
-<li><strong>Cost efficiency:</strong> Less tokens used per request</li>
+<li><code>validate-writes.sh</code> runs only for <code>write_file</code> and <code>replace</code>.</li>
+<li><code>validate-shell.sh</code> runs only for <code>run_shell_command</code>.</li>
+<li><code>audit-all.sh</code> runs for every tool (no matcher).</li>
 </ul>
-<h3>Cross-session memory</h3>
-<p>Use <code>SessionStart</code> and <code>SessionEnd</code> hooks to maintain persistent knowledge
-across sessions:</p>
-<ul>
-<li><strong>SessionStart:</strong> Load relevant memories from previous sessions</li>
-<li><strong>AfterModel:</strong> Record important interactions during the session</li>
-<li><strong>SessionEnd:</strong> Extract learnings and store for future use</li>
-</ul>
-<p>This enables the assistant to learn project conventions, remember important
-decisions, and share knowledge across team members.</p>
-<h3>Hook chaining</h3>
-<p>Multiple hooks for the same event run in the order declared. Each hook can build
-upon previous hooks' outputs:</p>
+<h3>Sequential hook chaining</h3>
+<p>Multiple hooks for the same event run in parallel by default. Set
+<code>&quot;sequential&quot;: true</code> on a <code>HookDefinition</code> to run its hooks one after another,
+where each hook can build on the previous hook's output:</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
     &quot;BeforeAgent&quot;: [
       {
         &quot;matcher&quot;: &quot;*&quot;,
+        &quot;sequential&quot;: true,
         &quot;hooks&quot;: [
           {
             &quot;name&quot;: &quot;load-memories&quot;,
@@ -301,49 +775,18 @@ upon previous hooks' outputs:</p>
   }
 }
 </code></pre>
-<h2>Complete example: Smart Development Workflow Assistant</h2>
-<p>This comprehensive example demonstrates all hook events working together with
-two advanced features:</p>
-<ul>
-<li><strong>RAG-based tool selection:</strong> Reduces 100+ tools to ~15 relevant ones per task</li>
-<li><strong>Cross-session memory:</strong> Learns and persists project knowledge</li>
-</ul>
-<h3>Architecture</h3>
-<pre><code>SessionStart → Initialize memory &amp; index tools
-     ↓
-BeforeAgent → Inject relevant memories
-     ↓
-BeforeModel → Add system instructions
-     ↓
-BeforeToolSelection → Filter tools via RAG
-     ↓
-BeforeTool → Validate security
-     ↓
-AfterTool → Run auto-tests
-     ↓
-AfterModel → Record interaction
-     ↓
-SessionEnd → Extract and store memories
-</code></pre>
-<h3>Installation</h3>
-<p><strong>Prerequisites:</strong></p>
-<ul>
-<li>Node.js 18+</li>
-<li>LLxprt Code installed</li>
-</ul>
-<p><strong>Setup:</strong></p>
-<pre><code class="language-bash"># Create hooks directory
-mkdir -p .llxprt/hooks .llxprt/memory
-
-# Install dependencies
-npm install --save-dev chromadb @google/generative-ai
-
-# Copy hook scripts (shown below)
-# Make them executable
-chmod +x .llxprt/hooks/*.js
-</code></pre>
-<h3>Configuration</h3>
-<p><strong><code>.llxprt/settings.json</code>:</strong></p>
+<p>When <code>sequential</code> is <code>true</code>, a hook's <code>hookSpecificOutput</code> modifications (for
+example, <code>tool_input</code> on <code>BeforeTool</code>, <code>additionalContext</code> on <code>BeforeAgent</code>,
+or <code>llm_request</code> on <code>BeforeModel</code>) are applied to the input passed to the next
+hook in the chain.</p>
+<blockquote>
+<p><strong>Note:</strong> If <strong>any</strong> <code>HookDefinition</code> in an event has <code>sequential: true</code>,
+<strong>all</strong> hooks for that event run sequentially.</p>
+</blockquote>
+<h3>Combining events: a complete workflow</h3>
+<p>The following configuration wires hooks across the full session lifecycle. This
+is a reference for how events fit together — each script would contain your own
+logic. See the individual examples above for the script bodies.</p>
 <pre><code class="language-json">{
   &quot;hooks&quot;: {
     &quot;SessionStart&quot;: [
@@ -351,10 +794,10 @@ chmod +x .llxprt/hooks/*.js
         &quot;matcher&quot;: &quot;startup&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;init-assistant&quot;,
+            &quot;name&quot;: &quot;init&quot;,
             &quot;type&quot;: &quot;command&quot;,
             &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/init.js&quot;,
-            &quot;description&quot;: &quot;Initialize Smart Workflow Assistant&quot;
+            &quot;description&quot;: &quot;Initialize session state&quot;
           }
         ]
       }
@@ -364,10 +807,9 @@ chmod +x .llxprt/hooks/*.js
         &quot;matcher&quot;: &quot;*&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;inject-memories&quot;,
+            &quot;name&quot;: &quot;inject-context&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-memories.js&quot;,
-            &quot;description&quot;: &quot;Inject relevant project memories&quot;
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/inject-context.sh&quot;
           }
         ]
       }
@@ -377,10 +819,9 @@ chmod +x .llxprt/hooks/*.js
         &quot;matcher&quot;: &quot;*&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;rag-filter&quot;,
+            &quot;name&quot;: &quot;restrict-tools&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/rag-filter.js&quot;,
-            &quot;description&quot;: &quot;Filter tools using RAG&quot;
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/restrict-tools.sh&quot;
           }
         ]
       }
@@ -390,10 +831,9 @@ chmod +x .llxprt/hooks/*.js
         &quot;matcher&quot;: &quot;write_file|replace&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;security-check&quot;,
+            &quot;name&quot;: &quot;block-secrets&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/security.js&quot;,
-            &quot;description&quot;: &quot;Prevent committing secrets&quot;
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/block-secrets.sh&quot;
           }
         ]
       }
@@ -405,34 +845,20 @@ chmod +x .llxprt/hooks/*.js
           {
             &quot;name&quot;: &quot;auto-test&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/auto-test.js&quot;,
-            &quot;description&quot;: &quot;Run tests after code changes&quot;
-          }
-        ]
-      }
-    ],
-    &quot;AfterModel&quot;: [
-      {
-        &quot;matcher&quot;: &quot;*&quot;,
-        &quot;hooks&quot;: [
-          {
-            &quot;name&quot;: &quot;record-interaction&quot;,
-            &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/record.js&quot;,
-            &quot;description&quot;: &quot;Record interaction for learning&quot;
+            &quot;command&quot;: &quot;$LLXPRT_PROJECT_DIR/.llxprt/hooks/auto-test.sh&quot;
           }
         ]
       }
     ],
     &quot;SessionEnd&quot;: [
       {
-        &quot;matcher&quot;: &quot;exit|logout&quot;,
+        &quot;matcher&quot;: &quot;exit&quot;,
         &quot;hooks&quot;: [
           {
-            &quot;name&quot;: &quot;consolidate-memories&quot;,
+            &quot;name&quot;: &quot;cleanup&quot;,
             &quot;type&quot;: &quot;command&quot;,
-            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/consolidate.js&quot;,
-            &quot;description&quot;: &quot;Extract and store session learnings&quot;
+            &quot;command&quot;: &quot;node $LLXPRT_PROJECT_DIR/.llxprt/hooks/cleanup.js&quot;,
+            &quot;description&quot;: &quot;Persist session learnings&quot;
           }
         ]
       }
@@ -440,558 +866,119 @@ chmod +x .llxprt/hooks/*.js
   }
 }
 </code></pre>
-<h3>Hook scripts</h3>
-<h4>1. Initialize (SessionStart)</h4>
-<p><strong><code>.llxprt/hooks/init.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const { ChromaClient } = require('chromadb');
-const path = require('path');
-const fs = require('fs');
+<h2>Common patterns</h2>
+<h3>Allow by default, deny specific</h3>
+<p>Most policy hooks start by allowing everything and only intervene for specific
+tools or conditions:</p>
+<pre><code class="language-bash">case &quot;$tool_name&quot; in
+  run_shell_command)
+    if is_dangerous_command &quot;$command&quot;; then
+      echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Dangerous command blocked&quot;}'
+      exit 0
+    fi
+    ;;
+esac
 
-async function main() {
-  const projectDir = process.env.LLXPRT_PROJECT_DIR;
-  const chromaPath = path.join(projectDir, '.llxprt', 'chroma');
-
-  // Ensure chroma directory exists
-  fs.mkdirSync(chromaPath, { recursive: true });
-
-  const client = new ChromaClient({ path: chromaPath });
-
-  // Initialize memory collection
-  await client.getOrCreateCollection({
-    name: 'project_memories',
-    metadata: { 'hnsw:space': 'cosine' },
-  });
-
-  // Count existing memories
-  const collection = await client.getCollection({ name: 'project_memories' });
-  const memoryCount = await collection.count();
-
-  console.log(
-    JSON.stringify({
-      hookSpecificOutput: {
-        hookEventName: 'SessionStart',
-        additionalContext: `Smart Workflow Assistant initialized with ${memoryCount} project memories.`,
-      },
-      systemMessage: `🧠 ${memoryCount} memories loaded`,
-    }),
-  );
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
+exit 0
 </code></pre>
-<h4>2. Inject memories (BeforeAgent)</h4>
-<p><strong><code>.llxprt/hooks/inject-memories.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { ChromaClient } = require('chromadb');
-const path = require('path');
+<h3>Deny by default, allow specific</h3>
+<p>For high-security environments, deny everything except explicitly allowed
+operations:</p>
+<pre><code class="language-bash">case &quot;$tool_name&quot; in
+  read_file|list_directory|glob)
+    exit 0
+    ;;
+esac
 
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const { prompt } = input;
-
-  if (!prompt?.trim()) {
-    console.log(JSON.stringify({}));
-    return;
-  }
-
-  // Embed the prompt (uses LLXPRT_API_KEY; GEMINI_API_KEY also supported for compatibility)
-  const genai = new GoogleGenerativeAI(
-    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
-  );
-  const model = genai.getGenerativeModel({ model: 'gemini-embedding-001' });
-  const result = await model.embedContent(prompt);
-
-  // Search memories
-  const projectDir = process.env.LLXPRT_PROJECT_DIR;
-  const client = new ChromaClient({
-    path: path.join(projectDir, '.llxprt', 'chroma'),
-  });
-
-  try {
-    const collection = await client.getCollection({ name: 'project_memories' });
-    const results = await collection.query({
-      queryEmbeddings: [result.embedding.values],
-      nResults: 3,
-    });
-
-    if (results.documents[0]?.length &gt; 0) {
-      const memories = results.documents[0]
-        .map((doc, i) =&gt; {
-          const meta = results.metadatas[0][i];
-          return `- [${meta.category}] ${meta.summary}`;
-        })
-        .join('\n');
-
-      console.log(
-        JSON.stringify({
-          hookSpecificOutput: {
-            hookEventName: 'BeforeAgent',
-            additionalContext: `\n## Relevant Project Context\n\n${memories}\n`,
-          },
-          systemMessage: `💭 ${results.documents[0].length} memories recalled`,
-        }),
-      );
-    } else {
-      console.log(JSON.stringify({}));
-    }
-  } catch (error) {
-    console.log(JSON.stringify({}));
-  }
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
+echo '{&quot;decision&quot;: &quot;deny&quot;, &quot;reason&quot;: &quot;Tool not in allowlist&quot;}'
+exit 0
 </code></pre>
-<h4>3. RAG tool filter (BeforeToolSelection)</h4>
-<p><strong><code>.llxprt/hooks/rag-filter.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const { llm_request } = input;
-  const candidateTools =
-    llm_request.toolConfig?.functionCallingConfig?.allowedFunctionNames || [];
-
-  // Skip if already filtered
-  if (candidateTools.length &lt;= 20) {
-    console.log(JSON.stringify({}));
-    return;
-  }
-
-  // Extract recent user messages
-  const recentMessages = llm_request.messages
-    .slice(-3)
-    .filter((m) =&gt; m.role === 'user')
-    .map((m) =&gt; m.content)
-    .join('\n');
-
-  // Use fast model to extract task keywords
-  const genai = new GoogleGenerativeAI(
-    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
-  );
-  const model = genai.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-  const result = await model.generateContent(
-    `Extract 3-5 keywords describing needed tool capabilities from this request:\n\n${recentMessages}\n\nKeywords (comma-separated):`,
-  );
-
-  const keywords = result.response
-    .text()
-    .toLowerCase()
-    .split(',')
-    .map((k) =&gt; k.trim());
-
-  // Simple keyword-based filtering + core tools
-  const coreTools = ['read_file', 'write_file', 'replace', 'run_shell_command'];
-  const filtered = candidateTools.filter((tool) =&gt; {
-    if (coreTools.includes(tool)) return true;
-    const toolLower = tool.toLowerCase();
-    return keywords.some(
-      (kw) =&gt; toolLower.includes(kw) || kw.includes(toolLower),
-    );
-  });
-
-  console.log(
-    JSON.stringify({
-      hookSpecificOutput: {
-        hookEventName: 'BeforeToolSelection',
-        toolConfig: {
-          functionCallingConfig: {
-            mode: 'ANY',
-            allowedFunctionNames: filtered.slice(0, 20),
-          },
-        },
-      },
-      systemMessage: `🎯 Filtered ${candidateTools.length} → ${Math.min(filtered.length, 20)} tools`,
-    }),
-  );
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
-</code></pre>
-<h4>4. Security validation (BeforeTool)</h4>
-<p><strong><code>.llxprt/hooks/security.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-
-const SECRET_PATTERNS = [
-  /api[_-]?key\s*[:=]\s*['&quot;]?[a-zA-Z0-9_-]{20,}['&quot;]?/i,
-  /password\s*[:=]\s*['&quot;]?[^\s'&quot;]{8,}['&quot;]?/i,
-  /secret\s*[:=]\s*['&quot;]?[a-zA-Z0-9_-]{20,}['&quot;]?/i,
-  /AKIA[0-9A-Z]{16}/, // AWS
-  /ghp_[a-zA-Z0-9]{36}/, // GitHub
-];
-
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const { tool_input } = input;
-
-  const content = tool_input.content || tool_input.new_string || '';
-
-  for (const pattern of SECRET_PATTERNS) {
-    if (pattern.test(content)) {
-      console.log(
-        JSON.stringify({
-          decision: 'deny',
-          reason:
-            'Potential secret detected in code. Please remove sensitive data.',
-          systemMessage: '🚨 Secret scanner blocked operation',
-        }),
-      );
-      process.exit(2);
-    }
-  }
-
-  console.log(JSON.stringify({ decision: 'allow' }));
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
-</code></pre>
-<h4>5. Auto-test (AfterTool)</h4>
-<p><strong><code>.llxprt/hooks/auto-test.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const { execSync } = require('child_process');
-const fs = require('fs');
-const path = require('path');
-
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const { tool_input } = input;
-  const filePath = tool_input.file_path;
-
-  if (!filePath?.match(/\.(ts|js|tsx|jsx)$/)) {
-    console.log(JSON.stringify({}));
-    return;
-  }
-
-  // Find test file
-  const ext = path.extname(filePath);
-  const base = filePath.slice(0, -ext.length);
-  const testFile = `${base}.test${ext}`;
-
-  if (!fs.existsSync(testFile)) {
-    console.log(
-      JSON.stringify({
-        systemMessage: `⚠️ No test file: ${path.basename(testFile)}`,
-      }),
-    );
-    return;
-  }
-
-  // Run tests
-  try {
-    execSync(`npx vitest run ${testFile} --silent`, {
-      encoding: 'utf8',
-      stdio: 'pipe',
-      timeout: 30000,
-    });
-
-    console.log(
-      JSON.stringify({
-        systemMessage: `✅ Tests passed: ${path.basename(filePath)}`,
-      }),
-    );
-  } catch (error) {
-    console.log(
-      JSON.stringify({
-        systemMessage: `❌ Tests failed: ${path.basename(filePath)}`,
-      }),
-    );
-  }
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
-</code></pre>
-<h4>6. Record interaction (AfterModel)</h4>
-<p><strong><code>.llxprt/hooks/record.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const { llm_request, llm_response } = input;
-  const projectDir = process.env.LLXPRT_PROJECT_DIR;
-  const sessionId = process.env.LLXPRT_SESSION_ID;
-
-  const tempFile = path.join(
-    projectDir,
-    '.llxprt',
-    'memory',
-    `session-${sessionId}.jsonl`,
-  );
-
-  fs.mkdirSync(path.dirname(tempFile), { recursive: true });
-
-  // Extract user message and model response
-  const userMsg = llm_request.messages
-    ?.filter((m) =&gt; m.role === 'user')
-    .slice(-1)[0]?.content;
-
-  const modelMsg = llm_response.candidates?.[0]?.content?.parts
-    ?.map((p) =&gt; p.text)
-    .filter(Boolean)
-    .join('');
-
-  if (userMsg &amp;&amp; modelMsg) {
-    const interaction = {
-      timestamp: new Date().toISOString(),
-      user: process.env.USER || 'unknown',
-      request: userMsg.slice(0, 500), // Truncate for storage
-      response: modelMsg.slice(0, 500),
-    };
-
-    fs.appendFileSync(tempFile, JSON.stringify(interaction) + '\n');
-  }
-
-  console.log(JSON.stringify({}));
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
-</code></pre>
-<h4>7. Consolidate memories (SessionEnd)</h4>
-<p><strong><code>.llxprt/hooks/consolidate.js</code>:</strong></p>
-<pre><code class="language-javascript">#!/usr/bin/env node
-const fs = require('fs');
-const path = require('path');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { ChromaClient } = require('chromadb');
-
-async function main() {
-  const input = JSON.parse(await readStdin());
-  const projectDir = process.env.LLXPRT_PROJECT_DIR;
-  const sessionId = process.env.LLXPRT_SESSION_ID;
-
-  const tempFile = path.join(
-    projectDir,
-    '.llxprt',
-    'memory',
-    `session-${sessionId}.jsonl`,
-  );
-
-  if (!fs.existsSync(tempFile)) {
-    console.log(JSON.stringify({}));
-    return;
-  }
-
-  // Read interactions
-  const interactions = fs
-    .readFileSync(tempFile, 'utf8')
-    .trim()
-    .split('\n')
-    .filter(Boolean)
-    .map((line) =&gt; JSON.parse(line));
-
-  if (interactions.length === 0) {
-    fs.unlinkSync(tempFile);
-    console.log(JSON.stringify({}));
-    return;
-  }
-
-  // Extract memories using LLM
-  const genai = new GoogleGenerativeAI(
-    process.env.LLXPRT_API_KEY || process.env.GEMINI_API_KEY,
-  );
-  const model = genai.getGenerativeModel({ model: 'gemini-2.5-flash' });
-
-  const prompt = `Extract important project learnings from this session.
-Focus on: decisions, conventions, gotchas, patterns.
-Return JSON array with: category, summary, keywords
-
-Session interactions:
-${JSON.stringify(interactions, null, 2)}
-
-JSON:`;
-
-  try {
-    const result = await model.generateContent(prompt);
-    const text = result.response.text().replace(/```json\n?|\n?```/g, '');
-    const memories = JSON.parse(text);
-
-    // Store in ChromaDB
-    const client = new ChromaClient({
-      path: path.join(projectDir, '.llxprt', 'chroma'),
-    });
-    const collection = await client.getCollection({ name: 'project_memories' });
-    const embedModel = genai.getGenerativeModel({
-      model: 'gemini-embedding-001',
-    });
-
-    for (const memory of memories) {
-      const memoryText = `${memory.category}: ${memory.summary}`;
-      const embedding = await embedModel.embedContent(memoryText);
-      const id = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-
-      await collection.add({
-        ids: [id],
-        embeddings: [embedding.embedding.values],
-        documents: [memoryText],
-        metadatas: [
-          {
-            category: memory.category || 'general',
-            summary: memory.summary,
-            keywords: (memory.keywords || []).join(','),
-            timestamp: new Date().toISOString(),
-          },
-        ],
-      });
-    }
-
-    fs.unlinkSync(tempFile);
-
-    console.log(
-      JSON.stringify({
-        systemMessage: `🧠 ${memories.length} new learnings saved for future sessions`,
-      }),
-    );
-  } catch (error) {
-    console.error('Error consolidating memories:', error);
-    fs.unlinkSync(tempFile);
-    console.log(JSON.stringify({}));
-  }
-}
-
-function readStdin() {
-  return new Promise((resolve) =&gt; {
-    const chunks = [];
-    process.stdin.on('data', (chunk) =&gt; chunks.push(chunk));
-    process.stdin.on('end', () =&gt; resolve(Buffer.concat(chunks).toString()));
-  });
-}
-
-readStdin().then(main).catch(console.error);
-</code></pre>
-<h3>Example session</h3>
-<pre><code>&gt; llxprt
-
-🧠 3 memories loaded
-
-&gt; Fix the authentication bug in login.ts
-
-💭 2 memories recalled:
-  - [convention] Use middleware pattern for auth
-  - [gotcha] Remember to update token types
-
-🎯 Filtered 127 → 15 tools
-
-[Agent reads login.ts and proposes fix]
-
-✅ Tests passed: login.ts
-
----
-
-&gt; Add error logging to API endpoints
-
-💭 3 memories recalled:
-  - [convention] Use middleware pattern for auth
-  - [pattern] Centralized error handling in middleware
-  - [decision] Log errors to CloudWatch
-
-🎯 Filtered 127 → 18 tools
-
-[Agent implements error logging]
-
-&gt; /exit
-
-🧠 2 new learnings saved for future sessions
-</code></pre>
-<h3>What makes this example special</h3>
-<p><strong>RAG-based tool selection:</strong></p>
+<h2>Security and limitations</h2>
+<blockquote>
+<p><strong>Warning:</strong> Hooks execute with your full user privileges. A malicious or
+misconfigured hook can delete files, exfiltrate data, or compromise your
+system.</p>
+</blockquote>
+<p>Key security points to keep in mind:</p>
 <ul>
-<li>Traditional: Send all 100+ tools causing confusion and context overflow</li>
-<li>This example: Extract intent, filter to ~15 relevant tools</li>
-<li>Benefits: Faster responses, better selection, lower costs</li>
+<li><strong>Folder trust is the gate.</strong> Project hooks (in <code>.llxprt/settings.json</code>) run
+only when the project folder is trusted. When LLxprt Code first encounters a
+new or changed project hook, it prints a warning listing the hook so you can
+review it, but it does <strong>not</strong> block the hook or prompt for per-hook
+approval. Once a folder is trusted, every project hook in it executes with
+your privileges — including any hook added or modified by a collaborator
+after a <code>git pull</code>. Treat a project hook the same way you would treat any
+other script committed to the repository: review its <code>command</code> before you
+trust the folder.</li>
+<li><strong>Hooks inherit the environment</strong> of the LLxprt Code process, which may
+include API keys. LLxprt Code attempts to sanitize sensitive variables, but
+you should avoid printing environment variables to stdout or stderr.</li>
+<li><strong>Telemetry</strong>: when telemetry is enabled, hook inputs and outputs are
+included in the <code>hook_call</code> telemetry event regardless of the
+<code>telemetry.logPrompts</code> setting. Disable telemetry entirely to prevent hook
+I/O from being logged.</li>
 </ul>
-<p><strong>Cross-session memory:</strong></p>
-<ul>
-<li>Traditional: Each session starts fresh</li>
-<li>This example: Learns conventions, decisions, gotchas, patterns</li>
-<li>Benefits: Shared knowledge across team members, persistent learnings</li>
-</ul>
-<p><strong>All hook events integrated:</strong></p>
-<p>Demonstrates every hook event with practical use cases in a cohesive workflow.</p>
-<h3>Cost efficiency</h3>
-<ul>
-<li>Uses <code>gemini-2.5-flash</code> for intent extraction (fast, cheap)</li>
-<li>Uses <code>gemini-embedding-001</code> for RAG (inexpensive)</li>
-<li>Caches tool descriptions (one-time cost)</li>
-<li>Minimal overhead per request (&lt;500ms typically)</li>
-</ul>
-<h3>Customization</h3>
-<p><strong>Adjust memory relevance:</strong></p>
-<pre><code class="language-javascript">// In inject-memories.js, change nResults
-const results = await collection.query({
-  queryEmbeddings: [result.embedding.values],
-  nResults: 5, // More memories
-});
+<p>For the complete threat model, mitigation strategies (sandboxing, permission
+limiting), and privacy guidance, see
+<a href="best-practices.html#using-hooks-securely">Best Practices</a>.</p>
+<h2>Troubleshooting</h2>
+<h3>Hook not running</h3>
+<ol>
+<li><strong>Verify hooks are enabled.</strong> Confirm <code>hooksConfig.enabled</code> is <code>true</code> in
+your <code>settings.json</code> and that <code>tools.enableHooks</code> is not set to <code>false</code>.</li>
+<li><strong>Check the hook panel.</strong> Run <code>/hooks panel</code> inside LLxprt Code and confirm
+the hook appears and is enabled.</li>
+<li><strong>Check the <code>disabled</code> list.</strong> Hooks listed under <code>hooksConfig.disabled</code>
+will not execute even if configured.</li>
+<li><strong>Verify the script is executable:</strong> <code>chmod +x .llxprt/hooks/my-hook.sh</code></li>
+<li><strong>Validate your settings JSON:</strong>
+<code>jq . .llxprt/settings.json</code> — a syntax error will prevent all hooks from
+loading.</li>
+<li><strong>Verify the matcher pattern</strong> matches the tool name. Remember matchers are
+tested as regular expressions for tool events.</li>
+</ol>
+<h3>Hook output not parsed</h3>
+<ol>
+<li><strong>Ensure stdout is valid JSON</strong> when you want structured output:
+<code>echo '{&quot;test&quot;: 1}' | jq .</code></li>
+<li><strong>Do not mix logging with JSON output.</strong> Write log messages to a file or to
+stderr, not stdout. Stdout is reserved for hook output.</li>
+<li><strong>Check for binary data or control characters</strong> in the output that could
+break JSON parsing.</li>
+</ol>
+<h3>Hook times out</h3>
+<p>The default timeout is <strong>60 seconds</strong> (<code>60000</code> ms). You can set a shorter
+<code>timeout</code> (in milliseconds) per hook.</p>
+<ol>
+<li>Profile the hook to find the slow part.</li>
+<li>Set an appropriate timeout in the hook configuration:<pre><code class="language-json">{
+  &quot;name&quot;: &quot;my-hook&quot;,
+  &quot;timeout&quot;: 5000
+}
 </code></pre>
-<p><strong>Modify tool filter count:</strong></p>
-<pre><code class="language-javascript">// In rag-filter.js, adjust the limit
-allowedFunctionNames: filtered.slice(0, 30), // More tools
+</li>
+<li>Avoid slow operations like network calls inside hooks, or wrap them with a
+local timeout (<code>timeout 1 ./quick-check.sh</code>).</li>
+</ol>
+<h3>Environment variables not available</h3>
+<p>LLxprt Code only substitutes <code>$LLXPRT_PROJECT_DIR</code> itself before invoking the
+shell; every other expansion (<code>$HOME</code>, <code>${VAR:-default}</code>, and so on) is
+performed by your platform shell at run time. If your hook script needs
+additional variables that the shell does not already see, load them from a
+<code>.env</code> file inside the script:</p>
+<pre><code class="language-bash">if [ -f &quot;$LLXPRT_PROJECT_DIR/.env&quot; ]; then
+  source &quot;$LLXPRT_PROJECT_DIR/.env&quot;
+fi
 </code></pre>
-<p><strong>Add custom security patterns:</strong></p>
-<pre><code class="language-javascript">// In security.js, add patterns
-const SECRET_PATTERNS = [
-  // ... existing patterns
-  /private[_-]?key/i,
-  /auth[_-]?token/i,
-];
-</code></pre>
-<h2>Learn more</h2>
+<h2>Related reference</h2>
 <ul>
-<li><a href="index.html">Hooks Reference</a> - Complete API reference and configuration</li>
-<li><a href="best-practices.html">Best Practices</a> - Security, performance, and debugging</li>
-<li><a href="../cli/configuration.html">Configuration</a> - LLxprt Code settings</li>
-<li><a href="../cli/commands.html#custom-commands">Custom Commands</a> - Create custom commands</li>
+<li><a href="index.html">Hooks Reference</a> — overview, event table, and quick-start</li>
+<li><a href="api-reference.html">API Reference</a> — complete type definitions, input/output
+schemas, exit codes, and environment variables</li>
+<li><a href="best-practices.html">Best Practices</a> — security, performance, debugging, and
+privacy guidance</li>
+<li><a href="../reference/application-directories.html">Application Directories</a> — where
+LLxprt Code stores configuration, logs, and data</li>
 </ul>
 
           </div>

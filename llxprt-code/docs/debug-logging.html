@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,7 +73,7 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Debug Logging System</h1>
-<p>The LLxprt debug logging system provides powerful, zero-overhead debugging capabilities with flexible configuration and namespace-based filtering.</p>
+<p>The LLxprt debug logging system provides powerful debugging capabilities with flexible configuration and namespace-based filtering.</p>
 <h2>Quick Start</h2>
 <h3>Enable Debug Logging</h3>
 <pre><code class="language-bash"># Enable all debug logging
@@ -250,11 +253,20 @@ export DEBUG_LEVEL=verbose
 </tbody>
 </table>
 <h2>Performance</h2>
-<h3>Zero Overhead When Disabled</h3>
-<p>The debug system uses lazy evaluation - when debugging is disabled, there is zero performance impact:</p>
-<pre><code class="language-typescript">// This function is never called if debug is disabled
-logger.debug(() =&gt; `Processing ${expensiveComputation()}`);
+<h3>Near-Zero Overhead When Disabled</h3>
+<p>When debugging is disabled, the logging methods return immediately without
+formatting, redacting, or writing anything. To get that benefit for a message
+that is expensive to build, pass it as a <strong>callback</strong> rather than a pre-built
+string:</p>
+<pre><code class="language-ts">// The string is built every call — even when logging is disabled.
+logger.debug(`result: ${expensiveComputation()}`);
+
+// The callback runs only when logging is enabled for this namespace.
+logger.debug(() =&gt; `result: ${expensiveComputation()}`);
 </code></pre>
+<p>A plain argument is evaluated by your code <strong>before</strong> the logger is entered, so
+its cost is paid regardless of whether logging is on. The callback form is what
+defers that work.</p>
 <h3>Sensitive Data Redaction</h3>
 <p>Sensitive information is automatically redacted from logs:</p>
 <ul>
@@ -279,6 +291,62 @@ cat &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-
 
 # Follow log in real-time
 tail -f &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&lt;PID&gt;.jsonl&quot; | jq '.'
+</code></pre>
+<h2>Tracing Message Order (Chronology Markers)</h2>
+<p>Every item that enters the conversation history is stamped with a client-side
+chronology marker, so you can reconstruct the exact order of events even when
+requests are retried or tool calls interleave with ordinary messages.</p>
+<p>Each marker carries:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>seq</code></td>
+<td>Monotonic insertion ordinal. Never reused, including after <code>/clear</code>.</td>
+</tr>
+<tr>
+<td><code>userTurn</code></td>
+<td>Which user turn the item belongs to (<code>0</code> before the first prompt).</td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td>Position within that user turn, so tool round-trips stay ordered.</td>
+</tr>
+<tr>
+<td><code>recordedAt</code></td>
+<td>Epoch milliseconds when the item entered history.</td>
+</tr>
+</tbody>
+</table>
+<p>Markers are <strong>client-side only</strong>. They are never included in a provider request
+payload, and they are excluded from token estimation so they cannot affect when
+compression triggers.</p>
+<h3>In debug logs</h3>
+<p>Chronology appears on every &quot;Adding content to history&quot; record:</p>
+<pre><code class="language-bash">LLXPRT_DEBUG=llxprt:history:service llxprt
+
+cat &quot;${LLXPRT_LOG_HOME:-$HOME/.local/state/llxprt-code}/debug/llxprt-debug-&quot;*.jsonl \
+  | jq 'select(.namespace == &quot;llxprt:history:service&quot;) | .args[1].chronology'
+</code></pre>
+<h3>In context dumps</h3>
+<p><code>/dumpcontext now</code> writes the full ordered trace into the request dump file
+under a top-level <code>chronology</code> key, as a sibling of <code>request</code>:</p>
+<pre><code class="language-bash">jq '.chronology' ~/.cache/llxprt-code/dumps/&lt;baseId&gt;-request.json
+</code></pre>
+<p>The trace lists structural descriptors only — speaker, block types, tool call
+and tool response IDs — and never message text, tool parameters, or tool
+results, so it is safe to attach to a bug report. <code>request.body</code> stays exactly
+what the provider receives.</p>
+<h3>After compression</h3>
+<p>Compression destroys history items, which shows up as a gap in the <code>seq</code>
+series. When a summary replaces those items, the summary records the span it
+stands in for:</p>
+<pre><code class="language-json">{ &quot;chronologyReplaced&quot;: { &quot;fromSeq&quot;: 1, &quot;toSeq&quot;: 42, &quot;itemCount&quot;: 42 } }
 </code></pre>
 <h2>Examples</h2>
 <h3>Debugging Provider Issues</h3>
@@ -310,6 +378,115 @@ llxprt --debug llxprt:*
 # In session, disable when done
 /debug disable
 </code></pre>
+<h2>Programmatic API</h2>
+<p>If you are writing an extension, a hook, or embedding LLxprt Code, you can log
+to the same debug system through the <code>DebugLogger</code> class. It is exported from
+the public package entry point:</p>
+<pre><code class="language-typescript">import { DebugLogger } from '@vybestack/llxprt-code-core';
+</code></pre>
+<h3>Creating a logger</h3>
+<p>Pass a namespace to the constructor. Follow the <code>llxprt:[component]:[subcomponent]</code>
+convention so your output is easy to filter alongside the built-in namespaces:</p>
+<pre><code class="language-typescript">const logger = new DebugLogger('llxprt:myextension:feature');
+</code></pre>
+<p>You can also use the factory, which returns a single shared instance per
+namespace:</p>
+<pre><code class="language-typescript">const logger = DebugLogger.getLogger('llxprt:myextension:feature');
+</code></pre>
+<p><code>getLogger</code> caches one logger per namespace, so repeated calls with the same
+namespace return the same object. Cached instances live until the process
+exits; call <code>DebugLogger.disposeAll()</code> if you need to release them sooner.</p>
+<h3>Logging methods</h3>
+<p>Every method accepts either a plain string or a callback that returns a
+string, followed by any number of extra arguments that are attached to the log
+entry:</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Level</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>log</code></td>
+<td><code>log</code></td>
+<td>Always emitted when the namespace is enabled.</td>
+</tr>
+<tr>
+<td><code>debug</code></td>
+<td><code>debug</code></td>
+<td>Suppressed when the logging level is set to <code>error</code>.</td>
+</tr>
+<tr>
+<td><code>warn</code></td>
+<td><code>warn</code></td>
+<td>Warning level.</td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td><code>error</code></td>
+<td>Error level.</td>
+</tr>
+</tbody>
+</table>
+<pre><code class="language-typescript">// Plain string
+logger.log('Processing request');
+
+// Extra arguments are stored on the log entry
+logger.log('Processing request', requestId, userId);
+
+// Callback — runs only when this namespace is enabled
+logger.debug(() =&gt; `Result: ${JSON.stringify(largeObject)}`);
+</code></pre>
+<h3>Lazy evaluation</h3>
+<p>This is the single most important detail for the programmatic API. The
+logging methods short-circuit and do nothing when the namespace is disabled.
+That saves you nothing when you pass a <strong>plain argument</strong>, because your code
+builds the string before the method is ever called:</p>
+<pre><code class="language-typescript">// The template literal runs every time, even with logging off.
+logger.debug(`result: ${expensiveComputation()}`);
+</code></pre>
+<p>To defer that work until the logger actually needs it, pass a <strong>callback</strong>.
+The callback is never invoked when logging is disabled, so the expensive
+computation is skipped entirely:</p>
+<pre><code class="language-typescript">// The callback runs only when logging is enabled for this namespace.
+logger.debug(() =&gt; `result: ${expensiveComputation()}`);
+</code></pre>
+<p>Prefer the callback form for any message whose construction is non-trivial.</p>
+<h3>Inspecting and overriding a logger</h3>
+<p>Each instance exposes a few accessors you may find useful:</p>
+<table>
+<thead>
+<tr>
+<th>Accessor</th>
+<th>Type</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>namespace</code></td>
+<td>getter</td>
+<td>The namespace this logger was created with.</td>
+</tr>
+<tr>
+<td><code>enabled</code></td>
+<td>get/set</td>
+<td>Whether output is currently produced. Recomputes from config on read; an explicit set sticks until the effective configuration changes.</td>
+</tr>
+<tr>
+<td><code>level</code></td>
+<td>get/set</td>
+<td>The logger's level (<code>'verbose'</code>, <code>'debug'</code>, <code>'info'</code>, <code>'error'</code>).</td>
+</tr>
+</tbody>
+</table>
+<p>Output, redaction, and the active namespace patterns all flow from the same
+configuration described in <a href="#configuration">Configuration</a>, so a logger you
+create automatically respects <code>--debug</code>, the <code>DEBUG</code> environment variable, and
+your settings files.</p>
 <h2>Troubleshooting</h2>
 <h3>Debug Not Working?</h3>
 <ol>
@@ -327,27 +504,15 @@ llxprt --debug llxprt:*
 <h3>Can't Find Log Files?</h3>
 <p>Default location: <code>&lt;log&gt;/debug/</code> (see <a href="./reference/application-directories.html">Application Directories</a>).</p>
 <ul>
-<li>Files are named by date: <code>debug-YYYY-MM-DD.jsonl</code></li>
+<li>Files are named by process id: <code>llxprt-debug-&lt;PID&gt;.jsonl</code></li>
 <li>Check permissions on the directory</li>
 <li>Verify output target includes &quot;file&quot;</li>
 </ul>
-<h2>API Usage (For Developers)</h2>
-<pre><code class="language-typescript">import { DebugLogger } from '@vybestack/llxprt-code-core';
-
-// Create a logger with a specific namespace
-const logger = new DebugLogger('llxprt:mycomponent:feature');
-
-// Basic logging
-logger.log('Simple message');
-logger.debug('Debug message');
-logger.error('Error message');
-
-// Lazy evaluation for expensive operations
-logger.debug(() =&gt; `Result: ${JSON.stringify(largeObject)}`);
-
-// With additional arguments
-logger.log('Processing request', requestId, userId);
-</code></pre>
+<h2>Related</h2>
+<ul>
+<li>See the <a href="#programmatic-api">Programmatic API</a> section for logging from your
+own code.</li>
+</ul>
 
           </div>
         </div>

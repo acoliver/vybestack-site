@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reasoning Wire Formats | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Reasoning Wire Formats</h1>
+<p>Use reasoning wire settings when a provider-neutral <code>reasoning.enabled</code> or
+<code>reasoning.effort</code> value must be translated into a provider-specific request.
+This is especially useful for local servers, gateways, and models whose effort
+ladder differs from LLxprt Code's generic ladder.</p>
+<p>The four settings on this page are <strong>supported</strong>. They persist when you save a
+profile. Provider APIs and model restrictions can change, so verify model value
+sets against the linked provider documentation before relying on them.</p>
+<p><strong>As of:</strong> 2026-08-20</p>
+<p><strong>Owner:</strong> the LLxprt Code maintainers</p>
+<h2>Configure a local OpenAI-compatible server</h2>
+<p>A custom Chat Completions endpoint is treated conservatively under <code>auto</code>.
+Select <code>openai</code> when the server accepts top-level <code>reasoning_effort</code>:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;local-reasoning-model&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8000/v1&quot;,
+    &quot;requires-auth&quot;: false,
+    &quot;responses-mode&quot;: &quot;chat&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openai&quot;
+  }
+}
+</code></pre>
+<p>The reasoning portion of the Chat Completions request is:</p>
+<pre><code class="language-json">{
+  &quot;reasoning_effort&quot;: &quot;high&quot;
+}
+</code></pre>
+<p>Without the explicit selector, an unknown custom Chat endpoint receives no
+reasoning field and LLxprt Code logs a warning. LLxprt Code does not probe the
+server or send several reasoning representations to discover which one works.</p>
+<h2>Supported settings</h2>
+<h3>Selectors</h3>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Valid values</th>
+<th>Default</th>
+<th>Profile</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>reasoning.effortWireFormat</code></td>
+<td><code>auto</code>, <code>openai</code>, <code>openai-responses</code>, <code>anthropic</code>, <code>anthropic-budget</code>, <code>openrouter</code>, <code>gemini</code>, <code>template-kwargs</code>, <code>none</code></td>
+<td><code>auto</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>reasoning.enabledWireFormat</code></td>
+<td><code>auto</code>, <code>openai</code>, <code>openai-responses</code>, <code>openrouter</code>, <code>thinking</code>, <code>gemini</code>, <code>template-kwargs</code>, <code>none</code></td>
+<td><code>auto</code></td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>reasoning.effortMap</code></td>
+<td>JSON object described in <a href="#effort-maps">Effort maps</a></td>
+<td>none</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>reasoning.enabledMap</code></td>
+<td>JSON object described in <a href="#enablement-maps">Enablement maps</a></td>
+<td>none</td>
+<td>yes</td>
+</tr>
+</tbody>
+</table>
+<p>A selector must also be compatible with the active transport. An incompatible
+explicit selector fails before the request is sent.</p>
+<h3>Effort selector matrix</h3>
+<p>The request fragments below show an emitted <code>high</code> effort, except for the
+numeric Anthropic budget example.</p>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Compatible transport</th>
+<th>Request fragment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auto</code></td>
+<td>Any supported transport</td>
+<td>Uses the <a href="#automatic-selection">automatic selection table</a></td>
+</tr>
+<tr>
+<td><code>openai</code></td>
+<td>OpenAI-compatible Chat</td>
+<td><code>{ &quot;reasoning_effort&quot;: &quot;high&quot; }</code></td>
+</tr>
+<tr>
+<td><code>openai-responses</code></td>
+<td>OpenAI Responses and Codex</td>
+<td><code>{ &quot;reasoning&quot;: { &quot;effort&quot;: &quot;high&quot; } }</code></td>
+</tr>
+<tr>
+<td><code>anthropic</code></td>
+<td>Native Anthropic</td>
+<td><code>{ &quot;output_config&quot;: { &quot;effort&quot;: &quot;high&quot; } }</code></td>
+</tr>
+<tr>
+<td><code>anthropic-budget</code></td>
+<td>OpenAI Chat or Anthropic</td>
+<td><code>{ &quot;thinking&quot;: { &quot;type&quot;: &quot;enabled&quot;, &quot;budget_tokens&quot;: 8192 } }</code></td>
+</tr>
+<tr>
+<td><code>openrouter</code></td>
+<td>OpenAI Chat for OpenRouter</td>
+<td><code>{ &quot;reasoning&quot;: { &quot;effort&quot;: &quot;high&quot; } }</code></td>
+</tr>
+<tr>
+<td><code>gemini</code></td>
+<td>Native Gemini</td>
+<td>Gemini-owned <code>thinkingConfig</code></td>
+</tr>
+<tr>
+<td><code>template-kwargs</code></td>
+<td>OpenAI-compatible Chat</td>
+<td><code>{ &quot;chat_template_kwargs&quot;: { &quot;reasoning_effort&quot;: &quot;high&quot; } }</code></td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>Any supported transport</td>
+<td>No effort field; logs a warning when effort was configured</td>
+</tr>
+</tbody>
+</table>
+<p><code>anthropic-budget</code> requires either <code>reasoning.budgetTokens</code> or a numeric entry
+in <code>reasoning.effortMap</code>. LLxprt Code does not convert a generic effort to a
+token budget by formula.</p>
+<h3>Enablement selector matrix</h3>
+<table>
+<thead>
+<tr>
+<th>Selector</th>
+<th>Compatible transport</th>
+<th>Request fragment or behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>auto</code></td>
+<td>Any supported transport</td>
+<td>Uses the <a href="#automatic-selection">automatic selection table</a></td>
+</tr>
+<tr>
+<td><code>openai</code></td>
+<td>OpenAI-compatible Chat</td>
+<td><code>{ &quot;reasoning_effort&quot;: &quot;none&quot; }</code> when <code>false</code> maps to <code>&quot;none&quot;</code></td>
+</tr>
+<tr>
+<td><code>openai-responses</code></td>
+<td>OpenAI Responses and Codex</td>
+<td><code>{ &quot;reasoning&quot;: { &quot;effort&quot;: &quot;none&quot; } }</code> when <code>false</code> maps to <code>&quot;none&quot;</code></td>
+</tr>
+<tr>
+<td><code>openrouter</code></td>
+<td>OpenAI Chat for OpenRouter</td>
+<td><code>{ &quot;reasoning&quot;: { &quot;enabled&quot;: true } }</code> or <code>{ &quot;reasoning&quot;: { &quot;enabled&quot;: false } }</code></td>
+</tr>
+<tr>
+<td><code>thinking</code></td>
+<td>OpenAI Chat or Anthropic</td>
+<td><code>{ &quot;thinking&quot;: { &quot;type&quot;: &quot;enabled&quot; } }</code>, <code>adaptive</code>, or <code>disabled</code>, subject to model support</td>
+</tr>
+<tr>
+<td><code>gemini</code></td>
+<td>Native Gemini</td>
+<td>Gemini-owned <code>thinkingConfig</code></td>
+</tr>
+<tr>
+<td><code>template-kwargs</code></td>
+<td>OpenAI-compatible Chat</td>
+<td><code>{ &quot;chat_template_kwargs&quot;: { &quot;enable_thinking&quot;: true } }</code></td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>Any supported transport</td>
+<td>No enablement field; logs a warning unless emitted effort already represents <code>reasoning.enabled=true</code></td>
+</tr>
+</tbody>
+</table>
+<p>The <code>openai</code> and <code>openai-responses</code> enablement selectors require a string map
+when enablement cannot be represented by an emitted effort. For example,
+<code>&quot;false&quot;: &quot;none&quot;</code> expresses disablement on an API that accepts <code>none</code> as its
+effort value.</p>
+<h3>Automatic selection</h3>
+<table>
+<thead>
+<tr>
+<th>Active API or Chat host</th>
+<th>Effort format</th>
+<th>Enablement format</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Official OpenAI Chat, <code>api.openai.com</code></td>
+<td><code>openai</code></td>
+<td><code>none</code></td>
+</tr>
+<tr>
+<td>OpenAI Responses and Codex</td>
+<td><code>openai-responses</code></td>
+<td><code>none</code></td>
+</tr>
+<tr>
+<td>OpenRouter Chat, <code>openrouter.ai</code></td>
+<td><code>openrouter</code></td>
+<td><code>openrouter</code></td>
+</tr>
+<tr>
+<td><a href="http://Z.AI">Z.AI</a> or BigModel Chat</td>
+<td><code>openai</code></td>
+<td><code>thinking</code></td>
+</tr>
+<tr>
+<td>Unknown OpenAI-compatible Chat endpoint</td>
+<td><code>none</code></td>
+<td><code>none</code></td>
+</tr>
+<tr>
+<td>Native Anthropic</td>
+<td><code>anthropic</code></td>
+<td><code>thinking</code></td>
+</tr>
+<tr>
+<td>Native Gemini</td>
+<td><code>gemini</code></td>
+<td><code>gemini</code></td>
+</tr>
+</tbody>
+</table>
+<p>Subdomains of the listed Chat hosts are recognized. Missing or malformed base
+URLs are treated as unknown. Unknown endpoints stay conservative because some
+OpenAI-compatible servers reject reasoning fields they do not implement.
+Choose a selector in a profile when you know the server's accepted shape.</p>
+<h2>Maps</h2>
+<h3>Effort maps</h3>
+<p><code>reasoning.effortMap</code> is a JSON object with zero or more of these keys:</p>
+<ul>
+<li><code>minimal</code></li>
+<li><code>low</code></li>
+<li><code>medium</code></li>
+<li><code>high</code></li>
+<li><code>xhigh</code></li>
+<li><code>max</code></li>
+</ul>
+<p>Each value must be one of:</p>
+<ul>
+<li>a non-empty string for a string-valued effort format;</li>
+<li>an integer of at least <code>1024</code> for <code>anthropic-budget</code>;</li>
+<li><code>null</code> to omit that effort deliberately and log a warning.</li>
+</ul>
+<p>For string-valued formats, a missing key passes the generic effort through
+unchanged. This partial map changes <code>minimal</code> to <code>low</code>; <code>low</code>, <code>medium</code>, <code>high</code>,
+<code>xhigh</code>, and <code>max</code> retain their original strings:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;custom-reasoning-model&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;https://gateway.example.com/v1&quot;,
+    &quot;responses-mode&quot;: &quot;chat&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;minimal&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openai&quot;,
+    &quot;reasoning.effortMap&quot;: {
+      &quot;minimal&quot;: &quot;low&quot;
+    }
+  }
+}
+</code></pre>
+<p>A higher-precedence map replaces the lower-precedence map as one value. Entries
+are not merged. If an alias supplies six entries and a profile supplies only
+<code>minimal</code>, the effective map contains only the profile's <code>minimal</code> entry.</p>
+<h3>Enablement maps</h3>
+<p><code>reasoning.enabledMap</code> is a JSON object with optional <code>true</code> and <code>false</code> keys.
+Each value must be a non-empty string, a boolean, or <code>null</code>.</p>
+<p>The selected format further restricts the mapped value:</p>
+<table>
+<thead>
+<tr>
+<th>Format</th>
+<th>Accepted mapped values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>openai</code>, <code>openai-responses</code></td>
+<td>non-empty strings</td>
+</tr>
+<tr>
+<td><code>thinking</code></td>
+<td>non-empty strings accepted by the active provider and model</td>
+</tr>
+<tr>
+<td><code>openrouter</code>, <code>template-kwargs</code></td>
+<td>booleans</td>
+</tr>
+<tr>
+<td><code>gemini</code></td>
+<td>booleans or <code>LOW</code>, <code>MEDIUM</code>, <code>HIGH</code></td>
+</tr>
+<tr>
+<td><code>none</code></td>
+<td>values are not emitted</td>
+</tr>
+</tbody>
+</table>
+<p>A missing enablement key uses the selected format's default behavior. A <code>null</code>
+entry deliberately omits the control and logs a warning.</p>
+<h2>Exact request shapes</h2>
+<p>The fragments in this section omit unrelated request fields such as <code>model</code> and
+<code>messages</code>.</p>
+<h3>OpenAI Chat</h3>
+<p>With <code>reasoning.effortWireFormat=openai</code>:</p>
+<pre><code class="language-json">{
+  &quot;reasoning_effort&quot;: &quot;high&quot;
+}
+</code></pre>
+<p>The official OpenAI Chat host selects this effort shape under <code>auto</code>. Unknown
+custom hosts do not.</p>
+<h3>OpenAI Responses and Codex</h3>
+<p>With <code>reasoning.effortWireFormat=openai-responses</code>:</p>
+<pre><code class="language-json">{
+  &quot;reasoning&quot;: {
+    &quot;effort&quot;: &quot;high&quot;
+  }
+}
+</code></pre>
+<p>For GPT-5.6 Responses models that require the Responses API, LLxprt Code changes
+the generic <code>minimal</code> value to the wire value <code>none</code>. Existing Responses summary
+and encrypted-reasoning controls continue to use the same <code>reasoning</code> request
+object.</p>
+<h3>OpenRouter Chat</h3>
+<p>When reasoning is enabled and effort is present, effort represents enablement:</p>
+<pre><code class="language-json">{
+  &quot;reasoning&quot;: {
+    &quot;effort&quot;: &quot;high&quot;
+  }
+}
+</code></pre>
+<p>When reasoning is disabled, effort is omitted:</p>
+<pre><code class="language-json">{
+  &quot;reasoning&quot;: {
+    &quot;enabled&quot;: false
+  }
+}
+</code></pre>
+<h3><a href="http://Z.AI">Z.AI</a> and DeepSeek Chat</h3>
+<p>A Chat endpoint that accepts coordinated thinking and effort uses separate
+selectors, <code>reasoning.enabledWireFormat=thinking</code> and
+<code>reasoning.effortWireFormat=openai</code>:</p>
+<pre><code class="language-json">{
+  &quot;thinking&quot;: {
+    &quot;type&quot;: &quot;enabled&quot;
+  },
+  &quot;reasoning_effort&quot;: &quot;high&quot;
+}
+</code></pre>
+<p>With <code>reasoning.enabled=false</code>, a supported map can emit
+<code>thinking.type=disabled</code>; the effort field is omitted.</p>
+<h3>Native Anthropic adaptive thinking</h3>
+<p>Claude Opus 5 aliases select <code>thinking</code> enablement and <code>anthropic</code> effort:</p>
+<pre><code class="language-json">{
+  &quot;thinking&quot;: {
+    &quot;type&quot;: &quot;adaptive&quot;,
+    &quot;display&quot;: &quot;summarized&quot;
+  },
+  &quot;output_config&quot;: {
+    &quot;effort&quot;: &quot;high&quot;
+  }
+}
+</code></pre>
+<p>If <code>reasoning.includeInResponse</code> is <code>false</code>, adaptive thinking uses
+<code>&quot;display&quot;: &quot;omitted&quot;</code>. <code>reasoning.enabled=false</code> emits
+<code>{ &quot;thinking&quot;: { &quot;type&quot;: &quot;disabled&quot; } }</code> only on models that support disabled
+thinking, and effort is omitted.</p>
+<h3>Explicit Anthropic budget</h3>
+<p>A legacy model with budgeted thinking needs a direct budget or a numeric
+map. This example uses a direct <code>reasoning.budgetTokens</code> value:</p>
+<pre><code class="language-json">{
+  &quot;thinking&quot;: {
+    &quot;type&quot;: &quot;enabled&quot;,
+    &quot;budget_tokens&quot;: 8192
+  }
+}
+</code></pre>
+<p>A numeric map can produce the same request:</p>
+<pre><code class="language-json">{
+  &quot;reasoning.effortMap&quot;: {
+    &quot;high&quot;: 8192
+  }
+}
+</code></pre>
+<p>The numeric map is valid only with
+<code>reasoning.effortWireFormat=anthropic-budget</code>.
+<code>reasoning.budgetTokens</code> is direct and takes precedence over a mapped budget.</p>
+<h3>Gemini 3</h3>
+<p>Gemini 3 uses thinking levels. The default generic mapping is <code>minimal</code> and
+<code>low</code> to <code>LOW</code>, <code>medium</code> to <code>MEDIUM</code>, and <code>high</code>, <code>xhigh</code>, and <code>max</code> to <code>HIGH</code>:</p>
+<pre><code class="language-json">{
+  &quot;thinkingConfig&quot;: {
+    &quot;includeThoughts&quot;: true,
+    &quot;thinkingLevel&quot;: &quot;HIGH&quot;
+  }
+}
+</code></pre>
+<p>An effort map can provide <code>LOW</code>, <code>MEDIUM</code>, or <code>HIGH</code> directly. Gemini 3 does not
+use <code>reasoning.maxTokens</code>; LLxprt Code warns if it is configured.</p>
+<h3>Gemini 2</h3>
+<p>Gemini 2 uses a token budget rather than a thinking level:</p>
+<pre><code class="language-json">{
+  &quot;thinkingConfig&quot;: {
+    &quot;includeThoughts&quot;: true,
+    &quot;thinkingBudget&quot;: -1
+  }
+}
+</code></pre>
+<p><code>-1</code> asks Gemini to choose the budget. Set <code>reasoning.maxTokens</code> for a specific
+budget. <code>reasoning.enabled=false</code> emits a zero budget on Gemini 2. Generic effort
+does not convert to a Gemini 2 token budget and is omitted with a warning.</p>
+<h3>Template kwargs</h3>
+<p>vLLM and other template-driven servers can receive both controls inside
+<code>chat_template_kwargs</code>:</p>
+<pre><code class="language-json">{
+  &quot;chat_template_kwargs&quot;: {
+    &quot;enable_thinking&quot;: true,
+    &quot;reasoning_effort&quot;: &quot;high&quot;
+  }
+}
+</code></pre>
+<p>Unrelated template options are preserved during the merge.</p>
+<h2>Profile examples</h2>
+<h3>vLLM <code>chat_template_kwargs</code></h3>
+<p>Use this shape when the served chat template reads both kwargs:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;served-reasoning-model&quot;,
+  &quot;modelParams&quot;: {
+    &quot;chat_template_kwargs&quot;: {
+      &quot;tokenize&quot;: false
+    }
+  },
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8000/v1&quot;,
+    &quot;requires-auth&quot;: false,
+    &quot;responses-mode&quot;: &quot;chat&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;template-kwargs&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;template-kwargs&quot;
+  }
+}
+</code></pre>
+<p>The unrelated <code>tokenize</code> sibling remains in <code>chat_template_kwargs</code>.</p>
+<h3>OpenRouter</h3>
+<p>The built-in alias already supplies both <code>openrouter</code> selectors. This profile
+makes the selected policy visible:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openrouter&quot;,
+  &quot;model&quot;: &quot;provider/reasoning-model&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;openrouter-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;openrouter&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openrouter&quot;
+  }
+}
+</code></pre>
+<h3>Anthropic and Claude Opus 5</h3>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;anthropic&quot;,
+  &quot;model&quot;: &quot;claude-opus-5&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;anthropic-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;thinking&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;anthropic&quot;,
+    &quot;reasoning.effortMap&quot;: {
+      &quot;minimal&quot;: &quot;low&quot;
+    },
+    &quot;reasoning.enabledMap&quot;: {
+      &quot;true&quot;: &quot;adaptive&quot;,
+      &quot;false&quot;: &quot;disabled&quot;
+    }
+  }
+}
+</code></pre>
+<h3>Codex GPT-5.6</h3>
+<p>The built-in <code>codex</code> alias ships these reasoning defaults for GPT-5.6 Sol,
+Terra, and Luna. The explicit profile below makes the selected policy visible:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;codex&quot;,
+  &quot;model&quot;: &quot;gpt-5.6-sol&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;reasoning.effort&quot;: &quot;medium&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openai-responses&quot;,
+    &quot;reasoning.summary&quot;: &quot;auto&quot;
+  }
+}
+</code></pre>
+<p>The reasoning portion of the Responses request is:</p>
+<pre><code class="language-json">{
+  &quot;reasoning&quot;: {
+    &quot;effort&quot;: &quot;medium&quot;,
+    &quot;summary&quot;: &quot;auto&quot;
+  }
+}
+</code></pre>
+<p>The generic <code>minimal</code> effort becomes the wire value <code>none</code> for these GPT-5.6
+Responses models.</p>
+<h3><a href="http://Z.AI">Z.AI</a> GLM-5.3</h3>
+<p>The <code>zai</code> alias uses its Anthropic-compatible endpoint, and <code>glm-5.3</code> is the
+alias default model. The profile below mirrors the shipped GLM-5.3 defaults:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;zai&quot;,
+  &quot;model&quot;: &quot;glm-5.3&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;zai-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;thinking&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;anthropic&quot;,
+    &quot;reasoning.effortMap&quot;: {
+      &quot;minimal&quot;: &quot;low&quot;,
+      &quot;low&quot;: &quot;low&quot;,
+      &quot;medium&quot;: &quot;high&quot;,
+      &quot;high&quot;: &quot;high&quot;,
+      &quot;xhigh&quot;: &quot;max&quot;,
+      &quot;max&quot;: &quot;max&quot;
+    },
+    &quot;reasoning.enabledMap&quot;: {
+      &quot;true&quot;: &quot;enabled&quot;
+    }
+  }
+}
+</code></pre>
+<p>The reasoning portion of the Anthropic request is:</p>
+<pre><code class="language-json">{
+  &quot;thinking&quot;: {
+    &quot;type&quot;: &quot;enabled&quot;
+  },
+  &quot;output_config&quot;: {
+    &quot;effort&quot;: &quot;high&quot;
+  }
+}
+</code></pre>
+<p>No <code>budget_tokens</code> value is fabricated for GLM models; the thinking type is
+the only enablement field.</p>
+<h3>Kimi K3 and Kimi for Coding K2.7</h3>
+<p>The built-in <code>kimi</code> alias selects different shapes per model. For <code>kimi-k3</code>:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;kimi&quot;,
+  &quot;model&quot;: &quot;kimi-k3&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;kimi-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;max&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;openai&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;openai&quot;,
+    &quot;reasoning.effortMap&quot;: {
+      &quot;minimal&quot;: &quot;low&quot;,
+      &quot;low&quot;: &quot;low&quot;,
+      &quot;medium&quot;: &quot;high&quot;,
+      &quot;high&quot;: &quot;high&quot;,
+      &quot;xhigh&quot;: &quot;max&quot;,
+      &quot;max&quot;: &quot;max&quot;
+    }
+  }
+}
+</code></pre>
+<p>The reasoning portion of the Chat request carries only top-level effort:</p>
+<pre><code class="language-json">{
+  &quot;reasoning_effort&quot;: &quot;max&quot;
+}
+</code></pre>
+<p>For <code>kimi-for-coding</code> (K2.7), the alias instead selects enablement-only
+thinking:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;kimi&quot;,
+  &quot;model&quot;: &quot;kimi-for-coding&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;auth-key-name&quot;: &quot;kimi-prod&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effortWireFormat&quot;: &quot;none&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;thinking&quot;,
+    &quot;reasoning.enabledMap&quot;: {
+      &quot;true&quot;: &quot;enabled&quot;
+    }
+  }
+}
+</code></pre>
+<p>The reasoning portion of the Chat request is:</p>
+<pre><code class="language-json">{
+  &quot;thinking&quot;: {
+    &quot;type&quot;: &quot;enabled&quot;
+  }
+}
+</code></pre>
+<p>K2.7 emits no effort field; an attempted disablement is suppressed with a
+warning because the shipped map has no supported disable value.</p>
+<h3>Deliberate suppression with <code>none</code></h3>
+<p>Use <code>none</code> when you want the model or server to use its own reasoning defaults:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;openai&quot;,
+  &quot;model&quot;: &quot;server-managed-reasoning-model&quot;,
+  &quot;modelParams&quot;: {},
+  &quot;ephemeralSettings&quot;: {
+    &quot;base-url&quot;: &quot;http://127.0.0.1:8080/v1&quot;,
+    &quot;requires-auth&quot;: false,
+    &quot;responses-mode&quot;: &quot;chat&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.effort&quot;: &quot;high&quot;,
+    &quot;reasoning.enabledWireFormat&quot;: &quot;none&quot;,
+    &quot;reasoning.effortWireFormat&quot;: &quot;none&quot;
+  }
+}
+</code></pre>
+<p>This is deliberate suppression, not silent fallback. LLxprt Code logs a warning
+for each configured generic control that produces no wire value.</p>
+<h2>Precedence and explicit native parameters</h2>
+<p>Each selector and map is resolved independently in this order, highest first:</p>
+<ol>
+<li>An explicit profile or session value</li>
+<li>The last matching model default from the active provider alias</li>
+<li>The provider alias default</li>
+<li><code>auto</code> for selectors, or no map for maps</li>
+</ol>
+<p>Later matching model rules win. Explicit profile values survive provider and
+model switches. Maps replace as a whole rather than merging entries.</p>
+<p>Explicit native reasoning fields in <code>modelParams</code> remain authoritative. If a
+native reasoning field collides with automatic translation, LLxprt Code leaves
+the explicit field unchanged and adds no competing representation. Collisions
+include:</p>
+<ul>
+<li><code>reasoning</code></li>
+<li><code>thinking</code></li>
+<li><code>reasoning_effort</code></li>
+<li><code>parse_reasoning</code> on OpenAI-compatible Chat</li>
+<li><code>chat_template_kwargs.reasoning_effort</code></li>
+<li><code>chat_template_kwargs.enable_thinking</code></li>
+<li><code>output_config.effort</code></li>
+<li>native Gemini <code>thinkingConfig</code></li>
+</ul>
+<p>Unrelated nested siblings are merged where the provider supports merging. For
+example, <code>chat_template_kwargs.tokenize</code> and <code>output_config.service_hint</code> remain
+when translated reasoning adds a sibling field.</p>
+<p>LLxprt Code emits only the selected representation. It does not send OpenAI,
+Anthropic, and OpenRouter reasoning shapes together.</p>
+<h2>Disablement, suppression, and warnings</h2>
+<p><code>reasoning.enabled=false</code> suppresses generic effort. If the selected format and
+model support a disable form, LLxprt Code emits it. If no disable form exists,
+LLxprt Code omits effort and logs a warning.</p>
+<p>A warning is also logged when:</p>
+<ul>
+<li><code>auto</code> cannot identify a safe format for an unknown Chat endpoint;</li>
+<li>a selector is explicitly <code>none</code>;</li>
+<li>a selected map entry is <code>null</code>;</li>
+<li><code>anthropic-budget</code> has no direct or mapped numeric budget;</li>
+<li>a configured generic control cannot be represented by the selected format or
+model.</li>
+</ul>
+<p>The warning identifies the provider, model, selected format, and omitted generic
+setting without printing credentials. Invalid maps and transport-incompatible
+selectors fail before network I/O.</p>
+<h2>Alias policy and provider capabilities</h2>
+<p>A built-in alias records defaults for known models. It does not claim that every
+model exposed by that provider accepts the same fields or values. Provider APIs
+may support controls that LLxprt Code does not enable by default. You can use a
+profile selector when the active transport supports the shape and the provider
+documents the model behavior.</p>
+<p>Model-agnostic local aliases, including LM Studio and llama.cpp, do not set an
+effort selector. The model served at the endpoint determines whether <code>openai</code>,
+<code>template-kwargs</code>, or <code>none</code> is appropriate.</p>
+<h3>Shipped model restrictions</h3>
+<p>Each row separates the request shape the alias selects from the model value
+restrictions the same rule encodes.</p>
+<table>
+<thead>
+<tr>
+<th>Alias or model</th>
+<th>Request shape</th>
+<th>Accepted model values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Claude Opus 5, <code>anthropic</code>/<code>claudecode</code></td>
+<td>Native <code>thinking.type</code> plus <code>output_config.effort</code></td>
+<td>Enabled maps to <code>adaptive</code>, disabled maps to <code>disabled</code>; generic <code>minimal</code> maps to <code>low</code></td>
+</tr>
+<tr>
+<td>Codex GPT-5.6 Sol, Terra, and Luna</td>
+<td>Responses <code>reasoning.effort</code></td>
+<td>Alias default is <code>medium</code>; generic <code>minimal</code> becomes wire <code>none</code> for these GPT-5.6 Responses models</td>
+</tr>
+<tr>
+<td>OpenAI GPT-5.6 family</td>
+<td>Chosen transport owns the shape: Responses translation when routing selects Responses; a custom Chat endpoint needs a Chat-compatible selector chosen in a profile</td>
+<td>Same GPT-5.6 Responses <code>minimal</code> to <code>none</code> policy when served over Responses</td>
+</tr>
+<tr>
+<td>Kimi K3 and K3 256K</td>
+<td>Top-level <code>reasoning_effort</code>; no <code>thinking</code> object</td>
+<td>Accepted ladder is <code>low</code>, <code>high</code>, <code>max</code>; generic values map to that three-value ladder; alias default is <code>max</code> for K3 and <code>high</code> for K3 256K</td>
+</tr>
+<tr>
+<td>Kimi for Coding K2.7</td>
+<td><code>thinking.type=enabled</code> only; no effort field</td>
+<td>Disablement has no supported wire value in the shipped map, so it is omitted with a warning</td>
+</tr>
+<tr>
+<td><a href="http://Z.AI">Z.AI</a> GLM-5.3</td>
+<td>The <code>zai</code> alias default model on its Anthropic-compatible endpoint: <code>thinking.type</code> plus <code>output_config.effort</code></td>
+<td>Generic <code>minimal</code>/<code>low</code> map to <code>low</code>, <code>medium</code>/<code>high</code> to <code>high</code>, <code>xhigh</code>/<code>max</code> to <code>max</code>; disablement is omitted with a warning</td>
+</tr>
+<tr>
+<td><a href="http://Z.AI">Z.AI</a> GLM-5.2</td>
+<td>The <code>zai</code> alias uses <code>thinking.type</code> plus <code>output_config.effort</code></td>
+<td>Explicit <code>minimal</code> map emits native <code>minimal</code> on the wire; <code>low</code>/<code>medium</code>/<code>high</code> map to <code>high</code>, <code>xhigh</code>/<code>max</code> to <code>max</code>; enabled and disabled are both supported</td>
+</tr>
+<tr>
+<td>DeepSeek V4 family</td>
+<td><code>thinking.type</code> plus top-level <code>reasoning_effort</code></td>
+<td>Generic <code>minimal</code>/<code>low</code> map to <code>low</code>, <code>medium</code>/<code>high</code>/<code>xhigh</code> to <code>high</code>, and <code>max</code> stays <code>max</code></td>
+</tr>
+<tr>
+<td>Fireworks MiniMax M3</td>
+<td>Top-level <code>reasoning_effort</code>; no Anthropic-style thinking field is added</td>
+<td>Disabled maps to effort <code>none</code></td>
+</tr>
+</tbody>
+</table>
+<p>For <a href="http://Z.AI">Z.AI</a>'s OpenAI-compatible Chat endpoint, select <code>openai</code> effort and <code>thinking</code>
+enablement to get the coordinated Chat shape shown above. Endpoint protocol
+choice changes the field location even when the model effort ladder is the same.</p>
+<h2>Provider references</h2>
+<p>Provider documentation changes over time. These links describe the request
+shapes and model restrictions used for the settings and defaults above:</p>
+<ul>
+<li><a href="https://platform.openai.com/docs/api-reference/chat">OpenAI Chat API</a></li>
+<li><a href="https://platform.openai.com/docs/api-reference/responses">OpenAI Responses API</a></li>
+<li><a href="https://openrouter.ai/docs/api/reference/parameters">OpenRouter reasoning parameters</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/extended-thinking">Anthropic extended thinking</a></li>
+<li><a href="https://platform.claude.com/docs/en/build-with-claude/effort">Anthropic effort</a></li>
+<li><a href="https://docs.z.ai/guides/llm/glm-5.3">Z.AI GLM-5.3</a></li>
+<li><a href="https://docs.z.ai/guides/overview/concept-param">Z.AI reasoning parameters</a></li>
+<li><a href="https://docs.z.ai/devpack/latest-model">Z.AI Coding Plan models</a></li>
+<li><a href="https://platform.moonshot.ai/docs/guide/kimi-k3-quickstart">Kimi K3 reasoning controls</a></li>
+<li><a href="https://docs.vllm.ai/en/latest/features/reasoning_outputs/">vLLM reasoning outputs and template kwargs</a></li>
+<li><a href="https://docs.fireworks.ai/guides/reasoning">Fireworks reasoning controls</a></li>
+<li><a href="https://docs.fireworks.ai/api-reference/post-chatcompletions">Fireworks Chat Completions API</a></li>
+<li><a href="https://api-docs.deepseek.com/guides/thinking_mode/">DeepSeek thinking mode</a></li>
+</ul>
+<h2>Related pages</h2>
+<ul>
+<li><a href="../reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+<li><a href="../settings-and-profiles.html">Settings and Profiles</a></li>
+<li><a href="./quick-reference.html">Provider Setup Quick Reference</a></li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

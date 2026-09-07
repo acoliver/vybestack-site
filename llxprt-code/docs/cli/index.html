@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,21 +73,85 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>LLxprt Code</h1>
-<p>LLxprt Code is an AI-powered coding assistant that works with any LLM provider. Within LLxprt Code, <code>packages/cli</code> is the frontend for users to send and receive prompts and interact with AI-powered tools. For a general overview of LLxprt Code, see the <a href="../index.html">main documentation page</a>.</p>
-<h2>Navigating this section</h2>
+<p>LLxprt Code is an AI-powered coding assistant that works with any LLM provider.
+For a general overview, see the <a href="../index.html">main documentation page</a>.</p>
+<h2>Where to start</h2>
+<table>
+<thead>
+<tr>
+<th>If you want to…</th>
+<th>Read this</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Get authenticated with a provider</td>
+<td><a href="./authentication.html">Authentication</a></td>
+</tr>
+<tr>
+<td>Save and switch between configurations</td>
+<td><a href="./profiles.html">Profiles</a></td>
+</tr>
+<tr>
+<td>Tailor how LLxprt Code behaves</td>
+<td><a href="./configuration.html">Configuration</a></td>
+</tr>
+<tr>
+<td>Run LLxprt Code in scripts and automation</td>
+<td><a href="#non-interactive-mode">Non-interactive mode</a> (below)</td>
+</tr>
+<tr>
+<td>Generate or edit an image</td>
+<td><a href="../tools/image-generation.html">Image Generation</a></td>
+</tr>
+<tr>
+<td>Customise the CLI's appearance</td>
+<td><a href="./themes.html">Themes</a></td>
+</tr>
+</tbody>
+</table>
+<h2>Get authenticated</h2>
 <ul>
-<li><strong><a href="./authentication.html">Authentication</a>:</strong> A guide to setting up authentication with AI providers, including OAuth buckets.</li>
-<li><strong><a href="./commands.html">Commands</a>:</strong> A reference for LLxprt Code commands (e.g., <code>/help</code>, <code>/tools</code>, <code>/theme</code>).</li>
-<li><strong><a href="./profiles.html">Profiles</a>:</strong> Save and manage configuration profiles, load balancing, and OAuth bucket failover.</li>
-<li><strong><a href="./sandbox-profiles.html">Sandbox Profiles</a>:</strong> Configure container-based sandboxing for secure code execution.</li>
-<li><strong><a href="./configuration.html">Configuration</a>:</strong> A guide to tailoring LLxprt Code behavior using configuration files.</li>
-<li><strong><a href="./enterprise.html">Enterprise</a>:</strong> A guide to enterprise configuration.</li>
-<li><strong><a href="./token-caching.html">Token Caching</a>:</strong> Optimize API costs through token caching.</li>
-<li><strong><a href="./themes.html">Themes</a></strong>: A guide to customizing the CLI's appearance with different themes.</li>
-<li><strong><a href="tutorials.html">Tutorials</a></strong>: Tutorials for using LLxprt Code features.</li>
+<li><strong><a href="./authentication.html">Authentication</a></strong> — set up authentication with AI
+providers, including OAuth buckets.</li>
+<li><strong><a href="./google-cloud-auth.html">Google Cloud Auth</a></strong> — configure Google Cloud
+service-account or workload-identity authentication.</li>
+</ul>
+<h2>Configure behaviour</h2>
+<ul>
+<li><strong><a href="./configuration.html">Configuration</a></strong> — tailor LLxprt Code behaviour using
+configuration files.</li>
+<li><strong><a href="./profiles.html">Profiles</a></strong> — save and manage configuration profiles, load
+balancing, and OAuth bucket failover.</li>
+<li><strong><a href="./enterprise.html">Enterprise</a></strong> — enterprise configuration options.</li>
+<li><strong><a href="./sandbox-profiles.html">Sandbox Profiles</a></strong> — configure container-based
+sandboxing for secure code execution.</li>
+<li><strong><a href="./token-caching.html">Token Caching</a></strong> — optimize API costs through token
+caching.</li>
+<li><strong><a href="./retry-settings.html">Retry Settings</a></strong> — configure retry behaviour for API
+calls.</li>
+<li><strong><a href="./token-tracking.html">Token Tracking</a></strong> — track token usage and costs.</li>
+</ul>
+<h2>Run non-interactively</h2>
+<ul>
+<li><strong><a href="./commands.html">Commands</a></strong> — reference for LLxprt Code commands (e.g.,
+<code>/help</code>, <code>/tools</code>, <code>/theme</code>).</li>
+<li>See <a href="#non-interactive-mode">Non-interactive mode</a> below for scripting and
+automation.</li>
+</ul>
+<h2>Customise appearance</h2>
+<ul>
+<li><strong><a href="./themes.html">Themes</a></strong> — customise the CLI's appearance with different
+themes.</li>
+</ul>
+<h2>Learn more</h2>
+<ul>
+<li><strong><a href="./skills.html">Skills</a></strong> — extend LLxprt Code with custom skills.</li>
+<li><strong><a href="./tutorials.html">Tutorials</a></strong> — tutorials for using LLxprt Code features.</li>
 </ul>
 <h2>Non-interactive mode</h2>
-<p>LLxprt Code can be run in a non-interactive mode, which is useful for scripting and automation.</p>
+<p>LLxprt Code can be run in a non-interactive mode, which is useful for scripting
+and automation.</p>
 <h3>Basic non-interactive usage</h3>
 <p>Pass a prompt directly as an argument:</p>
 <pre><code class="language-bash">llxprt &quot;What is fine tuning?&quot;
@@ -97,10 +164,12 @@
 <pre><code class="language-bash">llxprt --profile-load my-claude-profile &quot;Explain this code&quot;
 </code></pre>
 <h3>Interactive mode with initial prompt (<code>-i</code>)</h3>
-<p>The <code>-i</code> flag starts an interactive session with an initial prompt. Unlike non-interactive mode, the session continues after the first response:</p>
+<p>The <code>-i</code> flag starts an interactive session with an initial prompt. Unlike
+non-interactive mode, the session continues after the first response:</p>
 <pre><code class="language-bash">llxprt -i &quot;Let's work on improving this codebase&quot;
 </code></pre>
-<p>This is useful when you want to start a conversation with context but continue interacting afterward.</p>
+<p>This is useful when you want to start a conversation with context but continue
+interacting afterward.</p>
 <h3>Comparison of modes</h3>
 <table>
 <thead>
@@ -138,6 +207,15 @@
 </tr>
 </tbody>
 </table>
+<h3>Image generation (<code>-O</code> / <code>-P</code>)</h3>
+<p>Generate or edit an image without starting a conversation. <code>-O</code> sets the output
+path and <code>-P</code> sets the prompt; both are required. Use <code>-I</code> to supply input
+images for editing (repeatable up to five times):</p>
+<pre><code class="language-bash">llxprt -O out.png -P &quot;a photorealistic cat&quot;
+</code></pre>
+<p>Image generation runs on your Codex account and is independent of the provider
+you would chat with. See <a href="../tools/image-generation.html">Image Generation</a> for
+prerequisites, the full flag reference, and path rules.</p>
 
           </div>
         </div>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Generation and Editing | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Image Generation and Editing</h1>
+<p>Generate or edit PNG images from a text prompt. This page covers the three ways
+to reach the feature — the <code>/image</code> slash command, the <code>generate_image</code> tool the
+model calls on its own, and the non-interactive CLI flags — and the rules that
+apply to all of them.</p>
+<h2>Audience and goal</h2>
+<p>You want to create a new image or change an existing one from inside LLxprt
+Code. You may be using any conversational provider (Anthropic, <a href="http://z.ai">z.ai</a>, Gemini, a
+local model, or any other). This page shows you the fastest path and then the
+rules and limits that apply to every entry point.</p>
+<h2>Two things to know first</h2>
+<p>These two facts trip up most first-time users, so read them before anything else.</p>
+<ol>
+<li>
+<p><strong>Image generation runs on your Codex account, not your chat provider.</strong> It
+uses ChatGPT Plus/Pro subscription OAuth through Codex. It is completely
+independent of the provider you are chatting with. You can be talking to
+Anthropic, <a href="http://z.ai">z.ai</a>, Gemini, or a local model and still generate images.
+Generating an image does not change your active provider or model in any way.</p>
+</li>
+<li>
+<p><strong>Setup is <code>/auth codex enable</code>.</strong> If image generation reports that it is
+unavailable, that is almost always the reason.</p>
+</li>
+</ol>
+<h2>Prerequisites</h2>
+<ul>
+<li>
+<p>An <strong>active ChatGPT Plus or Pro subscription</strong>, plus Codex OAuth. Enable it
+with:</p>
+<pre><code class="language-text">/auth codex enable
+</code></pre>
+<p>Enabling is lazy: nothing opens until your first Codex request, and the
+browser login appears when you run your first image operation. Use
+<code>/auth codex login</code> instead if you want to sign in immediately. See
+<a href="../cli/authentication.html">Authentication</a> and
+<a href="../oauth-setup.html">OAuth Setup</a> for the full setup walkthrough.</p>
+</li>
+<li>
+<p>The model behind image generation is <code>gpt-image-2</code>, and the output is always
+<strong>PNG</strong>. You cannot choose a different model or output format.</p>
+</li>
+</ul>
+<h2>Quick start</h2>
+<p>Once Codex OAuth is enabled, generate your first image from the REPL:</p>
+<pre><code class="language-text">/image output.png &quot;Create a black-and-white line-art cat&quot;
+</code></pre>
+<p>On success the command reports what it did and the absolute path it wrote:</p>
+<pre><code class="language-text">Generated image.
+Saved to: /path/to/workspace/output.png
+</code></pre>
+<p>Open that file to see the result.</p>
+<h2>The three entry points</h2>
+<p>All three entry points converge on one underlying image service, so the rules in
+<a href="#output-rules">Output rules</a> and <a href="#input-rules">Input rules</a> apply to each of
+them. How you supply the prompt and the paths differs, and so does the wording of
+the errors you get back.</p>
+<table>
+<thead>
+<tr>
+<th>Entry point</th>
+<th>When to use it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#the-image-slash-command"><code>/image</code> slash command</a></td>
+<td>You are in the REPL and want direct control over paths and prompt.</td>
+</tr>
+<tr>
+<td><a href="#the-generate_image-tool"><code>generate_image</code> tool</a></td>
+<td>You want the model to produce an image as part of a task.</td>
+</tr>
+<tr>
+<td><a href="#non-interactive-cli-flags">Non-interactive CLI flags</a></td>
+<td>You are scripting or automating an image operation.</td>
+</tr>
+</tbody>
+</table>
+<h3>The <code>/image</code> slash command</h3>
+<p>The slash command is the most direct way to generate or edit an image from the
+REPL.</p>
+<h4>Grammar</h4>
+<pre><code class="language-text">/image &lt;output.png&gt; [&lt;input.png&gt; ...] &quot;&lt;prompt&gt;&quot;
+</code></pre>
+<ul>
+<li>The <strong>output path</strong> is the first argument and is required.</li>
+<li>Zero <strong>input paths</strong> generates a new image; one to five input paths edit or
+compose from them.</li>
+<li>The <strong>prompt</strong> is the last argument and is required.</li>
+</ul>
+<h4>Quoting</h4>
+<p>Quote the prompt whenever it contains spaces, and <strong>always</strong> quote it when you
+supply input paths. Only a single-word prompt with no input paths may be left
+unquoted. Single quotes and double quotes both work. Inside a quoted string, a
+backslash escapes the enclosing quote character, or another backslash. Quoted
+paths may contain spaces.</p>
+<p>The <strong>last</strong> argument is always taken as the prompt, so put every input path
+before it. An unquoted argument after a quoted one is rejected as a trailing
+argument. A <code>--</code> separator is not accepted.</p>
+<h4>Tab completion</h4>
+<p>Paths support tab completion, and what is offered depends on which argument you
+are typing:</p>
+<ul>
+<li><strong>Output path</strong> — workspace directories, plus a suggested <code>.png</code> filename.
+Existing images are not offered here, because the output must be a new file.</li>
+<li><strong>Input paths</strong> — existing <code>.png</code> files and directories inside the workspace,
+plus a hint that you can start the prompt. Once five inputs are present, only
+the prompt hint remains.</li>
+<li><strong>Prompt</strong> — no filesystem completion while you are typing inside the quotes.</li>
+</ul>
+<p>Nothing outside the workspace is ever suggested.</p>
+<h4>On success</h4>
+<p>The command reports what it did and the exact absolute path it wrote:</p>
+<pre><code class="language-text">Generated image.
+Saved to: /path/to/workspace/output.png
+</code></pre>
+<p>Editing reports <code>Edited image.</code> instead.</p>
+<h4>Examples</h4>
+<p>These are the three examples shown in the built-in usage text:</p>
+<pre><code class="language-text">/image output.png &quot;Create a black-and-white line-art cat&quot;
+</code></pre>
+<pre><code class="language-text">/image fixed.png original.png &quot;Correct the lettering&quot;
+</code></pre>
+<pre><code class="language-text">/image composite.png subject.png background.png &quot;Place the subject into the background&quot;
+</code></pre>
+<h3>The <code>generate_image</code> tool</h3>
+<p>The <code>generate_image</code> tool is what the model calls when you ask it to produce an
+image as part of a task (for example, &quot;generate a diagram of this architecture
+and save it&quot;). You do not call it directly.</p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Required</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prompt</code></td>
+<td>Yes</td>
+<td>A non-empty text description. Whitespace-only prompts are rejected.</td>
+</tr>
+<tr>
+<td><code>output_path</code></td>
+<td>Yes</td>
+<td>Where to save the result. Must end in <code>.png</code>. Relative to the workspace root, or an absolute path inside it.</td>
+</tr>
+<tr>
+<td><code>input_paths</code></td>
+<td>No</td>
+<td>An array of zero to five input images. Omit (or leave empty) to generate; supply one to five to edit.</td>
+</tr>
+</tbody>
+</table>
+<p>There is <strong>no</strong> model parameter. The backend owns the model identity, and
+calling the tool never changes your active conversational provider or model.</p>
+<h4>What it returns</h4>
+<p>The tool returns the saved path as text <strong>plus the image itself as media</strong>, so
+the model can see what it produced and continue working with it.</p>
+<p>The prompt, the output extension and workspace containment, and every input path
+are validated before the provider request is made, so a bad path costs you
+nothing. The no-overwrite rule is the exception: it is enforced when the result
+is saved, so an output path that already exists fails <em>after</em> the image has been
+generated.</p>
+<h3>Non-interactive CLI flags</h3>
+<p>For scripting and automation, LLxprt Code accepts dedicated image flags.</p>
+<table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Short</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--image-output &lt;path.png&gt;</code></td>
+<td><code>-O</code></td>
+<td>The output path (required).</td>
+</tr>
+<tr>
+<td><code>--image-prompt &quot;&lt;text&gt;&quot;</code></td>
+<td><code>-P</code></td>
+<td>The prompt (required).</td>
+</tr>
+<tr>
+<td><code>--image-input &lt;path.png&gt;</code></td>
+<td><code>-I</code></td>
+<td>An input image. Repeatable up to five times; order is preserved and values are not comma-split.</td>
+</tr>
+</tbody>
+</table>
+<p>Both <code>-O</code> and <code>-P</code> are required whenever any image flag is present. Supplying
+only one is an error.</p>
+<h4>Generate</h4>
+<pre><code class="language-bash">llxprt -O out.png -P &quot;a photorealistic cat&quot;
+</code></pre>
+<h4>Edit with two inputs</h4>
+<pre><code class="language-bash">llxprt -O composite.png -I subject.png -I background.png -P &quot;Place the subject into the background&quot;
+</code></pre>
+<h4>Conflicts and restrictions</h4>
+<ul>
+<li>Image mode is <strong>mutually exclusive</strong> with a conversational prompt. You cannot
+combine the image flags with a positional prompt, <code>--prompt</code>/<code>-p</code>, or
+<code>--prompt-interactive</code>/<code>-i</code>.</li>
+<li><code>--output-format stream-json</code> is <strong>not</strong> supported with image mode.</li>
+</ul>
+<h4>Output</h4>
+<p>By default the process prints human-readable text:</p>
+<pre><code class="language-text">Generated image via &lt;backend&gt; (&lt;model&gt;).
+Saved to: &lt;absolute path&gt;
+</code></pre>
+<p>Editing prints <code>Edited image via …</code> instead.</p>
+<p>With <code>--output-format json</code> you get a JSON object containing:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>operation</code></td>
+<td><code>generate</code> or <code>edit</code></td>
+</tr>
+<tr>
+<td><code>output_path</code></td>
+<td>The absolute saved path</td>
+</tr>
+<tr>
+<td><code>relative_output_path</code></td>
+<td>The path relative to the workspace root</td>
+</tr>
+<tr>
+<td><code>mime_type</code></td>
+<td>The image MIME type</td>
+</tr>
+<tr>
+<td><code>backend</code></td>
+<td>The backend that produced the image</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>The provider name</td>
+</tr>
+<tr>
+<td><code>model</code></td>
+<td>The model name</td>
+</tr>
+<tr>
+<td><code>input_paths</code></td>
+<td>The input images used (empty for generation)</td>
+</tr>
+</tbody>
+</table>
+<p>Base64 image data is <strong>never</strong> printed.</p>
+<p>The process exits nonzero when the operation fails or is cancelled.</p>
+<h2>Output rules</h2>
+<p>These rules come from the shared image service, so they apply to all three entry
+points.</p>
+<ul>
+<li>
+<p>The output path <strong>must end in <code>.png</code></strong>.</p>
+</li>
+<li>
+<p>Relative paths resolve against the <strong>workspace root</strong>. Paths outside the
+workspace are rejected — including paths that escape through a symlink.</p>
+</li>
+<li>
+<p><strong>Missing parent directories are created</strong> automatically.</p>
+</li>
+<li>
+<p>Existing files are <strong>never overwritten</strong>. The operation fails with a message
+of the form:</p>
+<pre><code class="language-text">Output file already exists (will not overwrite): &lt;absolute path&gt;.
+</code></pre>
+<p>Remove the file first if you want to replace it. This check happens when the
+image is saved, not before it is generated.</p>
+</li>
+<li>
+<p>Writes are <strong>atomic</strong>. A cancelled or failed operation never leaves a partial
+file at the target path.</p>
+</li>
+</ul>
+<h2>Input rules</h2>
+<p>Input rules apply when editing (the <code>/image</code> command with inputs, the
+<code>generate_image</code> tool with <code>input_paths</code>, or <code>-I</code> flags).</p>
+<ul>
+<li>You can supply <strong>one to five</strong> input images. More than five is rejected.</li>
+<li>Inputs must be <strong>PNG</strong>: both a <code>.png</code> extension <strong>and</strong> a valid PNG file
+signature are required.</li>
+<li>Inputs must be <strong>existing regular files inside the workspace</strong>. Symbolic links
+are rejected.</li>
+<li><strong>Remote URLs</strong> are rejected: a path beginning with <code>http://</code>, <code>https://</code>, or
+<code>file://</code> is refused. Copy the file into the workspace first.</li>
+<li>Each input is capped at <strong>20 MiB</strong> (20 × 1024 × 1024 bytes).</li>
+</ul>
+<h2>Limitations</h2>
+<ul>
+<li>While a <code>/image</code> request is running in the interactive UI, the input prompt is
+hidden and <strong>Esc does not cancel the request</strong>. Generation can take a minute
+or more, so check the paths and the prompt before you press Enter. See
+<a href="https://github.com/vybestack/llxprt-code/issues/2976">the known-limitation tracking issue</a>
+for status. The non-interactive flags are not affected: Ctrl+C cancels an
+image operation started with <code>-O</code>/<code>-P</code>, and no partial file is left behind.</li>
+<li><strong>No model selection.</strong> The model is always <code>gpt-image-2</code>.</li>
+<li><strong>PNG output only.</strong></li>
+<li><strong>No overwrite.</strong> Remove an existing file before reusing its path.</li>
+</ul>
+<h2>Troubleshooting</h2>
+<h3>Image generation reported as unavailable</h3>
+<p>Codex OAuth is almost always the reason. Run:</p>
+<pre><code class="language-text">/auth codex enable
+</code></pre>
+<p>then retry the image request; the browser opens for login on that first request.
+Use <code>/auth codex login</code> if you would rather sign in straight away.</p>
+<p>This is <strong>not</strong> related to your current provider. Image generation uses your
+Codex account regardless of which provider you chat with.</p>
+<h3>An error about the output file already existing</h3>
+<p>An image already exists at that path, and existing files are never overwritten.
+Remove the file or choose a new output name.</p>
+<h3>An error about the output path</h3>
+<p>The output path resolved outside the workspace, escaped through a symlink, or
+does not end in <code>.png</code>. Use a path inside the workspace that ends in <code>.png</code>. The
+exact wording differs slightly between <code>/image</code> and the CLI flags, but the fix
+is the same.</p>
+<h3>An input image was rejected</h3>
+<p>An input is refused when it is <strong>not a PNG</strong> (extension or file signature), is a
+<strong>symlink</strong>, is <strong>outside the workspace</strong>, is a <strong>URL</strong>, or is <strong>larger than
+20 MiB</strong>. Copy a valid PNG into the workspace and reference that local path.</p>
+<h3><code>/image</code> prompt quoting errors</h3>
+<ul>
+<li><strong>Unquoted prompt</strong> — quote it: <code>/image out.png &quot;my prompt&quot;</code>. A prompt with
+spaces always needs quotes, and so does any prompt used together with input
+paths.</li>
+<li><strong>Unterminated quote</strong> — make sure every opening quote has a matching closing
+quote.</li>
+<li><strong>Trailing arguments after the prompt</strong> — the prompt must be the final
+argument. Move any path arguments before it.</li>
+</ul>
+<h2>Related</h2>
+<ul>
+<li><a href="./index.html">Tools</a> — all built-in tools</li>
+<li><a href="../cli/commands.html">CLI Commands</a> — slash command reference</li>
+<li><a href="../cli/authentication.html">Authentication</a> — key management, keyring, OAuth</li>
+<li><a href="../oauth-setup.html">OAuth Setup</a> — OAuth configuration</li>
+<li><a href="../cli/index.html">CLI</a> — non-interactive mode and scripting</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

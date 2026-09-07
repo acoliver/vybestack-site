@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,46 +73,56 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Retry Settings Configuration</h1>
-<p>LLxprt Code implements configurable exponential backoff retry logic for API calls to LLM providers. These settings help manage rate limits and transient errors effectively.</p>
-<h2>Ephemeral Settings</h2>
-<p>Retry configuration can be set as ephemeral settings, which means they can be changed during a session without modifying your saved profiles or configuration files.</p>
-<h3>Available Retry Settings</h3>
+<p>LLxprt Code implements configurable exponential backoff retry logic for API
+calls to LLM providers. These settings help manage rate limits and transient
+errors effectively.</p>
+<h2>Ephemeral settings</h2>
+<p>Retry configuration uses ephemeral settings, which means they can be changed
+during a session without modifying your saved profiles or configuration files.</p>
+<h3>Available retry settings</h3>
 <ul>
 <li>
 <p><strong><code>retries</code></strong> (number):</p>
 <ul>
-<li><strong>Description:</strong> Maximum number of retry attempts for API calls. LLxprt now uses a unified default across providers.</li>
-<li><strong>Default:</strong> <code>6</code></li>
+<li><strong>Description:</strong> Maximum number of retry attempts for API calls.</li>
+<li><strong>Default:</strong> <code>6</code> for most providers (OpenAI Responses API, Anthropic).
+Some providers apply their own default — for example, the OpenAI Vercel
+provider defaults to <code>2</code>.</li>
 <li><strong>Example:</strong> <code>/set retries 3</code></li>
 </ul>
 </li>
 <li>
 <p><strong><code>retrywait</code></strong> (number):</p>
 <ul>
-<li><strong>Description:</strong> Initial delay in milliseconds between retry attempts. The delay increases exponentially for subsequent retries.</li>
+<li><strong>Description:</strong> Initial delay in milliseconds between retry attempts. The
+delay increases exponentially for subsequent retries.</li>
 <li><strong>Default:</strong> <code>4000</code> ms</li>
 <li><strong>Example:</strong> <code>/set retrywait 10000</code></li>
 </ul>
 </li>
 </ul>
-<h3>How to Configure Retry Settings</h3>
-<p>Use the <code>/set</code> command within the LLxprt Code CLI to configure retry settings for your session:</p>
+<h3>How to configure retry settings</h3>
+<p>Use the <code>/set</code> command within the LLxprt Code CLI to configure retry settings
+for your session:</p>
 <pre><code class="language-bash"># Set maximum retry attempts to 3
 /set retries 3
 
 # Set initial retry wait time to 10 seconds (10000 ms)
 /set retrywait 10000
 </code></pre>
-<p>These settings will apply to all subsequent API calls during your session and can be overridden at any time.</p>
-<h3>Provider-Specific Retry Behavior</h3>
-<p>The retry logic now uses the same baseline everywhere (6 attempts, 4-second initial delay) and includes:</p>
+<p>These settings apply to all subsequent API calls during your session and can be
+overridden at any time. To persist them, use <code>/profile save</code>.</p>
+<h3>Provider-specific retry behavior</h3>
+<p>When you do not set these explicitly, each provider applies its own default.
+The retry logic includes:</p>
 <ul>
-<li>Special handling for 429 (rate limit) errors (respecting <code>Retry-After</code> headers)</li>
-<li>Automatic detection of transient network issues (socket resets, stream interruptions)</li>
-<li>Integration with streaming pipelines so SSE disconnects are retried without user intervention</li>
+<li>Special handling for 429 (rate limit) errors, respecting <code>Retry-After</code>
+headers.</li>
+<li>Automatic detection of transient network issues (socket resets, stream
+interruptions).</li>
+<li>Integration with streaming pipelines so SSE disconnects are retried without
+user intervention.</li>
 </ul>
-<h3>Technical Implementation</h3>
-<p>The retry mechanism is implemented in <code>packages/core/src/utils/retry.ts</code> and uses exponential backoff with jitter. Provider implementations in <code>packages/core/src/providers/</code> have been updated to use these global settings.</p>
 
           </div>
         </div>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -70,603 +73,225 @@
         <div class="docs-content">
           <div class="blog-post-content">
             <h1>Migrating from Approval Mode to Policies</h1>
-<h2>Overview</h2>
-<p>This guide helps users migrate from the legacy ApprovalMode system to the new policy engine. The policy engine provides more flexibility and control while maintaining backward compatibility with existing configurations.</p>
-<h2>Why Migrate?</h2>
-<p>The policy engine offers several advantages over ApprovalMode:</p>
-<ol>
-<li><strong>Fine-grained control</strong>: Define rules per tool or argument pattern</li>
-<li><strong>Security</strong>: Block dangerous commands at the policy level</li>
-<li><strong>Transparency</strong>: Use <code>/policies</code> to see exactly what rules are active</li>
-<li><strong>Composability</strong>: Combine multiple rule sources seamlessly</li>
-<li><strong>Extensibility</strong>: Integrate MCP server trust with tool policies</li>
-</ol>
-<h2>Backward Compatibility</h2>
-<p><strong>Important:</strong> The policy engine maintains full backward compatibility. Your existing configurations continue to work:</p>
-<ul>
-<li><code>--yolo</code> flag still enables unrestricted mode</li>
-<li><code>--approval-mode auto_edit</code> still auto-approves write tools</li>
-<li><code>--allowed-tools</code> still allows specific tools</li>
-<li>Settings.json <code>approvalMode</code> field still works</li>
-</ul>
-<p>The message bus and policy engine now power every confirmation. Legacy settings are converted into equivalent policy rules automatically, so behavior remains consistent without any toggles.</p>
-<h2>How Legacy Settings Map to Policies</h2>
-<h3>ApprovalMode.DEFAULT</h3>
-<p><strong>Legacy behavior:</strong> Prompt for write tools, auto-approve read-only tools</p>
-<p><strong>Policy equivalent:</strong> Standard policy stack applies</p>
-<pre><code class="language-toml"># Built-in defaults (priority 1.05)
+<h2>Status and audience</h2>
+<p><strong>Status:</strong> Complete. The policy engine and message bus are always enabled; the
+legacy approval-mode and allowed-tools flags have been translated into policy
+rules.</p>
+<p><strong>Audience:</strong> Users who previously configured <code>--approval-mode</code>, <code>--yolo</code>,
+<code>--allowed-tools</code>, or related settings, and want to adopt TOML policy files for
+finer-grained control. If you never used those options, no action is needed —
+the default policies already cover the common cases.</p>
+<h2>Compatibility impact</h2>
+<p>Your existing flags and settings continue to work. They are translated into
+equivalent policy rules before the engine evaluates any tool call, so the
+behavior you are used to is preserved:</p>
+<table>
+<thead>
+<tr>
+<th>Legacy option</th>
+<th>What it does now</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--yolo</code> / <code>--approval-mode yolo</code></td>
+<td>Sets the approval mode to YOLO, activating a wildcard allow-all rule at priority 1.999.</td>
+</tr>
+<tr>
+<td><code>--approval-mode auto_edit</code></td>
+<td>Sets the approval mode to auto-edit, activating allow rules for edit tools at priority 1.015.</td>
+</tr>
+<tr>
+<td><code>--allowed-tools &lt;names&gt;</code></td>
+<td>Adds individual allow rules at priority 2.3.</td>
+</tr>
+<tr>
+<td><code>tools.allowed</code> setting</td>
+<td>Same as <code>--allowed-tools</code> — allow rules at priority 2.3.</td>
+</tr>
+<tr>
+<td><code>tools.exclude</code> setting</td>
+<td>Adds individual deny rules at priority 2.4.</td>
+</tr>
+</tbody>
+</table>
+<p>You do not need to change anything to keep using these options. A TOML policy
+file is only necessary if you want rules that the flags cannot express — for
+example, blocking a tool by argument pattern, or applying different rules per
+project.</p>
+<h2>Before and after</h2>
+<h3>Before: flags only</h3>
+<pre><code class="language-bash"># Auto-approve edit tools
+llxprt --approval-mode auto_edit
+
+# Auto-approve everything
+llxprt --yolo
+
+# Allow specific tools without confirmation
+llxprt --allowed-tools replace,write_file
+</code></pre>
+<h3>After: policy file (optional)</h3>
+<pre><code class="language-toml"># ~/.config/llxprt-code/policies/my-rules.toml (Linux)
+# See Application Directories for macOS/Windows paths.
+
+# Auto-approve edits
 [[rule]]
-toolName = &quot;glob&quot;
+toolName = &quot;replace&quot;
 decision = &quot;allow&quot;
-priority = 1.05
-
-[[rule]]
-toolName = &quot;grep&quot;
-decision = &quot;allow&quot;
-priority = 1.05
-
-# ... other read-only tools
-
-# Built-in defaults (priority 1.01)
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;ask_user&quot;
-priority = 1.01
+priority = 250
 
 [[rule]]
 toolName = &quot;write_file&quot;
-decision = &quot;ask_user&quot;
-priority = 1.01
-
-# ... other write tools
-</code></pre>
-<p><strong>Migration:</strong> No action needed — this is now the default behavior because the policy engine/message bus path is always active.</p>
-<h3>ApprovalMode.AUTO_EDIT</h3>
-<p><strong>Legacy behavior:</strong> Auto-approve write tools (edit, write_file, shell, memory)</p>
-<p><strong>Policy equivalent:</strong> Allow rules at priority 1.015</p>
-<pre><code class="language-toml">[[rule]]
-toolName = &quot;edit&quot;
 decision = &quot;allow&quot;
-priority = 1.015
+priority = 250
 
+# Block dangerous shell patterns the built-in guard does not cover
 [[rule]]
-toolName = &quot;write_file&quot;
-decision = &quot;allow&quot;
-priority = 1.015
-
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;allow&quot;
-priority = 1.015
-
-[[rule]]
-toolName = &quot;memory&quot;
-decision = &quot;allow&quot;
-priority = 1.015
+toolName = &quot;run_shell_command&quot;
+argsPattern = &quot;git\\s+push\\s+--force&quot;
+decision = &quot;deny&quot;
+priority = 280
 </code></pre>
-<p><strong>Migration:</strong></p>
-<ol>
-<li>Remove <code>approvalMode: &quot;auto_edit&quot;</code> from settings</li>
-<li>Create a custom policy file with write tools allowed at priority 2.5+</li>
-<li>Restart llxprt-code (or reload settings) so the new policy file is picked up</li>
-</ol>
-<h3>ApprovalMode.YOLO</h3>
-<p><strong>Legacy behavior:</strong> Auto-approve all tools without confirmation</p>
-<p><strong>Policy equivalent:</strong> Wildcard allow-all at priority 1.999</p>
-<pre><code class="language-toml">[[rule]]
-# No toolName = wildcard (matches all tools)
-decision = &quot;allow&quot;
-priority = 1.999
-</code></pre>
-<p><strong>Migration:</strong></p>
-<ol>
-<li>Remove <code>approvalMode: &quot;yolo&quot;</code> from settings</li>
-<li>Create a custom policy file with wildcard allow at priority 2.5+ (if desired)</li>
-<li>Restart llxprt-code to ensure the new policy stack loads</li>
-</ol>
-<p><strong>Security Note:</strong> YOLO mode disables all safety checks. Consider using selective allow rules instead.</p>
-<h2>CLI Flag Mapping</h2>
-<h3>--allowed-tools</h3>
-<p><strong>Legacy usage:</strong></p>
-<pre><code class="language-bash">llxprt --allowed-tools edit,shell,glob
-</code></pre>
-<p><strong>Policy equivalent:</strong> Individual allow rules at priority 2.3</p>
-<pre><code class="language-toml">[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;allow&quot;
-priority = 2.3
-
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;allow&quot;
-priority = 2.3
-
-[[rule]]
-toolName = &quot;glob&quot;
-decision = &quot;allow&quot;
-priority = 2.3
-</code></pre>
-<p><strong>Migration:</strong></p>
-<ol>
-<li>Continue using <code>--allowed-tools</code> (it still works with policy engine)</li>
-<li>Or create permanent policy file with higher priority (2.5+) to override</li>
-</ol>
-<h3>--yolo</h3>
-<p><strong>Legacy usage:</strong></p>
-<pre><code class="language-bash">llxprt --yolo
-</code></pre>
-<p><strong>Policy equivalent:</strong> Wildcard allow-all at priority 1.999</p>
-<pre><code class="language-toml">[[rule]]
-decision = &quot;allow&quot;
-priority = 1.999
-</code></pre>
-<p><strong>Migration:</strong></p>
-<ol>
-<li>Continue using <code>--yolo</code> flag (it still works)</li>
-<li>Or create permanent policy file with wildcard allow</li>
-<li><strong>Recommended:</strong> Use selective allow rules instead for better security</li>
-</ol>
-<h2>Step-by-Step Migration</h2>
-<h3>Step 1: Test with Default Policies</h3>
-<p>Restart llxprt-code and verify behavior:</p>
-<pre><code class="language-bash">llxprt
-</code></pre>
-<p>Run <code>/policies</code> to see active rules:</p>
+<h2>Migration steps</h2>
+<h3>1. Inspect your current rules</h3>
+<p>Start LLxprt Code with your existing flags and run <code>/policies</code>:</p>
 <pre><code>&gt; /policies
-
-Active Policy Rules:
-
-  1.999 │ *                         │ allow    (YOLO mode)
-  1.050 │ glob                      │ allow    (read-only default)
-  1.010 │ edit                      │ ask_user (write default)
-
-Default decision: ask_user
-Non-interactive mode: false
 </code></pre>
-<p>Test a few tool executions to confirm expected behavior.</p>
-<h3>Step 3: Create Custom Policy File (Optional)</h3>
-<p>Create <code>&lt;config&gt;/my-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</p>
-<pre><code class="language-toml"># My custom policies - override defaults
-
-# Auto-approve read-only tools
+<p>This lists every active rule, grouped by tier, in priority order. Note which
+rules come from your flags (source labels like <code>Settings (Tools Allowed)</code>) so
+you know what to reproduce in a policy file.</p>
+<h3>2. Create a policy file (optional)</h3>
+<p>You only need a policy file if you want rules that go beyond what the flags
+offer. Place TOML files in your user policy directory — they are loaded
+automatically at tier 2 (priorities 2.000–2.999). See
+<a href="../reference/application-directories.html">Application Directories</a> for the
+directory path on each operating system.</p>
+<p>For the full TOML schema (fields, decision values, priority integers, pattern
+syntax, and <code>commandPrefix</code> shorthand), see
+<a href="../policy-configuration.html">Policy Configuration</a>.</p>
+<blockquote>
+<p><strong>Note on priorities:</strong> In a TOML file, the <code>priority</code> field is an integer
+0–999. The engine transforms it by adding the tier: a file in your user
+directory at <code>priority = 250</code> becomes resolved priority <strong>2.250</strong>. To
+override a CLI flag (resolved priority 2.3), use an integer of 301 or higher.</p>
+</blockquote>
+<h3>3. Stop passing the flags you replaced</h3>
+<p>Once your policy file reproduces the behavior, you can stop passing the
+corresponding flags. For example, if your file allows <code>replace</code> and
+<code>write_file</code>, you no longer need <code>--allowed-tools replace,write_file</code>.</p>
+<p>You do not have to stop using the flags — they keep working alongside policy
+files. But if you want a single source of truth, the policy file replaces them.</p>
+<h3>4. Verify</h3>
+<p>Restart LLxprt Code and run <code>/policies</code> again. Confirm your custom rules appear
+in the Tier 2 group with the priorities you expect, and that no unwanted rules
+remain from old flags.</p>
+<h2>Example: replacing <code>--approval-mode auto_edit</code></h2>
+<p>Auto-edit mode auto-approves edit tools (replace, write_file, insert_at_line,
+delete_line_range, apply_patch, ast_edit) but still confirms shell commands. To
+reproduce that as a permanent policy file:</p>
+<pre><code class="language-toml"># Auto-approve edit tools
 [[rule]]
-toolName = &quot;glob&quot;
+toolName = &quot;replace&quot;
 decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;grep&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-# Require confirmation for write tools
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
-
-# Block dangerous shell commands
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf\\s+/&quot;
-decision = &quot;deny&quot;
-priority = 2.8
-
-# Allow safe shell commands
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;^(ls|pwd|echo)&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-
-# Default deny for shell
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-</code></pre>
-<h3>Step 4: Configure Policy Path</h3>
-<p>Add to your <a href="../reference/application-directories.html">user <code>settings.json</code></a>:</p>
-<pre><code class="language-json">{
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/Library/Preferences/llxprt-code/my-policy.toml&quot;
-  }
-}
-</code></pre>
-<p><strong>Important:</strong> Use absolute paths, not <code>~</code> or relative paths. The example shows the macOS config-directory location; on Linux use <code>~/.config/llxprt-code/my-policy.toml</code> and on Windows use <code>%APPDATA%\llxprt-code\Config\my-policy.toml</code>. See <a href="../reference/application-directories.html">Application Directories</a> for the canonical paths on each OS.</p>
-<h3>Step 5: Verify and Test</h3>
-<p>Restart llxprt-code and check policies:</p>
-<pre><code class="language-bash">llxprt --command &quot;/policies&quot;
-</code></pre>
-<p>Verify your custom rules appear with correct priorities.</p>
-<h3>Step 6: Remove Legacy Settings (Optional)</h3>
-<p>Once satisfied with policy-based configuration, you can remove legacy settings:</p>
-<pre><code class="language-json">{
-  // Remove these:
-  // &quot;approvalMode&quot;: &quot;auto_edit&quot;,
-
-  // Keep these:
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/absolute/path/to/my-policy.toml&quot;
-  }
-}
-</code></pre>
-<h2>Common Migration Scenarios</h2>
-<h3>Scenario 1: Developer Using AUTO_EDIT</h3>
-<p><strong>Current setup:</strong></p>
-<pre><code class="language-json">{
-  &quot;approvalMode&quot;: &quot;auto_edit&quot;
-}
-</code></pre>
-<p><strong>Migration to policies:</strong></p>
-<ol>
-<li>Create <code>&lt;config&gt;/dev-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</li>
-</ol>
-<pre><code class="language-toml"># Auto-approve write tools for development
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;allow&quot;
-priority = 2.5
+priority = 250
 
 [[rule]]
 toolName = &quot;write_file&quot;
 decision = &quot;allow&quot;
-priority = 2.5
-
-# Shell with safety checks
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf\\s+/&quot;
-decision = &quot;deny&quot;
-priority = 2.8
+priority = 250
 
 [[rule]]
-toolName = &quot;shell&quot;
+toolName = &quot;insert_at_line&quot;
 decision = &quot;allow&quot;
-priority = 2.5
+priority = 250
 
-# Memory operations
 [[rule]]
-toolName = &quot;memory&quot;
+toolName = &quot;delete_line_range&quot;
 decision = &quot;allow&quot;
-priority = 2.5
+priority = 250
+
+[[rule]]
+toolName = &quot;apply_patch&quot;
+decision = &quot;allow&quot;
+priority = 250
+
+[[rule]]
+toolName = &quot;ast_edit&quot;
+decision = &quot;allow&quot;
+priority = 250
 </code></pre>
-<ol start="2">
-<li>Update settings:</li>
-</ol>
-<pre><code class="language-json">{
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/absolute/path/to/dev-policy.toml&quot;
-  }
-}
-</code></pre>
-<h3>Scenario 2: Security-Conscious User</h3>
-<p><strong>Current setup:</strong></p>
-<pre><code class="language-json">{
-  &quot;approvalMode&quot;: &quot;default&quot;
-}
-</code></pre>
-<p><strong>Migration to policies:</strong></p>
+<p>Shell commands remain at the default behavior (<code>ask_user</code>) unless you add
+explicit rules for them.</p>
+<h2>Where policy files are loaded from</h2>
+<p>Policy files are read from directories, not from an arbitrary path you name in
+settings. Three directories are scanned, and the directory a file sits in
+determines its tier:</p>
+<table>
+<thead>
+<tr>
+<th>Directory</th>
+<th>Tier</th>
+<th>Resolved priority range</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Built-in policies shipped with LLxprt Code</td>
+<td>1 (default)</td>
+<td>1.000–1.999</td>
+</tr>
+<tr>
+<td>Your user policy directory</td>
+<td>2 (user)</td>
+<td>2.000–2.999</td>
+</tr>
+<tr>
+<td>The system policy directory</td>
+<td>3 (admin)</td>
+<td>3.000–3.999</td>
+</tr>
+</tbody>
+</table>
+<p>See <a href="../reference/application-directories.html">Application Directories</a> for the
+user and system directory locations on each operating system.</p>
+<blockquote>
+<p><strong>Limitation:</strong> There is no per-project policy directory. Policy files are not
+discovered from your working directory or from a project-local <code>.llxprt</code>
+directory, and there is no setting that points the loader at a specific file.
+If you need different rules per project, use the CLI flags described above
+when starting LLxprt Code in that project, or swap the contents of your user
+policy directory.</p>
+</blockquote>
+<p>For worked TOML examples including MCP trust, argument-pattern matching, and
+deny-by-default setups, see
+<a href="../policy-configuration.html">Policy Configuration</a>.</p>
+<h2>Verification</h2>
+<p>After migrating, confirm the policy stack is correct:</p>
 <ol>
-<li>Create <code>&lt;config&gt;/secure-policy.toml</code> (see <a href="../reference/application-directories.html">Application Directories</a>):</li>
+<li><strong>Run <code>/policies</code></strong> — your custom rules should appear under &quot;Tier 2
+(User-defined)&quot; with the correct priorities.</li>
+<li><strong>Test a tool call</strong> that your policy is meant to affect — for example,
+trigger an edit to confirm it runs without a prompt, or run a blocked shell
+pattern to confirm it is denied.</li>
+<li><strong>Check the default decision</strong> — the last line of <code>/policies</code> output shows
+the default decision (<code>ASK_USER</code>) and non-interactive mode status.</li>
 </ol>
-<pre><code class="language-toml"># Read-only tools allowed
-[[rule]]
-toolName = &quot;glob&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;grep&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;read_file&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-# Write tools require confirmation
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;write_file&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
-
-# Shell completely blocked
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-
-# MCP tools require confirmation
-[[rule]]
-toolName = &quot;mcp_tool&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
-</code></pre>
-<ol start="2">
-<li>Update settings:</li>
-</ol>
-<pre><code class="language-json">{
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/Users/yourname/Library/Preferences/llxprt-code/secure-policy.toml&quot;
-  }
-}
-</code></pre>
-<h3>Scenario 3: Per-Project Policies</h3>
-<p><strong>Current setup:</strong> Different <code>--allowed-tools</code> for different projects</p>
-<p><strong>Migration to policies:</strong></p>
-<ol>
-<li>Create project-specific policy file <code>.llxprt-policy.toml</code> in project root:</li>
-</ol>
-<pre><code class="language-toml"># Project-specific policies
-
-# Allow edit only in project directory
-[[rule]]
-toolName = &quot;edit&quot;
-argsPattern = &quot;/path/to/project/&quot;
-decision = &quot;allow&quot;
-priority = 2.7
-
-# Block edit outside project
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow safe shell commands in project
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;cd /path/to/project&quot;
-decision = &quot;allow&quot;
-priority = 2.7
-
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;npm (install|test|build)&quot;
-decision = &quot;allow&quot;
-priority = 2.7
-
-# Block other shell commands
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-</code></pre>
-<ol start="2">
-<li>Load policy when starting llxprt in project:</li>
-</ol>
-<pre><code class="language-bash">cd /path/to/project
-export LLXPRT_POLICY_PATH=&quot;$(pwd)/.llxprt-policy.toml&quot;
-llxprt
-</code></pre>
-<p>Or add to project-specific profile:</p>
-<pre><code class="language-json">{
-  &quot;profiles&quot;: {
-    &quot;myproject&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/path/to/project/.llxprt-policy.toml&quot;
-    }
-  }
-}
-</code></pre>
-<h2>Priority Precedence</h2>
-<p>Understanding priority helps combine legacy and new settings:</p>
-<pre><code>Higher Priority (wins)
-    ↑
-    │
-3.xxx │ Admin policies (future)
-    │
-2.95  │ &quot;Always Allow&quot; UI selections
-2.9   │ MCP servers excluded
-2.5+  │ User TOML policies ← YOUR CUSTOM POLICIES
-2.4   │ --exclude-tools
-2.3   │ --allowed-tools ← CLI FLAG
-2.2   │ MCP trust=true
-2.1   │ MCP allowed list
-2.0   │ Dangerous command blocks
-    │
-1.999 │ YOLO mode ← --yolo FLAG
-1.05  │ Read-only defaults
-1.015 │ AUTO_EDIT mode ← approvalMode setting
-1.01  │ Write tool defaults
-    │
-    ↓
-Lower Priority
-</code></pre>
-<p><strong>Key insight:</strong> Your custom policies at 2.5+ override CLI flags and ApprovalMode settings.</p>
-<h2>Coexistence Strategy</h2>
-<p>You can run both systems simultaneously during migration:</p>
-<h3>Phase 1: Test with Feature Flag</h3>
-<pre><code class="language-json">{
-  &quot;approvalMode&quot;: &quot;auto_edit&quot; // Keep legacy
-}
-</code></pre>
-<ul>
-<li>Legacy settings are still migrated to policy rules automatically</li>
-<li>No breaking changes</li>
-<li>Test new system alongside legacy</li>
-</ul>
-<h3>Phase 2: Add Custom Policies</h3>
-<pre><code class="language-json">{
-  &quot;approvalMode&quot;: &quot;auto_edit&quot;, // Keep legacy
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/path/to/my-policy.toml&quot; // Add custom
-  }
-}
-</code></pre>
-<ul>
-<li>Custom policies override legacy (due to priority)</li>
-<li>Gradual transition to declarative config</li>
-</ul>
-<h3>Phase 3: Remove Legacy</h3>
-<pre><code class="language-json">{
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/path/to/my-policy.toml&quot; // Only new system
-  }
-}
-</code></pre>
-<ul>
-<li>Fully migrated to policy engine</li>
-<li>No legacy settings</li>
-</ul>
-<h2>Troubleshooting Migration</h2>
-<h3>Issue: Policies Not Taking Effect</h3>
-<p><strong>Symptoms:</strong> Tools still prompt for confirmation despite allow rules</p>
-<p><strong>Solutions:</strong></p>
-<ol>
-<li>Restart llxprt-code after changing settings</li>
-<li>Verify policies loaded: <code>llxprt --command &quot;/policies&quot;</code></li>
-<li>Check priority - your rules must be higher than defaults (use 2.5+)</li>
-<li>Ensure policy file path is absolute</li>
-</ol>
-<h3>Issue: TOML Parse Errors</h3>
-<p><strong>Symptoms:</strong> llxprt-code fails to start or logs TOML errors</p>
-<p><strong>Solutions:</strong></p>
-<ol>
-<li>Validate TOML syntax: <a href="https://www.toml-lint.com/">https://www.toml-lint.com/</a></li>
-<li>Check for common mistakes:
-<ul>
-<li>Missing quotes on <code>decision = &quot;allow&quot;</code></li>
-<li>Single backslash in regex (use <code>\\</code> not <code>\</code>)</li>
-<li>Wrong array syntax (use <code>[[rule]]</code> not <code>[rule]</code>)</li>
-</ul>
-</li>
-<li>Review error message for line number</li>
-<li>Temporarily remove custom policy path to isolate issue</li>
-</ol>
-<h3>Issue: Rules Conflicting</h3>
-<p><strong>Symptoms:</strong> Unexpected allow/deny behavior</p>
-<p><strong>Solutions:</strong></p>
-<ol>
-<li>Run <code>/policies</code> to see all active rules in priority order</li>
-<li>Check for rules with higher priority overriding your rules</li>
-<li>Review argsPattern for overly broad matches</li>
-<li>Remember: highest priority wins</li>
-<li>Use priority 2.8+ for critical deny rules</li>
-</ol>
-<h3>Issue: Legacy Flags Not Working</h3>
-<p><strong>Symptoms:</strong> <code>--allowed-tools</code> or <code>--yolo</code> not working as expected</p>
-<p><strong>Solutions:</strong></p>
-<ol>
-<li>Ensure you're running a build that includes the policy engine/message bus stack (20251119gmerge or later)</li>
-<li>Check for custom policies with higher priority overriding flags</li>
-<li>Use <code>/policies</code> to see how flags translated to rules</li>
-<li>Remember: CLI flags have priority 2.3, user policies at 2.5+ override them</li>
-</ol>
-<h3>Issue: MCP Tools Not Allowed</h3>
-<p><strong>Symptoms:</strong> MCP server tools blocked despite trust settings</p>
-<p><strong>Solutions:</strong></p>
-<ol>
-<li>Check MCP server name prefix: <code>serverName__toolName</code></li>
-<li>Create explicit policy rule for MCP server:<pre><code class="language-toml">[[rule]]
-toolName = &quot;my-server__&quot;
-decision = &quot;allow&quot;
-priority = 2.2
-</code></pre>
-</li>
-<li>Verify <code>mcpServers.*.trust: true</code> in settings</li>
-<li>Check for deny rules with higher priority</li>
-</ol>
-<h2>Best Practices</h2>
-<h3>1. Start Conservative</h3>
-<p>Begin with restrictive policies and loosen as needed:</p>
-<pre><code class="language-toml"># Start with deny-by-default
-[[rule]]
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow only specific tools
-[[rule]]
-toolName = &quot;read_file&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;ask_user&quot;
-priority = 2.6
-</code></pre>
-<h3>2. Use Comments Liberally</h3>
-<p>Document why each rule exists:</p>
-<pre><code class="language-toml"># Allow edit for project files only (2024-11-20)
-# Prevents accidental edits to system files
-[[rule]]
-toolName = &quot;edit&quot;
-argsPattern = &quot;/home/user/projects/&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-</code></pre>
-<h3>3. Version Control Policies</h3>
-<p>Store policy files in git alongside your project:</p>
-<pre><code class="language-bash">project/
-  .llxprt-policy.toml  # Project-specific policies
-  .gitignore
-  README.md
-</code></pre>
-<h3>4. Test Policies Before Deployment</h3>
-<p>Create test policy file and verify behavior:</p>
-<pre><code class="language-bash"># Create test policy
-cat &gt; /tmp/test-policy.toml &lt;&lt; 'EOF'
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-EOF
-
-# Test it
-llxprt --config &quot;tools.policyPath=/tmp/test-policy.toml&quot;
-
-# Verify
-&gt; /policies
-</code></pre>
-<h3>5. Use Profiles for Different Contexts</h3>
-<p>Create profiles for different use cases:</p>
-<pre><code class="language-json">{
-  &quot;profiles&quot;: {
-    &quot;dev&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/dev-policy.toml&quot;
-    },
-    &quot;secure&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/secure-policy.toml&quot;
-    },
-    &quot;demo&quot;: {
-      &quot;tools.policyPath&quot;: &quot;/absolute/path/to/demo-policy.toml&quot;
-    }
-  }
-}
-</code></pre>
-<p>Switch profiles as needed:</p>
-<pre><code class="language-bash">llxprt --profile dev
-llxprt --profile secure
-</code></pre>
-<h2>Migration Checklist</h2>
-<ul>
-<li>[ ] Backup existing settings.json</li>
-<li>[ ] Test with default policies</li>
-<li>[ ] Run <code>/policies</code> to verify rules</li>
-<li>[ ] Create custom policy file (if needed)</li>
-<li>[ ] Configure policy path in settings</li>
-<li>[ ] Restart llxprt-code</li>
-<li>[ ] Verify custom rules loaded</li>
-<li>[ ] Test tool executions</li>
-<li>[ ] Document policy decisions (comments in TOML)</li>
-<li>[ ] Version control policy files</li>
-<li>[ ] Remove legacy settings (optional)</li>
-</ul>
-<h2>Rollback Plan</h2>
-<p>If you need to revert to the previous behavior, remove custom policy files/paths and rely on <code>approvalMode</code> plus <code>--allowed-tools</code> flags. Message bus integration remains enabled, but without custom policies the behavior mirrors the legacy flow.</p>
-<h2>Next Steps</h2>
-<ul>
-<li>Read <a href="../message-bus.html">Message Bus Guide</a> for detailed feature overview</li>
-<li>Read <a href="../policy-configuration.html">Policy Configuration Guide</a> for TOML syntax and examples</li>
-<li>Review the built-in policy files under <code>packages/core/src/policy/policies</code> in
-a repository checkout for worked examples</li>
-</ul>
+<h2>Rollback</h2>
+<p>To revert to flag-based behavior, delete or rename your custom policy files in
+the user policy directory and restart LLxprt Code. The default policies and any
+flags you pass on the command line take over again.</p>
+<p>The policy engine and message bus remain active in all cases — there is no way
+to disable them, and no need to. Rollback means removing your custom rules, not
+switching to a different authorization system.</p>
+<h2>Deprecation timeline</h2>
+<p>The <code>--yolo</code>, <code>--approval-mode</code>, and <code>--allowed-tools</code> flags are not
+deprecated. They are supported indefinitely because they map cleanly to policy
+rules and many users rely on them. TOML policy files are the recommended path
+for anything the flags cannot express, but you are not required to migrate.</p>
+<p>For a deeper look at policy authoring — TOML syntax, priority bands, pattern
+matching, security best practices, and troubleshooting — see
+<a href="../policy-configuration.html">Policy Configuration</a>. For how the engine
+evaluates rules at runtime, see <a href="../tool-permissions.html">Controlling Tool Execution</a>.</p>
 
           </div>
         </div>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -132,6 +135,22 @@ llxprt --sandbox &quot;list the files in this directory&quot;
 <li>project mounted</li>
 <li>command executed from sandboxed context</li>
 </ol>
+<h3>Validate a multi-root workspace</h3>
+<p>Pass each additional workspace root with <code>--include-directories</code>:</p>
+<pre><code class="language-bash">mkdir -p ../shared-source
+llxprt --sandbox --include-directories ../shared-source \
+  &quot;read a file from this project and ../shared-source, then write one result file in each root&quot;
+</code></pre>
+<p>Docker and Podman mount both roots read-write at their host paths. In an
+installed-mode session, each root and its declared nested Node workspaces get
+fresh engine-owned <code>node_modules</code> volumes, so installs do not change host
+dependency trees. The volumes are removed when the session ends. Seatbelt keeps
+its existing limit of five additional roots through built-in profile parameters
+and continues to use host dependency trees.</p>
+<p>Startup fails before the container engine is contacted when an include path is
+missing, is not a readable, writable, and searchable directory, or contains
+another workspace root. Correct the path named in the error or remove it from
+<code>--include-directories</code>.</p>
 <h2>Step 3: load a profile (this implies sandbox mode)</h2>
 <p>You do not need <code>--sandbox</code> when using <code>--sandbox-profile-load</code>.</p>
 <pre><code class="language-bash">llxprt --sandbox-profile-load dev &quot;show sandbox environment&quot;
@@ -146,7 +165,7 @@ llxprt --sandbox &quot;list the files in this directory&quot;
 <p><code>safe</code> profile has network off:</p>
 <pre><code class="language-bash">llxprt --sandbox-profile-load safe &quot;run shell command: curl -I https://example.com&quot;
 </code></pre>
-<p>The second command should fail due to disabled network.</p>
+<p>On Linux containers or Seatbelt, the second command runs under the disabled-network policy and <code>curl</code> should fail. On macOS with Docker or Podman, startup instead fails before the container launches because the mandatory credential bridge requires container networking; enable networking or use Linux for network-off sandboxing.</p>
 <h2>Step 5: validate SSH passthrough for git workflows</h2>
 <p>Check host agent first:</p>
 <pre><code class="language-bash">echo $SSH_AUTH_SOCK
@@ -161,9 +180,10 @@ ssh-add ~/.ssh/id_ed25519
 </code></pre>
 <p>If keys appear, SSH passthrough is working.</p>
 <h3>Podman on macOS: reliable socket setup</h3>
-<p>If forwarding fails with launchd socket paths, switch to a dedicated socket:</p>
-<pre><code class="language-bash">ssh-agent -a ~/.llxprt/ssh-agent.sock
-export SSH_AUTH_SOCK=~/.llxprt/ssh-agent.sock
+<p>If forwarding fails with launchd socket paths, switch to a dedicated socket
+under a non-legacy location (such as <code>~/.ssh/</code> or <code>$XDG_RUNTIME_DIR</code>):</p>
+<pre><code class="language-bash">ssh-agent -a ~/.ssh/ssh-agent.sock
+export SSH_AUTH_SOCK=~/.ssh/ssh-agent.sock
 ssh-add ~/.ssh/id_ed25519
 llxprt --sandbox-engine podman --sandbox-profile-load dev
 </code></pre>

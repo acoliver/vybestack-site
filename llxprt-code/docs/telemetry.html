@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -122,13 +125,6 @@ tool calls, hook calls, API requests/responses/errors, slash commands.</li>
 console otherwise. The SDK constructs only <code>File*Exporter</code> or
 <code>Console*Exporter</code>; no OTLP or network exporter is imported anywhere in the
 source, so there is no code path that could transmit this data.</p>
-<blockquote>
-<p><strong>Inert flags:</strong> <code>--telemetry-target</code>, <code>--telemetry-otlp-endpoint</code>, and
-<code>--telemetry-otlp-protocol</code> are still accepted for backward compatibility but
-currently have <strong>no effect</strong> — no exporter reads them. Pointing them at a
-collector will not send anything. Use <code>--telemetry-outfile</code> to choose where
-output is written.</p>
-</blockquote>
 <h2>Enable telemetry</h2>
 <p>Telemetry is controlled by the <code>telemetry.enabled</code> setting.</p>
 <table>
@@ -173,6 +169,17 @@ output is written.</p>
 builder resolves the effective value as <code>argv.telemetry ?? settings.telemetry.enabled</code>
 — a CLI flag wins if present, otherwise the persisted setting is used. See
 <a href="./cli/configuration.html">Configuration</a> for the full settings reference.</p>
+<h3>Outfile rotation</h3>
+<p>When an outfile is configured, the file rotates by size. When the next record
+would push the file past <code>telemetry.outfileMaxBytes</code> (default 100 MiB), the
+current file is renamed to <code>&lt;outfile&gt;.&lt;timestamp&gt;-&lt;suffix&gt;</code> and a fresh
+outfile is started. At most <code>telemetry.outfileMaxFiles</code> (default 10) rotated
+files are retained; the oldest are deleted first. A single record larger than the cap
+is still written whole, because JSONL lines cannot be split.</p>
+<p>Metric export uses delta aggregation temporality: each export interval carries only the
+changes since the previous interval rather than re-serializing the full accumulated
+state. Combined with body gating and rotation this keeps the outfile tree bounded
+even for long-running sessions or concurrent sessions sharing a file.</p>
 <h3>Where output goes</h3>
 <table>
 <thead>
@@ -228,9 +235,16 @@ memory for the life of the session. It is not persisted and not transmitted.</li
 <li><strong>Prompt logging</strong>: the <code>telemetry.logPrompts</code> setting controls whether user
 prompt <strong>text</strong> is included in the <code>llxprt_code.user_prompt</code> log event.
 Default is <code>true</code>; set it to <code>false</code> to redact prompt content from that
-specific log event. Note: <code>logPrompts: false</code> does <strong>not</strong> redact hook
-input/output data (the <code>llxprt_code.hook_call</code> event always includes
-<code>hook_input</code> and <code>hook_output</code> fields regardless of this setting).</li>
+specific log event. Since API bodies flow through the same gate,
+<code>logPrompts: false</code> also keeps conversation content out of
+<code>llxprt_code.api_request</code> and <code>llxprt_code.api_response</code> events: those
+events carry only <code>request_chars</code> and <code>response_chars</code> sizes (plus token
+counts) unless <code>telemetry.logApiBodies</code> is enabled. Those two events hold
+no prompt-bearing fields beyond <code>request_text</code> and <code>response_text</code>, both of
+which are exported only when <code>telemetry.logApiBodies</code> <strong>and</strong>
+<code>telemetry.logPrompts</code> are enabled. Note: <code>logPrompts: false</code>
+does <strong>not</strong> redact hook input/output data (the <code>llxprt_code.hook_call</code> event
+always includes <code>hook_input</code> and <code>hook_output</code> fields regardless of this setting).</li>
 </ul>
 <h2>Logs and metrics reference</h2>
 <p>The following events and metrics are emitted when telemetry is enabled. All
@@ -243,9 +257,16 @@ event and metric names use the <code>llxprt_code.*</code> prefix (the service na
 <code>logPrompts</code> is enabled)</li>
 <li><code>llxprt_code.tool_call</code>: each tool call (function, args, duration, success)</li>
 <li><code>llxprt_code.hook_call</code>: hook execution (event name, input, output, duration)</li>
-<li><code>llxprt_code.api_request</code>: provider API request</li>
+<li><code>llxprt_code.api_request</code>: provider API request. Includes <code>request_chars</code>
+(character count of the request body) and token counts. The body itself is
+omitted by default; it is included only when <code>telemetry.logApiBodies</code> is
+enabled (and <code>telemetry.logPrompts</code> is <code>true</code>), truncated to
+<code>telemetry.logApiBodyMaxChars</code> (default 4000).</li>
 <li><code>llxprt_code.api_error</code>: provider API error</li>
-<li><code>llxprt_code.api_response</code>: provider API response (token counts, latency)</li>
+<li><code>llxprt_code.api_response</code>: provider API response (token counts, latency,
+<code>response_chars</code>). The response body is included only when
+<code>telemetry.logApiBodies</code> is enabled and <code>telemetry.logPrompts</code> is <code>true</code>,
+truncated to <code>telemetry.logApiBodyMaxChars</code>.</li>
 <li><code>llxprt_code.slash_command</code>: slash command execution</li>
 <li><code>llxprt_code.next_speaker_check</code>: next-speaker determination</li>
 <li><code>llxprt_code.conversation_request</code>: conversation API request</li>

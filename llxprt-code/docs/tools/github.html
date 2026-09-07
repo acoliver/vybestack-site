@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GitHub Tool | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>GitHub Tool</h1>
+<p>The <code>github</code> tool lets the model work with GitHub issues, pull requests,
+checks and labels without ever holding a GitHub credential.</p>
+<h2>Why it exists</h2>
+<p>Running <code>gh</code> from the shell requires a token the model can read. Inside a
+sandbox that defeats the point: a prompt-injected or over-eager agent can echo
+the token, encode it, or send it somewhere. The <code>github</code> tool moves the work to
+the host instead. The model names an operation and supplies arguments; the host
+runs <code>gh</code> and returns the result. <strong>The credential never enters the sandbox.</strong></p>
+<p>A second benefit falls out of the same design: because the host shapes the
+response, the model gets structured data instead of raw JSON, so it no longer
+has to write <code>--jq</code> expressions and no longer misses comments.</p>
+<h2>Using it</h2>
+<p>Operation names mirror <code>gh</code> subcommands. Parameters mirror <code>gh</code> long flags with
+the dashes removed — <code>--repo</code> becomes <code>repo</code>, <code>--limit</code> becomes <code>limit</code>. There
+is no <code>--json</code> or <code>--jq</code>, because responses are already shaped.</p>
+<pre><code class="language-jsonc">{ &quot;op&quot;: &quot;issue.view&quot;, &quot;number&quot;: 1663, &quot;comments&quot;: true }
+{ &quot;op&quot;: &quot;issue.list&quot;, &quot;search&quot;: &quot;sandbox&quot;, &quot;state&quot;: &quot;open&quot;, &quot;limit&quot;: 20 }
+{ &quot;op&quot;: &quot;pr.reviews&quot;, &quot;number&quot;: 2317, &quot;actionable&quot;: true }
+{ &quot;op&quot;: &quot;pr.checks&quot;, &quot;number&quot;: 2317, &quot;watch&quot;: true }
+</code></pre>
+<h3>Working across repositories</h3>
+<p>Every operation takes an optional <code>repo</code> as <code>owner/name</code>. Omit it to use the
+current repository.</p>
+<pre><code class="language-jsonc">{ &quot;op&quot;: &quot;issue.view&quot;, &quot;number&quot;: 42, &quot;repo&quot;: &quot;acoliver/otherproject&quot; }
+</code></pre>
+<p>This works for public repositories, private repositories on free plans, and any
+account you have access to. It is not limited to GitHub Enterprise.</p>
+<h2>Operations</h2>
+<h3>Reading</h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>issue.view</code></td>
+<td>One issue, optionally with comments</td>
+</tr>
+<tr>
+<td><code>issue.list</code></td>
+<td>Issues, filtered by <code>search</code>, <code>state</code>, <code>label</code></td>
+</tr>
+<tr>
+<td><code>pr.view</code></td>
+<td>One pull request, optionally with comments</td>
+</tr>
+<tr>
+<td><code>pr.list</code></td>
+<td>Pull requests</td>
+</tr>
+<tr>
+<td><code>pr.diff</code></td>
+<td>The unified diff</td>
+</tr>
+<tr>
+<td><code>pr.checks</code></td>
+<td>CI check results; see <strong>Watching checks</strong> below</td>
+</tr>
+<tr>
+<td><code>pr.reviews</code></td>
+<td>Review threads; see <strong>Actionable reviews</strong> below</td>
+</tr>
+<tr>
+<td><code>search.issues</code>, <code>search.prs</code></td>
+<td>Search across repositories</td>
+</tr>
+<tr>
+<td><code>run.list</code></td>
+<td>Workflow runs</td>
+</tr>
+<tr>
+<td><code>label.list</code></td>
+<td>Labels</td>
+</tr>
+</tbody>
+</table>
+<p>List results <strong>exclude bodies</strong> and default to 30 items (maximum 100). A long
+list carrying full bodies is the fastest way to blow the response budget, and
+it is rarely what you wanted.</p>
+<h3>Writing</h3>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>issue.create</code>, <code>issue.comment</code>, <code>issue.close</code></td>
+<td>Create, comment, close</td>
+</tr>
+<tr>
+<td><code>issue.edit</code></td>
+<td>Title, body, labels, assignees, projects, milestone, <strong>type</strong></td>
+</tr>
+<tr>
+<td><code>pr.create</code>, <code>pr.comment</code>, <code>pr.edit</code>, <code>pr.ready</code></td>
+<td>Create, comment, edit, mark ready</td>
+</tr>
+<tr>
+<td><code>pr.resolve-thread</code></td>
+<td>Resolve a review thread</td>
+</tr>
+<tr>
+<td><code>label.create</code></td>
+<td>Create a label</td>
+</tr>
+</tbody>
+</table>
+<p>Write operations ask for confirmation before running, through the same
+mechanism as every other tool — so your normal allow rules and &quot;always allow&quot;
+choices apply.</p>
+<h3>Per-operation parameters</h3>
+<p>Every parameter an operation accepts is declared in the tool schema, so the
+model can see them in the function declaration rather than discovering them by
+trial and error. This table is the quick reference; the schema is the source of
+truth.</p>
+<table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Required</th>
+<th>Optional</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>issue.view</code></td>
+<td><code>number</code></td>
+<td><code>comments</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>issue.list</code></td>
+<td>—</td>
+<td><code>search</code>, <code>state</code>, <code>label</code>, <code>limit</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>issue.create</code></td>
+<td><code>title</code></td>
+<td><code>body</code>, <code>label</code>, <code>assignee</code>, <code>milestone</code>, <code>project</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>issue.comment</code></td>
+<td><code>number</code>, <code>body</code></td>
+<td><code>repo</code></td>
+</tr>
+<tr>
+<td><code>issue.edit</code></td>
+<td><code>number</code></td>
+<td><code>title</code>, <code>body</code>, <code>addLabel</code>, <code>removeLabel</code>, <code>addAssignee</code>, <code>removeAssignee</code>, <code>addProject</code>, <code>removeProject</code>, <code>milestone</code>, <code>type</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>issue.close</code></td>
+<td><code>number</code></td>
+<td><code>reason</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.view</code></td>
+<td><code>number</code></td>
+<td><code>comments</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.list</code></td>
+<td>—</td>
+<td><code>state</code>, <code>limit</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.diff</code></td>
+<td><code>number</code></td>
+<td><code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.checks</code></td>
+<td><code>number</code></td>
+<td><code>repo</code>, <code>watch</code></td>
+</tr>
+<tr>
+<td><code>pr.reviews</code></td>
+<td><code>number</code></td>
+<td><code>actionable</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.create</code></td>
+<td><code>title</code></td>
+<td><code>body</code>, <code>base</code>, <code>head</code>, <code>draft</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.comment</code></td>
+<td><code>number</code>, <code>body</code></td>
+<td><code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.edit</code></td>
+<td><code>number</code></td>
+<td><code>title</code>, <code>body</code>, <code>addLabel</code>, <code>removeLabel</code>, <code>addAssignee</code>, <code>milestone</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.ready</code></td>
+<td><code>number</code></td>
+<td><code>repo</code></td>
+</tr>
+<tr>
+<td><code>pr.resolve-thread</code></td>
+<td><code>threadId</code></td>
+<td><code>repo</code></td>
+</tr>
+<tr>
+<td><code>search.issues</code></td>
+<td><code>query</code></td>
+<td><code>limit</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>search.prs</code></td>
+<td><code>query</code></td>
+<td><code>limit</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>run.list</code></td>
+<td>—</td>
+<td><code>limit</code>, <code>branch</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>label.list</code></td>
+<td>—</td>
+<td><code>limit</code>, <code>repo</code></td>
+</tr>
+<tr>
+<td><code>label.create</code></td>
+<td><code>name</code></td>
+<td><code>color</code>, <code>description</code>, <code>force</code>, <code>repo</code></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><code>number</code> and <code>limit</code> are positive integers (<code>limit</code> 1–100).</li>
+<li><code>state</code> is <code>open</code>, <code>closed</code>, <code>merged</code>, or <code>all</code>. The schema lists the full
+set, but a per-operation value rule is enforced before the call is made:
+<code>issue.list</code> only accepts <code>open</code>, <code>closed</code>, or <code>all</code> (<code>merged</code> is rejected),
+while <code>pr.list</code> accepts the full set including <code>merged</code>.</li>
+<li><code>reason</code> is <code>completed</code> or <code>&quot;not planned&quot;</code>.</li>
+<li><code>label</code>, <code>addLabel</code>, <code>removeLabel</code>, <code>assignee</code>, <code>addAssignee</code>, and
+<code>removeAssignee</code> are declared as arrays of strings in the tool schema (use a
+single-element array for one label or assignee). The broker still accepts a
+bare string for backwards compatibility, but the published contract is the
+array form.</li>
+<li>Every operation accepts an optional <code>repo</code> as <code>owner/name</code>.</li>
+</ul>
+<p>A missing required parameter, an unknown parameter, or an invalid value (such
+as <code>state: &quot;merged&quot;</code> on <code>issue.list</code>, or a non-integer <code>number</code>) is rejected
+before the call reaches GitHub, with a message that names the operation and
+lists what it accepts.</p>
+<h2>Actionable reviews</h2>
+<p><code>pr.reviews</code> with <code>actionable: true</code> omits threads that are already resolved or
+outdated, leaving only the comments that still need action. On a pull request
+with a long automated review summary, this is the difference between a wall of
+text and a short list.</p>
+<p>The thread <code>id</code> it returns is exactly what <code>pr.resolve-thread</code> accepts, so the
+two compose:</p>
+<pre><code class="language-jsonc">{ &quot;op&quot;: &quot;pr.reviews&quot;, &quot;number&quot;: 2317, &quot;actionable&quot;: true }
+// ... address a comment ...
+{ &quot;op&quot;: &quot;pr.resolve-thread&quot;, &quot;threadId&quot;: &quot;PRRT_kwDO...&quot; }
+</code></pre>
+<h2>Watching checks</h2>
+<p><code>pr.checks</code> with <code>watch: true</code> <strong>blocks</strong> until CI finishes and then returns the
+result. The host runs the polling loop, so the model does not need to poll and
+does not fight tool timeouts.</p>
+<p>Polling is every 10 seconds for the first 30 seconds, then every 30 seconds.
+Lint and format failures usually appear in the first minute, so the fast early
+phase surfaces the common failure quickly, while the slower steady state keeps
+API usage to roughly 2% of the hourly budget.</p>
+<p>The watch ends when no check is still pending — <strong>including when checks fail</strong>.
+It does not wait for red checks to turn green. Press Ctrl+C to cancel; the
+host-side poller stops immediately.</p>
+<h2>Issue types</h2>
+<p><code>gh issue edit</code> can set labels, assignees, projects and milestones, but it has
+no flag for issue type. <code>issue.edit</code> handles type as well, resolving the type
+name against those the repository defines:</p>
+<pre><code class="language-jsonc">{
+  &quot;op&quot;: &quot;issue.edit&quot;,
+  &quot;number&quot;: 1663,
+  &quot;type&quot;: &quot;Feature&quot;,
+  &quot;addLabel&quot;: [&quot;security&quot;],
+}
+</code></pre>
+<p>The name is matched case-insensitively. If the repository has no matching type,
+the operation fails and tells you which types exist — it does not silently
+succeed while leaving the type unset.</p>
+<h2>Authentication</h2>
+<p>The tool uses whatever credential <code>gh</code> already has on the host. If
+<code>gh auth status</code> works in your terminal, the tool works.</p>
+<p>LLxprt never reads, stores or copies that credential. It runs <code>gh</code>, and <code>gh</code>
+reads its own keyring entry.</p>
+<blockquote>
+<p><strong>Note on storing a token with <code>/key</code>:</strong> this is deliberately not supported.
+A stored token is a durable, high-value secret sitting behind the sandbox
+boundary, whereas host <code>gh</code> auth leaves nothing for the broker to hand out
+even if something else goes wrong. See <a href="../sandbox.html">Sandbox</a> for the
+reasoning.</p>
+</blockquote>
+<h2>Errors</h2>
+<table>
+<thead>
+<tr>
+<th>Code</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>NOT_FOUND</code></td>
+<td>No such issue, pull request or repository</td>
+</tr>
+<tr>
+<td><code>PERMISSION_DENIED</code></td>
+<td>The credential lacks access</td>
+</tr>
+<tr>
+<td><code>RATE_LIMITED</code></td>
+<td>GitHub rate limit hit; retry later</td>
+</tr>
+<tr>
+<td><code>HOST_AUTH_REQUIRED</code></td>
+<td><code>gh</code> is not authenticated on the host</td>
+</tr>
+<tr>
+<td><code>HOST_GH_UNAVAILABLE</code></td>
+<td><code>gh</code> is not installed on the host</td>
+</tr>
+<tr>
+<td><code>INVALID_PARAM</code></td>
+<td>A parameter was rejected before the call was made</td>
+</tr>
+<tr>
+<td><code>UNKNOWN_OP</code></td>
+<td>No such operation</td>
+</tr>
+</tbody>
+</table>
+<h2>Sandboxed vs. not</h2>
+<p>The tool behaves identically either way. Inside a sandbox the request travels to
+the host over the existing authenticated credential channel; outside one it runs
+in the same process. The operation set and the responses are the same, so there
+is no behaviour that only appears in one mode.</p>
+<p>Under Docker or Podman this is the <strong>only</strong> way to reach GitHub, because no
+credential exists in the container for <code>gh</code> to use.</p>
+<blockquote>
+<p><strong>Seatbelt is different.</strong> It runs on the host with your full keyring rather
+than isolating credentials, so <code>gh</code> there is already authenticated and the
+tool provides convenience and shaped output rather than a boundary. See
+<a href="../sandbox.html">Sandbox</a> for why Docker or Podman is recommended.</p>
+</blockquote>
+<h2>Transcript display</h2>
+<p>The transcript shows a human-readable summary per operation — for example,
+&quot;Commented on issue #438&quot; with the link, or &quot;Issue #1663 · open · Fix the
+thing&quot; — rather than a raw JSON blob. Read operations render their actual
+content as plain text: <code>pr.diff</code> shows the diff (capped at 200 lines),
+<code>issue.view</code> / <code>pr.view</code> show the body and each comment (bodies and comments
+are line-capped, with a &quot;… N more&quot; tail), and <code>pr.reviews</code> shows every comment
+in each thread. The model still receives the full shaped JSON (including every
+field, comment, and label) so it has the data it needs to act; only what is
+<em>displayed</em> to you is condensed.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

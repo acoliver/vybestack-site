@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Memory Profiling | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Memory Profiling</h1>
+<p>LLxprt Code ships with opt-in tooling to investigate long-running session memory growth. It records JavaScriptCore (JSC) heap samples while a session runs and can analyze full heap snapshots — all through a portable file-based channel that works on macOS, Linux, and Windows without signals, TCP ports, or shell commands.</p>
+<p>The tooling is Bun-only. An installed <code>llxprt</code> command uses its packaged Bun runtime. A source-checkout command uses the current Bun executable (<code>process.execPath</code>). Both preload the same probe implementation.</p>
+<h2>Profile an installed command</h2>
+<p>Use the ordinary installed command with an exact profile activation flag:</p>
+<pre><code class="language-bash">llxprt --memprofile [llxprt args...]
+llxprt --memprofile=15000 [llxprt args...]
+llxprt --memprofile --memprofile-dir &lt;run-dir&gt; [llxprt args...]
+llxprt --memprofile --memprofile-snapshots --memprofile-max-heap-mb 256 [llxprt args...]
+</code></pre>
+<p><code>--memprofile=&lt;interval-ms&gt;</code> sets the sampling interval. The other profile controls select a run directory, arm snapshots, and set the snapshot heap guard. They are consumed only when the arguments contain the exact <code>--memprofile</code> or <code>--memprofile=&lt;interval-ms&gt;</code> activation. Similar names such as <code>--memprofiled</code>, and profile-control arguments without activation, remain ordinary LLxprt arguments. Non-profile LLxprt arguments retain their original order. Installed profile activation and controls are recognized only before the first user <code>--</code>; that boundary and every following argument are passed literally to LLxprt.</p>
+<p>Installed runs write under the platform application-data directory's <code>memprofile/</code> child by default. <code>LLXPRT_DATA_HOME</code> overrides the application-data directory, and <code>LLXPRT_CONFIG_HOME</code> remains its backward-compatible fallback. An explicit <code>--memprofile-dir</code> selects the complete run directory instead. The launcher prints the selected path when it starts.</p>
+<p>The installed utilities use the same packaged profiler implementation:</p>
+<pre><code class="language-bash">llxprt memprofile request [--heap] [--dir &lt;run&gt;] [--wait]
+llxprt memprofile report [&lt;samples-path-or-run-dir&gt;]
+llxprt memprofile analyze &lt;snapshot&gt; [--top &lt;n&gt;] [--min-mb &lt;n&gt;]
+</code></pre>
+<p>The published Node shim preserves normal argument handling, inherited stdio, signals, child exit status, and the sandbox capability descriptor while adding the profiler supervisor. A missing profiler bundle is treated as a corrupt installation and fails with the launcher failure status instead of falling back to repository scripts.</p>
+<h2>Start a source-checkout profiled session</h2>
+<pre><code class="language-bash">npm run mem:profile -- [memprofile options] -- [llxprt args...]
+</code></pre>
+<p>This is <code>scripts/start.ts</code> plus a <code>--preload scripts/memory/probe-preload.ts</code>. LLxprt runs exactly as in normal development; the probe samples the JSC heap alongside it. Options:</p>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>--snapshots</code></td>
+<td>off</td>
+<td>Arm heap snapshots (see the safety warning below)</td>
+</tr>
+<tr>
+<td><code>--interval &lt;ms&gt;</code></td>
+<td><code>15000</code></td>
+<td>Periodic sampling interval (positive integer)</td>
+</tr>
+<tr>
+<td><code>--max-heap-mb &lt;n&gt;</code></td>
+<td><code>256</code></td>
+<td>Conservative snapshot guard (heap ceiling before a snapshot is refused)</td>
+</tr>
+<tr>
+<td><code>--dir &lt;path&gt;</code></td>
+<td><code>.memprofile/&lt;timestamp&gt;</code></td>
+<td>Run directory</td>
+</tr>
+<tr>
+<td><code>-h</code>, <code>--help</code></td>
+<td></td>
+<td>Print usage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Argument boundary:</strong> <code>--</code> separates memprofile options from LLxprt arguments. Everything before <code>--</code> must be a recognized option (an unknown <code>--flag</code> fails fast with an error); everything after <code>--</code> is passed to LLxprt untouched. For example:</p>
+<pre><code class="language-bash">npm run mem:profile -- --snapshots -- --profile-load &lt;profile&gt;
+#                    ^^^^^^^^^ memprofile  ^ LLxprt args (after the second --)
+</code></pre>
+<p>(With <code>npm run</code>, the first <code>--</code> is consumed by npm itself; the second one is memprofile's boundary.)</p>
+<p>Option values are validated: a missing, flag-shaped, nonpositive, non-integer, nonfinite, or above-upper-bound <code>--interval</code>/<code>--max-heap-mb</code> value is rejected with a clear error rather than silently falling back to a default. The launcher also strips any inherited <code>--localstorage-file</code> variants from <code>NODE_OPTIONS</code> before adding exactly one launcher-owned value, so a parent shell cannot redirect the dev local-storage file twice.</p>
+<p>When the session exits, a growth report prints automatically (report-rendering failures print an error but never replace the child's own exit status). Each run writes to a timestamped directory under <code>.memprofile/</code>, and <code>.memprofile/latest</code> is published atomically (same-directory temp file + rename) to point at the most recent run. If the profiled session is terminated by a signal, the launcher exits nonzero so scripts and CI observe the abnormal termination.</p>
+<p>A custom <code>--dir</code> outside <code>.memprofile/</code> is allowed for legitimate external locations, but the launcher prints a prominent warning: run artifacts can contain sensitive data, and <code>.memprofile/</code>, <code>*.heapsnapshot</code>, and <code>*.heapsnapshot.tmp</code> are git-ignored by default — an external directory is your responsibility to exclude.</p>
+<p>Run directory layout:</p>
+<pre><code class="language-text">.memprofile/&lt;timestamp&gt;/
+  samples.jsonl   # newline-delimited JSC heap samples
+  probe.log       # probe diagnostics and snapshot/refusal notices
+  probe.lease     # liveness lease of the owning probe (see below)
+  requests/       # queued sample/snapshot request files
+  requests/done/  # completion markers for processed request ids
+  snapshots/      # .heapsnapshot files (only when snapshots are armed)
+  pid             # child pid, for information only
+</code></pre>
+<p>On POSIX systems the run directory is created with <code>0700</code> permissions and the probe's files (<code>samples.jsonl</code>, <code>probe.log</code>, snapshots) with <code>0600</code> (owner-only), because these artifacts can contain sensitive data. Directories and files <strong>reused from an earlier run are tightened</strong> to those modes as well, not merely created with them; a path that cannot be tightened fails fast rather than staying world-readable. On Windows, mode bits are not part of the security model and are not applied. Partial snapshot temporaries (<code>*.heapsnapshot.tmp</code>) are also git-ignored.</p>
+<h2>Run a profiled tmux workload</h2>
+<p>The tmux harness accepts an arbitrary <code>startCommand</code>, including the source profiler launcher. <code>${bun}</code> resolves to the harness's Bun executable, and <code>LLXPRT_TMUX_ARTIFACT_DIR</code> gives the launched command an isolated artifact directory. See <code>scripts/tmux-script.issue3386-memory-retention.fake.json</code> for a complete no-network example with fixed terminal dimensions, manual forced-GC checkpoints, <code>/clear</code>, and a clean exit.</p>
+<p>Run that scenario with:</p>
+<pre><code class="language-bash">bun scripts/tmux-harness.ts \
+  --script scripts/tmux-script.issue3386-memory-retention.fake.json \
+  --out-dir tmp/memory-profile-run \
+  --assert
+bun scripts/memory/report.ts tmp/memory-profile-run/memprofile
+</code></pre>
+<p>The example uses the fake provider and writes beneath the selected harness output directory. Use a unique ignored directory for each comparison, and keep the scenario unchanged between baseline and candidate runs.</p>
+<h2>Request a sample or snapshot from another terminal</h2>
+<pre><code class="language-bash">npm run mem:request                  # queue a sample
+npm run mem:request -- --heap        # queue a heap snapshot (requires --snapshots)
+npm run mem:request -- --dir &lt;run&gt;   # target a specific run directory
+npm run mem:request -- --wait        # wait for durable processing
+</code></pre>
+<p>This writes a JSON request file into the run's <code>requests/</code> directory. The probe's poller picks it up within its poll interval. By default, the command returns after queueing and reports where to inspect the probe log. <code>--wait</code> waits up to 30 seconds for the durable completion marker for that request. A marker can mean the probe processed a policy refusal, such as a snapshot request when snapshots are disabled, so inspect <code>probe.log</code> for the result. Unknown options and missing or invalid values fail fast with an error.</p>
+<p><strong>Only live runs accept requests.</strong> The request CLI checks the run directory's lease: if no probe holds a fresh lease (the session exited, crashed, or never started), queueing is refused with an actionable error instead of silently writing a request that nothing will ever process.</p>
+<h3>Probe lease (liveness ownership)</h3>
+<p>Each probe owns a <code>probe.lease</code> file in its run directory: a small JSON record (owner token, pid, heartbeat timestamp) refreshed on every poll tick and released on normal exit. The lease is what makes request routing portable — no signals, <code>process.kill</code>, <code>pgrep</code>, sockets, or shell commands are involved, only atomic file operations:</p>
+<ul>
+<li>A second probe cannot take over a run directory whose lease is fresh, so a live probe's in-flight claims are never treated as orphaned by a competitor.</li>
+<li>A lease whose heartbeat is more than ten minutes old is stale (the threshold deliberately exceeds any single synchronous snapshot), after which a new probe may recover the directory and its orphaned requests.</li>
+<li>The request CLI refuses to queue into runs whose lease is missing, stale, or malformed.</li>
+</ul>
+<h3>Exactly-once processing across restarts</h3>
+<p>Request processing is durable and effectively exactly-once: if the profiled process dies mid-request, the surviving claim file is recovered on the next startup. Side effects are keyed by request ID and idempotent, so re-running them after an interruption is safe:</p>
+<ul>
+<li><strong>Samples</strong> requested via <code>mem:request</code> carry the request ID in <code>samples.jsonl</code>; recovery detects an already-published sample by request ID and acknowledges it instead of duplicating it.</li>
+<li><strong>Snapshots</strong> are written to a per-attempt temporary file (request key + pid + timestamp, so two attempts never collide) and atomically published as <code>snap-&lt;request-id&gt;.heapsnapshot</code> — a partial snapshot is never mistaken for completion, and a request whose final file already exists is acknowledged rather than re-written. A crashed attempt's stale temp is removed on retry.</li>
+<li>A completion marker (<code>requests/done/&lt;id&gt;</code>) records finished requests; recovery removes orphaned claims without doubling side effects.</li>
+</ul>
+<p>Claim deletion follows durability rules: a claim is removed only when the request is invalid or <strong>durably completed</strong>. After an operational failure (dispatch, publish, or done-marker write), the <code>.claimed</code> file is kept so a restarted process retries it — work is neither duplicated nor silently lost. Recovery of an already-claimed request validates its shape but not staleness: it was accepted when claimed, so an old claim is re-run rather than dropped. Pending (unclaimed) requests still enforce staleness so leftover files cannot loop forever.</p>
+<h2>View a growth report</h2>
+<pre><code class="language-bash">npm run mem:report                  # most recent run
+npm run mem:report -- &lt;path|dir&gt;    # a specific samples.jsonl or run directory
+</code></pre>
+<p>The report shows the heap/RSS trend over the session and lists object classes whose counts grew. The per-class delta is the diagnostic signal: a class that climbs turn over turn is a retention candidate to investigate. The report presents observed growth only — it does <strong>not</strong> attribute any single class to a specific owner, because the same histogram entry can be retained by unrelated code. When no comparable type increased, the report states exactly that measured fact; it never claims the object graph is &quot;flat&quot;.</p>
+<p>Each sample retains only the top 25 object types, so a type absent from the histogram is <strong>inconclusive</strong>, not evidence of zero growth: the report says so explicitly rather than reporting growth from an unknown baseline. <code>heapSize</code> and <code>extraMemorySize</code> are reported separately and never summed, because <code>extraMemorySize</code> already overlaps <code>heapSize</code> for natively-held data; likewise <code>protectedObjectCount</code> is a neutral counter of natively protected references, not an ownership claim. CLI usage errors print usage and exit 2; runtime errors (a missing samples file, an unreadable path) print a one-line error and exit 1. Corrupt JSONL lines are skipped rather than aborting the report.</p>
+<h2>Analyze a heap snapshot</h2>
+<pre><code class="language-bash">npm run mem:analyze -- &lt;file.heapsnapshot&gt; [--top 25] [--min-mb 1]
+</code></pre>
+<p>The analyzer reports what is in the heap (aggregate <code>self_size</code> by type/name) and who is holding it: for each large object it builds a retainer path over strong edges from the snapshot root by breadth-first search, so the path shown is the shortest strong retainer chain regardless of edge order. Cycles terminate correctly. Weak edges are excluded, because a weak reference does not keep an object alive — reachability through a weak edge alone is not proof of retention.</p>
+<p>Every retainer path carries an explicit proof status:</p>
+<ul>
+<li><strong>proven</strong> — the breadth-first search reached the snapshot root; the emitted chain is a genuine root-to-object path.</li>
+<li><strong>truncated</strong> — the path was cut by the depth budget before reaching the root; it shows the closest proven fragment and never implies full proof.</li>
+<li><strong>unreachable</strong> — no strong retainer was found at all (a GC root itself, or held only through weak edges).</li>
+</ul>
+<p>Snapshot structure is validated strictly before analysis (node/edge counts against array lengths and strides, edge offsets, type enum and string-table bounds); a malformed file is rejected with an actionable <code>SnapshotFormatError</code> rather than producing misleading numbers. Invalid arguments (unknown options, nonpositive/non-integer <code>--top</code>, nonpositive <code>--min-mb</code>) fail fast with usage and exit 2; runtime errors exit 1.</p>
+<p>Analyzing a snapshot also requires memory headroom. The analyzer holds the snapshot text and parsed graph structures at the same time, so peak memory can be several times the snapshot file size. Analyze large snapshots on a machine with enough free memory.</p>
+<p><strong>Important limitations:</strong></p>
+<ul>
+<li>The analyzer reports <code>self_size</code>, <strong>not retained size</strong>. A container (array, closure, map) has a small <code>self_size</code> while retaining far more memory, so the retainer chains matter more than the size table.</li>
+<li>Each object shows one strong retainer path (the shortest), not the full set of retainers.</li>
+<li>The analyzer is general-purpose and makes no assumption about the host application's object graph.</li>
+</ul>
+<h2>Snapshot safety</h2>
+<p>Heap snapshots are <strong>synchronous</strong>: <code>writeHeapSnapshot</code> blocks the target process and can consume substantially more transient memory than the live heap. The default guard refuses a snapshot unless the live JSC heap is under <code>--max-heap-mb</code> (256 MiB by default, uniform across platforms).</p>
+<ul>
+<li><strong>Do not snapshot a process that has already blown out.</strong> A snapshot of a multi-gigabyte heap can demand many times that in transient memory.</li>
+<li>Leave snapshots off for day-to-day tracking. Periodic sampling plus the per-class delta is usually enough.</li>
+<li>The 256 MiB default is conservative. The transient cost of <code>writeHeapSnapshot</code> varies by platform; raise the guard only when you have confirmed you have the headroom.</li>
+</ul>
+<p>Snapshots are strictly opt-in. The launcher always writes an explicit <code>LLXPRT_MEM_SNAPSHOT</code> value (<code>1</code> only with <code>--snapshots</code>, otherwise <code>0</code>), so a value inherited from a parent environment cannot re-arm them behind your back.</p>
+<h2>Privacy and security</h2>
+<p>Samples, reports, and <code>.heapsnapshot</code> files can capture <strong>source code, full prompts, prior input, tool output, provider data, and credentials</strong>.</p>
+<ul>
+<li><strong>Never commit or upload</strong> these artifacts. Source-checkout <code>.memprofile/</code>, <code>*.heapsnapshot</code>, and snapshot temporaries (<code>*.heapsnapshot.tmp</code>) are in <code>.gitignore</code>. Installed runs default to the platform application-data directory, outside the repository. If you select a custom directory, protect it deliberately and exclude it from version control yourself; the launcher warns about custom paths.</li>
+<li>On POSIX, the tooling creates its directories <code>0700</code> and files <code>0600</code> (owner-only), and <strong>tightens reused directories/files to those modes</strong>, to limit local exposure.</li>
+<li>The tooling <strong>never inspects or uploads</strong> captures automatically. Heap snapshots are analyzed locally and only when you explicitly point <code>mem:analyze</code> at a file.</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -165,7 +168,7 @@
 </tr>
 </tbody>
 </table>
-<p>The shell tool is the only tool that can reach <strong>outside your workspace</strong>. All file system tools are constrained to the workspace directory. This is why <a href="../sandbox.html">sandboxing</a> matters — the shell tool can install packages, modify system files, or do anything your user account can do.</p>
+<p>The shell tool is the only tool that can reach <strong>outside your workspace</strong>. All file system tools are constrained to the workspace directory. This is why <a href="../sandbox.html">sandboxing</a> matters — the shell tool can install packages, modify system files, or do anything your user account can do. The <code>is_background</code> parameter launches managed background jobs — see the <a href="./shell.html">shell tool reference</a> for platform-specific details.</p>
 <h3>Web</h3>
 <table>
 <thead>
@@ -189,6 +192,40 @@
 </tr>
 </tbody>
 </table>
+<h3>Images</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>generate_image</code></td>
+<td>Generate or edit an image (Codex-backed, any provider)</td>
+</tr>
+</tbody>
+</table>
+<p>Image generation runs on your Codex account and is independent of the provider
+you are chatting with. See <a href="./image-generation.html">Image Generation</a>.</p>
+<h3>GitHub</h3>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>What It Does</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>github</code></td>
+<td>Work with issues, pull requests, checks and labels</td>
+</tr>
+</tbody>
+</table>
+<p>Runs on the host, so no GitHub credential is needed inside a sandbox. See
+<a href="./github.html">GitHub</a>.</p>
 <h3>Memory and Context</h3>
 <table>
 <thead>
@@ -278,6 +315,8 @@
 </ul>
 <h2>Related</h2>
 <ul>
+<li><a href="./github.html">GitHub</a> — issues, pull requests and checks without a token in the sandbox</li>
+<li><a href="./image-generation.html">Image Generation</a> — generate or edit images (Codex-backed, any provider)</li>
 <li><a href="./mcp-server.html">MCP Servers</a> — adding third-party tools</li>
 <li><a href="./memory.html">Memory</a> — how long-term memory works</li>
 <li><a href="../sandbox.html">Sandboxing</a> — running in a container</li>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Token Usage Log | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Token Usage Log</h1>
+<p>LLxprt Code writes a per-session JSONL file that records token usage for every
+turn and significant lifecycle event. You can use this file to analyze token
+consumption, audit cost, and correlate spending with specific conversation
+turns.</p>
+<h2>Where the file lives</h2>
+<pre><code class="language-text">&lt;projectTempDir&gt;/token-usage/&lt;sessionId&gt;.jsonl
+</code></pre>
+<p>The <code>&lt;projectTempDir&gt;</code> is the <code>.llxprt/tmp</code> directory for the current project
+(see <a href="./reference/application-directories.html">Application Directories</a>). The
+<code>&lt;sessionId&gt;</code> is the unique session identifier (for example
+<code>a1b2c3d4-e5f6-...</code>). Each line in the file is a self-contained JSON object.</p>
+<h3>Enabling and disabling</h3>
+<p>Token usage logging is controlled by the <code>token-usage-log</code> setting.</p>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Scope</strong></td>
+<td>Per-profile or global settings</td>
+</tr>
+<tr>
+<td><strong>Persistence</strong></td>
+<td>Persists to <code>settings.json</code></td>
+</tr>
+<tr>
+<td><strong>Default</strong></td>
+<td><code>true</code> (enabled)</td>
+</tr>
+<tr>
+<td><strong>Valid values</strong></td>
+<td><code>true</code>, <code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>To disable logging, add the following to your
+<a href="./reference/application-directories.html">user settings</a> or workspace
+<code>.llxprt/settings.json</code>:</p>
+<pre><code class="language-json">{
+  &quot;token-usage-log&quot;: false
+}
+</code></pre>
+<p>When disabled, no file is created and no records are written.</p>
+<h2>Record types</h2>
+<p>Every record carries a <code>record_type</code> discriminator and a <code>schema_version</code>.
+Records written before schema versioning (no <code>schema_version</code> and no
+<code>record_type</code>) are read back as version <code>0</code> turn records, so existing files
+remain readable.</p>
+<table>
+<thead>
+<tr>
+<th><code>record_type</code></th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>turn</code></td>
+<td>One billed API request within a conversation turn</td>
+</tr>
+<tr>
+<td><code>compression</code></td>
+<td>A context-compression event that reduced the token count</td>
+</tr>
+<tr>
+<td><code>provider_switch</code></td>
+<td>A different provider began serving the session</td>
+</tr>
+<tr>
+<td><code>model_switch</code></td>
+<td>A different model began serving the session</td>
+</tr>
+<tr>
+<td><code>session_resume</code></td>
+<td>Reserved for session resume events</td>
+</tr>
+<tr>
+<td><code>context_truncation</code></td>
+<td>Reserved for context truncation events</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Note:</strong> <code>session_resume</code> and <code>context_truncation</code> are defined in the schema
+and their serialization is fully tested, but they are not emitted from
+production code. See <a href="#lifecycle-records">Lifecycle records</a> for why.</p>
+</blockquote>
+<h2>Turn record fields</h2>
+<p>Each <code>turn</code> record captures the token economics of a single billed API request.
+Fields are grouped by purpose.</p>
+<h3>Identity and join keys</h3>
+<p>These fields let you connect a token-usage record to the corresponding turn in
+the conversation log.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prompt_id</code></td>
+<td>string</td>
+<td>Unique identifier for the prompt that initiated this turn. Joins to <code>metadata.promptId</code> on the recorded conversation content.</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td>string</td>
+<td>The session identifier. Matches the filename.</td>
+</tr>
+<tr>
+<td><code>turn_id</code></td>
+<td>string | null</td>
+<td>Stable identifier for the turn this request served. Minted before the request is sent and stamped on the persisted turn, so the two always agree.</td>
+</tr>
+<tr>
+<td><code>user_turn</code></td>
+<td>number | null</td>
+<td>User-turn index of the conversation state this request was built from — the newest turn already in history, <strong>not</strong> the turn being sent. <code>null</code> on the first request of a session. See the caution below.</td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td>number | null</td>
+<td>Step index within that same prior user turn. Same caveat as <code>user_turn</code>.</td>
+</tr>
+<tr>
+<td><code>runtime_id</code></td>
+<td>string</td>
+<td>The runtime identifier for the agent that served this request.</td>
+</tr>
+<tr>
+<td><code>parent_runtime_id</code></td>
+<td>string | null</td>
+<td>The parent runtime's identifier for subagent requests; <code>null</code> for the main agent.</td>
+</tr>
+<tr>
+<td><code>subagent_name</code></td>
+<td>string | null</td>
+<td>The subagent name; <code>null</code> for the main agent.</td>
+</tr>
+</tbody>
+</table>
+<h3>Estimator and calibration</h3>
+<p>The 13 fields below, together with <code>ts</code>, <code>prompt_id</code>, <code>provider</code> and <code>model</code>
+from the identity section above, are the original 17 token-estimation columns.
+Their names and meanings are stable and will not change.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>estimated_tokens</code></td>
+<td>number</td>
+<td>The pre-send token estimate from the configured estimator.</td>
+</tr>
+<tr>
+<td><code>estimator</code></td>
+<td>string</td>
+<td>Which estimator was used (<code>openai-tiktoken</code>, <code>anthropic-char</code>, <code>core-fallback</code>).</td>
+</tr>
+<tr>
+<td><code>estimator_method</code></td>
+<td>string</td>
+<td>Estimation method (<code>exact</code> or <code>calibrated</code>). Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>estimator_family</code></td>
+<td>string</td>
+<td>Model family the estimator is calibrated for. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>estimator_version</code></td>
+<td>string</td>
+<td>Estimator asset version. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>asset_revision</code></td>
+<td>string</td>
+<td>Calibration asset revision. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>projection_revision</code></td>
+<td>number</td>
+<td>Projection revision number. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>protocol</code></td>
+<td>string</td>
+<td>Provider protocol (for example <code>openai-chat</code>). Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>tiktoken_tokens</code></td>
+<td>number | null</td>
+<td>The tiktoken-based token count measured at send time. <code>null</code> when tiktoken was not available.</td>
+</tr>
+<tr>
+<td><code>tiktoken_estimation_failed</code></td>
+<td>boolean</td>
+<td>Whether the tiktoken measurement failed.</td>
+</tr>
+<tr>
+<td><code>actual_prompt_tokens</code></td>
+<td>number</td>
+<td>The actual prompt token count reported by the provider.</td>
+</tr>
+<tr>
+<td><code>cached_tokens</code></td>
+<td>number</td>
+<td>The cached token count reported by the provider (legacy name, retained for compatibility).</td>
+</tr>
+<tr>
+<td><code>effective_actual_tokens</code></td>
+<td>number</td>
+<td><code>actual_prompt_tokens - cached_tokens</code>, clamped to a minimum of 0.</td>
+</tr>
+</tbody>
+</table>
+<h3>Cost</h3>
+<p>These fields are present only when the provider reports them. Fields the
+provider does not report are omitted — zero and &quot;not reported&quot; are
+distinguishable.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>output_tokens</code></td>
+<td>number</td>
+<td>Output (completion) tokens billed.</td>
+</tr>
+<tr>
+<td><code>reasoning_tokens</code></td>
+<td>number</td>
+<td>Reasoning/thinking tokens billed.</td>
+</tr>
+<tr>
+<td><code>cache_write_tokens</code></td>
+<td>number</td>
+<td>Tokens written to the provider cache on this request.</td>
+</tr>
+<tr>
+<td><code>cache_read_tokens</code></td>
+<td>number</td>
+<td>Tokens read from the provider cache on this request.</td>
+</tr>
+<tr>
+<td><code>tool_tokens</code></td>
+<td>number</td>
+<td>Tool-related tokens billed by the provider.</td>
+</tr>
+<tr>
+<td><code>total_tokens</code></td>
+<td>number</td>
+<td>Total tokens for this request as reported by the provider.</td>
+</tr>
+</tbody>
+</table>
+<h3>Attempt</h3>
+<p>A single logical turn can produce multiple billed attempts (retries). Each
+attempt gets its own record.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>attempt_index</code></td>
+<td>number</td>
+<td>0-based index within the logical turn.</td>
+</tr>
+<tr>
+<td><code>attempt_outcome</code></td>
+<td>string</td>
+<td><code>success</code>, <code>error</code>, <code>aborted</code>, or <code>abandoned</code>.</td>
+</tr>
+<tr>
+<td><code>retry_reason</code></td>
+<td>string</td>
+<td>Why a retry was triggered, when known. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>http_status</code></td>
+<td>number</td>
+<td>HTTP status code from the response, when available. Omitted when not applicable.</td>
+</tr>
+<tr>
+<td><code>backend_profile</code></td>
+<td>string</td>
+<td>The load-balancer sub-profile that served this request. Omitted when not applicable.</td>
+</tr>
+</tbody>
+</table>
+<h3>Tool attribution</h3>
+<p>These fields attribute token cost to tool results present in the request.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>tool_calls</code></td>
+<td>array</td>
+<td>One entry per tool result in this request: <code>{ call_id, tool_name, result_tokens, was_truncated }</code>. Only identifiers and counts — never the result body or arguments.</td>
+</tr>
+<tr>
+<td><code>new_tool_result_tokens</code></td>
+<td>number</td>
+<td>Total tokens from tool results entering the prompt for the first time on this send.</td>
+</tr>
+<tr>
+<td><code>carried_tool_result_tokens</code></td>
+<td>number</td>
+<td>Total tokens from tool results already present in a previous send.</td>
+</tr>
+</tbody>
+</table>
+<h3>Request shape</h3>
+<p>These fields describe the composition of the request prefix, measured at the
+agents-layer send seam.</p>
+<p>These are real token counts, produced by the same tiktoken-based estimator the
+rest of the codebase uses — not character approximations. Each content is
+tokenized once per session rather than once per request: measurements are cached
+by the stable content id, falling back to the tool <code>call_id</code> for tool results
+(whose content id the history pipeline does not preserve). A tool result carried
+across sixty turns is therefore measured once, not sixty times.</p>
+<p>Two caveats worth knowing:</p>
+<ul>
+<li>They are <strong>local estimates, not provider billing</strong>. Use <code>actual_prompt_tokens</code>
+for what you were actually charged; the buckets exist to apportion it.</li>
+<li>They will not sum exactly to <code>actual_prompt_tokens</code>, because providers add
+their own wire framing and because the estimator is not the provider's
+tokenizer. Treat the split as attribution, not reconciliation.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>instructions_tokens</code></td>
+<td>number</td>
+<td>Token count of the system instruction.</td>
+</tr>
+<tr>
+<td><code>tools_schema_tokens</code></td>
+<td>number</td>
+<td>Token count of the tool schemas.</td>
+</tr>
+<tr>
+<td><code>history_tokens</code></td>
+<td>number</td>
+<td>Token count of the conversation history, including tool calls and tool results (which are conversation, not injections). Excludes media and injected content.</td>
+</tr>
+<tr>
+<td><code>media_tokens</code></td>
+<td>number</td>
+<td>Token count of media blocks (images, audio).</td>
+</tr>
+<tr>
+<td><code>injected_tokens</code></td>
+<td>number</td>
+<td>Token count of genuinely injected content — synthetic content that carries no tool or media blocks. Note that <code>metadata.synthetic</code> alone is not the test: the provider pipeline stamps it on tool turns it merely re-ordered, so buckets are decided structurally first (media, then tool, then synthetic).</td>
+</tr>
+<tr>
+<td><code>prefix_fingerprint</code></td>
+<td>string</td>
+<td>First 16 hex characters of the SHA-256 of a stable serialization of the request prefix: the instructions and tool schemas in full, then the leading history identified by content id. Bounded on purpose — the prefix is the part a provider can cache, so a change there breaks the cache while a change at the tail cannot. Detects the changes that defeat caching (edited instructions, changed tool schemas, a head rewritten by compression, reordered or dropped turns). See the privacy section for what this does and does not guarantee.</td>
+</tr>
+<tr>
+<td><code>prefix_fingerprint_changed</code></td>
+<td>boolean | null</td>
+<td>Whether the fingerprint differs from the previous send in the same session. <code>null</code> on the first send.</td>
+</tr>
+</tbody>
+</table>
+<h2>Lifecycle records</h2>
+<p>Beyond <code>turn</code> records, the log carries typed lifecycle records that mark
+discontinuities in the token burn curve. Each carries <code>session_id</code> and, when
+known, <code>turn_id</code>.</p>
+<h3>Compression</h3>
+<p>Emitted once per completed compression. Without this record, a compression
+appears as an unexplained drop in the token count.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>record_type</code></td>
+<td><code>&quot;compression&quot;</code></td>
+<td>Discriminator.</td>
+</tr>
+<tr>
+<td><code>schema_version</code></td>
+<td>number</td>
+<td>Schema version.</td>
+</tr>
+<tr>
+<td><code>ts</code></td>
+<td>string</td>
+<td>ISO timestamp.</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td>string</td>
+<td>Session identifier.</td>
+</tr>
+<tr>
+<td><code>turn_id</code></td>
+<td>string | null</td>
+<td>Turn identifier at compression time, when known.</td>
+</tr>
+<tr>
+<td><code>tokens_before</code></td>
+<td>number</td>
+<td>Total token count before compression.</td>
+</tr>
+<tr>
+<td><code>tokens_after</code></td>
+<td>number</td>
+<td>Total token count after compression.</td>
+</tr>
+<tr>
+<td><code>compression_model</code></td>
+<td>string | null</td>
+<td>The model that served the compression.</td>
+</tr>
+<tr>
+<td><code>compression_provider</code></td>
+<td>string | null</td>
+<td>The provider that served the compression.</td>
+</tr>
+<tr>
+<td><code>compression_prompt_tokens</code></td>
+<td>number</td>
+<td>The compression call's own prompt token usage. Omitted when not reported.</td>
+</tr>
+<tr>
+<td><code>compression_output_tokens</code></td>
+<td>number</td>
+<td>The compression call's own output token usage. Omitted when not reported.</td>
+</tr>
+</tbody>
+</table>
+<h3>Provider switch and model switch</h3>
+<p>A switch is recorded by <strong>observing which provider and model actually served
+each request</strong>, not by watching the settings mutation that requested the change.
+The settings layer that initiates a switch has no path to the per-session
+logger, and observation at the send seam records the change that actually
+affected billing — which is the question this log exists to answer.</p>
+<p>A provider change is written as <code>provider_switch</code> (it necessarily carries a
+model change too); a model change under the same provider is written as
+<code>model_switch</code>. Each switch is written once, not once per subsequent request,
+and the first request of a session is never a switch.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>from_provider</code> / <code>to_provider</code></td>
+<td>Provider before and after the switch</td>
+</tr>
+<tr>
+<td><code>from_model</code> / <code>to_model</code></td>
+<td>Model before and after the switch</td>
+</tr>
+<tr>
+<td><code>provider</code></td>
+<td>On <code>model_switch</code>, the unchanged provider</td>
+</tr>
+</tbody>
+</table>
+<h3>Session resume and context truncation</h3>
+<p>These record types are defined in the schema and their serialization and
+round-trip parsing are fully tested, but they are <strong>not currently emitted</strong> from
+production code:</p>
+<ul>
+<li>
+<p><strong><code>session_resume</code></strong>: Session resume flows through the session-control layer,
+which restores history without touching the token-usage logger. Reaching the
+logger would require threading it through the client contract across package
+boundaries.</p>
+</li>
+<li>
+<p><strong><code>context_truncation</code></strong>: In LLxprt Code, context truncation is performed by
+the compression pipeline (the <code>top-down-truncation</code> fallback strategy). It is
+already captured by the <code>compression</code> record. Emitting a separate
+<code>context_truncation</code> record would duplicate the same event.</p>
+</li>
+</ul>
+<p>When these records are wired in the future, their schemas will not change.</p>
+<h2>Joining to conversation turns</h2>
+<p>The token-usage log and the conversation log live in the same project temp
+directory but in different subdirectories:</p>
+<pre><code class="language-text">&lt;projectTempDir&gt;/token-usage/&lt;sessionId&gt;.jsonl   ← token usage
+&lt;projectTempDir&gt;/chats/session-&lt;timestamp&gt;-&lt;prefix&gt;.jsonl  ← conversation
+</code></pre>
+<p>The conversation filename embeds only the first 12 characters of the session id,
+so to go from a token-usage record to its recording: match that prefix against
+<code>session_id</code>, then confirm the file's <code>session_start</code> record has
+<code>payload.sessionId</code> equal to the full <code>session_id</code>.</p>
+<h3>Join keys</h3>
+<table>
+<thead>
+<tr>
+<th>Token-usage field</th>
+<th>Conversation content field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prompt_id</code></td>
+<td><code>metadata.promptId</code></td>
+<td>Links a billed request to the turn it served</td>
+</tr>
+<tr>
+<td><code>turn_id</code></td>
+<td><code>metadata.turnId</code></td>
+<td>Links to the stable turn identifier</td>
+</tr>
+<tr>
+<td><code>session_id</code></td>
+<td>filename prefix, confirmed against <code>session_start.payload.sessionId</code></td>
+<td>Scopes both streams to one session</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Caution:</strong> join on <code>prompt_id</code> or <code>turn_id</code>. Do <strong>not</strong> join on
+<code>user_turn</code>/<code>step</code>. The token-usage record is written before the turn it
+describes reaches history, so those two fields describe the conversation
+state the request was <em>built from</em> — the preceding turn — rather than the
+turn being billed. They are useful for ordering and for seeing how much
+conversation preceded a request; they are not a turn identity.</p>
+</blockquote>
+<h3>Worked example</h3>
+<p>Suppose the token-usage file contains:</p>
+<pre><code class="language-json">{&quot;record_type&quot;:&quot;turn&quot;,&quot;prompt_id&quot;:&quot;p-abc123&quot;,&quot;session_id&quot;:&quot;sess-001&quot;,&quot;turn_id&quot;:&quot;t-42&quot;,&quot;user_turn&quot;:3,&quot;step&quot;:1,&quot;estimated_tokens&quot;:1200,&quot;actual_prompt_tokens&quot;:1150,...}
+</code></pre>
+<p>To find the corresponding turn in the conversation log:</p>
+<ol>
+<li>Open the <code>session-*.jsonl</code> file in <code>&lt;projectTempDir&gt;/chats/</code> for session
+<code>sess-001</code>.</li>
+<li>Search for a content entry where <code>metadata.promptId === &quot;p-abc123&quot;</code>.</li>
+<li>Alternatively, search for a content entry where
+<code>metadata.turnId === &quot;t-42&quot;</code>. Both keys resolve to the same turn.</li>
+</ol>
+<p>To go the other direction — from a conversation turn to its cost:</p>
+<ol>
+<li>Read the <code>metadata.promptId</code> from the conversation content entry.</li>
+<li>Search the token-usage file for the matching <code>prompt_id</code>.</li>
+</ol>
+<h2>Schema versioning</h2>
+<table>
+<thead>
+<tr>
+<th><code>schema_version</code></th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>Pre-versioning records. No <code>schema_version</code> or <code>record_type</code> field was written. The reader normalizes these to <code>schema_version: 0</code>, <code>record_type: &quot;turn&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>1</code></td>
+<td>Current schema. Every record carries <code>schema_version: 1</code> and a <code>record_type</code> discriminator.</td>
+</tr>
+</tbody>
+</table>
+<p>The tolerant reader (<code>parseTokenUsageLogRecord</code>) accepts records with or without
+versioning. A record with neither <code>schema_version</code> nor <code>record_type</code> is treated
+as a version-0 turn record. This ensures existing log files remain readable
+after an upgrade.</p>
+<h2>Privacy posture</h2>
+<p>The token-usage log contains <strong>counts, identifiers, and hashes only</strong>. It
+explicitly does <strong>not</strong> contain:</p>
+<ul>
+<li>Prompt text or user messages</li>
+<li>Model output or AI responses</li>
+<li>Tool arguments or parameters</li>
+<li>Tool result bodies</li>
+</ul>
+<p>The <code>prefix_fingerprint</code> field is the first 16 hex characters of the SHA-256 of
+a stable serialization of the system instruction, tool schemas and conversation
+history. It exists solely to detect when the request prefix changes between
+sends.</p>
+<p>It stores no prompt content, and SHA-256 is not invertible. It is <strong>not</strong> a
+confidentiality guarantee: anyone who can guess a candidate prefix can hash it
+and compare, so a low-entropy or already-known prefix can be confirmed. Treat a
+fingerprint as an equality token for prefixes you already hold, not as a secret
+about prefixes you do not. Truncation to 64 bits also makes collisions possible
+in a large enough corpus.</p>
+<h3>Fields deliberately not populated</h3>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>prompt_cache_key</code></td>
+<td>Declared in the schema but <strong>never written</strong> today. The key is derived and sanitized inside the provider executors, below the seam that writes this log, so a value produced here could differ from the one actually sent. Recording the real key means surfacing it from the transport layer.</td>
+</tr>
+</tbody>
+</table>
+<h2>Future work</h2>
+<p>Consuming surfaces — such as a <code>/stats burn</code> CLI view or an offline
+cross-session analysis script — are planned as separate work. This document
+covers the data format and the join model that those surfaces will build on.</p>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

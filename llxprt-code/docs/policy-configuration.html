@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Policy Configuration Guide | LLxprt Code Docs</title>
+  <title>Policy Configuration | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -69,639 +72,698 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Policy Configuration Guide</h1>
-<h2>Overview</h2>
-<p>Policies control which tools can execute, which require user confirmation, and which are blocked. This guide covers the TOML policy file syntax, rule structure, and common use cases.</p>
-<h2>TOML Policy File Syntax</h2>
-<p>Policy files use TOML (Tom's Obvious, Minimal Language) format. Each file contains an array of rules:</p>
-<pre><code class="language-toml"># Comment describing this policy file
+            <h1>Policy Configuration</h1>
+<p>Policies decide what happens when the model asks to use a tool: the tool runs,
+you are asked to confirm, or the call is blocked. This page shows you how to
+change those decisions — first with the interactive policy manager, then by
+writing policy files yourself.</p>
+<p>If you want the concepts (tiers, approval modes, dangerous-command blocking)
+before the mechanics, read
+<a href="tool-permissions.html">Controlling Tool Execution</a> first.</p>
+<p><strong>Audience:</strong> anyone who wants a tool auto-approved, blocked, or gated
+differently than the defaults.</p>
+<p><strong>Prerequisites:</strong> none for the manager. Writing files by hand additionally
+needs a text editor and the location of your
+<a href="#where-rules-live">user policy directory</a>.</p>
+<h2>Quick start: change a rule with the policy manager</h2>
+<p>The manager is the shortest correct path. It writes the TOML for you, checks
+the priority and pattern you type, and applies the change without a restart.</p>
+<ol>
+<li>
+<p>Run <code>/policies menu</code>.</p>
+<p>The <strong>Policy Manager</strong> opens with your editable rules listed between two
+fixed entries:</p>
+<pre><code>Policy Manager
+Editable overrides (auto-saved.toml) apply immediately. Default &amp; system
+tiers are read-only.
 
-[[rule]]
-toolName = &quot;tool_name&quot;
-argsPattern = &quot;regex_pattern&quot;
-decision = &quot;allow&quot;
-priority = 2.1
-
-[[rule]]
-# Another rule...
+❯ [+] Add new rule
+  replace → allow [priority 100]
+  [i] View active stack
+  [x] Close
 </code></pre>
-<h2>Rule Structure</h2>
-<p>Each rule has four fields:</p>
-<h3>toolName (optional)</h3>
-<p>The name of the tool this rule applies to. If omitted or left undefined, the rule matches <strong>all tools</strong> (wildcard).</p>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml"># Match the 'edit' tool specifically
-toolName = &quot;edit&quot;
-
-# Match all tools (wildcard) - omit toolName field
-# No toolName = matches everything
-</code></pre>
-<p><strong>Built-in tool names:</strong></p>
-<ul>
-<li>Read-only: <code>glob</code>, <code>grep</code>, <code>ls</code>, <code>read_file</code>, <code>read_many_files</code>, <code>ripgrep</code>, <code>exa_web_search</code></li>
-<li>Write: <code>edit</code>, <code>write_file</code>, <code>shell</code>, <code>memory</code>, <code>direct_web_fetch</code></li>
-<li>Other: <code>task</code>, <code>write_todos</code>, <code>list_subagents</code>, <code>notebook_edit</code>, <code>slash_command</code>, <code>skill</code>, <code>mcp_tool</code></li>
-</ul>
-<p><strong>MCP tool names:</strong></p>
-<ul>
-<li>Format: <code>serverName__toolName</code></li>
-<li>Example: <code>filesystem__read_file</code>, <code>database__query</code></li>
-</ul>
-<h3>argsPattern (optional)</h3>
-<p>A regular expression pattern to match against the tool's arguments. The arguments are serialized to stable JSON before matching.</p>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml"># Block 'rm -rf /' commands
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf\\s+/&quot;
-decision = &quot;deny&quot;
-
-# Block chmod 777 (insecure permissions)
-toolName = &quot;shell&quot;
-argsPattern = &quot;chmod\\s+777&quot;
-decision = &quot;deny&quot;
-
-# Allow edits only to .md files
-toolName = &quot;edit&quot;
-argsPattern = &quot;\\.md\&quot;&quot;
-decision = &quot;allow&quot;
-</code></pre>
-<p><strong>Important:</strong> Use double backslashes <code>\\</code> to escape regex special characters in TOML.</p>
-<h3>decision (required)</h3>
-<p>The decision to make when this rule matches. Must be one of:</p>
-<ul>
-<li><strong><code>allow</code></strong> - Execute the tool immediately without confirmation</li>
-<li><strong><code>deny</code></strong> - Block the tool execution with a policy rejection message</li>
-<li><strong><code>ask_user</code></strong> - Prompt the user for confirmation</li>
-</ul>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml">decision = &quot;allow&quot;
-decision = &quot;deny&quot;
-decision = &quot;ask_user&quot;
-</code></pre>
-<h3>priority (optional)</h3>
-<p>A number determining rule precedence. Higher priority rules override lower priority rules. Default is <code>0</code>.</p>
-<p><strong>Priority bands:</strong></p>
-<ul>
-<li><strong>Tier 3 (Admin): 3.0 - 3.999</strong> - Enterprise/admin policies (highest)</li>
-<li><strong>Tier 2 (User): 2.0 - 2.999</strong> - User settings and custom policies</li>
-<li><strong>Tier 1 (Default): 1.0 - 1.999</strong> - Built-in defaults (lowest)</li>
-</ul>
-<p><strong>Examples:</strong></p>
-<pre><code class="language-toml">priority = 1.05   # Tier 1 - default read-only tools
-priority = 2.3    # Tier 2 - user allowed tools
-priority = 3.5    # Tier 3 - admin override
-</code></pre>
-<h2>Priority Bands Reference</h2>
-<h3>Tier 1 (Default): 1.0 - 1.999</h3>
-<p>Built-in defaults provided by llxprt-code:</p>
+</li>
+<li>
+<p>Select <strong>[+] Add new rule</strong> and answer four prompts:</p>
 <table>
 <thead>
 <tr>
-<th>Priority</th>
-<th>Purpose</th>
+<th>Prompt</th>
+<th>What to enter</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1.05</td>
-<td>Read-only tools auto-approval</td>
+<td>Tool name</td>
+<td>The exact tool name, or leave empty for a wildcard that matches all tools</td>
 </tr>
 <tr>
-<td>1.01</td>
-<td>Write tools require confirmation</td>
+<td>Decision</td>
+<td><code>allow</code>, <code>deny</code>, or <code>ask_user</code></td>
 </tr>
 <tr>
-<td>1.015</td>
-<td>AUTO_EDIT mode write tool overrides</td>
+<td>Args regex</td>
+<td>Optional regular expression matched against the tool's JSON arguments</td>
 </tr>
 <tr>
-<td>1.999</td>
-<td>YOLO mode wildcard allow-all</td>
+<td>Priority</td>
+<td>An integer from 0 to 999 — higher wins within your tier</td>
 </tr>
 </tbody>
 </table>
-<h3>Tier 2 (User): 2.0 - 2.999</h3>
-<p>User settings and CLI flags:</p>
+</li>
+<li>
+<p>Press Enter on the priority prompt to save.</p>
+<p><strong>Expected result:</strong> the manager confirms with a message such as
+<code>Policy: added replace → allow [priority 100]</code>, returns to the menu, and the
+rule is active immediately. Nothing needs to be restarted.</p>
+</li>
+</ol>
+<p>To change or remove an existing rule, select it from the menu and choose
+<strong>Edit</strong>, <strong>Delete</strong>, or <strong>Duplicate</strong>. <strong>Back</strong> returns to the menu without
+acting.</p>
+<p><code>Esc</code> steps back one screen; on the menu it closes the manager.</p>
+<p>If a priority outside 0–999 or a non-integer is typed, the form refuses it with
+<code>Priority must be an integer between 0 and 999.</code> and keeps you on the priority
+prompt. An args regex that does not compile is refused with
+<code>Invalid regular expression pattern.</code> and returns you to the args prompt.
+Nothing is written until every prompt is answered acceptably.</p>
+<p>The form's regex check is only that the expression compiles. Policy files are
+held to a little more than that — see <a href="#argspattern"><code>argsPattern</code></a> — so a
+pattern the form accepts can still be rejected when the rule is loaded. The
+manager reports that failure rather than hiding it.</p>
+<h3>Inspect the configured rules</h3>
+<p><code>/policies list</code> (or plain <code>/policies</code>) prints every configured rule, grouped
+by tier and sorted by priority. It is read-only:</p>
+<pre><code>Configured Policy Rules:
+
+Tier 2 (User-defined):
+  Priority 2.950: * → ALLOW [Source: Dynamic (Confirmed)]
+  Priority 2.100: replace → ALLOW [Source: User: auto-saved.toml]
+
+Tier 1 (Defaults):
+  Priority 1.050: glob → ALLOW [Source: Default: read-only.toml]
+  Priority 1.010: replace → ASK_USER [Source: Default: write.toml]
+
+Default Decision: ASK_USER
+Non-Interactive Mode: false
+</code></pre>
+<p>The same view is available inside the manager as <strong>[i] View active stack</strong>.</p>
+<p>Two things about this output:</p>
+<ul>
+<li>The priorities are <strong>resolved</strong> priorities. They are not the numbers you
+type — see <a href="#priorities">Priorities</a>.</li>
+<li>Every configured rule is listed, including rules restricted to an approval
+mode you are not currently in. The listing does not say which rule would win
+a particular call; it shows what is loaded. See <a href="#modes"><code>modes</code></a>.</li>
+</ul>
+<h2>Where rules live</h2>
+<p>Policy files are discovered <strong>by directory</strong>. Three directories are scanned,
+and the directory a file sits in determines the tier of every rule in it:</p>
 <table>
 <thead>
 <tr>
-<th>Priority</th>
-<th>Purpose</th>
+<th>Directory</th>
+<th>Tier</th>
+<th>Resolved priority range</th>
+<th>Who writes it</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>2.0</td>
-<td>Dangerous command blocks (e.g., <code>rm -rf /</code>)</td>
+<td>Built-in policies shipped with LLxprt Code</td>
+<td>1 (default)</td>
+<td>1.000 – 1.999</td>
+<td>LLxprt Code</td>
 </tr>
 <tr>
-<td>2.1</td>
-<td>MCP servers in allowed list</td>
+<td>Your user policy directory, <code>&lt;config&gt;/policies/</code></td>
+<td>2 (user)</td>
+<td>2.000 – 2.999</td>
+<td>You, and LLxprt Code on your behalf</td>
 </tr>
 <tr>
-<td>2.2</td>
-<td>MCP servers with <code>trust=true</code></td>
-</tr>
-<tr>
-<td>2.3</td>
-<td><code>--allowed-tools</code> CLI flag</td>
-</tr>
-<tr>
-<td>2.4</td>
-<td><code>--exclude-tools</code> CLI flag</td>
-</tr>
-<tr>
-<td>2.5</td>
-<td>User TOML policies (recommended range: 2.5-2.9)</td>
-</tr>
-<tr>
-<td>2.95</td>
-<td>&quot;Always Allow&quot; UI selections</td>
+<td>The system policy directory</td>
+<td>3 (admin)</td>
+<td>3.000 – 3.999</td>
+<td>A machine administrator</td>
 </tr>
 </tbody>
 </table>
-<h3>Tier 3 (Admin): 3.0 - 3.999</h3>
-<p>Enterprise administrator policies (future use):</p>
+<p>See <a href="reference/application-directories.html">Application Directories</a> for the
+<code>&lt;config&gt;</code> and system paths on Linux, macOS, and Windows.</p>
+<p>Every <code>.toml</code> file in a scanned directory is loaded. File names carry no
+meaning beyond appearing in <code>/policies</code> output as the rule's source.</p>
+<blockquote>
+<p><strong>Limitations.</strong> There is no per-project policy directory: policy files are
+not discovered from your working directory or from a project-local <code>.llxprt</code>
+directory. If you need different rules per project, start LLxprt Code with
+<code>--allowed-tools</code> in that project, or swap the contents of your user policy
+directory.</p>
+<p>No setting points the loader at a specific file either — the directory is the
+whole discovery mechanism. The settings reference lists a
+<a href="cli/configuration.html#tools"><code>tools.policyPath</code></a> key, but nothing reads it;
+setting it has no effect. Put the file in your user policy directory instead.</p>
+</blockquote>
+<h3>Three things write files to that directory</h3>
 <table>
 <thead>
 <tr>
-<th>Priority</th>
-<th>Purpose</th>
+<th>Source</th>
+<th>Lands in</th>
+<th>Takes effect</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>3.0-3.999</td>
-<td>Reserved for enterprise admin policies</td>
+<td>The policy manager (<code>/policies menu</code>)</td>
+<td><code>auto-saved.toml</code></td>
+<td>Immediately on save</td>
+</tr>
+<tr>
+<td>Files you write yourself</td>
+<td>Any other <code>.toml</code> you create</td>
+<td>Next start, or when you open the manager</td>
+</tr>
+<tr>
+<td>&quot;Allow for all future sessions&quot; at a confirmation prompt</td>
+<td><code>auto-saved.toml</code></td>
+<td>When you pick that option</td>
 </tr>
 </tbody>
 </table>
-<h2>Approval Mode Synchronization</h2>
-<p>Approval modes (<code>DEFAULT</code>, <code>AUTO_EDIT</code>, <code>YOLO</code>) control how aggressively tools
-are auto-approved. The PolicyEngine evaluates mode-specific rules <strong>dynamically</strong>
-at <code>evaluate()</code> time using the <code>modes</code> filter — no TOML reload is needed on
-mode transitions.</p>
-<h3>The <code>modes</code> Filter</h3>
-<p>Rules can declare a <code>modes</code> array to restrict which approval modes they are
-active in:</p>
-<pre><code class="language-toml"># Only active in AUTO_EDIT mode
+<p><code>auto-saved.toml</code> is the <strong>managed file</strong>: the manager and the confirmation
+prompt both own it. Files you create yourself sit beside it and are never
+rewritten by LLxprt Code.</p>
+<p>Files are not the only source of tier 2 rules. CLI flags such as
+<code>--allowed-tools</code>, the <code>tools.allowed</code>, <code>tools.exclude</code>, and MCP settings, and
+in-session confirmations all produce tier 2 rules at fixed resolved
+priorities without writing anything. Those are listed in
+<a href="tool-permissions.html#where-each-rule-type-lands">Controlling Tool Execution</a>.</p>
+<p>The &quot;Allow for all future sessions&quot; option (worded &quot;Allow tool for all future
+sessions&quot; for an MCP tool) appears at a confirmation prompt only when the
+folder is trusted and
+<a href="cli/configuration.html#security"><code>security.enablePermanentToolApproval</code></a> is
+<code>true</code>. That setting is a user-level boolean, <code>false</code> by default, and takes
+effect without a restart.</p>
+<p>Choosing the option does two things: it allows the tool for the rest of the
+session at resolved priority 2.950, and it appends a rule to <code>auto-saved.toml</code>
+at authored priority 100 (200 for an MCP tool) — resolved 2.100, or 2.200 —
+which is what applies from the next start onwards. The saved rule is
+deliberately weaker than the in-session one, so a higher-priority rule of your
+own still wins later.</p>
+<h3>Hand-editing the managed file</h3>
+<p>Editing <code>auto-saved.toml</code> in a text editor works, and the manager stays usable
+afterwards: it re-reads the file before every change, so it never writes back a
+stale copy. Four things to know before you do it.</p>
+<ul>
+<li><strong>Comments and formatting are not preserved.</strong> Both the manager and a
+permanent confirmation rewrite the whole file, so hand-written comments in
+<code>auto-saved.toml</code> are lost the next time either one saves.</li>
+<li><strong>A <code>toolName</code> array does not survive an edit.</strong> The form holds a single
+tool name, so a rule written as <code>toolName = [&quot;replace&quot;, &quot;write_file&quot;]</code>
+appears in the menu as the wildcard <code>*</code>, and editing it through the manager
+replaces the list with an actual wildcard. That widens the rule to every
+tool, which for a <code>deny</code> rule is disruptive and for an <code>allow</code> rule is
+dangerous.</li>
+<li><strong>Other fields the form does not show are preserved.</strong> A rule that carries
+<code>commandPrefix</code>, <code>commandRegex</code>, <code>mcpName</code>, or <code>modes</code> keeps those fields
+through an edit. They are still invisible in the form, so adding an args
+pattern to a rule that already has <code>commandPrefix</code> produces a combination the
+loader rejects.</li>
+<li><strong>A file the parser cannot read is replaced, not repaired.</strong> If
+<code>auto-saved.toml</code> contains a TOML syntax error, a permanent confirmation
+overwrites it with just the newly approved rule.</li>
+</ul>
+<p>Because of all four, keep your own rules — especially anything with an array,
+a shorthand field, or a comment explaining it — in a file of your own, and let
+<code>auto-saved.toml</code> stay managed.</p>
+<p>If a file in the directory fails to load, opening the manager reports the
+failure instead of silently dropping the rules.</p>
+<h2>Priorities</h2>
+<p>When more than one rule matches a tool call, the highest priority wins.</p>
+<p>There are two forms of the same number, and mixing them up is the most common
+mistake on this page's subject:</p>
+<ul>
+<li>The <strong>authored</strong> priority is what you write in a file or type in the manager:
+an <strong>integer from 0 to 999</strong>. It is required.</li>
+<li>The <strong>resolved</strong> priority is what the engine compares and what <code>/policies</code>
+displays: <code>tier + authored / 1000</code>, a decimal.</li>
+</ul>
+<p>So <code>priority = 500</code> in a file in your user directory resolves to <strong>2.500</strong>. The
+same file placed in the built-in directory would resolve to 1.500. A decimal in
+a file — <code>priority = 2.5</code> — is not a &quot;resolved priority you wrote down&quot;, it is
+a validation error, and the whole file is rejected.</p>
+<table>
+<thead>
+<tr>
+<th>You write</th>
+<th>In your user directory it resolves to</th>
+<th>Beats</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>0</code></td>
+<td>2.000</td>
+<td>Every default-tier rule</td>
+</tr>
+<tr>
+<td><code>101</code></td>
+<td>2.101</td>
+<td>The MCP allowed list (2.1)</td>
+</tr>
+<tr>
+<td><code>301</code></td>
+<td>2.301</td>
+<td><code>--allowed-tools</code> (2.3)</td>
+</tr>
+<tr>
+<td><code>500</code></td>
+<td>2.500</td>
+<td>Everything below 2.5</td>
+</tr>
+<tr>
+<td><code>999</code></td>
+<td>2.999</td>
+<td>Every lower user-tier rule</td>
+</tr>
+</tbody>
+</table>
+<p>Because the tier is added, <strong>any</strong> rule you write outranks <strong>every</strong> built-in
+default, and <strong>no</strong> rule you write can outrank an administrator's policy. That
+is the point of the split.</p>
+<p>The fixed resolved priorities that flags, settings, and confirmations occupy
+are listed in
+<a href="tool-permissions.html#where-each-rule-type-lands">Controlling Tool Execution</a>.
+When two rules resolve to the same priority, the first one loaded wins, so
+choose a priority above the rule you mean to override rather than equal to it.</p>
+<h2>Writing policy files by hand</h2>
+<p>Use a file of your own when you want rules under version control, a large set
+of rules, comments explaining them, or fields the manager's form does not
+offer.</p>
+<p>Create any <code>.toml</code> file in your user policy directory — for example
+<code>&lt;config&gt;/policies/my-rules.toml</code>:</p>
+<pre><code class="language-toml"># Auto-approve edits, keep confirming shell commands.
+
 [[rule]]
 toolName = &quot;replace&quot;
 decision = &quot;allow&quot;
-priority = 1.015
-modes = [&quot;autoEdit&quot;]
-
-# Only active in YOLO mode
-[[rule]]
-decision = &quot;allow&quot;
-allowRedirection = true
-priority = 1.999
-modes = [&quot;yolo&quot;]
-</code></pre>
-<p>When the approval mode changes (Ctrl-Y / Ctrl-E), the PolicyEngine's
-<code>currentMode</code> is synchronously updated via <code>setApprovalMode()</code>. Rules with a
-<code>modes</code> filter that doesn't include the new mode are automatically skipped —
-rules without a <code>modes</code> filter always apply.</p>
-<h3>Mode Transition Mechanism</h3>
-<p>Mode-specific behavior is expressed declaratively via the <code>modes</code> field on
-individual rules. The PolicyEngine evaluates those rules dynamically at
-<code>evaluate()</code> time against <code>currentMode</code>, which is updated synchronously via
-<code>setApprovalMode()</code>. No rules are added or removed on transition — only the
-mode filter changes.</p>
-<p>When <code>Config.setApprovalMode()</code> is called, it calls
-<code>syncModeDerivedPolicyRules()</code> which calls <code>setApprovalMode()</code> on the engine.
-This ensures:</p>
-<ul>
-<li>YOLO→DEFAULT deactivates the mode-specific wildcard ALLOW</li>
-<li>AUTO_EDIT→DEFAULT deactivates the mode-specific editor ALLOW rules</li>
-<li>Non-mode rules and higher-priority rules remain active across transitions, so
-their configured decisions still take precedence</li>
-</ul>
-<h3>Initial CLI/Agent Parity</h3>
-<p>The <code>Config</code> constructor calls <code>syncModeDerivedPolicyRules()</code> after applying
-parameters, so an engine constructed with <code>approvalMode: YOLO</code> produces the
-same policy as an engine constructed in DEFAULT then transitioned to YOLO.
-This eliminates authorization desynchronization (issue #2659).</p>
-<h2>Complete Example</h2>
-<pre><code class="language-toml"># Custom policy file: &lt;config&gt;/my-policy.toml (see Application Directories)
-
-# Allow all read-only tools (override defaults)
-[[rule]]
-toolName = &quot;glob&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;grep&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-# Auto-approve edit for markdown files only
-[[rule]]
-toolName = &quot;edit&quot;
-argsPattern = &quot;\\.md\&quot;&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-
-# Block all edit operations on system files
-[[rule]]
-toolName = &quot;edit&quot;
-argsPattern = &quot;/etc/&quot;
-decision = &quot;deny&quot;
-priority = 2.7
-
-# Require confirmation for shell, except safe commands
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;^(ls|pwd|echo|cat)\\s&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-
-# Block dangerous shell patterns
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf&quot;
-decision = &quot;deny&quot;
-priority = 2.8
-
-# Block all other shell commands
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow trusted MCP server tools
-[[rule]]
-toolName = &quot;my-mcp-server__&quot;
-decision = &quot;allow&quot;
-priority = 2.2
-</code></pre>
-<h2>Common Use Cases</h2>
-<h3>1. Block Dangerous Shell Commands</h3>
-<pre><code class="language-toml"># Block recursive deletion from root
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf\\s+/&quot;
-decision = &quot;deny&quot;
-priority = 2.0
-
-# Block chmod 777 (insecure)
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;chmod\\s+777&quot;
-decision = &quot;deny&quot;
-priority = 2.0
-
-# Block dd (disk operations)
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;dd\\s+if=&quot;
-decision = &quot;deny&quot;
-priority = 2.0
-
-# Block filesystem formatting
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;mkfs\\.&quot;
-decision = &quot;deny&quot;
-priority = 2.0
-
-# Block fork bombs
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;:(){ :|:&amp; };:&quot;
-decision = &quot;deny&quot;
-priority = 2.0
-</code></pre>
-<h3>2. Auto-Approve Read-Only Tools</h3>
-<pre><code class="language-toml"># Allow all read-only tools without confirmation
-[[rule]]
-toolName = &quot;glob&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;grep&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;ls&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;read_file&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;read_many_files&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-</code></pre>
-<h3>3. Confirmation for Write Tools</h3>
-<pre><code class="language-toml"># Require user confirmation for all write operations
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
+priority = 500
 
 [[rule]]
 toolName = &quot;write_file&quot;
+decision = &quot;allow&quot;
+priority = 500
+</code></pre>
+<p>Then either restart LLxprt Code or open <code>/policies menu</code>, which re-reads the
+whole user policy directory. Confirm with <code>/policies list</code> that the rules
+appear under <strong>Tier 2 (User-defined)</strong> at the resolved priorities you expect.</p>
+<h3>Rule fields</h3>
+<p>Each rule is an entry in the <code>rule</code> array, written <code>[[rule]]</code>. <code>decision</code> and
+<code>priority</code> are required; everything else is optional.</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>decision</code></td>
+<td>string</td>
+<td><code>&quot;allow&quot;</code>, <code>&quot;deny&quot;</code>, or <code>&quot;ask_user&quot;</code>. Required.</td>
+</tr>
+<tr>
+<td><code>priority</code></td>
+<td>integer 0–999</td>
+<td>Authored priority. Required.</td>
+</tr>
+<tr>
+<td><code>toolName</code></td>
+<td>string or array</td>
+<td>Exact tool name to match. Omit to match every tool.</td>
+</tr>
+<tr>
+<td><code>argsPattern</code></td>
+<td>string</td>
+<td>Regular expression matched against the serialized JSON arguments.</td>
+</tr>
+<tr>
+<td><code>commandPrefix</code></td>
+<td>string or array</td>
+<td>Shorthand: match shell commands starting with this text.</td>
+</tr>
+<tr>
+<td><code>commandRegex</code></td>
+<td>string</td>
+<td>Shorthand: match the shell command against this regular expression.</td>
+</tr>
+<tr>
+<td><code>mcpName</code></td>
+<td>string</td>
+<td>Match tool names beginning with <code>&lt;mcpName&gt;__</code>.</td>
+</tr>
+<tr>
+<td><code>modes</code></td>
+<td>array of strings</td>
+<td>Restrict the rule to <code>&quot;default&quot;</code>, <code>&quot;autoEdit&quot;</code>, and/or <code>&quot;yolo&quot;</code>.</td>
+</tr>
+<tr>
+<td><code>allowRedirection</code></td>
+<td>boolean</td>
+<td>Let an allowed shell command contain a redirection.</td>
+</tr>
+</tbody>
+</table>
+<h4><code>toolName</code></h4>
+<p>Matching is <strong>exact</strong> and case-sensitive; there is no prefix or glob matching.
+Omit the field entirely for a wildcard.</p>
+<pre><code class="language-toml"># One specific tool.
+[[rule]]
+toolName = &quot;read_many_files&quot;
+decision = &quot;allow&quot;
+priority = 500
+
+# Several tools, written once. An array expands to one rule per name.
+[[rule]]
+toolName = [&quot;glob&quot;, &quot;read_file&quot;, &quot;search_file_content&quot;]
+decision = &quot;allow&quot;
+priority = 500
+
+# Every tool: omit toolName.
+[[rule]]
 decision = &quot;ask_user&quot;
-priority = 2.5
-
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;ask_user&quot;
-priority = 2.5
+priority = 0
 </code></pre>
-<h3>4. Allow Specific MCP Servers</h3>
-<pre><code class="language-toml"># Auto-approve all tools from trusted-server
-[[rule]]
-toolName = &quot;trusted-server__&quot;
-decision = &quot;allow&quot;
-priority = 2.2
-
-# Require confirmation for experimental-server
-[[rule]]
-toolName = &quot;experimental-server__&quot;
-decision = &quot;ask_user&quot;
-priority = 2.2
-
-# Block tools from untrusted-server
-[[rule]]
-toolName = &quot;untrusted-server__&quot;
-decision = &quot;deny&quot;
-priority = 2.2
-</code></pre>
-<h3>5. Deny Discovered Tools by Default</h3>
-<pre><code class="language-toml"># Block all discovered tools unless explicitly allowed
-[[rule]]
-toolName = &quot;discovered_tool_&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow specific discovered tool
-[[rule]]
-toolName = &quot;discovered_tool_my_extension__safe_tool&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-</code></pre>
-<h3>6. Project-Specific Policies</h3>
-<pre><code class="language-toml"># Allow edit only on project files
-[[rule]]
-toolName = &quot;edit&quot;
-argsPattern = &quot;/home/user/myproject/&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-
-# Block edit outside project
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow shell commands in project directory
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;cd /home/user/myproject&quot;
-decision = &quot;allow&quot;
-priority = 2.6
-</code></pre>
-<h2>Creating Custom Policies</h2>
-<h3>Step 1: Create a TOML file</h3>
-<p>Create a new file (e.g., <code>&lt;config&gt;/my-policy.toml</code> in LLxprt's <a href="./reference/application-directories.html">config directory</a>):</p>
-<pre><code class="language-toml"># My custom policy
-
-[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;allow&quot;
-priority = 2.5
-</code></pre>
-<h3>Step 2: Configure Settings</h3>
-<p>Add to your <a href="./reference/application-directories.html">settings.json</a>:</p>
-<pre><code class="language-json">{
-  &quot;tools&quot;: {
-    &quot;policyPath&quot;: &quot;/absolute/path/to/my-policy.toml&quot;
-  }
-}
-</code></pre>
-<p><strong>Important:</strong> Use absolute paths, not relative paths or <code>~</code>.</p>
-<h3>Step 3: Test Your Policy</h3>
-<ol>
-<li>Restart llxprt-code</li>
-<li>Run <code>/policies</code> to verify your rules loaded</li>
-<li>Test tool execution to confirm behavior</li>
-</ol>
-<h3>Step 4: Debug Issues</h3>
-<p>If rules don't appear in <code>/policies</code>:</p>
+<p><code>/policies list</code> prints the name of every tool that already has a rule, which
+covers the built-ins below because each one is named by a default policy:</p>
 <ul>
-<li>Check TOML syntax (use online validator)</li>
-<li>Verify file path is absolute and correct</li>
-<li>Check llxprt-code startup logs for errors</li>
+<li>Read-only, allowed by default: <code>glob</code>, <code>search_file_content</code>,
+<code>list_directory</code>, <code>read_file</code>, <code>read_many_files</code>, <code>read_line_range</code>,
+<code>exa_web_search</code>, <code>task</code>, <code>todo_read</code>, <code>todo_write</code>, <code>todo_pause</code>,
+<code>list_subagents</code>.</li>
+<li>Write and shell, confirmed by default: <code>replace</code>, <code>write_file</code>,
+<code>run_shell_command</code>, <code>insert_at_line</code>, <code>delete_line_range</code>, <code>apply_patch</code>,
+<code>ast_edit</code>, <code>save_memory</code>, <code>activate_skill</code>.</li>
 </ul>
-<h2>Legacy --allowed-tools Migration</h2>
-<p>The <code>--allowed-tools</code> CLI flag maps to policy rules at priority 2.3:</p>
-<p><strong>Command:</strong></p>
-<pre><code class="language-bash">llxprt --allowed-tools edit,shell,glob
+<h4><code>argsPattern</code></h4>
+<p>The tool's arguments are serialized to compact, key-sorted JSON, then the
+pattern is tested against that string. A shell call produces:</p>
+<pre><code class="language-text">{&quot;command&quot;:&quot;rm -rf /&quot;,&quot;dir_path&quot;:&quot;packages/core&quot;}
 </code></pre>
-<p><strong>Equivalent policy:</strong></p>
+<p>so a pattern that targets the command has to account for the surrounding JSON:</p>
 <pre><code class="language-toml">[[rule]]
-toolName = &quot;edit&quot;
-decision = &quot;allow&quot;
-priority = 2.3
-
-[[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;allow&quot;
-priority = 2.3
-
-[[rule]]
-toolName = &quot;glob&quot;
-decision = &quot;allow&quot;
-priority = 2.3
+toolName = &quot;run_shell_command&quot;
+argsPattern = &quot;\&quot;command\&quot;:\&quot;git\\s+push&quot;
+decision = &quot;ask_user&quot;
+priority = 600
 </code></pre>
-<p>These rules can be overridden by:</p>
+<p>Write every regex backslash doubled: TOML's basic strings consume one level of
+escaping, so <code>\\s</code> in the file reaches the regex engine as <code>\s</code>. A single <code>\s</code>
+is an invalid TOML escape and rejects the file. If that is hard to read, use
+<code>commandPrefix</code> or <code>commandRegex</code> below, which build the JSON part for you.</p>
+<p>Patterns are matched anywhere in the serialized string unless you anchor them,
+so keep them specific — <code>&quot;/etc/&quot;</code> matches any argument mentioning <code>/etc/</code>,
+including a <code>dir_path</code> you did not mean to target.</p>
+<p>Two constraints apply to <code>argsPattern</code> that ordinary regular expressions do not
+have, both to keep a policy file from stalling the engine on a pathological
+pattern:</p>
 <ul>
-<li>User TOML policies at priority 2.5+ (higher priority)</li>
-<li>Admin policies at priority 3.0+</li>
+<li><code>.*</code> is narrowed to &quot;any run of characters that are not a double quote&quot;, so a
+wildcard cannot silently run past the end of one JSON value into the next.
+Anything you intend to span fields has to be written out.</li>
+<li>A pattern longer than 1024 characters, or one with two quantifiers directly
+adjacent (<code>a+*</code>), is rejected and its rule is skipped.</li>
 </ul>
-<h2>Pattern Matching Tips</h2>
-<h3>Args Serialization</h3>
-<p>Tool arguments are serialized to stable JSON before pattern matching:</p>
-<pre><code class="language-json">{
-  &quot;command&quot;: &quot;rm -rf /&quot;,
-  &quot;cwd&quot;: &quot;/home/user&quot;
-}
-</code></pre>
-<p>Match against this JSON structure:</p>
-<pre><code class="language-toml"># Match command field containing 'rm -rf /'
-argsPattern = &quot;\&quot;command\&quot;:\\s*\&quot;.*rm\\s+-rf\\s+/.*\&quot;&quot;
-</code></pre>
-<h3>Common Patterns</h3>
-<p><strong>Match file extensions:</strong></p>
-<pre><code class="language-toml">argsPattern = &quot;\\.md\&quot;&quot;      # .md files
-argsPattern = &quot;\\.(ts|js)\&quot;&quot; # .ts or .js files
-</code></pre>
-<p><strong>Match paths:</strong></p>
-<pre><code class="language-toml">argsPattern = &quot;/etc/&quot;        # Files in /etc/
-argsPattern = &quot;/home/user/&quot;  # Files in user home
-</code></pre>
-<p><strong>Match commands:</strong></p>
-<pre><code class="language-toml">argsPattern = &quot;^(ls|pwd|echo)&quot; # Safe commands
-argsPattern = &quot;git\\s+push&quot;    # Git push
-</code></pre>
-<h3>Testing Patterns</h3>
-<p>Use an online regex tester with sample JSON:</p>
-<ol>
-<li>Serialize tool args to JSON</li>
-<li>Test pattern against JSON string</li>
-<li>Remember to double-escape in TOML (<code>\\</code> not <code>\</code>)</li>
-</ol>
-<h2>Security Best Practices</h2>
-<h3>1. Use Least Privilege</h3>
-<p>Start with <code>deny</code> or <code>ask_user</code> by default:</p>
-<pre><code class="language-toml"># Block all tools by default
+<p><code>commandRegex</code> is subject to the same length and quantifier limits, but not to
+the <code>.*</code> narrowing — it is already scoped to the command value.</p>
+<h4><code>commandPrefix</code> and <code>commandRegex</code></h4>
+<p>Both are shorthands for matching a shell command without writing the JSON
+wrapper. They apply only to <code>toolName = &quot;run_shell_command&quot;</code> written as a plain
+string, and each is mutually exclusive with the other and with <code>argsPattern</code>.</p>
+<pre><code class="language-toml"># Auto-approve read-only git commands.
 [[rule]]
-decision = &quot;deny&quot;
-priority = 2.5
-
-# Allow only specific tools
-[[rule]]
-toolName = &quot;read_file&quot;
+toolName = &quot;run_shell_command&quot;
+commandPrefix = [&quot;git status&quot;, &quot;git diff&quot;, &quot;git log&quot;]
 decision = &quot;allow&quot;
-priority = 2.6
-</code></pre>
-<h3>2. Layer Security</h3>
-<p>Combine multiple rules for defense in depth:</p>
-<pre><code class="language-toml"># Block dangerous patterns (high priority)
-[[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;rm\\s+-rf&quot;
-decision = &quot;deny&quot;
-priority = 2.8
+priority = 500
 
-# Allow safe commands (medium priority)
+# Always confirm a force push.
 [[rule]]
-toolName = &quot;shell&quot;
-argsPattern = &quot;^(ls|pwd)&quot;
+toolName = &quot;run_shell_command&quot;
+commandRegex = &quot;git\\s+push\\s+.*--force&quot;
+decision = &quot;ask_user&quot;
+priority = 600
+</code></pre>
+<p><code>commandPrefix</code> matches the beginning of the command and requires whitespace or
+the end of the command after it, so <code>git status</code> does not match <code>git statuses</code>.
+An array expands to one rule per prefix.</p>
+<h4><code>mcpName</code></h4>
+<p>Policies see an MCP tool as <code>&lt;server&gt;__&lt;tool&gt;</code>. <code>mcpName</code> is the server name:
+on its own it matches every tool from that server, and with <code>toolName</code> it
+matches one tool exactly.</p>
+<pre><code class="language-toml"># One tool from one server.
+[[rule]]
+mcpName = &quot;issue-tracker&quot;
+toolName = &quot;search&quot;
 decision = &quot;allow&quot;
-priority = 2.6
+priority = 500
 
-# Default deny for shell (low priority)
+# Everything else from the same server.
 [[rule]]
-toolName = &quot;shell&quot;
-decision = &quot;deny&quot;
-priority = 2.5
+mcpName = &quot;issue-tracker&quot;
+decision = &quot;ask_user&quot;
+priority = 400
 </code></pre>
-<h3>3. Validate MCP Servers</h3>
-<p>Explicitly list trusted MCP servers:</p>
-<pre><code class="language-toml"># Allow only known trusted servers
+<blockquote>
+<p><strong>Note:</strong> the name the model uses for an MCP tool is longer — it carries an
+extra <code>mcp__</code> prefix — but that is not the name policies match. Always write
+the server name alone in <code>mcpName</code>, and <code>&lt;server&gt;__&lt;tool&gt;</code> if you prefer to
+spell the match out in <code>toolName</code>.</p>
+</blockquote>
+<h4><code>modes</code></h4>
+<p>A rule with <code>modes</code> is active only in the listed approval modes; a rule without
+it is always active. The values are <code>&quot;default&quot;</code>, <code>&quot;autoEdit&quot;</code>, and <code>&quot;yolo&quot;</code>.
+Switching modes takes effect immediately — nothing is reloaded.</p>
+<pre><code class="language-toml"># Only auto-approve patch application while auto-edit mode is on.
 [[rule]]
-toolName = &quot;filesystem__&quot;
+toolName = &quot;apply_patch&quot;
 decision = &quot;allow&quot;
-priority = 2.2
-
-[[rule]]
-toolName = &quot;database__&quot;
+priority = 500
+modes = [&quot;autoEdit&quot;]
+</code></pre>
+<h4><code>allowRedirection</code></h4>
+<p>When a shell command is allowed by a rule and the command contains a
+redirection (<code>&gt;</code>, <code>&gt;&gt;</code>, and similar), the allow is downgraded to a confirmation
+— or to a denial when running non-interactively. Set <code>allowRedirection = true</code>
+on the rule to permit it.</p>
+<pre><code class="language-toml">[[rule]]
+toolName = &quot;run_shell_command&quot;
+commandPrefix = &quot;npm test&quot;
 decision = &quot;allow&quot;
-priority = 2.2
+allowRedirection = true
+priority = 500
+</code></pre>
+<p>Compound shell commands are split and each part is evaluated on its own, so an
+allow rule cannot be used to smuggle a second command through a <code>&amp;&amp;</code>.</p>
+<h2>Worked examples</h2>
+<h3>Auto-approve reads, confirm writes, block a directory</h3>
+<pre><code class="language-toml"># Read-only tools never prompt.
+[[rule]]
+toolName = [&quot;glob&quot;, &quot;list_directory&quot;, &quot;read_file&quot;, &quot;search_file_content&quot;]
+decision = &quot;allow&quot;
+priority = 400
 
-# Block all other MCP tools
+# Edits keep prompting. Stated in your own tier so that a CLI flag such as
+# --allowed-tools (resolved 2.3) cannot quietly auto-approve them.
 [[rule]]
-toolName = &quot;.*__&quot;
-decision = &quot;deny&quot;
-priority = 2.1
-</code></pre>
-<h3>4. Audit Policies</h3>
-<p>Regularly review active policies:</p>
-<pre><code class="language-bash">llxprt --command &quot;/policies&quot;
-</code></pre>
-<p>Check for:</p>
-<ul>
-<li>Overly broad wildcards</li>
-<li>Unintended priority conflicts</li>
-<li>Obsolete rules</li>
-</ul>
-<h2>Advanced Topics</h2>
-<h3>Regex Performance</h3>
-<p>Keep patterns simple and specific:</p>
-<ul>
-<li>Avoid complex lookaheads/lookbehinds</li>
-<li>Use anchors (<code>^</code>, <code>$</code>) when possible</li>
-<li>Test patterns on representative data</li>
-</ul>
-<h3>Priority Conflicts</h3>
-<p>When multiple rules match, highest priority wins:</p>
-<pre><code class="language-toml"># This DENY wins (priority 2.8 &gt; 2.5)
+toolName = [&quot;replace&quot;, &quot;write_file&quot;]
+decision = &quot;ask_user&quot;
+priority = 400
+
+# Nothing may touch system configuration.
 [[rule]]
-toolName = &quot;edit&quot;
+toolName = [&quot;replace&quot;, &quot;write_file&quot;]
 argsPattern = &quot;/etc/&quot;
 decision = &quot;deny&quot;
-priority = 2.8
+priority = 700
+</code></pre>
+<h3>Deny by default, allow an explicit list</h3>
+<pre><code class="language-toml"># Everything is denied unless a higher-priority rule says otherwise.
+[[rule]]
+decision = &quot;deny&quot;
+priority = 300
 
 [[rule]]
-toolName = &quot;edit&quot;
+toolName = [&quot;read_file&quot;, &quot;read_many_files&quot;, &quot;glob&quot;]
 decision = &quot;allow&quot;
-priority = 2.5
+priority = 400
 </code></pre>
-<h3>Dynamic Policies</h3>
-<p>Policies are loaded at startup. To update:</p>
-<ol>
-<li>Edit policy file</li>
-<li>Restart llxprt-code</li>
-<li>Verify with <code>/policies</code></li>
-</ol>
-<p>(Future: dynamic reload via <code>/reload-policies</code> command)</p>
+<p>Put the wildcard at the lowest priority in the file and every allowance above
+it. Remember the wildcard also outranks the built-in defaults, because it is in
+your tier.</p>
+<h3>Shell: allow a safe set, block a dangerous one</h3>
+<pre><code class="language-toml">[[rule]]
+toolName = &quot;run_shell_command&quot;
+commandPrefix = [&quot;ls&quot;, &quot;pwd&quot;, &quot;echo&quot;, &quot;cat&quot;, &quot;git status&quot;]
+decision = &quot;allow&quot;
+priority = 500
+
+[[rule]]
+toolName = &quot;run_shell_command&quot;
+commandRegex = &quot;rm\\s+-rf&quot;
+decision = &quot;deny&quot;
+priority = 800
+</code></pre>
+<p>LLxprt Code already hard-blocks irreversibly destructive commands before any
+rule is consulted; see
+<a href="tool-permissions.html#dangerous-command-blocking">Dangerous command blocking</a>.
+A deny rule like the one above is for patterns you want blocked that are not
+inherently destructive.</p>
+<h3>Govern an MCP server</h3>
+<pre><code class="language-toml"># Allow one tool from a server you trust.
+[[rule]]
+mcpName = &quot;docs-search&quot;
+toolName = &quot;query&quot;
+decision = &quot;allow&quot;
+priority = 500
+
+# Everything else from that server still asks.
+[[rule]]
+mcpName = &quot;docs-search&quot;
+decision = &quot;ask_user&quot;
+priority = 400
+
+# Block a server outright.
+[[rule]]
+mcpName = &quot;untrusted-server&quot;
+decision = &quot;deny&quot;
+priority = 700
+</code></pre>
+<h3>Replace <code>--allowed-tools</code></h3>
+<p><code>--allowed-tools replace,write_file,glob</code> produces allow rules at resolved
+priority 2.3. The file equivalent, at a priority that also outranks the flag:</p>
+<pre><code class="language-toml">[[rule]]
+toolName = [&quot;replace&quot;, &quot;write_file&quot;, &quot;glob&quot;]
+decision = &quot;allow&quot;
+priority = 350
+</code></pre>
+<p>See <a href="migration/approval-mode-to-policies.html">Migrating from Approval Mode to Policies</a>
+for the rest of the legacy flag mapping.</p>
 <h2>Troubleshooting</h2>
-<h3>Policy Not Matching</h3>
-<ol>
-<li>Use <code>/policies</code> to verify rule exists</li>
-<li>Check priority is higher than conflicting rules</li>
-<li>Test argsPattern against actual args JSON</li>
-<li>Verify toolName matches exactly (case-sensitive)</li>
-</ol>
-<h3>TOML Parse Errors</h3>
-<p>Common syntax issues:</p>
-<pre><code class="language-toml"># ❌ Wrong - missing quotes on decision
+<h3>The file was rejected</h3>
+<p>Load errors are reported at startup. They always name the file, and a field
+error names the offending field; the rule number in the message header is not
+reliable, so read the field path instead. How much an error costs you depends
+on its kind:</p>
+<table>
+<thead>
+<tr>
+<th>Problem</th>
+<th>Effect</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>TOML syntax error, or any field that fails validation</td>
+<td>The <strong>whole file</strong> is discarded — one bad rule takes the rest with it</td>
+</tr>
+<tr>
+<td>A pattern that does not compile or exceeds the <a href="#argspattern">pattern limits</a></td>
+<td>That one rule is skipped; the rest load</td>
+</tr>
+<tr>
+<td>Shell shorthand used incorrectly</td>
+<td>Reported as invalid, but the rule still loads — fix it rather than relying on it</td>
+</tr>
+</tbody>
+</table>
+<p>By far the most common cause is a decimal priority, which discards the file:</p>
+<pre><code class="language-text"># Rejected: priority must be an integer.
+priority = 2.5
+
+# Correct: the integer that resolves to 2.500 in your user directory.
+priority = 500
+</code></pre>
+<p>Other whole-file rejections:</p>
+<pre><code class="language-text"># Rejected: priority is required on every rule.
+[[rule]]
+toolName = &quot;replace&quot;
+decision = &quot;allow&quot;
+
+# Rejected: priority above the authored maximum of 999.
+priority = 1500
+
+# Rejected: decision must be quoted.
 decision = allow
 
-# ✅ Correct
-decision = &quot;allow&quot;
+# Rejected: &quot;allowed&quot; is not a decision. Use allow, deny, or ask_user.
+decision = &quot;allowed&quot;
 
-# ❌ Wrong - single backslash
+# Rejected: single backslash is not a valid TOML escape.
 argsPattern = &quot;\s+&quot;
 
-# ✅ Correct - double backslash
+# Correct.
 argsPattern = &quot;\\s+&quot;
 
-# ❌ Wrong - array syntax for rule
+# Rejected: [rule] declares a table, not an array entry.
 [rule]
 
-# ✅ Correct - double bracket for array
+# Correct.
 [[rule]]
 </code></pre>
-<h3>Priority Out of Range</h3>
-<pre><code class="language-toml"># ❌ Wrong - priority too high
-priority = 4.5
-
-# ✅ Correct - within Tier 2
-priority = 2.5
-
-# ❌ Wrong - negative priority
-priority = -1
-
-# ✅ Correct - default priority
-priority = 1.0
+<p>And the shorthand misuse, which is reported but not blocked — here
+<code>commandPrefix</code> is applied to <code>replace</code> as well, which can never match a shell
+command:</p>
+<pre><code class="language-text"># Invalid: commandPrefix requires toolName to be the plain string
+# &quot;run_shell_command&quot;.
+[[rule]]
+toolName = [&quot;run_shell_command&quot;, &quot;replace&quot;]
+commandPrefix = &quot;git status&quot;
+decision = &quot;allow&quot;
+priority = 500
 </code></pre>
-<h2>Next Steps</h2>
+<h3>The rule loaded but never matches</h3>
+<ol>
+<li>Run <code>/policies list</code> and confirm the rule is there with the resolved
+priority you expected.</li>
+<li>Check the tool name against the name in that output. Matching is exact —
+<code>shell</code> does not match <code>run_shell_command</code>, and <code>grep</code> does not match
+<code>search_file_content</code>.</li>
+<li>If the rule uses <code>argsPattern</code>, test it against the serialized JSON rather
+than against the value you have in mind, and remember that <code>.*</code> is narrowed
+to &quot;anything but a quote&quot; — see <a href="#argspattern"><code>argsPattern</code></a>.</li>
+<li>For an MCP tool, the name policies match is <code>&lt;server&gt;__&lt;tool&gt;</code>, without the
+longer prefix the model sees — see <a href="#mcpname"><code>mcpName</code></a>.</li>
+<li>If the rule carries <code>modes</code>, check that the listed mode is the one you are
+in. Mode-gated rules are listed by <code>/policies list</code> whether or not they
+currently apply.</li>
+</ol>
+<h3>The rule matches but loses</h3>
+<p>A higher-priority rule is winning. <code>/policies list</code> is sorted by resolved
+priority, so the winner is above yours. Raise your authored integer above the
+rule you are trying to beat: 301 or higher to outrank <code>--allowed-tools</code>
+(resolved 2.3), 951 or higher to outrank the in-session rule a confirmation
+creates (resolved 2.95).</p>
+<h3>A new file has no effect</h3>
+<p>Files you write by hand are read when LLxprt Code starts. Restart it, or open
+<code>/policies menu</code>, which re-reads the whole user policy directory. Changes made
+inside the manager never need either.</p>
+<h3>Everything is denied in CI</h3>
+<p>Running non-interactively turns every <code>ask_user</code> decision into a denial,
+because there is nobody to answer the prompt. Add explicit allow rules for the
+tools your automation needs.</p>
+<h2>Related documentation</h2>
 <ul>
-<li>See <a href="message-bus.html">Message Bus Guide</a> for overview and architecture</li>
-<li>See <a href="migration/approval-mode-to-policies.html">Migration Guide</a> for migrating from legacy approval modes</li>
-<li>Review the built-in policy files under <code>packages/core/src/policy/policies</code> in
-a repository checkout for worked examples</li>
+<li><a href="tool-permissions.html">Controlling Tool Execution</a> — tiers, approval modes,
+dangerous-command blocking, and how a decision is reached.</li>
+<li><a href="migration/approval-mode-to-policies.html">Migrating from Approval Mode to Policies</a>
+— replacing legacy flags and settings with policy files.</li>
+<li><a href="reference/application-directories.html">Application Directories</a> — where the
+user and system policy directories are on each platform.</li>
 </ul>
 
           </div>

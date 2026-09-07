@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider Models and Limits | LLxprt Code Docs</title>
+  <link rel="stylesheet" href="../../../vybestack.css" />
+</head>
+<body>
+
+  <nav>
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" class="logo">
+          <img src="/assets/vybestack_logo.svg" alt="Vybestack" />
+        </a>
+        <span class="tagline">Beyond Vibe Coding</span>
+      </div>
+      <div class="nav-right">
+        <div class="nav-dropdown">
+          <a href="/llxprt-code.html">LLxprt Code</a>
+          <div class="nav-dropdown-menu">
+            <a href="/llxprt-code.html">Overview</a>
+            <a href="/llxprt-code/docs/">Documentation</a>
+          </div>
+        </div>
+        <a href="/jefe.html">LLxprt Jefe</a>
+        <a href="/blog/">Blog</a>
+        <a href="/#podcast">Podcast</a>
+        <a href="https://discord.gg/Wc6dZqWWYv" target="_blank">Discord</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <section class="section docs-section">
+    <div class="container-wide">
+      <div class="docs-layout">
+
+      <nav class="docs-sidebar">
+        <h3><a href="/llxprt-code/docs/">Documentation</a></h3>
+        <ul>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/cli/providers.html">Provider Configuration</a></li>
+          <li><a href="/llxprt-code/docs/cli/authentication.html">Authentication</a></li>
+          <li><a href="/llxprt-code/docs/local-models.html">Local Models</a></li>
+          <li><a href="/llxprt-code/docs/getting-started.html">Getting Started Guide</a></li>
+          <li><a href="/llxprt-code/docs/subagents.html">Subagents</a></li>
+          <li><a href="/llxprt-code/docs/cli/profiles.html">Profiles</a></li>
+          <li><a href="/llxprt-code/docs/oauth-setup.html">OAuth Setup</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/prompt-configuration.html">Prompt Configuration</a></li>
+          <li><a href="/llxprt-code/docs/sandbox.html">Sandboxing</a></li>
+          <li><a href="/llxprt-code/docs/hooks/index.html">Hooks</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
+          <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
+          <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
+          <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
+          <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
+          <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
+          <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
+          <li><a href="/llxprt-code/docs/cli/configuration.html">Configuration</a></li>
+          <li><a href="/llxprt-code/docs/keyboard-shortcuts.html">Keyboard Shortcuts</a></li>
+          <li><a href="/llxprt-code/docs/troubleshooting.html">Troubleshooting</a></li>
+          <li><a href="/llxprt-code/docs/emoji-filter.html">Emoji Filter</a></li>
+          <li><a href="/llxprt-code/docs/cli/context-dumping.html">Context Dumping</a></li>
+          <li><a href="/llxprt-code/docs/../CONTRIBUTING.html">Contributing Guide</a></li>
+        </ul>
+      </nav>
+        <div class="docs-content">
+          <div class="blog-post-content">
+            <h1>Provider Models and Limits</h1>
+<p><strong>As of:</strong> 2026-09-05
+<strong>Owner:</strong> the LLxprt Code maintainers
+<strong>Companion page:</strong> <a href="./quick-reference.html">Provider Setup Quick Reference</a></p>
+<p>This page lists model names, context windows, and recommended runtime tuning for
+the providers LLxprt Code supports. Model names, context windows, pricing, and
+provider-side limits <strong>change frequently</strong>. The values here reflect what is
+configured in LLxprt Code's built-in provider aliases as of the date above.</p>
+<blockquote>
+<p><strong>Before relying on a limit or price, verify it against the provider's own
+documentation.</strong> Use the links in each section to check for the most current
+data. LLxprt Code cannot guarantee that a provider has not changed a model
+name, context window, or price since this page was last reviewed.</p>
+</blockquote>
+<h2>Default models by alias</h2>
+<p>The default model each built-in alias uses when you run <code>/provider &lt;alias&gt;</code>
+without an explicit <code>/model</code>. Values reflect the alias configuration as of the
+date above. This is the canonical dated copy; the
+<a href="./quick-reference.html">Provider Setup Quick Reference</a> links here rather than
+duplicating it.</p>
+<table>
+<thead>
+<tr>
+<th>Alias</th>
+<th>Default model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>anthropic</code></td>
+<td><code>claude-opus-5</code></td>
+</tr>
+<tr>
+<td><code>claudecode</code></td>
+<td><code>claude-opus-5</code></td>
+</tr>
+<tr>
+<td><code>gemini</code></td>
+<td><code>gemini-2.5-pro</code></td>
+</tr>
+<tr>
+<td><code>openai</code></td>
+<td><code>gpt-5.5</code></td>
+</tr>
+<tr>
+<td><code>codex</code></td>
+<td><code>gpt-5.6-sol</code></td>
+</tr>
+<tr>
+<td><code>qwen</code></td>
+<td><code>qwen3-coder-plus</code></td>
+</tr>
+<tr>
+<td><code>kimi</code></td>
+<td><code>kimi-for-coding</code></td>
+</tr>
+<tr>
+<td><code>xai</code></td>
+<td><code>grok-4</code></td>
+</tr>
+<tr>
+<td><code>deepseek</code></td>
+<td><code>deepseek-v4-flash</code></td>
+</tr>
+<tr>
+<td><code>zai</code></td>
+<td><code>glm-5</code></td>
+</tr>
+<tr>
+<td><code>synthetic</code></td>
+<td><code>hf:zai-org/GLM-4.7</code></td>
+</tr>
+<tr>
+<td><code>chutes-ai</code></td>
+<td><code>zai-org/GLM-5-TEE</code></td>
+</tr>
+<tr>
+<td><code>makora</code></td>
+<td><code>nvidia/Kimi-K2.6-NVFP4</code></td>
+</tr>
+<tr>
+<td><code>fireworks</code></td>
+<td><code>fireworks/minimax-m3</code></td>
+</tr>
+<tr>
+<td><code>openrouter</code></td>
+<td><code>nvidia/nemotron-nano-9b-v2</code></td>
+</tr>
+<tr>
+<td><code>cerebras-code</code></td>
+<td><code>qwen-3-coder-480b</code></td>
+</tr>
+<tr>
+<td><code>mistral</code></td>
+<td><code>mistral-large-latest</code></td>
+</tr>
+<tr>
+<td><code>litellm</code></td>
+<td><code>gpt-4o</code></td>
+</tr>
+<tr>
+<td><code>ollama-cloud</code></td>
+<td><code>kimi-k2.6</code></td>
+</tr>
+<tr>
+<td><code>lm-studio</code></td>
+<td><code>gemma-3b-it</code></td>
+</tr>
+<tr>
+<td><code>llama-cpp</code></td>
+<td><code>local-model</code></td>
+</tr>
+</tbody>
+</table>
+<h2>How model limits are resolved</h2>
+<p>Default model limits are data-driven and layered. Each layer takes precedence
+over the one below it:</p>
+<ol>
+<li><strong>User override</strong> — <code>/set context-limit &lt;N&gt;</code> or a profile
+<code>ephemeralSettings.context-limit</code>. Always wins.</li>
+<li><strong>Provider alias configuration</strong> — built-in defaults shipped with LLxprt
+Code, including per-model <code>contextWindow</code> and <code>context-limit</code> values.</li>
+<li><strong>Core fallback catalog</strong> — a built-in safety net for models not covered by
+an alias config. The default fallback limit is 200,000 tokens.</li>
+</ol>
+<p>You can override any limit at runtime:</p>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<blockquote>
+<p><strong>Note:</strong> <code>context-limit</code> must always exceed <code>max_tokens</code> / <code>maxOutputTokens</code>.
+A configured <code>max_tokens &gt;= context-limit</code> is rejected as an impossible
+configuration. For models whose catalog context window is already 200,000,
+setting <code>/set context-limit 200000</code> adds no headroom over the default — you
+may want to leave the default or increase it only if the provider's actual
+window is larger.</p>
+</blockquote>
+<h2>Compression and context budgeting</h2>
+<p>The automatic compression trigger fires when <code>currentTokens &gt;= compressionThreshold × (context-limit − completionBudget)</code>. This means:</p>
+<ul>
+<li><strong>Lowering <code>context-limit</code> increases spend superlinearly.</strong> Halving the limit
+does not halve the trigger point — it cuts it much more steeply, because the
+completion budget is subtracted from a smaller base. More compressions means
+more paid LLM summarization calls <strong>and</strong> more prompt-cache prefix rewrites.</li>
+<li><strong><code>max_tokens &gt;= context-limit</code> is rejected.</strong> An explicitly configured
+completion budget that meets or exceeds the context window leaves zero prompt
+budget and is now rejected with an error rather than silently triggering
+compression on every send.</li>
+<li><strong><code>compression.strategy=high-density</code> mutates history continuously</strong> (every
+turn, not just at the threshold) and is hostile to prompt caching. Use
+<code>middle-out</code> (the default) when cache reuse matters.</li>
+</ul>
+<h2>Model geometry and budgeting</h2>
+<p><code>context-limit</code> and <code>max_tokens</code> describe a <strong>single shared window</strong>, not two
+independent budgets:</p>
+<ul>
+<li><strong><code>context-limit</code></strong> — the total token budget for the entire request
+(prompt <strong>plus</strong> output). This is the ceiling the engine enforces.</li>
+<li><strong><code>max_tokens</code></strong> (also surfaced as <code>maxOutputTokens</code>) — the completion budget
+<strong>held inside</strong> <code>context-limit</code>, reserved for the model's response. It is
+subtracted from the context limit, not added to it.</li>
+<li><strong>Effective prompt budget</strong> ≈ <code>context-limit</code> − <code>max_tokens</code> − safety margin.</li>
+</ul>
+<p>Because the completion budget sits inside the limit, <code>context-limit=200000</code>
+with <code>max_tokens=100000</code> is a valid configuration: it simply leaves roughly
+100,000 tokens of prompt budget before the safety margin is applied. The two
+values never add together to claim a larger window than <code>context-limit</code>.</p>
+<p>The engine automatically applies a fixed safety margin of <strong>1,000 tokens</strong> plus
+a small percentage headroom (~0.5%) on top of the completion budget. You do not
+configure this margin; it exists to absorb overhead from tool wrappers, the
+system prompt, and project memory files.</p>
+<blockquote>
+<p><strong>Tip:</strong> If you see &quot;would exceed the token context window&quot; errors, lower
+<code>max_tokens</code> first (to reclaim prompt budget) or reduce the size of your
+project memory files.</p>
+</blockquote>
+<blockquote>
+<p><strong>Auth-variant note:</strong> Context windows can differ between API-key access and
+OAuth/subscription access for the same model. When in doubt, start lower and
+increase until you hit a provider limit error.</p>
+</blockquote>
+<h2>Anthropic (Claude)</h2>
+<p><a href="https://docs.anthropic.com/">Anthropic documentation</a> ·
+<a href="https://docs.anthropic.com/en/docs/about-claude/models">Anthropic models</a></p>
+<h3>Anthropic API key (<code>anthropic</code> alias)</h3>
+<p>Configured context-limit for current-generation models (<code>claude-opus-5</code>,
+<code>claude-opus-4-8</code>, <code>claude-fable-5-1</code>, <code>claude-fable-5</code>, <code>claude-sonnet-4-6</code>,
+<code>claude-sonnet-5</code>): <strong>1,000,000 tokens</strong>.</p>
+<p>Max output tokens configured: <strong>128,000</strong>.</p>
+<p>Reasoning is enabled by default for <code>claude-(opus|sonnet|haiku|fable)</code> models,
+with <code>reasoning.effort</code> set to <strong><code>high</code></strong> only for <code>claude-opus-5</code>,
+<code>claude-opus-4-8</code>, <code>claude-fable-5-1</code>, <code>claude-fable-5</code>, <code>claude-sonnet-4-6</code>,
+and <code>claude-sonnet-5</code>.
+Other matching models (for example, <code>claude-haiku-4-5</code>) get reasoning enabled
+without a default effort. Temperature, <code>top_p</code>, and <code>top_k</code> are disallowed for
+all <code>claude-(opus|sonnet|haiku|fable)</code> models (reasoning models manage sampling
+internally).</p>
+<p>Common models: <code>claude-opus-5</code>, <code>claude-sonnet-5</code>, <code>claude-sonnet-4-6</code>,
+<code>claude-haiku-4-5</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> The 1,000,000-token context is the value configured in the alias.
+Anthropic may gate large context windows by plan or credit tier. Check
+Anthropic's documentation for your account's actual limits.</p>
+</blockquote>
+<p>Recommended settings:</p>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON (API key):</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;anthropic&quot;,
+  &quot;model&quot;: &quot;claude-opus-5&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
+}
+</code></pre>
+<p><strong>Environment variable:</strong> <code>export ANTHROPIC_API_KEY=sk-ant-...</code></p>
+<blockquote>
+<p><strong>Summarized thinking (not a streaming bug):</strong> Anthropic returns a
+<strong>summary</strong> of the model's reasoning, produced by a <em>different</em> model than
+the one that generated the raw thinking. Billing reflects the <strong>full raw
+thinking</strong>, so the visible thinking text is typically far shorter than the
+billed completion tokens (a median of roughly 4 visible characters per billed
+token). A summary occasionally ends mid-sentence at a clean word boundary —
+this is a summarizer artefact, not a truncation or streaming bug. LLxprt
+records and displays exactly what the API returns.</p>
+</blockquote>
+<h3>Claude Code OAuth (<code>claudecode</code> alias)</h3>
+<p>Same context and output limits as the <code>anthropic</code> alias for current-generation
+models. Available static models include: <code>claude-opus-5</code>, <code>claude-fable-5-1</code>,
+<code>claude-fable-5</code>, <code>claude-opus-4-8</code>, <code>claude-opus-4-7</code>, <code>claude-opus-4-6</code>,
+<code>claude-sonnet-5</code>, <code>claude-sonnet-4-6</code>, and earlier versions.</p>
+<p>See <a href="./quick-reference.html#subscription-and-oauth-providers">Provider Setup Quick Reference</a>
+for OAuth setup instructions.</p>
+<h3>Pricing</h3>
+<p>Pricing for Anthropic models is not tracked on this page. Check
+<a href="https://www.anthropic.com/pricing">Anthropic's pricing page</a> for current rates.</p>
+<h2>OpenAI (API)</h2>
+<p><a href="https://platform.openai.com/docs/">OpenAI documentation</a> ·
+<a href="https://platform.openai.com/docs/models">OpenAI models</a></p>
+<h3>OpenAI API key (<code>openai</code> alias)</h3>
+<p>For <code>gpt-5.6</code> models, the configured context-limit is <strong>1,050,000 tokens</strong> with
+max output tokens of <strong>128,000</strong>. Reasoning is enabled by default with
+<code>reasoning.effort</code> set to <code>high</code>.</p>
+<p>GPT-5.x reasoning models do <strong>not</strong> support <code>temperature</code>, <code>top_p</code>, <code>top_k</code>,
+<code>frequency_penalty</code>, or <code>presence_penalty</code>. Use <code>/set reasoning.effort</code> instead.</p>
+<p>Reasoning effort values: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>.</p>
+<p>Common models: <code>gpt-5.6</code>, <code>gpt-5.5</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> The actual context window for your model depends on your OpenAI API
+plan. The configured limit is a default; check OpenAI's documentation for your
+model's actual window.</p>
+</blockquote>
+<p>Recommended settings:</p>
+<pre><code class="language-bash">/set context-limit 400000    # adjust to your model's actual window
+/set modelparam max_tokens 8192
+/set reasoning.effort high
+</code></pre>
+<h3>OpenAI Codex OAuth (<code>codex</code> alias)</h3>
+<p>The <code>codex</code> alias uses the ChatGPT subscription backend. Its provider-level
+context-limit is <strong>262,144 tokens</strong>, while <code>gpt-6-astra</code> has a per-model OAuth
+context-limit of <strong>872,000 tokens</strong>.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>OAuth context limit</th>
+<th>Reasoning effort values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gpt-6-astra</code></td>
+<td>872,000</td>
+<td><code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code></td>
+</tr>
+<tr>
+<td><code>gpt-5.6-sol</code> (default)</td>
+<td>262,144</td>
+<td><code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code></td>
+</tr>
+<tr>
+<td><code>gpt-5.6-terra</code>, <code>gpt-5.6-luna</code></td>
+<td>262,144</td>
+<td><code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code></td>
+</tr>
+<tr>
+<td><code>gpt-5.3-codex-spark</code></td>
+<td>131,072</td>
+<td>Provider-dependent</td>
+</tr>
+</tbody>
+</table>
+<p>Common Codex models: <code>gpt-6-astra</code>, <code>gpt-5.6-sol</code> (default), <code>gpt-5.6-terra</code>,
+<code>gpt-5.6-luna</code>, <code>gpt-5.5</code>, <code>gpt-5.3-codex-spark</code>.</p>
+<p>See <a href="./quick-reference.html#subscription-and-oauth-providers">Provider Setup Quick Reference</a>
+for OAuth setup instructions.</p>
+<h3>Pricing</h3>
+<p>Pricing for OpenAI models is not tracked on this page. Check
+<a href="https://openai.com/api/pricing/">OpenAI's pricing page</a> for current rates.</p>
+<h2>Google Gemini</h2>
+<p><a href="https://ai.google.dev/docs">Google AI documentation</a> ·
+<a href="https://ai.google.dev/gemini-api/docs/models">Gemini models</a></p>
+<h3>Gemini API key (<code>gemini</code> alias)</h3>
+<p>The core fallback catalog lists these context windows for Gemini 2.5 models:</p>
+<ul>
+<li><code>gemini-2.5-pro</code>: <strong>1,048,576 tokens</strong></li>
+<li><code>gemini-2.5-flash</code>: <strong>1,048,576 tokens</strong></li>
+<li><code>gemini-2.5-flash-lite</code>: <strong>1,048,576 tokens</strong></li>
+</ul>
+<blockquote>
+<p><strong>Note:</strong> The maximum context window for Gemini models may depend on your API
+plan and tier. Check Google's documentation for your account's actual limits.</p>
+</blockquote>
+<p>Common models: <code>gemini-2.5-pro</code>, <code>gemini-2.5-flash</code>, <code>gemini-2.5-flash-lite</code>.</p>
+<p>Recommended settings:</p>
+<pre><code class="language-bash">/set context-limit 1048576
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;gemini&quot;,
+  &quot;model&quot;: &quot;gemini-2.5-pro&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 1048576 }
+}
+</code></pre>
+<p><strong>Environment variable:</strong> <code>export GEMINI_API_KEY=...</code></p>
+<h3>Pricing</h3>
+<p>Pricing for Gemini models is not tracked on this page. Check
+<a href="https://ai.google.dev/pricing">Google AI's pricing page</a> for current rates.</p>
+<h2>Qwen (DashScope)</h2>
+<p><a href="https://help.aliyun.com/zh/dashscope/">DashScope documentation</a></p>
+<h3>Qwen API key (<code>qwen</code> alias)</h3>
+<p>Configured context-limit for <code>qwen3-coder-plus</code>: <strong>1,000,000 tokens</strong>. Max
+output tokens: <strong>65,536</strong>.</p>
+<p>Common models: <code>qwen3-coder-plus</code>.</p>
+<blockquote>
+<p><strong>Note:</strong> The <code>qwen</code> alias is for Qwen's own DashScope service. It is not used
+for Cerebras.</p>
+</blockquote>
+<p>Recommended settings:</p>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p><strong>Profile JSON:</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;qwen&quot;,
+  &quot;model&quot;: &quot;qwen3-coder-plus&quot;,
+  &quot;modelParams&quot;: { &quot;temperature&quot;: 0.7, &quot;max_tokens&quot;: 4096 },
+  &quot;ephemeralSettings&quot;: { &quot;context-limit&quot;: 200000 }
+}
+</code></pre>
+<p><strong>Environment variable:</strong> <code>export DASHSCOPE_API_KEY=...</code></p>
+<h3>Pricing</h3>
+<p>Pricing for Qwen models is not tracked on this page. Check Alibaba Cloud's
+DashScope documentation for current rates.</p>
+<h2>Kimi (Moonshot AI)</h2>
+<p><a href="https://platform.moonshot.ai/docs">Moonshot AI documentation</a></p>
+<p>The <code>kimi</code> alias supports two paths:</p>
+<ul>
+<li><strong><code>kimi-for-coding</code></strong> — the subscription-served model. Context window:
+<strong>262,144 tokens</strong>. Max output: <strong>32,768 tokens</strong>. This is the alias default.</li>
+<li><strong><code>kimi-k3</code></strong> — the pay-per-token model on the raw Moonshot API. Context
+window: <strong>1,048,576 tokens</strong>. Max output: <strong>131,072 tokens</strong>.</li>
+</ul>
+<p>To use <code>kimi-k3</code>, point the alias at the raw Moonshot endpoint:</p>
+<pre><code class="language-bash">/provider kimi
+/baseurl https://api.moonshot.ai/v1
+/keyfile ~/.moonshot_key
+/model kimi-k3
+</code></pre>
+<h3>Recommended settings (kimi-for-coding)</h3>
+<pre><code class="language-bash">/set context-limit 262144
+/set modelparam max_tokens 32768
+/set reasoning.effort medium
+</code></pre>
+<h3>Recommended settings (kimi-k3)</h3>
+<pre><code class="language-bash">/set context-limit 1000000
+/set modelparam max_tokens 131072
+/set reasoning.effort max
+</code></pre>
+<p><strong>Profile JSON (pay-per-token kimi-k3):</strong></p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 1,
+  &quot;provider&quot;: &quot;kimi&quot;,
+  &quot;model&quot;: &quot;kimi-k3&quot;,
+  &quot;modelParams&quot;: { &quot;max_tokens&quot;: 131072 },
+  &quot;ephemeralSettings&quot;: {
+    &quot;context-limit&quot;: 1000000,
+    &quot;base-url&quot;: &quot;https://api.moonshot.ai/v1&quot;,
+    &quot;reasoning.effort&quot;: &quot;max&quot;,
+    &quot;reasoning.enabled&quot;: true,
+    &quot;reasoning.includeInResponse&quot;: true
+  }
+}
+</code></pre>
+<h3>Multimodal support (Kimi)</h3>
+<p>The <code>kimi</code> alias declares media capabilities:</p>
+<table>
+<thead>
+<tr>
+<th>Capability</th>
+<th>Status (per alias config)</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inline images</td>
+<td>Enabled</td>
+<td>Images in user messages and tool responses flow as <code>image_url</code> content parts.</td>
+</tr>
+<tr>
+<td>PDF/document upload</td>
+<td>Enabled</td>
+<td>Base64 PDFs are uploaded with <code>purpose: file-extract</code> and referenced by file id, keeping large documents out of the token budget.</td>
+</tr>
+<tr>
+<td>Video</td>
+<td>Experimental (off by default)</td>
+<td>Base64 videos are uploaded with <code>purpose: video</code>, then sent as <code>video_url</code> content with an <code>ms://&lt;file-id&gt;</code> URL on Kimi/Moonshot endpoints.</td>
+</tr>
+</tbody>
+</table>
+<p>To enable experimental video forwarding:</p>
+<pre><code class="language-bash">/set kimi.experimental-video true
+</code></pre>
+<p>This is gated behind both the <code>kimi.experimental-video</code> setting and the alias's
+<code>mediaSupport.videoSupport</code> capability flag. Third-party aliases (Chutes,
+Synthetic) do not declare this capability.</p>
+<h3>Pricing</h3>
+<p>Pricing for Kimi/Moonshot models is not tracked on this page. Check
+<a href="https://platform.moonshot.ai/docs/pricing">Moonshot AI's pricing page</a> for
+current rates.</p>
+<h2>Other API-key providers</h2>
+<p>The following providers use the OpenAI-compatible protocol. Some ship a
+configured context window for their default model; others do not. Where a
+window is not configured, the core fallback catalog provides a default limit of
+<strong>200,000 tokens</strong>, and you should verify the true window against the provider's
+documentation.</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Alias</th>
+<th>Default model</th>
+<th>Configured context window (as of the date above)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xAI (Grok)</td>
+<td><code>xai</code></td>
+<td><code>grok-4</code></td>
+<td>Not configured — 200,000 fallback applies. Check <a href="https://docs.x.ai/">xAI's docs</a>.</td>
+</tr>
+<tr>
+<td>OpenRouter</td>
+<td><code>openrouter</code></td>
+<td><code>nvidia/nemotron-nano-9b-v2</code></td>
+<td>Not configured — 200,000 fallback applies. Check <a href="https://openrouter.ai/models">OpenRouter's model docs</a>.</td>
+</tr>
+<tr>
+<td>Fireworks</td>
+<td><code>fireworks</code></td>
+<td><code>fireworks/minimax-m3</code></td>
+<td><code>minimax-m3</code>: <strong>1,000,000</strong> tokens, reasoning <code>high</code>.</td>
+</tr>
+<tr>
+<td>Cerebras Code</td>
+<td><code>cerebras-code</code></td>
+<td><code>qwen-3-coder-480b</code></td>
+<td>Not configured — 200,000 fallback applies. Check <a href="https://docs.cerebras.ai/">Cerebras's docs</a>.</td>
+</tr>
+<tr>
+<td>DeepSeek</td>
+<td><code>deepseek</code></td>
+<td><code>deepseek-v4-flash</code></td>
+<td><code>deepseek-v4*</code>: <strong>1,000,000</strong> tokens, reasoning <code>high</code>.</td>
+</tr>
+<tr>
+<td><a href="http://Z.AI">Z.AI</a></td>
+<td><code>zai</code></td>
+<td><code>glm-5</code></td>
+<td><code>glm-5.2</code>: <strong>1,000,000</strong> tokens, reasoning <code>high</code>. The default <code>glm-5</code> has reasoning <code>high</code> but no explicit window — it falls back to <strong>200,000</strong>.</td>
+</tr>
+<tr>
+<td>Makora</td>
+<td><code>makora</code></td>
+<td><code>nvidia/Kimi-K2.6-NVFP4</code></td>
+<td>Not configured — 200,000 fallback applies.</td>
+</tr>
+<tr>
+<td>Synthetic</td>
+<td><code>synthetic</code></td>
+<td><code>hf:zai-org/GLM-4.7</code></td>
+<td>Not configured — 200,000 fallback applies.</td>
+</tr>
+<tr>
+<td>Chutes AI</td>
+<td><code>chutes-ai</code></td>
+<td><code>zai-org/GLM-5-TEE</code></td>
+<td>Not configured — 200,000 fallback applies.</td>
+</tr>
+<tr>
+<td>Mistral</td>
+<td><code>mistral</code></td>
+<td><code>mistral-large-latest</code></td>
+<td>Not configured — 200,000 fallback applies. Check <a href="https://docs.mistral.ai/">Mistral's docs</a>.</td>
+</tr>
+</tbody>
+</table>
+<p>For providers without a configured window, start with a conservative limit and
+adjust based on the provider's documentation:</p>
+<pre><code class="language-bash">/set context-limit 200000
+/set modelparam max_tokens 4096
+</code></pre>
+<p>The core fallback catalog provides a default limit of 200,000 tokens for models
+not explicitly listed.</p>
+<h2>Local models</h2>
+<p>Context windows for local models (LM Studio, llama.cpp, Ollama) depend entirely
+on your local runtime and model build. Start small and increase:</p>
+<pre><code class="language-bash">/set context-limit 32000
+/set modelparam max_tokens 2048
+</code></pre>
+<p>See <a href="../local-models.html">Using Local Models</a> for complete guidance.</p>
+<h2>Related</h2>
+<ul>
+<li><a href="./quick-reference.html">Provider Setup Quick Reference</a> — how to configure each
+provider</li>
+<li><a href="../cli/providers.html">Full provider guide</a> — advanced configuration</li>
+<li><a href="../settings-and-profiles.html">Settings and Profiles</a> — profile management</li>
+<li><a href="../cli/authentication.html">Authentication</a> — credential setup</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h4>Vybestack</h4>
+        <p>Beyond vibe coding. Autonomous development for ascending engineers.</p>
+      </div>
+      <div class="footer-section">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="/llxprt-code.html">LLxprt Code</a></li>
+          <li><a href="/jefe.html">LLxprt Jefe</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Content</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/#podcast">Podcast</a></li>
+          <li><a href="/llxprt-code/docs/">Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Connect</h4>
+        <ul class="footer-icons">
+<li><a href="https://github.com/vybestack/llxprt-code"><img src="/assets/icons/github.svg" alt="GitHub" /> </a></li>
+<li><a href="https://discord.gg/Wc6dZqWWYv"><img src="/assets/icons/discord.svg" alt="Discord" /></a></li>
+<li><a href="https://www.linkedin.com/company/vybestack/"><img src="/assets/icons/linkedin.svg" alt="LinkedIn" /></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Vybestack. Apache 2.0 License. Built for the terminal.</p>
+    </div>
+  </footer>
+
+</body>
+</html>

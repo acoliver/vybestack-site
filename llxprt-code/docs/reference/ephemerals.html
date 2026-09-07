@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -73,7 +76,8 @@
 <p>Complete reference for all ephemeral settings. Set with <code>/set &lt;key&gt; &lt;value&gt;</code> during a session or <code>--set &lt;key&gt;=&lt;value&gt;</code> at startup. Ephemeral settings don't persist to <code>settings.json</code> — they live only for the current session unless saved to a profile with <code>/profile save</code>.</p>
 <p>For guidance on tuning these for specific models, see <a href="../settings-and-profiles.html">Settings and Profiles</a>.</p>
 <h2>Reasoning</h2>
-<p>Control extended thinking / chain-of-thought. Most models need <code>reasoning.enabled true</code> at minimum; the rest have sensible defaults.</p>
+<p>Control provider-neutral reasoning behavior and select the request shape used by
+the active provider and transport.</p>
 <table>
 <thead>
 <tr>
@@ -90,80 +94,140 @@
 <td>boolean</td>
 <td><code>false</code></td>
 <td>yes</td>
-<td>Turn on thinking mode. Required for models like Kimi K3, Claude with thinking, GPT-5.x reasoning effort. (For Kimi K3, thinking is always on and cannot be disabled.)</td>
+<td>Turn thinking mode on or off. Some models cannot disable thinking.</td>
 </tr>
 <tr>
 <td><code>reasoning.effort</code></td>
 <td>enum</td>
 <td>provider default</td>
 <td>yes</td>
-<td>How hard the model thinks: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, <code>max</code>. Higher = slower + more tokens but better results. <code>max</code> is model/provider-specific; not all models support all levels. Anthropic Opus defaults to <code>high</code>. Codex defaults to <code>medium</code>. Project <code>minimal</code> maps to OpenAI wire <code>none</code> for GPT-5.6 Responses.</td>
+<td>Generic effort: <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, or <code>max</code>. Model-specific maps can normalize this value before it is sent.</td>
+</tr>
+<tr>
+<td><code>reasoning.effortWireFormat</code></td>
+<td>enum</td>
+<td><code>auto</code></td>
+<td>yes</td>
+<td>Effort request shape: <code>auto</code>, <code>openai</code>, <code>openai-responses</code>, <code>anthropic</code>, <code>anthropic-budget</code>, <code>openrouter</code>, <code>gemini</code>, <code>template-kwargs</code>, or <code>none</code>.</td>
+</tr>
+<tr>
+<td><code>reasoning.enabledWireFormat</code></td>
+<td>enum</td>
+<td><code>auto</code></td>
+<td>yes</td>
+<td>Enablement request shape: <code>auto</code>, <code>openai</code>, <code>openai-responses</code>, <code>openrouter</code>, <code>thinking</code>, <code>gemini</code>, <code>template-kwargs</code>, or <code>none</code>.</td>
+</tr>
+<tr>
+<td><code>reasoning.effortMap</code></td>
+<td>JSON</td>
+<td>no map</td>
+<td>yes</td>
+<td>Object with optional <code>minimal</code>, <code>low</code>, <code>medium</code>, <code>high</code>, <code>xhigh</code>, and <code>max</code> keys. Values are non-empty strings, integer budgets of at least <code>1024</code>, or <code>null</code>.</td>
+</tr>
+<tr>
+<td><code>reasoning.enabledMap</code></td>
+<td>JSON</td>
+<td>no map</td>
+<td>yes</td>
+<td>Object with optional <code>true</code> and <code>false</code> keys. Values are non-empty strings, booleans, or <code>null</code>.</td>
 </tr>
 <tr>
 <td><code>reasoning.maxTokens</code></td>
 <td>number</td>
-<td>—</td>
+<td>none</td>
 <td>yes</td>
-<td>Cap the thinking token budget (OpenAI). Limits how much the model can think per turn.</td>
+<td>Set a native reasoning token limit where the provider supports one.</td>
 </tr>
 <tr>
 <td><code>reasoning.budgetTokens</code></td>
 <td>number</td>
-<td>—</td>
+<td>none</td>
 <td>yes</td>
-<td>Anthropic-specific thinking budget. Usually set automatically via <code>reasoning.effort</code> or adaptive thinking.</td>
+<td>Direct Anthropic thinking budget. It takes precedence over a numeric effort map. No universal conversion from generic effort to budget tokens exists.</td>
 </tr>
 <tr>
 <td><code>reasoning.adaptiveThinking</code></td>
 <td>boolean</td>
 <td><code>false</code></td>
 <td>yes</td>
-<td>Let Anthropic auto-tune the thinking budget based on task complexity. Enabled by default for Claude via the <code>anthropic</code> provider alias.</td>
+<td>Let supported Anthropic models choose a thinking budget. Some Claude model defaults enable it.</td>
 </tr>
 <tr>
 <td><code>reasoning.includeInResponse</code></td>
 <td>boolean</td>
 <td><code>true</code></td>
 <td>yes</td>
-<td>Show thinking blocks in the terminal. Set <code>false</code> to get reasoning quality without the visual noise.</td>
+<td>Show thinking blocks in the terminal.</td>
 </tr>
 <tr>
 <td><code>reasoning.includeInContext</code></td>
 <td>boolean</td>
 <td><code>true</code></td>
 <td>yes</td>
-<td>Keep thinking in conversation history sent to the model. If <code>false</code>, the model can't reference its own prior reasoning — hurts multi-step tasks.</td>
+<td>Keep thinking in conversation history sent to the model.</td>
 </tr>
 <tr>
 <td><code>reasoning.stripFromContext</code></td>
 <td>enum</td>
 <td><code>none</code></td>
 <td>yes</td>
-<td>Prune old thinking to manage context growth. <code>none</code> = keep all (best quality). <code>allButLast</code> = keep only latest thinking (good balance). <code>all</code> = discard all thinking from context (saves tokens).</td>
+<td>Prune old thinking: <code>none</code>, <code>allButLast</code>, or <code>all</code>.</td>
 </tr>
 <tr>
 <td><code>reasoning.format</code></td>
 <td>enum</td>
-<td>—</td>
+<td>none</td>
 <td>yes</td>
-<td>API format: <code>native</code> or <code>field</code>. Leave unset unless you know your provider needs a specific format.</td>
+<td>Response reasoning format: <code>native</code> or <code>field</code>.</td>
 </tr>
 <tr>
 <td><code>reasoning.summary</code></td>
 <td>enum</td>
-<td>—</td>
+<td>none</td>
 <td>yes</td>
-<td>OpenAI Responses API reasoning summary: <code>auto</code>, <code>concise</code>, <code>detailed</code>, <code>none</code>. Codex alias defaults to <code>auto</code>.</td>
+<td>OpenAI Responses reasoning summary: <code>auto</code>, <code>concise</code>, <code>detailed</code>, or <code>none</code>. Codex defaults to <code>auto</code>.</td>
 </tr>
 <tr>
 <td><code>text.verbosity</code></td>
 <td>enum</td>
-<td>—</td>
+<td>none</td>
 <td>yes</td>
-<td>OpenAI Responses API text verbosity for thinking output: <code>low</code>, <code>medium</code>, <code>high</code>.</td>
+<td>OpenAI Responses text verbosity: <code>low</code>, <code>medium</code>, or <code>high</code>.</td>
 </tr>
 </tbody>
 </table>
+<h3>Reasoning request translation</h3>
+<p>The four wire-format translation settings are supported model-behavior
+settings. They remain session-only until saved with <code>/profile save</code>, then
+persist in the profile's <code>ephemeralSettings</code> object.</p>
+<p>Each selector and map resolves in this order, highest precedence first:</p>
+<ol>
+<li>An explicit profile or session value</li>
+<li>The last matching model default from the provider alias</li>
+<li>The provider alias default</li>
+<li><code>auto</code> for selectors, or no map for maps</li>
+</ol>
+<p>A higher-precedence map replaces the lower-precedence map as a whole. Maps are
+not recursively merged. In a partial string effort map, a missing effort key
+uses the original generic effort string. <code>anthropic-budget</code> instead requires a
+numeric mapped value or direct <code>reasoning.budgetTokens</code>.</p>
+<p>Under <code>auto</code>, OpenAI Responses, Codex, native Anthropic, native Gemini,
+OpenRouter Chat, <a href="http://Z.AI">Z.AI</a> Chat, and BigModel Chat select their owned request shapes.
+The official <code>api.openai.com</code> Chat endpoint selects top-level
+<code>reasoning_effort</code>. An unknown OpenAI-compatible Chat endpoint selects <code>none</code>.
+This avoids sending fields that a strict custom endpoint may reject. Select a
+format explicitly when you know the server's accepted request shape.</p>
+<p><code>none</code> and a selected <code>null</code> map entry deliberately omit the generic control and
+produce a warning. <code>reasoning.enabled=false</code> suppresses effort. If the selected
+format or model has no disable form, LLxprt Code omits both controls and warns.</p>
+<p>Explicit native reasoning fields in <code>modelParams</code> remain authoritative. When a
+native field collides with translation, LLxprt Code leaves it unchanged and
+adds no competing reasoning representation. Unrelated nested siblings are
+merged where supported. LLxprt Code does not send several reasoning formats in
+one request.</p>
+<p>See <a href="../providers/reasoning-wire-formats.html">Reasoning Wire Formats</a> for selector
+compatibility, exact request shapes, model restrictions, warnings, and profile
+examples.</p>
 <h2>Context and Compression</h2>
 <p>Control how much context the model sees and when/how history is compressed. These directly affect quality — too small and the model loses track; too large and it drowns in noise.</p>
 <table>
@@ -313,6 +377,104 @@
 </tr>
 </tbody>
 </table>
+<h2>Image Resizing</h2>
+<p><code>read_file</code> and explicitly requested images in <code>read_many_files</code> automatically downscale images when an effective model or profile limit is present. The fit preserves aspect ratio and never upscales. Images already within every configured limit are returned byte-for-byte without re-encoding. Resized PNG, JPEG, GIF, and WebP inputs retain their MIME type and container; animated GIF/WebP inputs retain their frame count. Resize-required corrupt images and unsupported containers fail clearly rather than returning oversized originals.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>image-resize.enabled</code></td>
+<td>boolean</td>
+<td>model default</td>
+<td>yes</td>
+<td>Set <code>false</code> to disable automatic image resizing, including model defaults, and preserve originals.</td>
+</tr>
+<tr>
+<td><code>image-resize.maxLongEdge</code></td>
+<td>number</td>
+<td>model default</td>
+<td>yes</td>
+<td>Positive integer maximum for the orientation-independent longer edge, in pixels.</td>
+</tr>
+<tr>
+<td><code>image-resize.maxShortEdge</code></td>
+<td>number</td>
+<td>model default</td>
+<td>yes</td>
+<td>Positive integer maximum for the orientation-independent shorter edge, in pixels.</td>
+</tr>
+<tr>
+<td><code>image-resize.maxPixels</code></td>
+<td>number</td>
+<td>model default</td>
+<td>yes</td>
+<td>Positive integer maximum decoded pixel count.</td>
+</tr>
+</tbody>
+</table>
+<p>Built-in visual-model aliases provide conservative advisory defaults: Claude Opus/Sonnet use <code>1568</code>/<code>1568</code>/<code>1229312</code>; OpenAI <code>gpt-*</code> uses <code>2048</code>/<code>2048</code>/<code>1572864</code>; Kimi uses <code>4096</code>/<code>2160</code>/<code>8847360</code> (long edge/short edge/pixels). These are useful-resolution targets, not universal provider hard limits. Explicit profile values take precedence over model defaults. When no limit is configured, image reads retain legacy byte-for-byte behavior. Setting <code>image-resize.enabled false</code> disables all automatic limits for the profile. For one <code>read_file</code> call, pass <code>skip_image_resize: true</code> to return the original image; <code>read_many_files</code> has no per-call opt-out.</p>
+<h2>Hard Image Dimension Budget</h2>
+<p>In addition to advisory image resizing, <code>max-image-dimension</code> and <code>max-image-pixels</code> define <strong>hard</strong> limits that reject oversized image bytes with an actionable tool error before they reach the model. Unlike <code>image-resize.*</code> (which silently downscales), these settings cause <code>read_file</code>, <code>read_many_files</code>, and <code>generate_image</code> to return a structured error message instructing the model to create a smaller thumbnail. For <code>generate_image</code>, the budget check runs after the generated image is written to its <code>output_path</code>; an oversized result is reported as a <code>policy_violation</code> tool error (no inline bytes enter the conversation), but the saved file is retained and the error names its path so the model can downscale/thumbnail it before reading.</p>
+<p>Explicit <code>image-resize.*</code> resizing runs <strong>first</strong>; the hard check runs <strong>after</strong>, so a resized image within budget passes through normally. Only images whose post-resize dimensions still exceed the budget are rejected.</p>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>max-image-dimension</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Positive integer maximum for image width/height in pixels. Oversized images return a tool error instead of bytes.</td>
+</tr>
+<tr>
+<td><code>max-image-pixels</code></td>
+<td>number</td>
+<td>—</td>
+<td>yes</td>
+<td>Positive integer maximum total decoded pixel count. Oversized images return a tool error instead of bytes.</td>
+</tr>
+</tbody>
+</table>
+<p>When neither key is set, no hard budget is enforced and image reads follow legacy/resize behavior. Both keys are independent: set one or both. Invalid values (zero, negatives, non-integers) are rejected by the settings registry.</p>
+<p><strong>claudecode alias defaults:</strong> The claudecode OAuth alias applies <code>max-image-dimension: 2000</code> to <code>claude-opus-5</code>, <code>claude-opus-4-8</code>, and <code>claude-sonnet-5</code> only. These three models also do <strong>not</strong> receive implicit <code>image-resize.*</code> defaults (so a 3000-pixel image is hard-rejected, not silently downscaled). Older claudecode Opus/Sonnet models keep the advisory <code>1568</code>/<code>1568</code>/<code>1229312</code> resize defaults and no hard cap. Direct <code>anthropic</code> alias Opus/Sonnet models also keep the advisory resize defaults.</p>
+<h2>Shell Output Acquisition</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shell-output-retention-max-bytes</code></td>
+<td>number</td>
+<td><code>4194304</code></td>
+<td>yes</td>
+<td>Maximum shell-output bytes retained during command execution. Excess output keeps draining but is retained as bounded head/tail data. <code>-1</code> selects the finite 64 MiB ceiling.</td>
+</tr>
+</tbody>
+</table>
+<p>This acquisition-time byte bound protects process memory before model-facing token truncation runs. Values below 1024 bytes are raised to 1024, and values above 64 MiB are clamped to the hard ceiling.</p>
 <h2>Timeouts</h2>
 <p>Prevent commands and tasks from hanging indefinitely. In seconds (not milliseconds, despite older docs).</p>
 <table>
@@ -331,14 +493,14 @@
 <td>number</td>
 <td><code>300</code> (5 min)</td>
 <td>yes</td>
-<td>Default timeout for shell commands. The model can request a specific timeout, but this applies when it doesn't.</td>
+<td>Default timeout for shell commands. The model can request a specific timeout, but this applies when it doesn't. <code>-1</code> means unlimited (subject to the maximum below).</td>
 </tr>
 <tr>
 <td><code>shell-max-timeout-seconds</code></td>
 <td>number</td>
 <td><code>900</code> (15 min)</td>
 <td>yes</td>
-<td>Hard ceiling — the model can't request longer than this. Increase for long builds/test suites.</td>
+<td>Ceiling only — bounds a request upward but never overrides a shorter one. A model request above this (including a <code>-1</code> &quot;unlimited&quot; request) is clamped to this value and the result says so. Set to <code>-1</code> to decline a ceiling entirely (genuinely unbounded).</td>
 </tr>
 <tr>
 <td><code>shell-inactivity-timeout-seconds</code></td>
@@ -352,14 +514,14 @@
 <td>number</td>
 <td><code>900</code> (15 min)</td>
 <td>yes</td>
-<td>Default timeout for subagent tasks.</td>
+<td>Default timeout for subagent tasks. <code>-1</code> means unlimited (subject to the maximum below).</td>
 </tr>
 <tr>
 <td><code>task-max-timeout-seconds</code></td>
 <td>number</td>
 <td><code>1800</code> (30 min)</td>
 <td>yes</td>
-<td>Hard ceiling for subagent tasks.</td>
+<td>Ceiling only for subagent tasks — bounds a request upward but never overrides a shorter one. A model request above this (including a <code>-1</code> &quot;unlimited&quot; request) is clamped to this value and the result says so. Set to <code>-1</code> to decline a ceiling entirely (genuinely unbounded).</td>
 </tr>
 <tr>
 <td><code>socket-timeout</code></td>
@@ -389,6 +551,13 @@
 <td><code>-1</code> (unlimited)</td>
 <td>yes</td>
 <td>Hard limit on turns per prompt. Set to a positive integer to cap runaway sessions. The foreground loop-detection layer independently treats an absent value as <code>-1</code> (unlimited). Subagents, however, only inherit a <strong>currently materialized valid foreground value</strong> — explicitly stored <code>-1</code> is inherited as unlimited, but absent/invalid (NaN, Infinity, non-number, zero) causes the orchestrator to fall back to a subagent-specific cap of <strong>1000</strong> turns. The 1000-turn fallback is a fixed constant and does not interpret <code>-1</code>.</td>
+</tr>
+<tr>
+<td><code>subagent-max-output-tokens-total</code></td>
+<td>number</td>
+<td>derived, clamped to <code>2000000</code></td>
+<td>yes</td>
+<td>Aggregate output-token budget for one subagent run. A turn cap alone does not bound a loop: a subagent emitting maximum-length responses stays inside every per-response limit. Default is <code>max_turns</code> times the resolved model output ceiling, clamped to 2,000,000; the clamp matters because the unclamped product reproduces the bound it is meant to replace. <code>-1</code> disables. Exceeding it terminates with <code>MAX_OUTPUT</code>.</td>
 </tr>
 <tr>
 <td><code>loopDetectionEnabled</code></td>
@@ -646,6 +815,34 @@
 </tr>
 </tbody>
 </table>
+<h2>MCP Lazy Schema Loading</h2>
+<table>
+<thead>
+<tr>
+<th>Setting</th>
+<th>Type</th>
+<th>Default</th>
+<th>Profile</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mcp.lazy</code></td>
+<td>boolean</td>
+<td><code>false</code></td>
+<td>yes</td>
+<td>Defer MCP server tool schemas from the model until a server is explicitly activated. The model receives an <code>activate_mcp_server</code> tool that lets it pick a server by name; only then are that server's full tool schemas published. MCP servers stay connected and discoverable — only the model-facing schema publication is deferred.</td>
+</tr>
+<tr>
+<td><code>mcp.eagerServers</code></td>
+<td>string[]</td>
+<td>—</td>
+<td>yes</td>
+<td>Names of MCP servers that remain eager while <code>mcp.lazy</code> is enabled. Their schemas are always published regardless of lazy mode. Unknown server names are silently ignored.</td>
+</tr>
+</tbody>
+</table>
 <h2>Prompt Configuration</h2>
 <table>
 <thead>
@@ -883,7 +1080,7 @@
 <tr>
 <td><code>reasoning</code></td>
 <td>JSON</td>
-<td>OpenAI reasoning config object. Usually set via <code>reasoning.*</code> settings instead.</td>
+<td>OpenAI reasoning config object. Keys that are also <code>reasoning.*</code> settings (<code>effort</code>, <code>enabled</code>, …) are handled by those settings and by the dialect selection above; only vendor-specific extras (e.g. OpenRouter's <code>exclude</code>) pass through here.</td>
 </tr>
 </tbody>
 </table>

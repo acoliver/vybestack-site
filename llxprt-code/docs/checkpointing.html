@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -133,7 +136,7 @@ llxprt --delete-session 3
   }
 }
 </code></pre>
-<p>When enabled, LLxprt creates a shadow git snapshot (in <code>&lt;data&gt;/history/&lt;project_hash&gt;</code> within LLxprt's <a href="./reference/application-directories.html">data directory</a>, separate from your project's git) each time a <code>write_file</code> or <code>replace</code> tool is about to run. It also saves the conversation state and tool call details to <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/checkpoints/</code> under LLxprt's <a href="./reference/application-directories.html">log/state directory</a>.</p>
+<p>When enabled, LLxprt creates a shadow git snapshot (in <code>&lt;data&gt;/history/&lt;project_hash&gt;</code> within LLxprt's <a href="./reference/application-directories.html">data directory</a>, separate from your project's git) each time a <code>write_file</code> or <code>replace</code> tool is about to run. Snapshots honor your project's ignore semantics: root and nested <code>.gitignore</code> files apply through the work tree, and the repository-local <code>.git/info/exclude</code> rules are mirrored into the shadow repository before every snapshot. It also saves the conversation state and tool call details to <code>&lt;log&gt;/tmp/&lt;project_hash&gt;/checkpoints/</code> under LLxprt's <a href="./reference/application-directories.html">log/state directory</a>.</p>
 <p>The <code>/restore</code> command (only available when checkpointing is enabled) lets you roll back:</p>
 <pre><code>/restore                    # List available checkpoints
 /restore &lt;checkpoint&gt;       # Restore files and conversation to that point
@@ -142,6 +145,14 @@ llxprt --delete-session 3
 <blockquote>
 <p><strong>Limitation:</strong> Checkpointing currently only covers <code>write_file</code> and <code>replace</code> tool calls. Other file-modifying tools (<code>apply_patch</code>, <code>delete_line_range</code>, <code>insert_at_line</code>) are not checkpointed.</p>
 </blockquote>
+<h3>Checkpointing inside a container sandbox</h3>
+<p>A container sandbox runs <code>--rm</code>, so the container's filesystem is destroyed when the session ends. With checkpointing enabled, the sandbox launcher therefore provisions one persistent, engine-owned named volume per project (<code>sandbox-checkpoints-&lt;project_hash&gt;</code>, labeled <code>com.vybestack.llxprt.sandbox-checkpoint-persistent=true</code>) and links the shadow repository and checkpoint metadata directories into it before the CLI starts. Checkpoint history then survives container exit and daemon restarts, and a later sandbox session of the same project restores from the same history.</p>
+<p>Two properties follow from this design:</p>
+<ul>
+<li>The store lives outside the project repository and outside the ephemeral container home, and only your project's sandbox containers can mount it.</li>
+<li>If persistence cannot be provided (the engine cannot create or initialize the volume, or an older launcher starts an image that expects the store), the session fails before checkpointing is presented as available, rather than writing checkpoints that die with the container.</li>
+</ul>
+<p>The volume is never removed by session cleanup or crash recovery; it is your project's accumulated checkpoint history. Remove it manually with <code>docker volume rm</code> / <code>podman volume rm</code> when you no longer want it.</p>
 
           </div>
         </div>

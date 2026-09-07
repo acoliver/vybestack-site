@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -71,11 +74,11 @@
           <div class="blog-post-content">
             <h1>LLxprt Privacy-First Telemetry</h1>
 <h2>Overview</h2>
-<p>LLxprt takes a <strong>privacy-first approach</strong> to telemetry and logging. All data stays on your local machine by default, with no external transmission to Google or any other third-party services. This documentation explains our privacy-centered telemetry system and how to use it effectively for debugging and analysis.</p>
+<p>LLxprt takes a <strong>privacy-first approach</strong> to telemetry and logging. All data stays on your local machine, with no external transmission to Google or any other third-party services. This documentation explains our privacy-centered telemetry system and how to use it effectively for debugging and analysis.</p>
 <h2>Key Privacy Principles</h2>
 <ul>
-<li><strong>Local Only</strong>: No data is sent to external services by default</li>
-<li><strong>Opt-in</strong>: All logging and telemetry features are disabled by default</li>
+<li><strong>Local Only</strong>: No data is sent to external services</li>
+<li><strong>Opt-in persistence</strong>: Conversation logging and OTEL output are disabled by default; ephemeral <code>/stats</code> aggregation remains in memory</li>
 <li><strong>Transparent</strong>: You can see exactly what is logged and where it's stored</li>
 <li><strong>User-Controlled</strong>: Simple commands to enable, disable, and configure all features</li>
 <li><strong>Data Redaction</strong>: Sensitive information is automatically redacted from logs</li>
@@ -218,6 +221,21 @@ To modify settings:
 }
 </code></pre>
 <p>Leave <code>conversationLogPath</code> empty (or omit it) to use the default <code>&lt;data&gt;/conversations</code> location; set it to an absolute path to override.</p>
+<h3>Outfile Rotation and API Body Redaction</h3>
+<p>When telemetry is enabled with an <code>outfile</code>, the outfile rotates by size:
+<code>telemetry.outfileMaxBytes</code> (default 100 MiB) sets the cap that triggers a
+rename of the active file to <code>&lt;outfile&gt;.&lt;timestamp&gt;-&lt;suffix&gt;</code>, and
+<code>telemetry.outfileMaxFiles</code> (default 10) is how many rotated files are
+retained. This keeps the on-disk telemetry tree bounded.</p>
+<p>The <code>llxprt_code.api_request</code> and <code>llxprt_code.api_response</code> events export
+sizes and token counts (<code>request_chars</code>, <code>response_chars</code>), not full bodies.
+Full request and response bodies are exported only when both <code>telemetry.logApiBodies</code>
+(an explicit opt-in, default false) and <code>telemetry.logPrompts</code> are <code>true</code>;
+<code>logPrompts: false</code> keeps prompt and conversation content out of these exported
+events even when <code>logApiBodies</code> is enabled. When bodies are emitted they are
+truncated to <code>telemetry.logApiBodyMaxChars</code> (default 4000). Metric exports use
+delta aggregation temporality, so each export interval carries only changes since the
+previous interval rather than a growing cumulative snapshot.</p>
 <h3>Configuration Options Reference</h3>
 <h4>Core Logging Settings</h4>
 <ul>
@@ -240,6 +258,67 @@ To modify settings:
 <li><code>redactEmails</code> (boolean): Redact email addresses (default: <code>true</code>)</li>
 <li><code>redactPersonalInfo</code> (boolean): Redact PII patterns (default: <code>true</code>)</li>
 </ul>
+<h4>Client Performance Telemetry</h4>
+<p>LLxprt can optionally collect <strong>local client-side performance telemetry</strong> —
+timing data for client phases (prepare, stream handling, Ink rendering, stdout
+writes, finalization), provider/tool activity intervals, and operation lifecycle
+metadata. This data is written to local JSONL files and is <strong>never transmitted
+externally</strong>.</p>
+<p>Both keys are <strong>disabled by default</strong>. To enable:</p>
+<pre><code class="language-json">{
+  &quot;telemetry&quot;: {
+    &quot;perf&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;memory&quot;: true
+    }
+  }
+}
+</code></pre>
+<ul>
+<li><code>telemetry.perf.enabled</code> (boolean): Master switch for performance telemetry. Default: <code>false</code>. When <code>false</code>, no perf files are created, no observers are installed, and no memory ring is allocated.</li>
+<li><code>telemetry.perf.memory</code> (boolean): Include memory trend data (RSS, heap, external, array buffers) in perf records. Default: <code>false</code>. <strong>Effective only when <code>enabled</code> is <code>true</code></strong> — memory is gated by the master switch. When perf is enabled but memory is off, operation records omit the memory columns entirely (absent, not zero-filled).</li>
+</ul>
+<p><code>telemetry.perf</code> is an <strong>object</strong>, not a boolean. Setting it to <code>true</code> or <code>false</code>
+directly is invalid.</p>
+<p>When perf telemetry is enabled, data is persisted to local JSONL files and is
+<strong>never transmitted externally</strong>.</p>
+<ul>
+<li><strong>Location</strong>: the perf directory is <code>&lt;global log dir&gt;/perf</code>, where the global
+log dir is <code>Storage.getGlobalLogDir()</code> (resolved from <code>LLXPRT_LOG_HOME</code>, then
+<code>LLXPRT_CONFIG_HOME</code>, then the platform default — see
+<a href="./reference/application-directories.html">Application Directories</a>). Files are
+named <code>perf-YYYYMMDD-&lt;runUuid&gt;.jsonl</code> (one per writer per UTC day).</li>
+<li><strong>What is recorded</strong>: each <code>operation</code> record carries identity/build fields
+(<code>session_id</code>, <code>operation_id</code>, <code>runtime_id</code>, <code>project_hash</code>, <code>llxprt_version</code>,
+<code>git_sha</code>, <code>runtime</code>, <code>platform</code>), the comparison dimensions (<code>provider</code>,
+<code>model</code>, <code>render_mode</code>, terminal geometry), token counts
+(<code>context_tokens</code>, <code>output_tokens</code>), direct client-phase timing
+(<code>client_prepare_ms</code>, <code>stream_handler_ms</code>, <code>ink_render_ms</code>,
+<code>stdout_write_sync_ms</code>, <code>client_finalize_ms</code>), provider/tool activity
+intervals, the terminal <code>status</code>, and <code>concurrent_instances</code>. When
+<code>telemetry.perf.memory</code> is on, <code>memory_sample</code> rows additionally carry RSS,
+heap, external, and array-buffer bytes with <code>uptime_ms</code>. Prompt/response text
+is <strong>not</strong> recorded.</li>
+<li><strong>Retention</strong>: an eventual bound of <strong>64 MiB / 128 artifacts</strong> (JSONL files +
+claim files) is enforced oldest-first. A genuinely-live writer — today's UTC
+day-key with an mtime within the maintenance window — is never evicted, and a
+non-stale run claim survives while it is active; both still count toward the
+caps. This lets a long-running process converge to the bounds by evicting its
+own older files while its current file stays safe.</li>
+<li><strong>Inspection and management</strong> (interactive <code>/perf</code> subcommands):
+<ul>
+<li><code>/perf</code> — current-process snapshot (live samples, active operation) when
+perf is active in this process; otherwise reports it is not active.</li>
+<li><code>/perf inspect</code> — directory path, schema version, privacy/default-off
+statement, file/record counts, and self-health (skipped/truncated lines,
+last write error, evictions).</li>
+<li><code>/perf report [--baseline &lt;version|sha&gt;]</code> — grouped p50 metrics by build
+and comparison dimensions, with optional matched-dimension delta.</li>
+<li><code>/perf delete</code> — removes old/stale perf artifacts (respecting live writers
+and active claims).</li>
+</ul>
+</li>
+</ul>
 <h3>Environment Variables</h3>
 <p>You can also control telemetry through environment variables:</p>
 <ul>
@@ -257,11 +336,11 @@ To modify settings:
 </ol>
 <h2>Testing and Development</h2>
 <h3>Local Telemetry for Tests</h3>
-<p>During testing and development, LLxprt uses local-only telemetry configuration:</p>
-<pre><code class="language-javascript">// Integration tests use local telemetry target
-const telemetryConfig = {
-  target: 'local',
+<p>During testing and development, configure a temporary local outfile when tests
+need to inspect telemetry output:</p>
+<pre><code class="language-javascript">const telemetryConfig = {
   enabled: true,
+  outfile: '/tmp/llxprt-telemetry.jsonl',
   logConversations: true,
 };
 </code></pre>
@@ -295,10 +374,10 @@ cat &quot;${DATA_DIR}/conversations/conversation-&quot;*.jsonl | jq -r '.provide
 <h2>Privacy Guarantees</h2>
 <h3>What LLxprt Does NOT Do</h3>
 <ul>
-<li><strong>No External Transmission</strong>: LLxprt never sends your conversation data to Google, OpenAI, Anthropic, or any other external service</li>
-<li><strong>No Analytics</strong>: No usage analytics or statistics are collected or transmitted</li>
-<li><strong>No Cloud Storage</strong>: All data remains on your local machine</li>
-<li><strong>No Tracking</strong>: No user behavior tracking or profiling</li>
+<li><strong>No telemetry transmission</strong>: Conversation logs and telemetry are never uploaded to Google, OpenAI, Anthropic, or another analytics service</li>
+<li><strong>No uploaded analytics</strong>: Local session statistics are not transmitted</li>
+<li><strong>No cloud log storage</strong>: LLxprt does not upload conversation logs to cloud storage</li>
+<li><strong>No telemetry profiling</strong>: Conversation logging exists for local inspection and debugging</li>
 </ul>
 <h3>What LLxprt DOES Do</h3>
 <ul>
@@ -319,9 +398,9 @@ cat &quot;${DATA_DIR}/conversations/conversation-&quot;*.jsonl | jq -r '.provide
 </ul>
 <h3>LLxprt Privacy-First Approach</h3>
 <ul>
-<li><strong>Zero external transmission</strong>: All data stays local by default</li>
-<li><strong>Disabled by default</strong>: No telemetry or logging without explicit user consent</li>
-<li><strong>Complete user control</strong>: Users manage all aspects of data collection</li>
+<li><strong>Zero telemetry transmission</strong>: Telemetry and conversation logs always stay local</li>
+<li><strong>Persistent output disabled by default</strong>: OTEL telemetry and conversation logging require explicit enablement; in-memory <code>/stats</code> remains active</li>
+<li><strong>Complete user control</strong>: Users manage all persistent telemetry and conversation logging</li>
 <li><strong>Enhanced redaction</strong>: Advanced privacy protection with configurable redaction</li>
 <li><strong>Open transparency</strong>: Full documentation of all privacy practices</li>
 </ul>
@@ -335,7 +414,7 @@ cat &quot;${DATA_DIR}/conversations/conversation-&quot;*.jsonl | jq -r '.provide
 </ol>
 <h3>For Development</h3>
 <ol>
-<li><strong>Local testing only</strong>: Use local telemetry targets for all development work</li>
+<li><strong>Use temporary output files</strong>: Keep test telemetry isolated in local temporary files</li>
 <li><strong>Sensitive data awareness</strong>: Be mindful of API keys and credentials in test scenarios</li>
 <li><strong>Log analysis</strong>: Use standard JSON tools to analyze conversation patterns</li>
 <li><strong>Documentation</strong>: Document any privacy-related configuration for your team</li>

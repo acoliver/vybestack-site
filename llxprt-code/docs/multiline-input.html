@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Multi-line Input in LLxprt Code | LLxprt Code Docs</title>
+  <title>Input While the Agent Is Working | LLxprt Code Docs</title>
   <link rel="stylesheet" href="../../vybestack.css" />
 </head>
 <body>
@@ -55,7 +55,10 @@
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP Server Integration</a></li>
           <li><a href="/llxprt-code/docs/cli/themes.html">Themes</a></li>
           <li><a href="/llxprt-code/docs/tools/mcp-server.html">MCP servers</a></li>
+          <li><a href="/llxprt-code/docs/agent-api.html">Agent API</a></li>
+          <li><a href="/llxprt-code/docs/memory-profiling.html">Memory Profiling</a></li>
           <li><a href="/llxprt-code/docs/reference/application-directories.html">Application Directories</a></li>
+          <li><a href="/llxprt-code/docs/token-usage-log.html">Token Usage Log</a></li>
           <li><a href="/llxprt-code/docs/reference/ephemerals.html">Ephemeral Settings Reference</a></li>
           <li><a href="/llxprt-code/docs/reference/profiles.html">Profile File Reference</a></li>
           <li><a href="/llxprt-code/docs/cli/commands.html">Commands</a></li>
@@ -69,32 +72,239 @@
       </nav>
         <div class="docs-content">
           <div class="blog-post-content">
-            <h1>Multi-line Input in LLxprt Code</h1>
-<p>LLxprt Code supports multi-line input, allowing you to enter complex prompts or code snippets that span multiple lines.</p>
-<h2>How to Insert Line Breaks</h2>
-<p>You can insert a line break (newline) in your input using any of these methods:</p>
+            <h1>Input While the Agent Is Working</h1>
+<p>This page covers what happens to your input when the agent is idle versus when
+it is actively working. It explains how to insert a line break, what happens to
+messages you submit while the agent is busy, and how to steer a turn that is
+already in progress.</p>
+<h2>Insert a line break</h2>
+<p>The key you press for a new line depends on your platform and terminal:</p>
+<table>
+<thead>
+<tr>
+<th>Platform / terminal</th>
+<th>Newline key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>macOS</td>
+<td><code>Ctrl+J</code></td>
+</tr>
+<tr>
+<td>Windows</td>
+<td><code>Ctrl+Enter</code> (when idle)*</td>
+</tr>
+<tr>
+<td>Linux</td>
+<td><code>Ctrl+J</code></td>
+</tr>
+<tr>
+<td>Linux (some terminals)</td>
+<td><code>Alt+Enter</code></td>
+</tr>
+<tr>
+<td>VS Code / Cursor / forks</td>
+<td><code>Shift+Enter</code></td>
+</tr>
+<tr>
+<td>Any platform</td>
+<td><code>\</code> at end of line, then <code>Enter</code></td>
+</tr>
+</tbody>
+</table>
+<p>On macOS and Linux the newline key is <code>Ctrl+J</code>. On Windows it is <code>Ctrl+Enter</code>.
+<code>Alt+Enter</code> also inserts a newline on some Linux terminals. If you are running
+LLxprt Code inside VS Code, Cursor, or another VS Code-based terminal,
+<code>Shift+Enter</code> inserts a newline as well.</p>
+<p>* On Windows, <code>Ctrl+Enter</code> inserts a newline while the agent is idle, and also
+while it is streaming if there is nothing to steer (empty input, nothing
+queued). Otherwise, while streaming, it steers the active turn instead. See the
+<a href="#the-same-key-two-behaviors">Windows note</a> below. Backslash continuation works
+in every state.</p>
+<blockquote>
+<p><strong>Note:</strong> <code>Ctrl+Enter</code> does two different things depending on what the agent
+is doing. See <a href="#steer-a-turn-in-progress">Steer a turn in progress</a> below.</p>
+</blockquote>
+<h3>Backslash continuation</h3>
+<p>End the current line with a backslash (<code>\</code>) and press <code>Enter</code>. The backslash is
+removed and a new line begins. This works on every platform.</p>
+<h3>Regular Enter</h3>
+<p><code>Enter</code> (no modifiers) submits the current prompt. If the input is empty, it
+does nothing — unless there are queued messages, in which case it sends them all
+(see <a href="#submit-while-the-agent-is-working">Submit while the agent is working</a>).</p>
+<h2>Submit while the agent is working</h2>
+<p>When you press <code>Enter</code> while the agent is generating a response, LLxprt Code
+does not drop your message or interleave it into the active response. Instead,
+the message is <strong>queued</strong> and held until the agent finishes and becomes idle.</p>
+<h3>The queued-messages panel</h3>
+<p>Queued messages are shown in a panel above the input area. The panel has three
+states:</p>
 <ul>
-<li><strong>Alt+Enter</strong> (Option+Enter on macOS) - Insert a new line</li>
-<li><strong>Ctrl+Enter</strong> - Insert a new line</li>
-<li><strong>Paste multi-line content</strong> - When you paste content containing line breaks, they are preserved</li>
+<li><strong>Expanded</strong> — the default. Lists every queued message with a one-line
+preview of each, numbered in send order. If the list is longer than the panel
+can show, a count of additional messages is displayed.</li>
+<li><strong>Collapsed</strong> — a single summary line showing the message count and a preview
+of the next message to send.</li>
+<li><strong>Compact</strong> — used in small terminals where there is no room for the full
+panel. Shows only the message count.</li>
 </ul>
-<h2>Example Usage</h2>
-<pre><code>User input with Alt+Enter:
-This is line 1 [Alt+Enter]
-This is line 2 [Alt+Enter]
-This is line 3 [Enter to submit]
-</code></pre>
-<h2>Regular Enter Key Behavior</h2>
+<p>When there are no queued messages, the panel is hidden entirely.</p>
+<h3>Toggle the panel</h3>
+<p>Press <code>Ctrl+]</code> to switch between the expanded and collapsed states. This does
+not affect the messages themselves; it only changes how much of the panel is
+shown.</p>
+<h3>When queued messages are sent</h3>
+<p>Queued messages are sent automatically, in order, once the agent finishes its
+current response and returns to idle. Each queued message becomes its own turn.</p>
+<p>If you want to send the queued messages immediately rather than waiting, press
+<code>Enter</code> on an <strong>empty</strong> input line. This drains the entire queue right away.</p>
+<h3>Clear the queue</h3>
+<p>Press <code>Backspace</code> on an <strong>empty</strong> input line to discard every queued message at
+once.</p>
+<h2>Steer a turn in progress</h2>
+<p><code>Ctrl+Enter</code> is a <strong>steering</strong> shortcut: it injects the text in your input
+buffer into the response that is currently streaming, instead of waiting for
+that response to finish. The agent incorporates your steer at its next
+opportunity to act (the next tool-call boundary).</p>
+<p>This differs from queuing in two ways:</p>
 <ul>
-<li><strong>Enter</strong> without modifiers - Submits the current input</li>
-<li><strong>Enter</strong> when line ends with <code>\</code> - Inserts a newline (line continuation)</li>
+<li>A <strong>queued</strong> message waits for the current turn to finish, then starts a new
+turn.</li>
+<li>A <strong>steer</strong> becomes part of the current turn, influencing it as it happens.</li>
 </ul>
-<h2>Implementation Details</h2>
-<p>The feature is implemented in:</p>
+<h3>The same key, two behaviors</h3>
+<p><code>Ctrl+Enter</code> is bound to both steering and newline. Which one fires depends on
+whether the agent is streaming:</p>
 <ul>
-<li><code>packages/cli/src/ui/components/InputPrompt.tsx</code> - Handles the key combinations</li>
-<li><code>packages/cli/src/ui/hooks/useKeypress.ts</code> - Detects Alt/Meta key through escape sequences</li>
+<li><strong>While the agent is streaming</strong>, <code>Ctrl+Enter</code> steers the active turn — using
+the text you have typed, or, on an empty input, every queued message. If
+there is nothing to steer (the input is empty <strong>and</strong> nothing is queued), it
+falls back to inserting a newline.</li>
+<li><strong>When the agent is idle</strong>, <code>Ctrl+Enter</code> inserts a newline (the same as
+<code>Ctrl+J</code> or <code>Shift+Enter</code>).</li>
 </ul>
+<p>This contextual resolution is why <code>Ctrl+Enter</code> appears in both lists. There is
+no separate key to remember — it always does the thing that makes sense for the
+current state.</p>
+<blockquote>
+<p><strong>Windows note:</strong> Windows consoles deliver <code>Ctrl+Enter</code> and <code>Ctrl+J</code> as the
+same byte, so on Windows <strong>both</strong> keys follow the rules above: they steer
+while the agent is streaming and there is something to steer, and otherwise
+insert a newline. To insert a newline while the agent is streaming on
+Windows with text in the input, use
+<a href="#backslash-continuation">backslash continuation</a>: end the line with a
+backslash and press <code>Enter</code>. (<code>Shift+Enter</code> only inserts a newline in
+VS Code-based terminals that have been configured by <code>/terminal-setup</code>; a
+plain Windows console reports it as an ordinary <code>Enter</code>.) On macOS and Linux
+<code>Ctrl+J</code> and <code>Ctrl+Enter</code> are distinct keys and behave exactly as described in
+the tables below.</p>
+</blockquote>
+<h3>Steer queued messages</h3>
+<p>If the input is <strong>empty</strong> and there are queued messages, pressing <code>Ctrl+Enter</code>
+while streaming steers every queued message into the active turn at once and
+clears the queue. Use this when you want to redirect the current response with
+all your accumulated follow-ups rather than waiting for separate turns.</p>
+<h2>Key reference</h2>
+<p>The table below summarizes each key and what it does in each state. Special
+cases for an empty input line with queued messages are described in
+<a href="#submit-while-the-agent-is-working">Submit while the agent is working</a> and
+<a href="#steer-queued-messages">Steer queued messages</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Agent idle</th>
+<th>Agent streaming</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enter</code></td>
+<td>Submit the prompt</td>
+<td>Queue the prompt</td>
+</tr>
+<tr>
+<td><code>Ctrl+J</code></td>
+<td>Insert a newline</td>
+<td>Insert a newline</td>
+</tr>
+<tr>
+<td><code>Ctrl+Enter</code></td>
+<td>Insert a newline</td>
+<td>Steer the active turn**</td>
+</tr>
+<tr>
+<td><code>Shift+Enter</code></td>
+<td>Insert a newline</td>
+<td>Insert a newline</td>
+</tr>
+<tr>
+<td><code>Alt+Enter</code> (some Linux terminals)</td>
+<td>Insert a newline</td>
+<td>Insert a newline</td>
+</tr>
+<tr>
+<td><code>Ctrl+]</code></td>
+<td>Toggle the queued-messages panel</td>
+<td>Toggle the queued-messages panel</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>Clear the current input</td>
+<td>Cancel the active response</td>
+</tr>
+</tbody>
+</table>
+<p>** If the input is empty and nothing is queued there is nothing to steer, so
+<code>Ctrl+Enter</code> inserts a newline even while streaming.</p>
+<blockquote>
+<p><strong>Windows:</strong> <code>Ctrl+J</code> and <code>Ctrl+Enter</code> are the same key on Windows. So the
+<code>Ctrl+J</code> row above (newline / newline) only applies on macOS and Linux. On
+Windows that key behaves like the <code>Ctrl+Enter</code> row. See the
+<a href="#the-same-key-two-behaviors">Windows note</a> above.</p>
+</blockquote>
+<p>When the input is <strong>empty</strong> and there are queued messages, two extra behaviors
+apply:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Agent idle</th>
+<th>Agent streaming</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Enter</code></td>
+<td>Send all queued messages now</td>
+<td>Resume draining; messages send when idle</td>
+</tr>
+<tr>
+<td><code>Ctrl+Enter</code></td>
+<td>Insert a newline</td>
+<td>Steer all queued messages into the active turn</td>
+</tr>
+<tr>
+<td><code>Backspace</code></td>
+<td>Clear all queued messages</td>
+<td>Clear all queued messages</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong>Windows:</strong> on Windows <code>Ctrl+J</code> is the same key as <code>Ctrl+Enter</code>, so pressing
+either on an empty input while streaming steers all queued messages into the
+active turn (same as the <code>Ctrl+Enter</code> row above).</p>
+</blockquote>
+<h2>What happens when you cancel</h2>
+<p>When you cancel an in-progress response with <code>Esc</code>, LLxprt Code <strong>keeps</strong> your
+queued messages rather than discarding or sending them. The queue stays in the
+panel so you can review it, edit your plans, send them with <code>Enter</code>, or clear
+them with <code>Backspace</code>.</p>
+<p>Automatic draining is paused after a cancellation, so the queue will not start
+sending on its own. Drain resumes as soon as you submit a new message or press
+<code>Enter</code> on an empty input to send the queue manually.</p>
 
           </div>
         </div>
